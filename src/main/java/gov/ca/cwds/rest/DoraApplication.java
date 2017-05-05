@@ -9,11 +9,11 @@ import gov.ca.cwds.inject.ApplicationModule;
 import io.dropwizard.setup.Bootstrap;
 
 /**
- * Core execution class of CWDS REST API server application.
+ * Core execution class of CWDS REST Dora server application.
  * 
  * <h3>Standard command line arguments:</h3>
  * 
- * <blockquote> server config/api.yml </blockquote>
+ * <blockquote> server config/dora.yml </blockquote>
  * 
  * <h3>Standard JVM arguments:</h3>
  * 
@@ -22,10 +22,10 @@ import io.dropwizard.setup.Bootstrap;
  * 
  * @author CWDS API Team
  */
-public class ApiApplication extends BaseApiApplication<ApiConfiguration> {
+public class DoraApplication extends BaseApiApplication<ApiConfiguration> {
 
   @SuppressWarnings("unused")
-  private static final Logger LOGGER = LoggerFactory.getLogger(ApiApplication.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(DoraApplication.class);
 
   /**
    * Start the CWDS RESTful API application.
@@ -34,7 +34,7 @@ public class ApiApplication extends BaseApiApplication<ApiConfiguration> {
    * @throws Exception if startup fails
    */
   public static void main(final String[] args) throws Exception {
-    new ApiApplication().run(args);
+    new DoraApplication().run(args);
   }
 
   /**

@@ -10,20 +10,9 @@ import gov.ca.cwds.rest.SwaggerConfiguration;
 import gov.ca.cwds.rest.api.domain.es.IndexQueryRequest;
 import gov.ca.cwds.rest.api.domain.es.IndexQueryResponse;
 import gov.ca.cwds.rest.resources.ApplicationResource;
-
-// todo not needed lib dependency
-//import gov.ca.cwds.rest.resources.ResourceDelegate;
-//import gov.ca.cwds.rest.resources.ServiceBackedResourceDelegate;
-
 import gov.ca.cwds.rest.resources.SimpleResourceDelegate;
 import gov.ca.cwds.rest.resources.SwaggerResource;
-
-// todo not needed lib dependency
-//import gov.ca.cwds.rest.resources.TypedResourceDelegate;
-//import gov.ca.cwds.rest.resources.TypedServiceBackedResourceDelegate;
-
 import gov.ca.cwds.rest.services.es.IndexQueryService;
-
 
 /**
  * Identifies all CWDS API domain resource classes available for dependency injection by Guice.
