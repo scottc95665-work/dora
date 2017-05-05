@@ -1,4 +1,4 @@
-# CWDS API
+# CWDS Dora
 
 The CWDS Dora provides RESTful services with search capabilities.
 

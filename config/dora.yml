@@ -1,4 +1,4 @@
-applicationName: CWDS API
+applicationName: CWDS Dora
 version: ${APP_VERSION:-local}
 
 shiro:
@@ -8,8 +8,8 @@ swagger:
   templateName: swagger.mustache
   assetsPath: /static
   resourcePackage: gov.ca.cwds.rest.resources
-  title: CWDS API
-  description: RESTful API definitions for the CWS New System.
+  title: CWDS Dora
+  description: RESTful search services for the CWS New System.
   logo: images/CWDS-API-Logo-Horizontal.png
   loginUrl: ${LOGIN_URL:-http://localhost:8090/authn/login}
   showSwagger: ${SHOW_SWAGGER:-false}
@@ -21,11 +21,6 @@ elasticsearch:
   elasticsearch.alias: ${ES_ALIAS:-people}
   elasticsearch.doctype: ${ES_DOCTYPE:-person}
   
-smartystreets:
-  clientId: ${SS_ID:-8721f357-6381-1001-4633-5157e84b68cb}
-  token: ${SS_TOKEN:-Q62NxpgzuBEUq3IalqVx}
-  maxCandidates: ${SS_MAX:-10}
- 
 server:
   applicationConnectors:
   - type: http 
@@ -54,4 +49,4 @@ logging:
       threshold: WARN
       timeZone: UTC
       target: stdout
-      logFormat: '%X{remoteAddress} [%date{ISO8601}] %level "%thread" "%X{uniqueId}" %logger: "%message%n"' 
+      logFormat: '%X{remoteAddress} [%date{ISO8601}] %level "%thread" "%X{uniqueId}" %logger: "%message%n"'

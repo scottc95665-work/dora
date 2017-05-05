@@ -17,7 +17,6 @@ import io.dropwizard.hibernate.UnitOfWorkAwareProxyFactory;
 
 import javax.validation.Validation;
 import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
 
 /**
  * Identifies all CWDS API business layer (aka, service) classes available for dependency injection
@@ -66,7 +65,7 @@ public class ServicesModule extends AbstractModule {
   /**
    * Default, no-op constructor.
    */
-  public ServicesModule() {
+  ServicesModule() {
     // Default, no-op.
   }
 

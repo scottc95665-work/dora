@@ -147,8 +147,8 @@ cobertura {
     coverageFormats = ['xml', 'html']
     coverageIgnoreTrivial = true
 
-    coverageExcludes = ['org.slf4j.Logger.*', '.*gov\\.ca\\.cwds\\.data\\.persistence\\.cms\\..*SystemCodeCache.*', '.*gov\\.ca\\.cwds\\.data\\..*BatchBucket.*', '.*gov\\.ca\\.cwds\\.data\\..*ApiAddressAware.*', '.*gov\\.ca\\.cwds\\.rest\\.api\\..*Response.*']
-    coverageIgnores = ['org.slf4j.Logger.*', '.*gov\\.ca\\.cwds\\.data\\.persistence\\.cms\\..*SystemCodeCache.*']
+    coverageExcludes = ['org.slf4j.Logger.*', '.*gov\\.ca\\.cwds\\.rest\\.api\\..*Response.*']
+    coverageIgnores = ['org.slf4j.Logger.*']
     coverageReportDir = new File("$buildDir/reports/cobertura")
 }
 
@@ -156,7 +156,7 @@ publishing {
     publications {
         library(MavenPublication) {
             from components.java
-            groupId 'gov.ca.cwds.api'
+            groupId 'gov.ca.cwds.services'
             artifactId 'dora'
             version version + ((System.properties.getProperty('build') != null) ? '.' + System.properties.getProperty('build') : '')
         }
