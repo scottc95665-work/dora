@@ -1,0 +1,460 @@
+swagger: '2.0'
+info:
+  version: '1'
+  title: Casebook Mock API
+  description: Mock API used for development of Accelerator and California Intake project
+
+host: 192.168.99.103:3001
+basePath: /api/v1
+schemes:
+  - http
+  - https
+consumes:
+  - application/json
+produces:
+  - application/json
+
+definitions:
+  Participant:
+    type: object
+    properties:
+      person_id:
+        type: integer
+        format: int64
+      screening_id:
+        type: integer
+        format: int64
+      first_name:
+        type: string
+      last_name:
+        type: string
+      gender:
+        type: string
+        enum:
+          - male
+          - female
+      date_of_birth:
+        type: string
+        format: date
+      ssn:
+        type: string
+
+  NewPerson:
+    type: object
+    properties:
+      first_name:
+        type: string
+      middle_name:
+        type: string
+      last_name:
+        type: string
+      name_suffix:
+        type: string
+        enum:
+          - esq
+          - ii
+          - iii
+          - iv
+          - jr
+          - sr
+          - md
+          - phd
+          - jd
+      gender:
+        type: string
+        enum:
+          - male
+          - female
+      date_of_birth:
+        type: string
+        format: date
+      ssn:
+        type: string
+      languages:
+        type: array
+        items:
+          type: string
+          enum:
+            - American Sign Language
+            - Arabic
+            - Armenian
+            - Cambodian
+            - Cantonese
+            - English
+            - Farsi
+            - Filipino
+            - French
+            - German
+            - Hawaiian
+            - Hebrew
+            - Hmong
+            - Ilacano
+            - Indochinese
+            - Italian
+            - Japanese
+            - Korean
+            - Lao
+            - Mandarin
+            - Mien
+            - Other Chinese
+            - Other Non-English
+            - Polish
+            - Portuguese
+            - Romanian
+            - Russian
+            - Samoan
+            - Sign Language (Not ASL)
+            - Spanish
+            - Tagalog
+            - Thai
+            - Turkish
+            - Vietnamese
+
+  Person:
+    type: object
+    allOf:
+      - $ref: '#/definitions/NewPerson'
+    properties:
+      id:
+        type: integer
+        format: int64
+    required:
+      - id
+
+  Address:
+    type: object
+    properties:
+      street_address:
+        type: string
+      city:
+        type: string
+      state:
+        type: string
+      zip:
+        type: string
+      type:
+        type: string
+        enum:
+          - Home
+          - School
+          - Work
+          - Placement
+          - Homeless
+          - Other
+
+  PhoneNumber:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      number:
+        type: string
+      type:
+        type: string
+        enum:
+          - Cell
+          - Work
+          - Home
+          - Other
+
+  Screening:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      reference:
+        type: string
+      ended_at:
+        type: string
+        format: date-time
+      incident_county:
+        type: string
+      incident_date:
+        type: string
+        format: date
+      location_type:
+        type: string
+      communication_method:
+        type: string
+      name:
+        type: string
+      response_time:
+        type: string
+      screening_decision:
+        type: string
+      started_at:
+        type: string
+        format: date-time
+      report_narrative:
+        type: string
+
+  PersonCreateRequest:
+    allOf:
+      - $ref: '#/definitions/NewPerson'
+    properties:
+      addresses:
+        type: array
+        items:
+          $ref: '#/definitions/Address'
+      phone_numbers:
+        type: array
+        items:
+          $ref: '#/definitions/PhoneNumber'
+
+  PersonUpdateRequest:
+    allOf:
+      - $ref: '#/definitions/Person'
+    properties:
+      addresses:
+        type: array
+        items:
+          $ref: '#/definitions/Address'
+      phone_numbers:
+        type: array
+        items:
+          $ref: '#/definitions/PhoneNumber'
+
+  PersonResponse:
+    allOf:
+      - $ref: '#/definitions/Person'
+    properties:
+      addresses:
+        type: array
+        items:
+          $ref: '#/definitions/Address'
+      phone_numbers:
+        type: array
+        items:
+          $ref: '#/definitions/PhoneNumber'
+
+  ScreeningRequest:
+    allOf:
+      - $ref: '#/definitions/Screening'
+    properties:
+      address:
+        $ref: '#/definitions/Address'
+
+  ScreeningResponse:
+    allOf:
+      - $ref: '#/definitions/Screening'
+    properties:
+      address:
+        $ref: '#/definitions/Address'
+      participants:
+        type: array
+        items:
+          $ref: '#/definitions/Participant'
+
+paths:
+  /people/{id}:
+    get:
+      description: Gets `Person` object for the id.
+      tags:
+        - people
+        - person
+      parameters:
+      - name: id
+        in: path
+        description: id of the person
+        required: true
+        type: number
+        format: int64
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/PersonResponse'
+    put:
+      description: Updates a `Person` object.
+      tags:
+        - people
+        - person
+      parameters:
+      - name: id
+        in: path
+        description: id of the person
+        required: true
+        type: number
+        format: int64
+      - name: body
+        in: body
+        description: Person to update
+        required: true
+        schema:
+          $ref: '#/definitions/PersonUpdateRequest'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/PersonResponse'
+
+  /people:
+    post:
+      summary: Creates a `Person` object.
+      operationId: createPerson
+      parameters:
+      - name: body
+        in: body
+        description: Person to create
+        required: true
+        schema:
+          $ref: '#/definitions/PersonCreateRequest'
+      responses:
+        201:
+          description: Successful creation
+          schema:
+            $ref: '#/definitions/PersonResponse'
+
+  /people_search:
+    get:
+      summary: Gets People by search term
+      description: Gets `People` by searching search term.
+      tags:
+        - people
+      operationId: peopleSearch
+      parameters:
+      - name: search_term
+        in: search_term 
+        description: the search criteria to match people
+        required: true
+        type: string
+      responses:
+        200:
+          description: Successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/PersonResponse'
+
+  /screenings/{id}:
+    get:
+      description: Gets `Screening` object for the id.
+      tags:
+        - screenings
+        - screening
+      parameters:
+      - name: id
+        in: path
+        description: id of the screening
+        required: true
+        type: number
+        format: int64
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/ScreeningResponse'
+    put:
+      description: Updates a `Screening` object
+      tags:
+        - screenings
+        - screening
+      parameters:
+        - name: id
+          in: path
+          description: id of the screening
+          required: true
+          type: number
+          format: int64
+        - name: body
+          in: body
+          description: Screening parameters
+          required: true
+          schema:
+            $ref: '#/definitions/ScreeningRequest'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/ScreeningResponse'
+
+  /screenings:
+    post:
+      description: Creates a new screening
+      tags:
+        - screenings
+        - screening
+      parameters:
+        - name: body
+          in: body
+          description: Screening parameters
+          required: true
+          schema:
+            title: Screening Reference
+            properties:
+              reference:
+                type: string
+      responses:
+        200:
+          description: Successful creation
+          schema:
+            title: Screening
+            allOf:
+            - $ref: '#/definitions/ScreeningResponse'
+            properties:
+              id:
+                type: integer
+                format: int64
+    get:
+      summary: Gets Screenings by response times and or screening decision 
+      description: Gets `Screenings` by response times and or screening decision.
+      tags:
+        - screenings
+      parameters:
+      - name: response_times
+        in: query
+        description: the expected response_times of listed screenings
+        type: array
+        items:
+          type: string
+          enum:
+            - immediate
+            - within_twenty_four_hours
+            - more_than_twenty_four_hours
+      - name: screening_decisions
+        in: query
+        description: the expected screening_decision of listed screenings
+        type: array
+        items:
+          type: string
+          enum:
+            - evaluate_out
+            - accept_for_investigation
+            - referral_to_other_agency
+      responses:
+        200:
+          description: Successful operation
+          schema:
+            type: array
+            items:
+              allOf:
+              - $ref: '#/definitions/ScreeningResponse'
+              properties:
+                id:
+                  type: integer
+                  format: int64
+
+  /participants:
+    post:
+      summary: Creates a `Participant` object.
+      operationId: createParticipant
+      parameters:
+      - name: body
+        in: body
+        description: Participant to create
+        required: true
+        schema:
+          $ref: '#/definitions/Participant'
+      responses:
+        201:
+          description: Successful creation
+          schema:
+            title: Participant
+            allOf:
+            - $ref: '#/definitions/Participant'
+            properties:
+              id:
+                type: integer
+                format: int64

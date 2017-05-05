@@ -1,0 +1,22 @@
+{
+  "id": "0131351421120020*JONESMF 00004",
+  "doc_name": "MJS000.DOC",
+  "doc_added_date": "2000-01-01",
+  "cms_document": {"_name": "name", "_content": "base64-encoded binary document"},
+  "details": [
+    {
+      "referral_id": "string",
+      "client_id": "string",
+      "common_first_name": "string",
+      "common_middle_name": "string",
+      "common_last_name": "string",
+      "birth_date": "01/01/2000",
+      "other_name": "string",
+      "name_type": "string",
+      "address": "string",
+      "address_type": "string"
+    }
+  ]
+}
+
+

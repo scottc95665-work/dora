@@ -1,0 +1,57 @@
+applicationName: CWDS API
+version: ${APP_VERSION:-local}
+
+shiro:
+  iniConfigs: ["file:${SHIRO_CONFIG_PATH:-config/shiro.ini}"]
+  
+swagger:
+  templateName: swagger.mustache
+  assetsPath: /static
+  resourcePackage: gov.ca.cwds.rest.resources
+  title: CWDS API
+  description: RESTful API definitions for the CWS New System.
+  logo: images/CWDS-API-Logo-Horizontal.png
+  loginUrl: ${LOGIN_URL:-http://localhost:8090/authn/login}
+  showSwagger: ${SHOW_SWAGGER:-false}
+ 
+elasticsearch:
+  elasticsearch.host: ${ES_HOST:-es.dev.cwds.tabordasolutions.net}
+  elasticsearch.port: ${ES_PORT:-9300}
+  elasticsearch.cluster: ${ES_CLUSTER:-taborda-dev-es}
+  elasticsearch.alias: ${ES_ALIAS:-people}
+  elasticsearch.doctype: ${ES_DOCTYPE:-person}
+  
+smartystreets:
+  clientId: ${SS_ID:-8721f357-6381-1001-4633-5157e84b68cb}
+  token: ${SS_TOKEN:-Q62NxpgzuBEUq3IalqVx}
+  maxCandidates: ${SS_MAX:-10}
+ 
+server:
+  applicationConnectors:
+  - type: http 
+    port: ${APP_STD_PORT:-8080}
+  adminConnectors:
+  - type: http
+    port: ${APP_ADMIN_PORT:-8081}
+    
+  requestLog:
+    appenders:
+      - type: console
+
+logging:
+  level: ${LOGLEVEL:-WARN}
+  loggers:
+    "org.hibernate.SQL":
+      level: DEBUG
+    "org.hibernate.type.descriptor.sql":
+      level: DEBUG
+    "AUDIT":
+      level: ALL
+    "gov.ca.cwds":
+      level: DEBUG
+  appenders:
+    - type: console
+      threshold: WARN
+      timeZone: UTC
+      target: stdout
+      logFormat: '%X{remoteAddress} [%date{ISO8601}] %level "%thread" "%X{uniqueId}" %logger: "%message%n"' 

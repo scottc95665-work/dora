@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jmeterTestPlan version="1.2" properties="2.9" jmeter="3.0 r1743807">
+  <hashTree>
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="Test Plan" enabled="true">
+      <stringProp name="TestPlan.comments"></stringProp>
+      <boolProp name="TestPlan.functional_mode">false</boolProp>
+      <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
+      <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+        <collectionProp name="Arguments.arguments"/>
+      </elementProp>
+      <stringProp name="TestPlan.user_define_classpath"></stringProp>
+    </TestPlan>
+    <hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="JDBC USERS" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">1</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <longProp name="ThreadGroup.start_time">1482864233000</longProp>
+        <longProp name="ThreadGroup.end_time">1482864233000</longProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+      </ThreadGroup>
+      <hashTree>
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Create Controller" enabled="true"/>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Content-Type</stringProp>
+                <stringProp name="Header.value">application/json</stringProp>
+              </elementProp>
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Accept</stringProp>
+                <stringProp name="Header.value">application/json</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="POST" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+  &quot;referral&quot;: {&#xd;
+    &quot;additionalInfoIncludedCode&quot;: false,&#xd;
+    &quot;anonymousReporterIndicator&quot;: false,&#xd;
+    &quot;applicationForPetitionIndicator&quot;: false,&#xd;
+    &quot;approvalNumber&quot;: &quot;ABC1234567&quot;,&#xd;
+    &quot;approvalStatusType&quot;: 1234,&#xd;
+    &quot;caretakersPerpetratorCode&quot;: false,&#xd;
+    &quot;closureDate&quot;: &quot;2000-01-01&quot;,&#xd;
+    &quot;communicationMethodType&quot;: 444,&#xd;
+    &quot;currentLocationOfChildren&quot;: &quot;ABC1234567&quot;,&#xd;
+    &quot;drmsAllegationDescriptionDoc&quot;: &quot;ABC1234567&quot;,&#xd;
+    &quot;drmsErReferralDoc&quot;: &quot;ABC1234567&quot;,&#xd;
+    &quot;drmsInvestigationDoc&quot;: &quot;ABC1234567&quot;,&#xd;
+    &quot;filedSuspectedChildAbuseReporttoLawEnforcementIndicator&quot;: false,&#xd;
+    &quot;familyAwarenessIndicator&quot;: false,&#xd;
+    &quot;govtEntityType&quot;: 1234,&#xd;
+    &quot;legalDefinitionCode&quot;: &quot;A&quot;,&#xd;
+    &quot;legalRightsNoticeIndicator&quot;: false,&#xd;
+    &quot;limitedAccessCode&quot;: &quot;S&quot;,&#xd;
+    &quot;mandatedCrossReportReceivedDate&quot;: &quot;2000-01-01&quot;,&#xd;
+    &quot;referralName&quot;: &quot;ABC123&quot;,&#xd;
+    &quot;openAdequateCaseCode&quot;: &quot;N&quot;,&#xd;
+    &quot;receivedDate&quot;: &quot;2000-01-01&quot;,&#xd;
+    &quot;receivedTime&quot;: &quot;16:41:49&quot;,&#xd;
+    &quot;referralResponseType&quot;: 1234,&#xd;
+    &quot;referredToResourceType&quot;: 1234,&#xd;
+    &quot;responseDeterminationDate&quot;: &quot;2000-01-01&quot;,&#xd;
+    &quot;responseDeterminationTime&quot;: &quot;16:41:49&quot;,&#xd;
+    &quot;responseRationaleText&quot;: &quot;ABC1234567&quot;,&#xd;
+    &quot;screenerNoteText&quot;: &quot;ABC1234567&quot;,&#xd;
+    &quot;specificsIncludedCode&quot;: &quot;N&quot;,&#xd;
+    &quot;sufficientInformationCode&quot;: &quot;N&quot;,&#xd;
+    &quot;unfoundedSeriesCode&quot;: &quot;N&quot;,&#xd;
+    &quot;linkToPrimaryReferralId&quot;: &quot;ABC1234567&quot;,&#xd;
+    &quot;allegesAbuseOccurredAtAddressId&quot;: &quot;ABC1234567&quot;,&#xd;
+    &quot;firstResponseDeterminedByStaffPersonId&quot;: &quot;A1A&quot;,&#xd;
+    &quot;primaryContactStaffPersonId&quot;: &quot;A1A&quot;,&#xd;
+    &quot;countySpecificCode&quot;: &quot;99&quot;,&#xd;
+    &quot;specialProjectReferralIndicator&quot;: false,&#xd;
+    &quot;zippyCreatedIndicator&quot;: false,&#xd;
+    &quot;homelessIndicator&quot;: false,&#xd;
+    &quot;familyRefusedServicesIndicator&quot;: false,&#xd;
+    &quot;firstEvaluatedOutApprovalDate&quot;: &quot;2000-01-01&quot;,&#xd;
+    &quot;responsibleAgencyCode&quot;: &quot;C&quot;,&#xd;
+    &quot;limitedAccessGovtAgencyType&quot;: 1234,&#xd;
+    &quot;limitedAccessDate&quot;: &quot;2000-01-01&quot;,&#xd;
+    &quot;limitedAccessDesc&quot;: &quot;ABC123&quot;,&#xd;
+    &quot;originalClosureDate&quot;: &quot;2000-01-01&quot;&#xd;
+  },&#xd;
+  &quot;allegation&quot;: {&#xd;
+    &quot;abuseEndDate&quot;: &quot;2016-11-30&quot;,&#xd;
+    &quot;abuseFrequency&quot;: 1234,&#xd;
+    &quot;abuseFrequencyPeriodCode&quot;: &quot;D&quot;,&#xd;
+    &quot;abuseLocationDescription&quot;: &quot;school yard&quot;,&#xd;
+    &quot;abuseStartDate&quot;: &quot;2016-11-30&quot;,&#xd;
+    &quot;allegationDispositionType&quot;: 1234,&#xd;
+    &quot;allegationType&quot;: 1234,&#xd;
+    &quot;dispositionDescription&quot;: &quot;investigate&quot;,&#xd;
+    &quot;dispositionDate&quot;: &quot;2016-11-30&quot;,&#xd;
+    &quot;injuryHarmDetailIndicator&quot;: false,&#xd;
+    &quot;nonProtectingParentCode&quot;: &quot;U&quot;,&#xd;
+    &quot;staffPersonAddedIndicator&quot;: false,&#xd;
+    &quot;victimClientId&quot;: &quot;ABC1234567&quot;,&#xd;
+    &quot;perpetratorClientId&quot;: &quot;ABC1234567&quot;,&#xd;
+    &quot;referralId&quot;: &quot;ABC1234567&quot;,&#xd;
+    &quot;countySpecificCode&quot;: &quot;A1&quot;,&#xd;
+    &quot;zippyCreatedIndicator&quot;: false,&#xd;
+    &quot;placementFacilityType&quot;: 1234&#xd;
+  },&#xd;
+  &quot;crossReport&quot;: {&#xd;
+    &quot;thirdId&quot;: &quot;1234ABC123&quot;,&#xd;
+    &quot;crossReportMethodType&quot;: 1234,&#xd;
+    &quot;filedOutOfStateIndicator&quot;: false,&#xd;
+    &quot;governmentOrgCrossRptIndicatorVar&quot;: false,&#xd;
+    &quot;informTime&quot;: &quot;16:41:49&quot;,&#xd;
+    &quot;recipientBadgeNumber&quot;: &quot;ABC123&quot;,&#xd;
+    &quot;recipientPhoneExtensionNumber&quot;: 123,&#xd;
+    &quot;recipientPhoneNumber&quot;: 1234567,&#xd;
+    &quot;informDate&quot;: &quot;2000-01-01&quot;,&#xd;
+    &quot;recipientPositionTitleDesc&quot;: &quot;title&quot;,&#xd;
+    &quot;referenceNumber&quot;: &quot;ABC123&quot;,&#xd;
+    &quot;referralId&quot;: &quot;ABC1234567&quot;,&#xd;
+    &quot;lawEnforcementId&quot;: &quot;ABC1234567&quot;,&#xd;
+    &quot;staffPersonId&quot;: &quot;ABC&quot;,&#xd;
+    &quot;description&quot;: &quot;ABC123&quot;,&#xd;
+    &quot;recipientName&quot;: &quot;recipient name&quot;,&#xd;
+    &quot;outstateLawEnforcementAddr&quot;: &quot;law address&quot;,&#xd;
+    &quot;countySpecificCode&quot;: &quot;99&quot;,&#xd;
+    &quot;lawEnforcementIndicator&quot;: false,&#xd;
+    &quot;outStateLawEnforcementIndicator&quot;: false,&#xd;
+    &quot;satisfyCrossReportIndicator&quot;: false&#xd;
+  },&#xd;
+  &quot;referralClient&quot;: {&#xd;
+    &quot;approvalNumber&quot;: &quot;ABC1234567&quot;,&#xd;
+    &quot;approvalStatusType&quot;: 123,&#xd;
+    &quot;dispositionClosureReasonType&quot;: 234,&#xd;
+    &quot;dispositionCode&quot;: &quot;A&quot;,&#xd;
+    &quot;dispositionDate&quot;: &quot;2000-01-01&quot;,&#xd;
+    &quot;selfReportedIndicator&quot;: false,&#xd;
+    &quot;staffPersonAddedIndicator&quot;: false,&#xd;
+    &quot;referralId&quot;: &quot;ABC1234567&quot;,&#xd;
+    &quot;clientId&quot;: &quot;ABC1234567&quot;,&#xd;
+    &quot;dispositionClosureDescription&quot;: &quot;Some Description&quot;,&#xd;
+    &quot;ageNumber&quot;: 12,&#xd;
+    &quot;agePeriodCode&quot;: &quot;D&quot;,&#xd;
+    &quot;countySpecificCode&quot;: &quot;99&quot;,&#xd;
+    &quot;mentalHealthIssuesIndicator&quot;: false,&#xd;
+    &quot;alcoholIndicator&quot;: false,&#xd;
+    &quot;drugIndicator&quot;: false&#xd;
+  },&#xd;
+  &quot;reporter&quot;: {&#xd;
+    &quot;badgeNumber&quot;: &quot;ABC123&quot;,&#xd;
+    &quot;cityName&quot;: &quot;San Jose&quot;,&#xd;
+    &quot;colltrClientRptrReltnshpType&quot;: 1234,&#xd;
+    &quot;communicationMethodType&quot;: 1234,&#xd;
+    &quot;confidentialWaiverIndicator&quot;: false,&#xd;
+    &quot;drmsMandatedRprtrFeedback&quot;: &quot;ABC1234567&quot;,&#xd;
+    &quot;employerName&quot;: &quot;&quot;,&#xd;
+    &quot;feedbackDate&quot;: &quot;2000-01-01&quot;,&#xd;
+    &quot;feedbackRequiredIndicator&quot;: false,&#xd;
+    &quot;firstName&quot;: &quot;George&quot;,&#xd;
+    &quot;lastName&quot;: &quot;Jones&quot;,&#xd;
+    &quot;mandatedReporterIndicator&quot;: false,&#xd;
+    &quot;messagePhoneExtensionNumber&quot;: 123,&#xd;
+    &quot;messagePhoneNumber&quot;: 1234678,&#xd;
+    &quot;middleInitialName&quot;: &quot;A&quot;,&#xd;
+    &quot;namePrefixDescription&quot;: &quot;ABC123&quot;,&#xd;
+    &quot;primaryPhoneNumber&quot;: 1234567,&#xd;
+    &quot;primaryPhoneExtensionNumber&quot;: 123,&#xd;
+    &quot;stateCodeType&quot;: 12,&#xd;
+    &quot;streetName&quot;: &quot;Main&quot;,&#xd;
+    &quot;streetNumber&quot;: &quot;123&quot;,&#xd;
+    &quot;suffixTitleDescription&quot;: &quot;A1&quot;,&#xd;
+    &quot;zipcode&quot;: &quot;08654&quot;,&#xd;
+    &quot;referralId&quot;: &quot;ABC1234567&quot;,&#xd;
+    &quot;lawEnforcementId&quot;: &quot;ABC1236789&quot;,&#xd;
+    &quot;zipSuffixNumber&quot;: 1234,&#xd;
+    &quot;countySpecificCode&quot;: &quot;99&quot;&#xd;
+  }&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.domain">${__P(api.host)}</stringProp>
+            <stringProp name="HTTPSampler.port">${__P(api.port)}</stringProp>
+            <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+            <stringProp name="HTTPSampler.response_timeout"></stringProp>
+            <stringProp name="HTTPSampler.protocol"></stringProp>
+            <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+            <stringProp name="HTTPSampler.path">/_cmsreferrals</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <boolProp name="HTTPSampler.monitor">false</boolProp>
+            <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+              <boolProp name="ResultCollector.error_logging">false</boolProp>
+              <objProp>
+                <name>saveConfig</name>
+                <value class="SampleSaveConfiguration">
+                  <time>true</time>
+                  <latency>true</latency>
+                  <timestamp>true</timestamp>
+                  <success>true</success>
+                  <label>true</label>
+                  <code>true</code>
+                  <message>true</message>
+                  <threadName>true</threadName>
+                  <dataType>true</dataType>
+                  <encoding>false</encoding>
+                  <assertions>true</assertions>
+                  <subresults>true</subresults>
+                  <responseData>false</responseData>
+                  <samplerData>false</samplerData>
+                  <xml>false</xml>
+                  <fieldNames>true</fieldNames>
+                  <responseHeaders>false</responseHeaders>
+                  <requestHeaders>false</requestHeaders>
+                  <responseDataOnError>false</responseDataOnError>
+                  <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+                  <assertionsResultsToSave>0</assertionsResultsToSave>
+                  <bytes>true</bytes>
+                  <threadCounts>true</threadCounts>
+                  <idleTime>true</idleTime>
+                </value>
+              </objProp>
+              <stringProp name="filename"></stringProp>
+            </ResultCollector>
+            <hashTree/>
+            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
+              <collectionProp name="Asserion.test_strings">
+                <stringProp name="49587">201</stringProp>
+              </collectionProp>
+              <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+              <boolProp name="Assertion.assume_success">false</boolProp>
+              <intProp name="Assertion.test_type">8</intProp>
+            </ResponseAssertion>
+            <hashTree/>
+          </hashTree>
+        </hashTree>
+      </hashTree>
+    </hashTree>
+  </hashTree>
+</jmeterTestPlan>

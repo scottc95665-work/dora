@@ -1,0 +1,32 @@
+{
+  "id": "0131351421120020*JONESMF 00004",
+  "doc_name": "MJS000.DOC",
+  "doc_added_date": "2015-01-01",
+  "cms_document": {"_name": "document name", "_content": "base64-encoded binary document"},
+  "details": [
+    {
+      "referral_id": "1234567ABC",
+      "client_id": "ABC1234567",
+      "common_first_name": "first",
+      "common_middle_name": "middle",
+      "common_last_name": "last",
+      "birth_date": "2015-01-01",
+      "other_name": "other name",
+      "name_type": "name type",
+      "address": "123 first st",
+      "address_type": "business"
+    },
+    {
+      "referral_id": "2345678ABC",
+      "client_id": "ABC2345678",
+      "common_first_name": "fname",
+      "common_middle_name": "mname",
+      "common_last_name": "lname",
+      "birth_date": "2015-10-01",
+      "other_name": "other name",
+      "name_type": "name type",
+      "address": "234 second st",
+      "address_type": "home"
+    }
+  ]
+}

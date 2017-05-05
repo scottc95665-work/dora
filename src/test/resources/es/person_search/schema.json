@@ -1,0 +1,409 @@
+{
+	"$schema": "http://json-schema.org/draft-04/schema#",
+	"id": "http://example.com/root.json",
+	"items": {
+		"id": "http://example.com/root.json/0",
+		"properties": {
+			"addresses": {
+				"id": "http://example.com/root.json/0/addresses",
+				"items": {
+					"id": "http://example.com/root.json/0/addresses/0",
+					"properties": {
+						"city": {
+							"default": "Perth",
+							"description": "An explanation about the purpose of this instance.",
+							"id": "http://example.com/root.json/0/addresses/0/city",
+							"title": "The City schema.",
+							"type": "string"
+						},
+						"id": {
+							"default": "2",
+							"description": "An explanation about the purpose of this instance.",
+							"id": "http://example.com/root.json/0/addresses/0/id",
+							"title": "The Id schema.",
+							"type": "string"
+						},
+						"state": {
+							"default": "CA",
+							"description": "An explanation about the purpose of this instance.",
+							"enum": [
+								null,
+								"AL",
+								"AK",
+								"AM",
+								"AZ",
+								"AR",
+								"CA",
+								"CZ",
+								"CO",
+								"CT",
+								"DE",
+								"DC",
+								"FL",
+								"GA",
+								"GU",
+								"HI",
+								"ID",
+								"IL",
+								"IN",
+								"IA",
+								"KS",
+								"KY",
+								"LA",
+								"ME",
+								"MD",
+								"MA",
+								"MI",
+								"MN",
+								"MS",
+								"MO",
+								"MT",
+								"NE",
+								"NV",
+								"NH",
+								"NJ",
+								"NM",
+								"NY",
+								"NC",
+								"ND",
+								"CM",
+								"OH",
+								"OK",
+								"OR",
+								"PA",
+								"PR",
+								"RI",
+								"SC",
+								"SD",
+								"TN",
+								"TX",
+								"TT",
+								"UT",
+								"VT",
+								"VI",
+								"VA",
+								"WA",
+								"WV",
+								"WI",
+								"WY"
+							],
+							"id": "http://example.com/root.json/0/addresses/0/state",
+							"title": "The State schema.",
+							"type": "string"
+						},
+						"street_address": {
+							"default": "123 Fake St",
+							"description": "An explanation about the purpose of this instance.",
+							"id": "http://example.com/root.json/0/addresses/0/street_address",
+							"title": "The Street_address schema.",
+							"type": "string"
+						},
+						"type": {
+							"default": "Home",
+							"description": "An explanation about the purpose of this instance.",
+							"enum": [
+								null,
+								"Home",
+								"School",
+								"Work",
+								"Placement",
+								"Homeless",
+								"Other"
+							],
+							"id": "http://example.com/root.json/0/addresses/0/type",
+							"title": "The Type schema.",
+							"type": "string"
+						},
+						"zip": {
+							"default": "11222",
+							"description": "An explanation about the purpose of this instance.",
+							"id": "http://example.com/root.json/0/addresses/0/zip",
+							"title": "The Zip schema.",
+							"type": "string"
+						}
+					},
+					"required": [
+						"street_address"
+					],
+					"type": "object"
+				},
+				"type": "array"
+			},
+			"date_of_birth": {
+				"default": "2005-12-02",
+				"description": "An explanation about the purpose of this instance.",
+				"id": "http://example.com/root.json/0/date_of_birth",
+				"title": "The Date_of_birth schema.",
+				"type": "string"
+			},
+			"ethnicity": {
+				"id": "http://example.com/root.json/0/ethnicity",
+				"properties": {
+					"ethnicity_detail": {
+						"default": "Mexican",
+						"description": "An explanation about the purpose of this instance.",
+						"enum": [
+							null,
+							"Hispanic",
+							"Mexican",
+							"Central American",
+							"South American"
+						],
+						"id": "http://example.com/root.json/0/ethnicity/ethnicity_detail",
+						"title": "The Ethnicity_detail schema.",
+						"type": "string"
+					},
+					"hispanic_latino_origin": {
+						"default": "Yes",
+						"description": "An explanation about the purpose of this instance.",
+						"enum": [
+							null,
+							"Yes",
+							"No",
+							"Unknown",
+							"Abandoned",
+							"Declined to answer"
+						],
+						"id": "http://example.com/root.json/0/ethnicity/hispanic_latino_origin",
+						"title": "The Hispanic_latino_origin schema.",
+						"type": "string"
+					}
+				},
+				"required": [
+					"hispanic_latino_origin",
+					"ethnicity_detail"
+				],
+				"type": "object"
+			},
+			"first_name": {
+				"default": "Bart",
+				"description": "An explanation about the purpose of this instance.",
+				"id": "http://example.com/root.json/0/first_name",
+				"title": "The First_name schema.",
+				"type": "string"
+			},
+			"gender": {
+				"default": "male",
+				"description": "An explanation about the purpose of this instance.",
+				"enum": [
+					null,
+					"male",
+					"female"
+				],
+				"id": "http://example.com/root.json/0/gender",
+				"title": "The Gender schema.",
+				"type": "string"
+			},
+			"id": {
+				"default": "1",
+				"description": "An explanation about the purpose of this instance.",
+				"id": "http://example.com/root.json/0/id",
+				"title": "The Id schema.",
+				"type": "string"
+			},
+			"languages": {
+				"id": "http://example.com/root.json/0/languages",
+				"items": {
+					"default": "Arabic",
+					"description": "An explanation about the purpose of this instance.",
+					"enum": [
+						null,
+						"American Sign Language",
+						"Arabic",
+						"Armenian",
+						"Cambodian",
+						"Cantonese",
+						"English",
+						"Farsi",
+						"Filipino",
+						"French",
+						"German",
+						"Hawaiian",
+						"Hebrew",
+						"Hmong",
+						"Ilacano",
+						"Indochinese",
+						"Italian",
+						"Japanese",
+						"Korean",
+						"Lao",
+						"Mandarin",
+						"Mien",
+						"Other Chinese",
+						"Other Non-English",
+						"Polish",
+						"Portuguese",
+						"Romanian",
+						"Russian",
+						"Samoan",
+						"Sign Language (Not ASL)",
+						"Spanish",
+						"Tagalog",
+						"Thai",
+						"Turkish",
+						"Vietnamese"
+					],
+					"id": "http://example.com/root.json/0/languages/0",
+					"title": "The 0 schema.",
+					"type": "string"
+				},
+				"type": "array"
+			},
+			"last_name": {
+				"default": "Simpson",
+				"description": "An explanation about the purpose of this instance.",
+				"id": "http://example.com/root.json/0/last_name",
+				"title": "The Last_name schema.",
+				"type": "string"
+			},
+			"middle_name": {
+				"default": "What",
+				"description": "An explanation about the purpose of this instance.",
+				"id": "http://example.com/root.json/0/middle_name",
+				"title": "The Middle_name schema.",
+				"type": "string"
+			},
+			"name_suffix": {
+				"default": null,
+				"description": "An explanation about the purpose of this instance.",
+				"enum": [
+					null,
+					"esq",
+					"ii",
+					"iii",
+					"iv",
+					"jr",
+					"sr",
+					"md",
+					"phd",
+					"jd"
+				],
+				"id": "http://example.com/root.json/0/name_suffix",
+				"title": "The Name_suffix schema.",
+				"type": "string"
+			},
+			"phone_numbers": {
+				"id": "http://example.com/root.json/0/phone_numbers",
+				"items": {
+					"id": "http://example.com/root.json/0/phone_numbers/0",
+					"properties": {
+						"id": {
+							"default": "1",
+							"description": "An explanation about the purpose of this instance.",
+							"id": "http://example.com/root.json/0/phone_numbers/0/id",
+							"title": "The Id schema.",
+							"type": "string"
+						},
+						"number": {
+							"default": "9129889934",
+							"description": "An explanation about the purpose of this instance.",
+							"id": "http://example.com/root.json/0/phone_numbers/0/number",
+							"title": "The Number schema.",
+							"type": "string"
+						},
+						"type": {
+							"default": "Cell",
+							"description": "An explanation about the purpose of this instance.",
+							"enum": [
+								null,
+								"Cell",
+								"Work",
+								"Home",
+								"Other"
+							],
+							"id": "http://example.com/root.json/0/phone_numbers/0/type",
+							"title": "The Type schema.",
+							"type": "string"
+						}
+					},
+					"required": [
+						"number"
+					],
+					"type": "object"
+				},
+				"type": "array"
+			},
+			"races": {
+				"id": "http://example.com/root.json/0/races",
+				"items": {
+					"id": "http://example.com/root.json/0/races/0",
+					"properties": {
+						"race": {
+							"default": "White",
+							"description": "An explanation about the purpose of this instance.",
+							"enum": [
+								null,
+								"White",
+								"Black or African American",
+								"Asian",
+								"American Indian or Alaskan Native",
+								"Native Hawaiian or Other Pacific Islander",
+								"Unknown",
+								"Abandoned",
+								"Declined to answer"
+							],
+							"id": "http://example.com/root.json/0/races/0/race",
+							"title": "The Race schema.",
+							"type": "string"
+						},
+						"race_detail": {
+							"default": "Central American",
+							"description": "An explanation about the purpose of this instance.",
+							"enum": [
+								null,
+								"Armenian",
+								"Central American",
+								"European",
+								"Middle Eastern",
+								"Romanian",
+								"Black",
+								"Ethiopian",
+								"Caribbean",
+								"Asian Indian",
+								"Cambodian",
+								"Chinese",
+								"Filipino",
+								"Hmong",
+								"Japanese",
+								"Korean",
+								"Laotian",
+								"Other Asian",
+								"Vietnamese",
+								"American Indian",
+								"Alaskan Native",
+								"Guamanian",
+								"Hawaiian",
+								"Other Asian/Pacific Islander",
+								"Other Pacific Islander",
+								"Polynesian",
+								"Samoan"
+							],
+							"id": "http://example.com/root.json/0/races/0/race_detail",
+							"title": "The Race_detail schema.",
+							"type": "string"
+						}
+					},
+					"required": [
+						"race"
+					],
+					"type": "object"
+				},
+				"type": "array"
+			},
+			"ssn": {
+				"default": "112224444",
+				"description": "An explanation about the purpose of this instance.",
+				"id": "http://example.com/root.json/0/ssn",
+				"title": "The Ssn schema.",
+				"type": "string"
+			}
+		},
+		"required": [
+			"first_name",
+			"last_name",
+			"id"
+		],
+		"type": "object"
+	},
+	"type": "array"
+}

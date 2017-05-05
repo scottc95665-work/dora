@@ -1,0 +1,54 @@
+{
+  "settings": {
+    "analysis": {
+      "filter": {
+        "autocomplete_filter": {
+          "type": "ngram",
+          "min_gram": 1,
+          "max_gram": 20,
+		  "token_chars": ["letter", "digit", "punctuation"]
+        }
+      },
+      "analyzer": {
+        "autocomplete": { 
+          "type": "custom",
+          "tokenizer": "standard",
+          "filter": ["lowercase", "autocomplete_filter"]
+        }
+      }
+    }
+  },
+  "mappings": {
+    "person": {
+      "properties": {
+		  "id":            { "type": "string" },
+		  "first_name":    { "type": "string", "analyzer": "autocomplete", "search_analyzer": "standard" },
+		  "last_name":     { "type": "string" },
+		  "middle_name":   { "type": "string" },
+		  "date_of_birth": { "type": "date"   },
+		  "ssn":           { "type": "string" },
+		  "gender":        { "type": "string" },
+		  "languages":     { "type": "string" },
+		  "type":          { "type": "string" },
+		  "source":        { "type": "string" },
+		  "addresses": {
+			"properties": {
+			  "id":             { "type": "string" },
+			  "city":           { "type": "string" },
+			  "state":          { "type": "string" },
+			  "street_address": { "type": "string" },
+			  "zip":            { "type": "string" },
+			  "type":           { "type": "string" }
+		  }
+		},
+		  "phone_numbers": {
+			"properties": {
+			  "id":     { "type": "string" },
+			  "number": { "type": "string" },
+			  "type":   { "type": "string" }
+			}
+		  }
+      }
+    }
+  }
+}

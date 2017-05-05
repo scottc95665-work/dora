@@ -1,0 +1,16 @@
+{
+	"clientId": "1234567ABC",
+	"firstName": "firstname",
+	"lastName": "lastname",
+	"lastUpdatedId": "07n",
+	"lastUpdatedTime": 1036165090340,
+	"middleName": "middlename",
+	"namePrefixDescription": "MR",
+	"nameType": {
+		"sys_id": 1313,
+		"short_description": "Legal",
+		"logical_id": "0003"
+	},
+	"suffixTitleDescription": "Phd",
+	"thirdId": "2345678ABC"
+}

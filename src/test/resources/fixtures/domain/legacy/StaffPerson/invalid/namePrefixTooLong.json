@@ -1,0 +1,21 @@
+{
+  
+  "endDate": "2017-01-03",
+  "firstName": "12345678901234567890",
+  "jobTitle": "123456789012345678901234567890",
+  "lastName": "lastname",
+  "middleInitial": "A",
+  "namePrefix": "1234567",
+  "phoneNumber": 9165551212,
+  "phoneExt": 22,
+  "startDate": "2010-01-31",
+  "nameSuffix": "sufx",
+  "telecommuterIndicator": true,
+  "cwsOffice": "MIZN02k11B",
+  "availabilityAndLocationDescription": "abc",
+  "ssrsLicensingWorkerId": "def",
+  "countyCode": "99",
+  "dutyWorkerIndicator": false,
+  "cwsOfficeAddress": "3XPCP92b24",
+  "emailAddress": "john.doe@anyco.com"
+}

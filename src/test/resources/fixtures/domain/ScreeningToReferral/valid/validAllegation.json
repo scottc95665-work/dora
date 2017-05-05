@@ -1,0 +1,20 @@
+[{
+  "abuseEndDate" : "",
+  "abuseFrequency" : 0,
+  "abuseFrequencyPeriodCode" : "",
+  "abuseLocationDescription" : "Foster Home",
+  "abuseStartDate" : "",
+  "allegationDispositionType" : 0,
+  "allegationType" : 0,
+  "dispositionDescription" : "Narrative 123 test",
+  "dispositionDate" : "",
+  "injuryHarmDetailIndicator" : false,
+  "nonProtectingParentCode" : "U",
+  "staffPersonAddedIndicator" : false,
+  "victimClientId" : "1234567ABC",
+  "perpetratorClientId" : "",
+  "referralId" : "0123456ABC",
+  "countySpecificCode" : "99",
+  "zippyCreatedIndicator" : false,
+  "placementFacilityType" : 0
+}]

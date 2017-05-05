@@ -1,0 +1,20 @@
+{
+  
+  "endDate": "08/07/2012",
+  "jobTitle": "CEO",
+  "lastName": "Doe",
+  "middleInitial": "C",
+  "namePrefix": "Mr",
+  "phoneNumber": 9165551212,
+  "phoneExt": 22,
+  "startDate": "08/07/2012",
+  "nameSuffix": "sufx",
+  "telecommuterIndicator": true,
+  "cwsOffice": "MIZN02k11B",
+  "availabilityAndLocationDescription": "abc",
+  "ssrsLicensingWorkerId": "def",
+  "countyCode": "99",
+  "dutyWorkerIndicator": false,
+  "cwsOfficeAddress": "3XPCP92b24",
+  "emailAddress": "john.doe@anyco.com"
+}

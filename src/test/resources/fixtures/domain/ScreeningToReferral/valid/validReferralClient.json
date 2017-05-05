@@ -1,0 +1,18 @@
+[{
+  "approvalNumber" : "",
+  "approvalStatusType" : 118,
+  "dispositionClosureReasonType" : 0,
+  "dispositionCode" : "",
+  "dispositionDate" : "",
+  "selfReportedIndicator" : false,
+  "staffPersonAddedIndicator" : false,
+  "referralId" : "0123456ABC",
+  "clientId" : "1234567ABC",
+  "dispositionClosureDescription" : "",
+  "ageNumber" : 0,
+  "agePeriodCode" : "",
+  "countySpecificCode" : "99",
+  "mentalHealthIssuesIndicator" : false,
+  "alcoholIndicator" : false,
+  "drugIndicator" : false
+}]

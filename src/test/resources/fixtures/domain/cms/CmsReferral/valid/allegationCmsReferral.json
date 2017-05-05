@@ -1,0 +1,42 @@
+[  
+   {  
+      "abuseEndDate":"2016-11-30",
+      "abuseFrequency":1234,
+      "abuseFrequencyPeriodCode":"D",
+      "abuseLocationDescription":"school yard",
+      "abuseStartDate":"2016-11-30",
+      "allegationDispositionType":1234,
+      "allegationType":1234,
+      "dispositionDescription":"investigate",
+      "dispositionDate":"2016-11-30",
+      "injuryHarmDetailIndicator":false,
+      "nonProtectingParentCode":"U",
+      "staffPersonAddedIndicator":false,
+      "victimClientId":"ABC1234567",
+      "perpetratorClientId":"ABC1234567",
+      "referralId":"ABC1234567",
+      "countySpecificCode":"A1",
+      "zippyCreatedIndicator":false,
+      "placementFacilityType":1234
+   },
+      {  
+      "abuseEndDate":"2016-12-30",
+      "abuseFrequency":1234,
+      "abuseFrequencyPeriodCode":"D",
+      "abuseLocationDescription":"back yard",
+      "abuseStartDate":"2016-11-30",
+      "allegationDispositionType":1234,
+      "allegationType":1234,
+      "dispositionDescription":"investigate",
+      "dispositionDate":"2016-11-30",
+      "injuryHarmDetailIndicator":false,
+      "nonProtectingParentCode":"U",
+      "staffPersonAddedIndicator":false,
+      "victimClientId":"ABC1234567",
+      "perpetratorClientId":"ABC1234567",
+      "referralId":"ABC1234567",
+      "countySpecificCode":"A1",
+      "zippyCreatedIndicator":false,
+      "placementFacilityType":1234
+   }
+]

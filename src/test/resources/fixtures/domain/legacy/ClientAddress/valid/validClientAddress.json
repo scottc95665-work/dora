@@ -1,0 +1,10 @@
+{
+  "addressType" : 32,
+  "bookingOrInmateId" : "",
+  "effectiveEndDate" : "",
+  "effectiveStartDate" : "2017-04-04",
+  "addressId" : "1234567ABC",
+  "clientId" : "2345678ABC",
+  "referralId" : "",
+  "homelessInd" : ""
+  }

@@ -1,0 +1,16 @@
+[  
+   {  
+      "pktableId":"ABC1234567",
+      "sourceTableCode":"C",
+      "commonFirstName":"John",
+      "commonLastName":"Oliver",
+      "commonMiddleName":"Smith"
+   },
+   {  
+      "pktableId":"ABC1234568",
+      "sourceTableCode":"C",
+      "commonFirstName":"John",
+      "commonLastName":"David",
+      "commonMiddleName":"Smith"
+   }
+]

@@ -1,0 +1,21 @@
+{
+  
+  "endDate": "2017-01-03",
+  "firstName": "12345678901234567890",
+  "jobTitle": null,
+  "lastName": "Doe",
+  "middleInitial": "C",
+  "namePrefix": "Mr",
+  "phoneNumber": 9165551212,
+  "phoneExt": 22,
+  "startDate": "2010-10-31",
+  "nameSuffix": "sufx",
+  "telecommuterIndicator": true,
+  "cwsOffice": "MIZN02k11B",
+  "availabilityAndLocationDescription": "abc",
+  "ssrsLicensingWorkerId": "def",
+  "countyCode": "99",
+  "dutyWorkerIndicator": false,
+  "cwsOfficeAddress": "3XPCP92b24",
+  "emailAddress": "john.doe@anyco.com"
+}

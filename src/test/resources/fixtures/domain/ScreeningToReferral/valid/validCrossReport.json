@@ -1,0 +1,23 @@
+[{
+  "thirdId" : "",
+  "crossReportMethodType" : 0,
+  "filedOutOfStateIndicator" : false,
+  "governmentOrgCrossRptIndicatorVar" : false,
+  "informTime" : "",
+  "recipientBadgeNumber" : "",
+  "recipientPhoneExtensionNumber" : 0,
+  "recipientPhoneNumber" : 0,
+  "informDate" : "2017-03-15",
+  "recipientPositionTitleDesc" : "",
+  "referenceNumber" : "",
+  "referralId" : "0123456ABC",
+  "lawEnforcementId" : "",
+  "staffPersonId" : "",
+  "description" : "Sacramento County Sheriff Deparment",
+  "recipientName" : "",
+  "outStateLawEnforcementAddr" : "",
+  "countySpecificCode" : "99",
+  "lawEnforcementIndicator" : false,
+  "outStateLawEnforcementIndicator" : false,
+  "satisfyCrossReportIndicator" : false
+}]

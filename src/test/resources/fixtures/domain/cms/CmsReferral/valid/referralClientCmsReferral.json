@@ -1,0 +1,38 @@
+[  
+   {  
+      "approvalNumber":"ABC1234567",
+      "approvalStatusType":123,
+      "dispositionClosureReasonType":234,
+      "dispositionCode":"A",
+      "dispositionDate":"2000-01-01",
+      "selfReportedIndicator":false,
+      "staffPersonAddedIndicator":false,
+      "referralId":"ABC1234567",
+      "clientId":"ABC1234567",
+      "dispositionClosureDescription":"Some Description",
+      "ageNumber":12,
+      "agePeriodCode":"D",
+      "countySpecificCode":"99",
+      "mentalHealthIssuesIndicator":false,
+      "alcoholIndicator":false,
+      "drugIndicator":false
+   },
+      {  
+      "approvalNumber":"ABC2234567",
+      "approvalStatusType":123,
+      "dispositionClosureReasonType":234,
+      "dispositionCode":"A",
+      "dispositionDate":"2000-01-01",
+      "selfReportedIndicator":false,
+      "staffPersonAddedIndicator":false,
+      "referralId":"ABC1234567",
+      "clientId":"ABC1234567",
+      "dispositionClosureDescription":"Some Description",
+      "ageNumber":12,
+      "agePeriodCode":"D",
+      "countySpecificCode":"99",
+      "mentalHealthIssuesIndicator":false,
+      "alcoholIndicator":false,
+      "drugIndicator":false
+   }
+]

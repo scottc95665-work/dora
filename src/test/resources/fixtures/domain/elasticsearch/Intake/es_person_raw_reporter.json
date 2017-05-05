@@ -1,0 +1,19 @@
+{
+  "_index" : "people",
+  "_type" : "person",
+  "_id" : "0UfxJTO04u",
+  "_version" : 5,
+  "found" : true,
+  "_source" : {
+    "updated_at" : null,
+    "created_at" : null,
+    "id" : "0UfxJTO04u",
+    "first_name" : "Reporter            ",
+    "last_name" : "C.                       ",
+    "gender" : "",
+    "date_of_birth" : "",
+    "ssn" : "",
+    "type" : "gov.ca.cwds.data.persistence.cms.Reporter",
+    "source" : "{\"lastUpdatedId\":\"00W\",\"lastUpdatedTime\":889122907650,\"referralId\":\"0UfxJTO04u\",\"badgeNumber\":\"      \",\"cityName\":\"Tallahassee         \",\"colltrClientRptrReltnshpType\":574,\"communicationMethodType\":0,\"confidentialWaiverIndicator\":\"N\",\"drmsMandatedRprtrFeedback\":null,\"employerName\":\"                                   \",\"feedbackDate\":null,\"feedbackRequiredIndicator\":\"N\",\"firstName\":\"Reporter            \",\"lastName\":\"C.                       \",\"mandatedReporterIndicator\":\"N\",\"messagePhoneExtensionNumber\":0,\"messagePhoneNumber\":0,\"middleInitialName\":\" \",\"namePrefixDescription\":\"      \",\"primaryPhoneNumber\":0,\"primaryPhoneExtensionNumber\":0,\"stateCodeType\":1835,\"streetName\":\"Mock St.                                \",\"streetNumber\":\"12        \",\"suffixTitleDescription\":\"    \",\"zipNumber\":31244,\"lawEnforcementId\":null,\"zipSuffixNumber\":0,\"countySpecificCode\":\"25\",\"primaryKey\":\"0UfxJTO04u\"}"
+  }
+}

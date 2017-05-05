@@ -1,0 +1,22 @@
+{
+  "id" : "5432",
+  "first_name": "John",
+  "last_name": "Smith",
+  "gender": "male",
+  "date_of_birth": "2001-03-15",
+  "ssn": "123456789",
+  "person_id": 12345,
+  "screening_id": 12345,
+  "roles" : [
+  	"victim"
+  	],
+  	"addresses" : [
+  		{
+  			"street_address" : "123 First St",
+  			"state" : "CA",
+  			"city" : "San Jose",
+  			"zip" : "94321",
+  			"type" : "Home"
+  		}
+  	]
+}

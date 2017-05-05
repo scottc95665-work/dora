@@ -1,0 +1,13 @@
+{
+  "reference": "screening reference",
+  "ended_at": "2016-10-31",
+  "incident_county": "Santa Clara",
+  "incident_date": "2016-10-31",
+  "location_type": "school",
+  "communication_method": "phone",
+  "name": "screening name",
+  "response_time": "24 hour",
+  "screening_decision": "accept_for_investigation",
+  "started_at": "2016-10-05",
+  "narrative": "test the narrative"
+}

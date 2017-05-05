@@ -1,0 +1,52 @@
+[
+  {
+    "languages": [
+    	"Cantonese"
+    ],
+    "highlight": {
+      "ssn": "<em>513667782</em>"
+    },
+    "id": "ZZZZZZZZZZ",
+    "first_name": "Christopher",
+    "middle_name": "Penrose",
+    "last_name": "Bacon",
+    "name_suffix": "jr",
+    "gender": "female",
+    "ssn": "513667782",
+    "date_of_birth": "1948-01-03",
+    "addresses": [
+      {
+        "id": "JAWH3I50Ht",
+        "city": "Weed",
+        "street_address": "8972 Mill Street",
+        "state": "CA"
+      },
+      {
+        "id": "BfDkTjB0Ht",
+        "city": "San Francisco",
+        "street_address": "1234 Main",
+        "state": "CA"
+      },
+      {
+        "id": "8Uywd2T0Ht",
+        "city": "Lake Elsinore",
+        "street_address": "4451 Test Serna Rd.",
+        "state": "CA",
+        "zip": "92530"
+      }
+    ],
+    "phone_numbers": [
+      {
+        "number": "5307826115"
+      },
+      {
+        "number": "5307596233",
+        "type": "Cell"
+      },
+      {
+        "number": "5308794451",
+        "type": "Other"
+      }
+    ]
+  }
+]

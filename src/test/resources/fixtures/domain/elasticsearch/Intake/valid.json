@@ -1,0 +1,24 @@
+[
+	{
+		"id": 1,
+		"date_of_birth": "1964-01-14",
+		"first_name": "John",
+		"gender": null,
+		"last_name": "Smith",
+		"middle_name": null,
+		"ssn": "858584561",
+		"name_suffix": null,
+		"addresses": [
+			{
+				"city": "city",
+				"id": 6,
+				"state": "IN",
+				"street_address": "876 home",
+				"zip": "66666",
+				"type": "Placement"
+			}
+		],
+		"phone_numbers": [],
+		"languages": []
+	}
+]

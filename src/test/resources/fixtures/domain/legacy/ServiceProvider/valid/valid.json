@@ -1,0 +1,22 @@
+{
+  "agencyName": "Test Agency",
+  "archiveAssociationIndicator": "N",
+  "cityName": "Sacramento",
+  "emailAddress": "horacio@email.com",
+  "faxNumber": 999,
+  "firstName": "Horacio",
+  "id": "Ao9dm8T0Ki",
+  "lastName": "G",
+  "namePrefixDescription": "Dr.",
+  "phoneExtensionNumber": 999,
+  "phoneNumber": 999,
+  "positionTitleDescription": "Kiddie Care",
+  "serviceProviderType": 0,
+	"stateCodeType": 1828, 
+  "streetName": "streetName",
+  "streetNumber": "streetNumber",
+  "suffixTitleDescription": "suffixTitleDescription",
+  "zipNumber": 99999,
+  "zipSuffixNumber": 0
+
+}

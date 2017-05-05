@@ -1,0 +1,39 @@
+{
+  "first_name": "bart",
+  "last_name": "simpson",
+  "gender": "M",
+  "birth_date": "2012-04-01",
+  "ssn": "999551111",
+  "address": [
+    {
+      "street_address": "742 Evergreen Terrace",
+      "city": "Springfield",
+      "state": "WA",
+      "zip": 6525,
+      "type": "Home"
+    }
+  ],
+  "phone": [
+    {
+      "number": "(408) 345-5678",
+      "type": "Cell"
+    }
+  ],
+  "language": [
+    {
+      "language": "English"
+    }
+  ],
+  "race": [
+    {
+      "race": "White",
+      "subrace": "European"
+    }
+  ],
+   "ethnicity": [
+    {
+      "ethnicityType": "American",
+      "subEthnicity": "White"
+    }
+  ]
+}

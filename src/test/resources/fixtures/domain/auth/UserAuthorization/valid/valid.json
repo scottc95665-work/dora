@@ -1,0 +1,23 @@
+{
+  "user_id": "userabc",
+  "staff_person_id": "q1p",
+  "social_worker": true,
+  "supervisor": false,
+  "override_authority": true,
+  "authority_privilege": [
+    {
+      "auth_privilege_type": "Countywide Read",
+      "auth_privilege_code": "P",
+      "county": "Placer",
+      "description": "Supervisor"
+    }
+  ],
+  "unit_authority": [
+    {
+      "unit_authority_type": "Unitwide Read",
+      "assigned_unit": "ABC123",
+      "county": "Sacramento",
+      "description": "Supervisor"
+    }
+  ]
+}

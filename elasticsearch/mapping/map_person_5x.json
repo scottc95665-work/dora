@@ -1,0 +1,32 @@
+{
+	"_all":       { "enabled": false },
+	"properties": {
+	  "id":            { "type": "text" },
+	  "first_name":    { "type": "completion" },
+	  "last_name":     { "type": "completion" },
+	  "middle_name":   { "type": "text" },
+	  "date_of_birth": { "type": "date"},
+	  "ssn":           { "type": "text" },
+	  "gender":        { "type": "text" },
+	  "languages":     { "type": "text" },
+	  "type":          { "type": "text" },
+	  "source":        { "type": "text" },
+	  "addresses": {
+		"properties": {
+		  "id":             { "type": "text" },
+		  "city":           { "type": "text" },
+		  "state":          { "type": "text" },
+		  "street_address": { "type": "text" },
+		  "zip":            { "type": "text" },
+		  "type":           { "type": "text" }
+	  }},
+	  "phone_numbers": {
+		"properties": {
+		  "id":     { "type": "text" },
+		  "number": { "type": "text" },
+		  "type":   { "type": "text" }
+		}
+	  }
+	}
+  }
+}
