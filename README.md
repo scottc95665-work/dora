@@ -2,10 +2,6 @@
 
 The CWDS Dora provides RESTful services with search capabilities.
 
-## Wiki 
-
-The development team is actively using the [Github Wiki](https://github.com/ca-cwds/API/wiki).  
-
 ## Documentation
 
 The development team uses [Swagger](http://swagger.io/) for documenting the API.  
@@ -19,7 +15,7 @@ Configuration options are available in the file config/dora.yml.
 
 ### Prerequisites
 
-1. Source code, available at [GitHub](https://github.com/ca-cwds/API)
+1. Source code, available at [GitHub](https://github.com/ca-cwds/dora)
 1. Java SE 8 development kit
 
 ### Development Server
