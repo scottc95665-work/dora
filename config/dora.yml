@@ -36,10 +36,6 @@ server:
 logging:
   level: ${LOGLEVEL:-WARN}
   loggers:
-    "org.hibernate.SQL":
-      level: DEBUG
-    "org.hibernate.type.descriptor.sql":
-      level: DEBUG
     "AUDIT":
       level: ALL
     "gov.ca.cwds":

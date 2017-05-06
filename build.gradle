@@ -63,7 +63,6 @@ dependencies {
     }
 
     compile group: "io.dropwizard", name: "dropwizard-client", version: dropwizardVersion
-    compile group: "io.dropwizard", name: "dropwizard-hibernate", version: dropwizardVersion
     compile group: "io.dropwizard", name: "dropwizard-views", version: dropwizardVersion
     compile group: "io.dropwizard", name: "dropwizard-views-mustache", version: dropwizardVersion
     compile group: 'io.dropwizard', name: 'dropwizard-assets', version: dropwizardVersion

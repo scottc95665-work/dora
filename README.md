@@ -33,7 +33,6 @@ Use the gradlew command to execute the test task:
     % ./gradlew test
 
 ### Integration Testing
-Tests that access the database utilize the src/test/resources/hibernate.cfg.xml configuration file. Edit this file to utilize a local testing database.
 
 Use the gradlew command to execute the test task:
 
