@@ -34,6 +34,7 @@ public class ApplicationModule extends AbstractModule {
      */
     @Override
     protected void configure() {
+        install(new ElasticsearchAccessModule());
         install(new ServicesModule());
         install(new ResourcesModule());
         install(new FiltersModule());

@@ -72,7 +72,8 @@ dependencies {
     compile group: "org.glassfish.jersey.ext", name: "jersey-declarative-linking", version: "2.23.2"
     compile group: "javax.el", name: "javax.el-api", version: "2.2.4"
     compile group: "org.glassfish.web", name: "javax.el", version: "2.2.4"
-    compile group: 'commons-beanutils', name: 'commons-beanutils', version: '1.8.3'
+    compile group: 'org.bouncycastle', name: 'bcprov-jdk16', version: '1.46'
+    compile group: 'commons-beanutils', name: 'commons-beanutils', version: '1.9.3'
     compile group: 'org.elasticsearch', name: 'elasticsearch', version: '2.4.4'
     compile group: 'org.slf4j', name: 'slf4j-ext', version: '1.7.22'
 
@@ -162,8 +163,7 @@ publishing {
     }
     repositories {
         maven {
-            // TODO: set to http url
-            url "file:///usr/share/nginx/html/maven2"
+            url "http://maven2.cwds.tabordasolutions.net"
         }
     }
 }

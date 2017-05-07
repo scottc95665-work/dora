@@ -13,7 +13,7 @@ swagger:
   logo: images/CWDS-API-Logo-Horizontal.png
   loginUrl: ${LOGIN_URL:-http://localhost:8090/authn/login}
   showSwagger: ${SHOW_SWAGGER:-false}
- 
+
 elasticsearch:
   elasticsearch.host: ${ES_HOST:-es.dev.cwds.tabordasolutions.net}
   elasticsearch.port: ${ES_PORT:-9300}
