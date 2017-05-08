@@ -28,6 +28,11 @@ public class ElasticsearchAccessModule extends AbstractModule {
     }
 
     @Provides
+    public ElasticsearchConfiguration elasticSearchConfig(ApiConfiguration apiConfiguration) {
+        return apiConfiguration.getElasticsearchConfiguration();
+    }
+
+    @Provides
     public Client elasticsearchClient(ApiConfiguration apiConfiguration) {
         if (esClient == null) {
             ElasticsearchConfiguration config = apiConfiguration.getElasticsearchConfiguration();
