@@ -6,6 +6,7 @@ import com.google.inject.Provides;
 import com.google.inject.name.Named;
 
 import gov.ca.cwds.rest.ApiConfiguration;
+import gov.ca.cwds.rest.ElasticsearchConfiguration;
 import gov.ca.cwds.rest.SwaggerConfiguration;
 import gov.ca.cwds.rest.api.domain.es.IndexQueryRequest;
 import gov.ca.cwds.rest.api.domain.es.IndexQueryResponse;
@@ -38,6 +39,11 @@ public class ResourcesModule extends AbstractModule {
     @Provides
     public SwaggerConfiguration swaggerConfiguration(ApiConfiguration apiConfiguration) {
         return apiConfiguration.getSwaggerConfiguration();
+    }
+
+    @Provides
+    public ElasticsearchConfiguration elasticSearchConfig(ApiConfiguration apiConfiguration) {
+        return apiConfiguration.getElasticsearchConfiguration();
     }
 
     @Provides

@@ -39,7 +39,7 @@ import com.squarespace.jersey2.guice.JerseyGuiceUtils;
  */
 public class IndexQueryResourceTest {
 
-  private static final String FOUND_RESOURCE = "/" + Api.RESOURCE_ELASTICSEARCH_INDEX_QUERY + "/people/_search";
+  private static final String FOUND_RESOURCE = "/" + Api.RESOURCE_ELASTICSEARCH_INDEX_QUERY + "/people/person/_search";
 
   @Rule
   public ExpectedException thrown = ExpectedException.none();
@@ -71,7 +71,7 @@ public class IndexQueryResourceTest {
 
   @Test
   public void testPostDelegatesToResourceDelegate() throws Exception {
-    Map<String, String> test = new HashMap<String, String>();
+    Map<String, String> test = new HashMap<>();
     test.put("a", "value");
     inMemoryResource.client().target(FOUND_RESOURCE).request().accept(MediaType.APPLICATION_JSON)
         .post(Entity.entity(test, MediaType.APPLICATION_JSON)).getStatus();

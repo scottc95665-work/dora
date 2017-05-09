@@ -15,12 +15,9 @@ swagger:
   showSwagger: ${SHOW_SWAGGER:-false}
 
 elasticsearch:
-  elasticsearch.host: ${ES_HOST:-es.dev.cwds.tabordasolutions.net}
-  elasticsearch.port: ${ES_PORT:-9300}
-  elasticsearch.cluster: ${ES_CLUSTER:-taborda-dev-es}
-  elasticsearch.alias: ${ES_ALIAS:-people}
-  elasticsearch.doctype: ${ES_DOCTYPE:-person}
-  
+  host: ${ES_HOST:-es.dev.cwds.tabordasolutions.net}
+  port: ${ES_PORT:-9200}
+
 server:
   applicationConnectors:
   - type: http 

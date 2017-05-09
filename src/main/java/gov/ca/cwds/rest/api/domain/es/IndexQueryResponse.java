@@ -14,71 +14,61 @@ import com.fasterxml.jackson.annotation.JsonRawValue;
 
 /**
  * A domain API {@link Request} for Intake Index Query feature to Elasticsearch.
- * 
  * <p>
  * The Intake Index Query for an Index takes an Elasticsearch Index name and single query as json
  * string, which is used to query the Elasticsearch Index documents by ALL relevant fields that are
  * specified in the query.
  * </p>
- * 
+ *
  * @author CWDS API Team
  */
 @ApiModel
 @JsonSnakeCase
 public class IndexQueryResponse implements Serializable, Response {
 
-  /**
-   * Base serialization version. Increment by class version.
-   */
-  private static final long serialVersionUID = 1L;
+    /**
+     * Base serialization version. Increment by class version.
+     */
+    private static final long serialVersionUID = 2L;
 
-  @JsonRawValue
-  private String persons;
+    @JsonRawValue
+    private String searchResults;
 
-  /**
-   * Disallow use of default constructor.
-   */
-  @SuppressWarnings("unused")
-  private IndexQueryResponse() {
-    // Default, no-op.
-  }
+    /**
+     * Disallow use of default constructor.
+     */
+    @SuppressWarnings("unused")
+    private IndexQueryResponse() {
+        // Default, no-op.
+    }
 
-  /**
-   * Preferred constructor
-   * 
-   * @param persons the json response from Elasticsearch
-   */
-  public IndexQueryResponse(String persons) {
-    this.persons = persons;
-  }
+    /**
+     * Preferred constructor
+     *
+     * @param searchResults the json response from Elasticsearch
+     */
+    public IndexQueryResponse(String searchResults) {
+        this.searchResults = searchResults;
+    }
 
-  /**
-   * Getter for Elasticsearch response
-   * 
-   * @return Elasticsearch json response
-   */
-  @JsonRawValue
-  public String getPersons() {
-    return persons;
-  }
+    /**
+     * Getter for Elasticsearch response
+     *
+     * @return Elasticsearch json response
+     */
+    @JsonRawValue
+    public String getSearchResults() {
+        return searchResults;
+    }
 
-  /**
-   * Setter for Elasticsearch json response
-   * 
-   * @param persons a json string
-   */
-  public void setPersons(String persons) {
-    this.persons = persons;
-  }
+    @Override
+    public int hashCode() {
+        return HashCodeBuilder.reflectionHashCode(this, false);
+    }
 
-  @Override
-  public int hashCode() {
-    return HashCodeBuilder.reflectionHashCode(this, false);
-  }
-
-  @Override
-  public boolean equals(Object obj) {
-    return EqualsBuilder.reflectionEquals(this, obj, false);
-  }
+    @Override
+    public boolean equals(Object obj) {
+        return EqualsBuilder.reflectionEquals(this, obj, false);
+    }
 
 }
