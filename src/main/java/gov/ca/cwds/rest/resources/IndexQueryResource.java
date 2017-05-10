@@ -1,6 +1,6 @@
 package gov.ca.cwds.rest.resources;
 
-import static gov.ca.cwds.rest.core.Api.RESOURCE_ELASTICSEARCH_INDEX_QUERY;
+import static gov.ca.cwds.rest.core.DoraConstants.RESOURCE_ELASTICSEARCH_INDEX_QUERY;
 
 import gov.ca.cwds.inject.IndexQueryServiceResource;
 import gov.ca.cwds.rest.api.ApiException;

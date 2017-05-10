@@ -5,7 +5,7 @@ package gov.ca.cwds.rest.core;
  *
  * @author CDWS API Team
  */
-public interface Api {
+public interface DoraConstants {
 
     /**
      * A {@code String} constant representing {@value #RESOURCE_APPLICATION} API..

@@ -8,7 +8,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import gov.ca.cwds.rest.api.domain.es.IndexQueryRequest;
 import gov.ca.cwds.rest.api.domain.es.IndexQueryResponse;
-import gov.ca.cwds.rest.core.Api;
+import gov.ca.cwds.rest.core.DoraConstants;
 import gov.ca.cwds.rest.services.es.IndexQueryService;
 import io.dropwizard.testing.junit.ResourceTestRule;
 
@@ -36,7 +36,7 @@ import com.squarespace.jersey2.guice.JerseyGuiceUtils;
  */
 public class IndexQueryResourceTest {
 
-  private static final String FOUND_RESOURCE = "/" + Api.RESOURCE_ELASTICSEARCH_INDEX_QUERY + "/people/person/_search";
+  private static final String FOUND_RESOURCE = "/" + DoraConstants.RESOURCE_ELASTICSEARCH_INDEX_QUERY + "/people/person/_search";
 
   @Rule
   public ExpectedException thrown = ExpectedException.none();

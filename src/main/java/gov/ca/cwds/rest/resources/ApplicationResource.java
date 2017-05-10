@@ -1,6 +1,6 @@
 package gov.ca.cwds.rest.resources;
 
-import static gov.ca.cwds.rest.core.Api.RESOURCE_APPLICATION;
+import static gov.ca.cwds.rest.core.DoraConstants.RESOURCE_APPLICATION;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
