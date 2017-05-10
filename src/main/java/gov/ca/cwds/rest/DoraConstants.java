@@ -1,4 +1,4 @@
-package gov.ca.cwds.rest.core;
+package gov.ca.cwds.rest;
 
 /**
  * Constants defining resources locations in the API.
