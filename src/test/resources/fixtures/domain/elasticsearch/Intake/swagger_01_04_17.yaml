@@ -5,7 +5,7 @@ info:
   description: Mock API used for development of Accelerator and California Intake project
 
 host: 192.168.99.103:3001
-basePath: /api/v1
+basePath: /dora/v1
 schemes:
   - http
   - https

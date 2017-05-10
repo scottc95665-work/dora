@@ -5,7 +5,7 @@ import com.google.inject.Injector;
 import com.google.inject.Provides;
 import com.google.inject.name.Named;
 
-import gov.ca.cwds.rest.ApiConfiguration;
+import gov.ca.cwds.rest.DoraConfiguration;
 import gov.ca.cwds.rest.ElasticsearchConfiguration;
 import gov.ca.cwds.rest.SwaggerConfiguration;
 import gov.ca.cwds.rest.api.domain.es.IndexQueryRequest;
@@ -37,25 +37,25 @@ public class ResourcesModule extends AbstractModule {
     }
 
     @Provides
-    public SwaggerConfiguration swaggerConfiguration(ApiConfiguration apiConfiguration) {
-        return apiConfiguration.getSwaggerConfiguration();
+    public SwaggerConfiguration swaggerConfiguration(DoraConfiguration doraConfiguration) {
+        return doraConfiguration.getSwaggerConfiguration();
     }
 
     @Provides
-    public ElasticsearchConfiguration elasticSearchConfig(ApiConfiguration apiConfiguration) {
-        return apiConfiguration.getElasticsearchConfiguration();
+    public ElasticsearchConfiguration elasticSearchConfig(DoraConfiguration doraConfiguration) {
+        return doraConfiguration.getElasticsearchConfiguration();
     }
 
     @Provides
     @Named("app.name")
-    public String appName(ApiConfiguration apiConfiguration) {
-        return apiConfiguration.getApplicationName();
+    public String appName(DoraConfiguration doraConfiguration) {
+        return doraConfiguration.getApplicationName();
     }
 
     @Provides
     @Named("app.version")
-    public String appVersion(ApiConfiguration apiConfiguration) {
-        return apiConfiguration.getVersion();
+    public String appVersion(DoraConfiguration doraConfiguration) {
+        return doraConfiguration.getVersion();
     }
 
     @Provides

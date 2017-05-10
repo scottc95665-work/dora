@@ -3,7 +3,7 @@ package gov.ca.cwds.inject;
 import com.google.inject.AbstractModule;
 
 import gov.ca.cwds.rest.DoraApplication;
-import gov.ca.cwds.rest.ApiConfiguration;
+import gov.ca.cwds.rest.DoraConfiguration;
 import io.dropwizard.setup.Bootstrap;
 
 /**
@@ -14,14 +14,14 @@ import io.dropwizard.setup.Bootstrap;
  */
 public class ApplicationModule extends AbstractModule {
 
-    private Bootstrap<ApiConfiguration> bootstrap;
+    private Bootstrap<DoraConfiguration> bootstrap;
 
     /**
      * Constructor. {@link AbstractModule#AbstractModule()}
      *
      * @param bootstrap API configuration
      */
-    public ApplicationModule(Bootstrap<ApiConfiguration> bootstrap) {
+    public ApplicationModule(Bootstrap<DoraConfiguration> bootstrap) {
         super();
         this.bootstrap = bootstrap;
     }

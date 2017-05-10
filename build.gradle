@@ -26,7 +26,7 @@ sourceCompatibility = 1.8
 applicationDefaultJvmArgs = ["-Djava.library.path=.:./lib:/var/lib/jenkins/workspace/API/lib:/usr/local/lib"]
 
 project.ext {
-    apiVersion = 0.20
+    doraVersion = 0.21
     configPath = "$rootProject.projectDir/config/"
     dropwizardVersion = "1.1.0"
     metricsVersion = "3.1.0"
@@ -34,7 +34,7 @@ project.ext {
     mainclass = "gov.ca.cwds.rest.DoraApplication"
 }
 
-version = apiVersion
+version = doraVersion
 mainClassName = mainclass
 
 repositories {

@@ -21,7 +21,7 @@ import io.dropwizard.setup.Bootstrap;
  * 
  * @author CWDS API Team
  */
-public class DoraApplication extends BaseApiApplication<ApiConfiguration> {
+public class DoraApplication extends BaseApiApplication<DoraConfiguration> {
 
   @SuppressWarnings("unused")
   private static final Logger LOGGER = LoggerFactory.getLogger(DoraApplication.class);
@@ -42,7 +42,7 @@ public class DoraApplication extends BaseApiApplication<ApiConfiguration> {
    * @see gov.ca.cwds.rest.BaseApiApplication#applicationModule(io.dropwizard.setup.Bootstrap)
    */
   @Override
-  public Module applicationModule(Bootstrap<ApiConfiguration> bootstrap) {
+  public Module applicationModule(Bootstrap<DoraConfiguration> bootstrap) {
     return new ApplicationModule(bootstrap);
   }
 
