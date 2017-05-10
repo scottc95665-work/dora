@@ -1,4 +1,4 @@
-## Development micro test of search functionality on empty Elasticsearch
+## Developer micro test of search functionality on empty Elasticsearch
 
 Assuming local Elasticsearch is listening on `localhost:9200` and Dora is listening on `localhost:8080` with swagger UI turned on.
 
