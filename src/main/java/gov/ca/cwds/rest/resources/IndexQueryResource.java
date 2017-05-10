@@ -90,7 +90,7 @@ public class IndexQueryResource {
 
             return indexQueryResponse == null ? null
                     : Response.status(Response.Status.OK).entity(indexQueryResponse.getSearchResults()).build();
-        } catch (Exception e) {
+        } catch (RuntimeException e) {
             LOGGER.error("Query ERROR: {}", e.getMessage(), e);
             throw new ApiException("Query ERROR: " + e.getMessage(), e);
         }

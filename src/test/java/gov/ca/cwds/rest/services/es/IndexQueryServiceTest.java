@@ -63,7 +63,7 @@ public class IndexQueryServiceTest {
         Map<String, String> test = new HashMap<>();
         test.put("a", "value");
         req = new IndexQueryRequest("people", "person", test);
-        esConfig = new ElasticsearchConfiguration("localhost", "9200", "cluster0");
+        esConfig = new ElasticsearchConfiguration("localhost", "9200");
 
         Whitebox.setInternalState(target, "esConfig", esConfig);
         doReturn("fred").when(target)

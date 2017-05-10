@@ -3,6 +3,7 @@ package gov.ca.cwds.rest.services.es;
 import static com.google.common.base.Preconditions.checkArgument;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
@@ -67,7 +68,7 @@ public class IndexQueryService
      * @param query user-provided query
      * @return JSON ES results
      */
-    public String searchIndexByQuery(final String index, final String type, final String query) {
+    String searchIndexByQuery(final String index, final String type, final String query) {
         LOGGER.warn(" index: {}", index);
         LOGGER.warn(" type: {}", type);
         LOGGER.warn(" QUERY: {}", query);
@@ -109,12 +110,12 @@ public class IndexQueryService
                 writer.write(query);
                 writer.close();
             }
-            reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            reader = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF8"));
             String line;
             while ((line = reader.readLine()) != null) {
                 jsonString.append(line);
             }
-        } catch (Exception e) {
+        } catch (IOException|RuntimeException e) {
             final String msg = "Error in ElasticSearch: " + e.getMessage();
             LOGGER.error(msg, e);
             throw new ApiElasticSearchException(msg, e);
@@ -122,7 +123,7 @@ public class IndexQueryService
             if (reader != null) {
                 try {
                     reader.close();
-                } catch (Exception e) {
+                } catch (IOException e) {
                     final String msg = "Error in ElasticSearch: " + e.getMessage();
                     LOGGER.error(msg, e);
                 }
