@@ -67,6 +67,7 @@ public class IndexQueryResource {
      * Endpoint for Query Search.
      *
      * @param index {@link IndexQueryRequest}
+     * @param type Elasticsearch document type
      * @param req   JSON {@link IndexQueryRequest}
      * @return web service response
      */

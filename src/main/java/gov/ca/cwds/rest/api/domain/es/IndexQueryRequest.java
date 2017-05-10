@@ -48,6 +48,7 @@ public class IndexQueryRequest implements Serializable, Request {
      * JSON DropWizard Constructor. Takes query.
      *
      * @param index the name of the elasticsearch index to search
+     * @param type Elasticsearch document type
      * @param query the elasticsearch query
      */
     @JsonCreator

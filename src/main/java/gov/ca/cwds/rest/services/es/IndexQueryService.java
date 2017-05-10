@@ -40,6 +40,7 @@ public class IndexQueryService
     /**
      * Constructor
      *
+     * @param esConfig instance of ElasticsearchConfiguration with host and port assigned
      */
     @Inject
     public IndexQueryService(ElasticsearchConfiguration esConfig) {

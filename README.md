@@ -5,7 +5,7 @@ The CWDS Dora provides RESTful services with search capabilities.
 ## Documentation
 
 The development team uses [Swagger](http://swagger.io/) for documenting the API.  
-NOTE : At this time there is not a publicy available link to the documentation, a link will be provided as soon as one is available.
+NOTE: At this time there is not a publicly available link to the documentation, a link will be provided as soon as one is available.
 
 ## Configuration
 
@@ -18,7 +18,16 @@ Configuration options are available in the file config/dora.yml.
 1. Source code, available at [GitHub](https://github.com/ca-cwds/dora)
 1. Java SE 8 development kit
 
-### Development Server
+### Environment variables of interest
+
+- ES_HOST - IP address of the Elasticsearch server
+- ES_PORT - port of the Elasticsearch server (default: `9200`)
+- APP_STD_PORT - default: `8080`
+- APP_ADMIN_PORT - default: `8081`
+- LOGIN_URL - default: `http://localhost:8090/authn/login`
+- SHOW_SWAGGER - set to `true` to have a link like `http://localhost:8080/swagger` (default: `false`)
+
+### Run Dora
 
 Use the gradlew command to execute the run task:
 
