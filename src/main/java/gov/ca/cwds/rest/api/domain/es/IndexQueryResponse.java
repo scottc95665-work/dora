@@ -13,11 +13,9 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import com.fasterxml.jackson.annotation.JsonRawValue;
 
 /**
- * A domain API {@link Request} for Intake Index Query feature to Elasticsearch.
+ * A domain API {@link Response} from Index Query service.
  * <p>
- * The Intake Index Query for an Index takes an Elasticsearch Index name and single query as json
- * string, which is used to query the Elasticsearch Index documents by ALL relevant fields that are
- * specified in the query.
+ * Contains JSON string of a response returned from Elasticsearch REST API.
  * </p>
  *
  * @author CWDS API Team

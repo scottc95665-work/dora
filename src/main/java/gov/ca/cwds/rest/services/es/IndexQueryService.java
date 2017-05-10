@@ -26,7 +26,7 @@ import gov.ca.cwds.rest.services.ServiceException;
 
 
 /**
- * Business service for Intake Index Query.
+ * Business service for Index Query.
  *
  * @author CWDS API Team
  */

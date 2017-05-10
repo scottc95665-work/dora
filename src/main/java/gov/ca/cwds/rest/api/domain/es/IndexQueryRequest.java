@@ -16,9 +16,9 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * A domain API {@link Request} for Intake Index Query feature to Elasticsearch.
+ * A domain API {@link Request} for Index Query feature to Elasticsearch.
  * <p>
- * The Intake Index Query for an Index takes an index name and a json as string, which is used to
+ * The Index Query for an Index takes an index name, document type, and a json as string, which is used to
  * query the Elasticsearch Index documents by ALL relevant fields that are specified in the query.
  * </p>
  *

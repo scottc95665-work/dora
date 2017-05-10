@@ -59,8 +59,8 @@ public class ResourcesModule extends AbstractModule {
     }
 
     @Provides
-    @IntakeIndexQueryServiceResource
-    public SimpleResourceDelegate<String, IndexQueryRequest, IndexQueryResponse, IndexQueryService> intakeIndexQueryResource(
+    @IndexQueryServiceResource
+    public SimpleResourceDelegate<String, IndexQueryRequest, IndexQueryResponse, IndexQueryService> indexQueryResource(
             Injector injector) {
         return new SimpleResourceDelegate<>(injector.getInstance(IndexQueryService.class));
     }

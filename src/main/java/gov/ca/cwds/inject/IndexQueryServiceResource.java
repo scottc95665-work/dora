@@ -11,13 +11,13 @@ import java.lang.annotation.Target;
 import com.google.inject.BindingAnnotation;
 
 /**
- * Annotation for binding to the Intake Person Query service resource.
+ * Annotation for binding to the Index Query service resource.
  * 
  * @author CWDS API Team
  */
 @BindingAnnotation
 @Target({FIELD, PARAMETER, METHOD})
 @Retention(RUNTIME)
-public @interface IntakeIndexQueryServiceResource {
+public @interface IndexQueryServiceResource {
 
 }

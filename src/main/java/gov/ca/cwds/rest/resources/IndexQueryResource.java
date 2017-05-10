@@ -2,7 +2,7 @@ package gov.ca.cwds.rest.resources;
 
 import static gov.ca.cwds.rest.core.Api.RESOURCE_ELASTICSEARCH_INDEX_QUERY;
 
-import gov.ca.cwds.inject.IntakeIndexQueryServiceResource;
+import gov.ca.cwds.inject.IndexQueryServiceResource;
 import gov.ca.cwds.rest.api.ApiException;
 import gov.ca.cwds.rest.api.domain.es.IndexQueryRequest;
 import gov.ca.cwds.rest.api.domain.es.IndexQueryResponse;
@@ -59,7 +59,7 @@ public class IndexQueryResource {
      */
     @Inject
     public IndexQueryResource(
-            @IntakeIndexQueryServiceResource SimpleResourceDelegate<String, IndexQueryRequest, IndexQueryResponse, IndexQueryService> resourceDelegate) {
+            @IndexQueryServiceResource SimpleResourceDelegate<String, IndexQueryRequest, IndexQueryResponse, IndexQueryService> resourceDelegate) {
         this.resourceDelegate = resourceDelegate;
     }
 
