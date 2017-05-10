@@ -3,7 +3,7 @@ package gov.ca.cwds.rest.api.domain.es;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
-import gov.ca.cwds.rest.resources.cms.JerseyGuiceRule;
+import gov.ca.cwds.rest.resources.JerseyGuiceRule;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;
 
@@ -58,7 +58,7 @@ public class IndexQueryRequestTest {
         EqualsVerifier.forClass(IndexQueryRequest.class).suppress(Warning.NONFINAL_FIELDS).verify();
     }
 
-    protected IndexQueryRequest produce(String index, String type, String s) {
+    private IndexQueryRequest produce(String index, String type, String s) {
         return new IndexQueryRequest(index, type, s);
     }
 

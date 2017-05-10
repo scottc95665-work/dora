@@ -1,4 +1,4 @@
-package gov.ca.cwds.rest.resources.cms;
+package gov.ca.cwds.rest.resources;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -9,9 +9,6 @@ import static org.mockito.Mockito.verify;
 import gov.ca.cwds.rest.api.domain.es.IndexQueryRequest;
 import gov.ca.cwds.rest.api.domain.es.IndexQueryResponse;
 import gov.ca.cwds.rest.core.Api;
-import gov.ca.cwds.rest.resources.IndexQueryResource;
-import gov.ca.cwds.rest.resources.ServiceBackedResourceDelegate;
-import gov.ca.cwds.rest.resources.SimpleResourceDelegate;
 import gov.ca.cwds.rest.services.es.IndexQueryService;
 import io.dropwizard.testing.junit.ResourceTestRule;
 
