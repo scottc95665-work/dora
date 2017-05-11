@@ -28,4 +28,48 @@ public class ElasticsearchConfiguration {
     public String getPort() {
         return port;
     }
+
+    public static class XpackConfiguration {
+        private boolean enabled;
+        private String user;
+        private String password;
+
+        public boolean isEnabled() {
+            return enabled;
+        }
+
+        @JsonProperty
+        public void setEnabled(boolean enabled) {
+            this.enabled = enabled;
+        }
+
+        public String getUser() {
+            return user;
+        }
+
+        @JsonProperty
+        public void setUser(String user) {
+            this.user = user;
+        }
+
+        public String getPassword() {
+            return password;
+        }
+
+        @JsonProperty
+        public void setPassword(String password) {
+            this.password = password;
+        }
+    }
+
+    private XpackConfiguration xpack;
+
+    public XpackConfiguration getXpack() {
+        return xpack;
+    }
+
+    @JsonProperty
+    public void setXpack(XpackConfiguration xpack) {
+        this.xpack = xpack;
+    }
 }

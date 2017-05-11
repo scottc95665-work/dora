@@ -8,12 +8,17 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.List;
 import java.util.Map;
 
 import com.google.common.base.Strings;
+import gov.ca.cwds.auth.realms.PerryAccountRealm;
 import gov.ca.cwds.data.es.ApiElasticSearchException;
 import gov.ca.cwds.rest.ElasticsearchConfiguration;
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -104,6 +109,7 @@ public class IndexQueryService
             connection.setDoOutput(true);
             connection.setRequestMethod("GET");
             connection.setRequestProperty("Content-Type", "application/json");
+            applySecurity(connection);
             if (StringUtils.isNotEmpty(payload)) {
                 String query = payload.trim();
                 OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream(), "UTF8");
@@ -139,5 +145,48 @@ public class IndexQueryService
     @Override
     protected IndexQueryResponse handleFind(String s) {
         throw new IllegalStateException("this method is not applicable to Elasticsearch");
+    }
+
+    private void applySecurity(HttpURLConnection connection) {
+        if(esConfig.getXpack() != null){
+            ElasticsearchConfiguration.XpackConfiguration xpackConfiguration = esConfig.getXpack();
+            if(xpackConfiguration.isEnabled()) {
+                setAuthorizationHeader(connection);
+                setRunAsuser(connection);
+            }
+        }
+    }
+
+    private void setRunAsuser(HttpURLConnection connection) {
+        String runAsUser = getElasticsearchRunAsUser();
+        if(runAsUser != null) {
+            connection.setRequestProperty("es-security-runas-user", runAsUser);
+        }
+    }
+
+    private void setAuthorizationHeader(HttpURLConnection connection) {
+        String name = esConfig.getXpack().getUser();
+        String password = esConfig.getXpack().getPassword();
+
+        String authString = name + ":" + password;
+        byte[] authEncBytes = Base64.encodeBase64(authString.getBytes());
+        String authStringEnc = new String(authEncBytes);
+        connection.setRequestProperty("Authorization", "Basic " + authStringEnc);
+    }
+
+    private String getElasticsearchRunAsUser() {
+        Subject subject = SecurityUtils.getSubject();
+        if(subject != null) {
+            List principals = subject.getPrincipals().asList();
+            if(principals.size() == 2) {
+                PerryAccountRealm.PerryAccount account = (PerryAccountRealm.PerryAccount) principals.get(1);
+                if(account.getRoles() != null) {
+                    if(!account.getRoles().isEmpty()) {
+                        return account.getRoles().iterator().next();
+                    }
+                }
+            }
+        }
+        return null;
     }
 }
