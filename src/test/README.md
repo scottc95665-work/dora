@@ -5,7 +5,7 @@ Assuming local Elasticsearch is listening on `localhost:9200` and Dora is listen
 1. Create test index:
 
 ```
-POST http://localhost:9200/people
+PUT http://localhost:9200/people
 {
     "settings" : {
         "number_of_shards" : 1
