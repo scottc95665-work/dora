@@ -1,3 +1,6 @@
+import java.nio.file.Files
+import java.nio.file.Paths
+
 buildscript {
     repositories {
         jcenter()
@@ -32,12 +35,25 @@ project.ext {
     metricsVersion = "3.1.0"
     dropwizardSwaggerVersion = "1.0.0-1"
     mainclass = "gov.ca.cwds.rest.DoraApplication"
+    elasticHost = System.env.ELASTIC_HOST ?: '192.168.99.100'
+    elasticPort = 9200
+    elasticPort2 = 9300
+    dockerPort = 2376
+    elasticUser = 'elastic'
+    elasticPassword = 'changeme'
+    elasticBaseUrl = "http://" + elasticHost + ":" + elasticPort
+    targetDockerHubOrganization = System.env.DOCKERHUB_ORG ?: 'drudenko185'
+    targetDockerHubRepository = 'elasticsearch-xpack-data'
+    dockerImageName = targetDockerHubOrganization + '/' + targetDockerHubRepository // like 'cwds/cals-data-model'
+    dockerContainerName = 'container-' + targetDockerHubRepository // like 'postgres-cals-data-model'
+    dockerTag = version + ((System.properties.getProperty('build') != null) ? '.' + System.properties.getProperty('build') : '')
 }
 
 version = doraVersion
 mainClassName = mainclass
 
 repositories {
+    //mavenLocal()
     mavenCentral()
     maven {
         url "http://maven2.cwds.tabordasolutions.net"
@@ -61,6 +77,10 @@ dependencies {
     compile('gov.ca.cwds.api:api-core:0.20.196') {
         exclude group: 'org.glassfish.jersey.core'
     }
+
+    /*compile('gov.ca.cwds.api:api-core:0.22') {
+        exclude group: 'org.glassfish.jersey.core'
+    }*/
 
     compile group: "io.dropwizard", name: "dropwizard-client", version: dropwizardVersion
     compile group: "io.dropwizard", name: "dropwizard-views", version: dropwizardVersion
@@ -164,5 +184,158 @@ publishing {
         maven {
             url "http://maven2.cwds.tabordasolutions.net"
         }
+    }
+}
+
+
+def esConnect(baseUrl, user, password) {
+    int responseCode = 0
+    while (true) {
+        try {
+            responseCode = esExecute(baseUrl + "/_xpack/security/role", "GET", user, password, null)
+        } catch (Exception e) {
+            //continue
+        }
+        if (responseCode == 200) {
+            return
+        }
+        println "retrying to connect to " + baseUrl + " ... "
+        sleep(5000)
+    }
+}
+
+def esExecute(String urlString, String method, String user, String password, String content) {
+    URL url = new URL(urlString)
+    HttpURLConnection connection = (HttpURLConnection) url.openConnection()
+    connection.setDoInput(true)
+    connection.setDoOutput(true)
+    connection.setRequestMethod(method)
+    String authString = user + ":" + password
+    String authStringEnc = authString.bytes.encodeBase64().toString()
+    connection.setRequestProperty("Authorization", "Basic " + authStringEnc);
+    connection.setRequestProperty("Content-Type", "application/json")
+
+    if (content != null) {
+        OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream(), "UTF8")
+        writer.write(content);
+        writer.close();
+    }
+
+    BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF8"));
+    StringBuilder jsonString = new StringBuilder();
+    String line
+    while ((line = reader.readLine()) != null) {
+        jsonString.append(line)
+    }
+    print jsonString
+    int responseCode = connection.getResponseCode()
+    connection.disconnect()
+    return responseCode
+}
+
+def isPortOpen(host, port) {
+    try {
+        Socket socket = new Socket(host, port)
+        socket.close()
+        return true
+    } catch (IOException e) {
+        return false
+    }
+}
+
+task printConfig {
+    doLast {
+        project.ext.properties
+                .sort { e1, e2 -> e1.key <=> e2.key }
+                .each { k, v -> println "${k} = " + v }
+    }
+}
+
+task createBuildDir {
+    mkdir project.buildDir
+}
+
+
+task checkDockerService {
+    //enabled = buildEnv == 'WIN_DEV'
+    doFirst {
+        if (!isPortOpen(elasticHost, dockerPort)) {
+            throw new GradleException('Docker service is not available. Windows users should start Docker Quickstart Terminal of Docker Toolbox')
+        }
+    }
+    doLast {
+        def dockerEnvVars = [:]
+        dockerEnvVars['DOCKER_CERT_PATH'] = System.getProperty("user.home") + '/.docker/machine/machines/default'
+        dockerEnvVars['DOCKER_HOST'] = "tcp://$elasticHost:$dockerPort"
+        dockerEnvVars['DOCKER_MACHINE_NAME'] = 'default'
+        dockerEnvVars['DOCKER_TLS_VERIFY'] = 1
+        tasks.withType(Exec) { environment << dockerEnvVars }
+    }
+}
+
+task dockerRemoveContainer(type: Exec, dependsOn: checkDockerService) {
+    ignoreExitValue true
+    doFirst {
+        commandLine 'docker', 'rm', '-v', '--force', dockerContainerName
+    }
+}
+
+task dockerCreateImage(type: Exec, dependsOn: [checkDockerService, dockerRemoveContainer]) {
+    doFirst {
+        //standardInput = new FileInputStream(file("$projectDir/Dockerfile"))
+        commandLine 'docker', 'build', '-t', dockerImageName, '-f', './docker/Dockerfile', './docker'
+    }
+}
+
+task dockerStartContainer(type: Exec, dependsOn: [checkDockerService, dockerCreateImage]) {
+    doFirst {
+        commandLine 'docker', 'run', '-it', '-d', "--name=$dockerContainerName", '-p', "$elasticPort:9200", '-p', "$elasticPort2:9300", dockerImageName
+    }
+
+    doLast {
+        esConnect(elasticBaseUrl, elasticUser, elasticPassword)
+    }
+}
+
+task dockerPopulate(dependsOn: dockerStartContainer) {
+    doFirst {
+        String content = new String(Files.readAllBytes(Paths.get("$projectDir/docker/data.json"))).trim()
+        esExecute(elasticBaseUrl + "/_xpack/security/role/all", "POST", elasticUser, elasticPassword, content)
+    }
+}
+
+task dockerCommitPopulatedImage(type: Exec, dependsOn: [checkDockerService, dockerPopulate]) {
+    doFirst {
+        commandLine 'docker', 'commit', '-m', 'populated', dockerContainerName, dockerImageName
+    }
+}
+
+task dockerStopContainer(type: Exec, dependsOn: checkDockerService) {
+    doFirst {
+        commandLine 'docker', 'stop', dockerContainerName
+    }
+}
+
+task dockerTagImage(type: Exec, dependsOn: [checkDockerService, dockerCommitPopulatedImage]) {
+    doFirst {
+        commandLine 'docker', 'tag', dockerImageName, "$dockerImageName:$dockerTag"
+    }
+}
+
+task dockerPushTaggedVersion(type: Exec, dependsOn: [checkDockerService, dockerTagImage]) {
+    doFirst {
+        commandLine 'docker', 'push', "$dockerImageName:$dockerTag"
+    }
+}
+
+task dockerPushLatestVersion(type: Exec, dependsOn: [checkDockerService, dockerCommitPopulatedImage]) {
+    doFirst {
+        commandLine 'docker', 'push', "$dockerImageName:latest"
+    }
+}
+
+task dockerPublish(dependsOn: [dockerStopContainer, dockerPushTaggedVersion, dockerPushLatestVersion]) {
+    doLast {
+        println 'Published'
     }
 }

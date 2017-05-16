@@ -1,0 +1,10 @@
+{
+  "cluster": [  ],
+  "indices": [
+    {
+      "names": [ "peop*" ],
+      "privileges": [ "read" ],
+      "query": "{\"bool\": {\"should\": [{\"match\": {\"type.sensitivityIndicator\": {\"query\": \"S\",\"operator\": \"or\"}}},{\"match\": {\"type.sensitivityIndicator\": {\"query\": \"R\",\"operator\": \"or\"}}}, {\"match\": {\"type.sensitivityIndicator\": \"N\"}}]}}"
+    }
+  ]
+}
