@@ -1,5 +1,7 @@
 import java.nio.file.Files
 import java.nio.file.Paths
+import groovy.json.JsonSlurper
+import groovy.json.JsonOutput
 
 buildscript {
     repositories {
@@ -188,11 +190,11 @@ publishing {
 }
 
 
-def esConnect(baseUrl, user, password) {
+def esConnect(baseUrl) {
     int responseCode = 0
     while (true) {
         try {
-            responseCode = esExecute(baseUrl + "/_xpack/security/role", "GET", user, password, null)
+            responseCode = esExecute("GET", "/_xpack/security/role", null)
         } catch (Exception e) {
             //continue
         }
@@ -204,13 +206,13 @@ def esConnect(baseUrl, user, password) {
     }
 }
 
-def esExecute(String urlString, String method, String user, String password, String content) {
-    URL url = new URL(urlString)
+def esExecute(String method, String path, String content) {
+    URL url = new URL(elasticBaseUrl + path)
     HttpURLConnection connection = (HttpURLConnection) url.openConnection()
     connection.setDoInput(true)
     connection.setDoOutput(true)
     connection.setRequestMethod(method)
-    String authString = user + ":" + password
+    String authString = elasticUser + ":" + elasticPassword
     String authStringEnc = authString.bytes.encodeBase64().toString()
     connection.setRequestProperty("Authorization", "Basic " + authStringEnc);
     connection.setRequestProperty("Content-Type", "application/json")
@@ -293,14 +295,17 @@ task dockerStartContainer(type: Exec, dependsOn: [checkDockerService, dockerCrea
     }
 
     doLast {
-        esConnect(elasticBaseUrl, elasticUser, elasticPassword)
+        esConnect(elasticBaseUrl)
     }
 }
 
 task dockerPopulate(dependsOn: dockerStartContainer) {
     doFirst {
-        String content = new String(Files.readAllBytes(Paths.get("$projectDir/docker/data.json"))).trim()
-        esExecute(elasticBaseUrl + "/_xpack/security/role/all", "POST", elasticUser, elasticPassword, content)
+        new JsonSlurper().parseText(new String(Files.readAllBytes(Paths.get("$projectDir/docker/data.json")))).each {
+            String [] action = it.action.toString().split("\\s")
+            String content = it.data == null ? null : JsonOutput.toJson(it.data)
+            esExecute(action[0], action[1], content)
+        }
     }
 }
 
