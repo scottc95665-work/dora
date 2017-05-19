@@ -61,4 +61,4 @@ Before commiting changes to the reporsitory please run the following to ensure t
     - option: xpack.security.enabled: false
 - Dora:
     - file: dora.yml
-    - elasticsearch.xpack.enabled: false
+    - option: elasticsearch.xpack.enabled: false
