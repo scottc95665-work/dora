@@ -14,6 +14,28 @@ For example `/dora/facilities/facility/_search` or `/dora/people/person/_search`
 
 Configuration options are available in the file config/dora.yml.
 
+### Security Configuration
+
+#### Disabling Security
+- Elasticsearch Server:
+    - file: <ELASTICSEARCH_ROOT>config/elasticsearch.yml
+    - option: xpack.security.enabled: false
+- Dora:
+    - file: <DORA_PROJECT_ROOT>/config/dora.yml
+    - option: elasticsearch.xpack.enabled: false
+
+#### Enabling Security
+- Elasticsearch Server:
+    - file: <ELASTICSEARCH_ROOT>/config/elasticsearch.yml
+    - option: xpack.security.enabled: true
+- Dora:
+    - file: <DORA_PROJECT_ROOT>/config/dora.yml
+      - option: elasticsearch.xpack.enabled: true
+    - file: <DORA_PROJECT_ROOT>/config/shiro.ini
+      - option: perryClient.serviceProviderId = dora
+      - option: perryRealm = gov.ca.cwds.auth.realms.PerryAccountRealm
+      - option: /** = noSession, perry
+
 ## Development Environment
 
 ### Prerequisites
@@ -55,10 +77,3 @@ Use the gradlew command to execute the test task:
 Before commiting changes to the reporsitory please run the following to ensure the build is successful.
 
     % ./gradlew clean test integrationTest javadoc
-### Disabling Security
-- Elasticsearch:
-    - file: elasticsearch.yml
-    - option: xpack.security.enabled: false
-- Dora:
-    - file: dora.yml
-    - option: elasticsearch.xpack.enabled: false
