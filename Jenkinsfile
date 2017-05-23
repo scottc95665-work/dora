@@ -31,12 +31,13 @@ node ('tpt2-slave'){
 		rtGradle.deployer.deployArtifacts = false
 	}
 	stage ('Build Docker'){
+	  withEnv(['ELASTIC_HOST=127.0.0.1']) {
 	        buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: 'printConfig'
 	        buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: 'dockerCreateImage'
 	        withDockerRegistry([credentialsId: '6ba8d05c-ca13-4818-8329-15d41a089ec0']) {
                     buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: 'dockerPublish'
             }
-
+    }
 	}
 	stage('Clean WorkSpace') {
 		    buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: 'dockerRemoveContainer'
