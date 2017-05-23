@@ -31,36 +31,38 @@ sourceCompatibility = 1.8
 applicationDefaultJvmArgs = ["-Djava.library.path=.:./lib:/var/lib/jenkins/workspace/API/lib:/usr/local/lib"]
 
 project.ext {
-    doraVersion = 0.21
-    configPath = "$rootProject.projectDir/config/"
+    projectVersion = 0.21
     dropwizardVersion = "1.1.0"
     metricsVersion = "3.1.0"
     dropwizardSwaggerVersion = "1.0.0-1"
+
+    dockerPort = 2376
+    buildEnv = System.env.BUILD_ENV ?: 'JENKINS'
+    
     mainclass = "gov.ca.cwds.rest.DoraApplication"
     elasticHost = System.env.ELASTIC_HOST ?: '192.168.99.100'
     elasticPort = 9200
     elasticPort2 = 9300
-    dockerPort = 2376
+    configPath = "$rootProject.projectDir/config/"
     elasticUser = 'elastic'
     elasticPassword = 'changeme'
     elasticBaseUrl = "http://" + elasticHost + ":" + elasticPort
-    targetDockerHubOrganization = System.env.DOCKERHUB_ORG ?: 'drudenko185'
-    targetDockerHubRepository = 'elasticsearch-xpack-data'
+    
+    targetDockerHubOrganization = System.env.DOCKERHUB_ORG ?: 'cwds'
+    targetDockerHubRepository = 'elasticsearch_xpack_data'
     dockerImageName = targetDockerHubOrganization + '/' + targetDockerHubRepository // like 'cwds/cals-data-model'
-    dockerContainerName = 'container-' + targetDockerHubRepository // like 'postgres-cals-data-model'
-    dockerTag = version + ((System.properties.getProperty('build') != null) ? '.' + System.properties.getProperty('build') : '')
+    dockerContainerName = targetDockerHubOrganization + '-' + targetDockerHubRepository + '-' + projectVersion
+    dockerTag = projectVersion + ((System.properties.getProperty('build') != null) ? '.' + System.properties.getProperty('build') : '')
 }
 
-version = doraVersion
+version = projectVersion
 mainClassName = mainclass
 
 repositories {
-    mavenLocal()
-    //mavenCentral()
-    maven {
-        url "http://sonar.dev.cwds.io:8081/artifactory/repo"
-        // url "https://plugins.gradle.org/m2/"
-    }
+    //mavenLocal()
+    mavenCentral()
+    maven { url "https://plugins.gradle.org/m2/" }
+    maven { url "http://sonar.dev.cwds.io:8081/artifactory/repo" }
 }
 
 shadowJar {
@@ -76,13 +78,9 @@ shadowJar {
 dependencies {
     // Dropwizard-guice 1.0.0.2 conflicts with jersey-client 2.25.
     // Exclude transitive dependencies.
-    compile('gov.ca.cwds.api:api-core:0.20.196') {
+    compile('gov.ca.cwds.api:api-core:0.22.237') {
         exclude group: 'org.glassfish.jersey.core'
     }
-
-    /*compile('gov.ca.cwds.api:api-core:0.22') {
-        exclude group: 'org.glassfish.jersey.core'
-    }*/
 
     compile group: "io.dropwizard", name: "dropwizard-client", version: dropwizardVersion
     compile group: "io.dropwizard", name: "dropwizard-views", version: dropwizardVersion
@@ -184,13 +182,13 @@ publishing {
     }
     repositories {
         maven {
-            url "http://maven2.cwds.tabordasolutions.net"
+            url "http://sonar.dev.cwds.io:8081/artifactory/libs-snapshot"
         }
     }
 }
 
 
-def esConnect(baseUrl) {
+void esConnect(baseUrl) {
     int responseCode = 0
     while (true) {
         try {
@@ -199,10 +197,10 @@ def esConnect(baseUrl) {
             //continue
         }
         if (responseCode == 200) {
-            return
+            break
         }
         println "retrying to connect to " + baseUrl + " ... "
-        sleep(5000)
+        sleep(7500)
     }
 }
 
@@ -259,7 +257,7 @@ task createBuildDir {
 
 
 task checkDockerService {
-    //enabled = buildEnv == 'WIN_DEV'
+    enabled = project.buildEnv == 'WIN_DEV'
     doFirst {
         if (!isPortOpen(elasticHost, dockerPort)) {
             throw new GradleException('Docker service is not available. Windows users should start Docker Quickstart Terminal of Docker Toolbox')
@@ -284,14 +282,13 @@ task dockerRemoveContainer(type: Exec, dependsOn: checkDockerService) {
 
 task dockerCreateImage(type: Exec, dependsOn: [checkDockerService, dockerRemoveContainer]) {
     doFirst {
-        //standardInput = new FileInputStream(file("$projectDir/Dockerfile"))
-        commandLine 'docker', 'build', '-t', dockerImageName, '-f', './docker/Dockerfile', './docker'
+        commandLine 'docker', 'build', '-t', dockerImageName, '-f', './docker-es-xpack/Dockerfile', './docker-es-xpack'
     }
 }
 
 task dockerStartContainer(type: Exec, dependsOn: [checkDockerService, dockerCreateImage]) {
     doFirst {
-        commandLine 'docker', 'run', '-d', '-e',"http.host=0.0.0.0", '-e', "transport.host=$elasticHost", "--name=$dockerContainerName", '-p', "$elasticPort:9200", '-p', "$elasticPort2:9300", dockerImageName
+        commandLine 'docker', 'run', '-d', "--name=$dockerContainerName", '-p', "$elasticPort:9200", '-p', "$elasticPort2:9300", '-e', 'http.host=0.0.0.0', '-e', 'transport.host=127.0.0.1', dockerImageName
     }
 
     doLast {
@@ -301,7 +298,7 @@ task dockerStartContainer(type: Exec, dependsOn: [checkDockerService, dockerCrea
 
 task dockerPopulate(dependsOn: dockerStartContainer) {
     doFirst {
-        new JsonSlurper().parseText(new String(Files.readAllBytes(Paths.get("$projectDir/docker/data.json")))).each {
+        new JsonSlurper().parseText(new String(Files.readAllBytes(Paths.get("$projectDir/docker-es-xpack/data.json")))).each {
             String [] action = it.action.toString().split("\\s")
             String content = it.data == null ? null : JsonOutput.toJson(it.data)
             esExecute(action[0], action[1], content)
