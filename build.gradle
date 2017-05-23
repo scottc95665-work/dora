@@ -57,10 +57,8 @@ mainClassName = mainclass
 repositories {
     //mavenLocal()
     mavenCentral()
-    maven {
-        url "http://maven2.cwds.tabordasolutions.net"
-        // url "https://plugins.gradle.org/m2/"
-    }
+    maven { url "https://plugins.gradle.org/m2/" }
+    maven { url "http://sonar.dev.cwds.io:8081/artifactory/repo" }
 }
 
 shadowJar {
@@ -76,13 +74,9 @@ shadowJar {
 dependencies {
     // Dropwizard-guice 1.0.0.2 conflicts with jersey-client 2.25.
     // Exclude transitive dependencies.
-    compile('gov.ca.cwds.api:api-core:0.20.196') {
+    compile('gov.ca.cwds.api:api-core:0.22.237') {
         exclude group: 'org.glassfish.jersey.core'
     }
-
-    /*compile('gov.ca.cwds.api:api-core:0.22') {
-        exclude group: 'org.glassfish.jersey.core'
-    }*/
 
     compile group: "io.dropwizard", name: "dropwizard-client", version: dropwizardVersion
     compile group: "io.dropwizard", name: "dropwizard-views", version: dropwizardVersion
@@ -184,7 +178,7 @@ publishing {
     }
     repositories {
         maven {
-            url "http://maven2.cwds.tabordasolutions.net"
+            url "http://sonar.dev.cwds.io:8081/artifactory/libs-snapshot"
         }
     }
 }
