@@ -288,7 +288,7 @@ task dockerCreateImage(type: Exec, dependsOn: [checkDockerService, dockerRemoveC
 
 task dockerStartContainer(type: Exec, dependsOn: [checkDockerService, dockerCreateImage]) {
     doFirst {
-        commandLine 'docker', 'run', '-d', "--name=$dockerContainerName", '-p', "$elasticPort:9200", '-p', "$elasticPort2:9300", '-e', 'http.host=127.0.0.1', '-e', 'transport.host=127.0.0.1', dockerImageName
+        commandLine 'docker', 'run', '-d', "--name=$dockerContainerName", '-p', "$elasticPort:9200", '-p', "$elasticPort2:9300", '-e', 'http.host=0.0.0.0', '-e', 'transport.host=127.0.0.1', dockerImageName
     }
 
     doLast {
