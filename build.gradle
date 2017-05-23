@@ -31,7 +31,7 @@ sourceCompatibility = 1.8
 applicationDefaultJvmArgs = ["-Djava.library.path=.:./lib:/var/lib/jenkins/workspace/API/lib:/usr/local/lib"]
 
 project.ext {
-    doraVersion = 0.21
+    projectVersion = 0.21
     dropwizardVersion = "1.1.0"
     metricsVersion = "3.1.0"
     dropwizardSwaggerVersion = "1.0.0-1"
@@ -48,14 +48,14 @@ project.ext {
     elasticPassword = 'changeme'
     elasticBaseUrl = "http://" + elasticHost + ":" + elasticPort
     
-    targetDockerHubOrganization = System.env.DOCKERHUB_ORG ?: 'drudenko185'
-    targetDockerHubRepository = 'elasticsearch-xpack-data'
+    targetDockerHubOrganization = System.env.DOCKERHUB_ORG ?: 'cwds'
+    targetDockerHubRepository = 'elasticsearch_xpack_data'
     dockerImageName = targetDockerHubOrganization + '/' + targetDockerHubRepository // like 'cwds/cals-data-model'
-    dockerContainerName = 'container-' + targetDockerHubRepository // like 'postgres-cals-data-model'
+    dockerContainerName = targetDockerHubOrganization + '-' + targetDockerHubRepository + '-' + projectVersion
     dockerTag = version + ((System.properties.getProperty('build') != null) ? '.' + System.properties.getProperty('build') : '')
 }
 
-version = doraVersion
+version = projectVersion
 mainClassName = mainclass
 
 repositories {
@@ -282,8 +282,7 @@ task dockerRemoveContainer(type: Exec, dependsOn: checkDockerService) {
 
 task dockerCreateImage(type: Exec, dependsOn: [checkDockerService, dockerRemoveContainer]) {
     doFirst {
-        //standardInput = new FileInputStream(file("$projectDir/Dockerfile"))
-        commandLine 'docker', 'build', '-t', dockerImageName, '-f', './docker/Dockerfile', './docker'
+        commandLine 'docker', 'build', '-t', dockerImageName, '-f', './docker-es-xpack/Dockerfile', './docker-es-xpack'
     }
 }
 
@@ -299,7 +298,7 @@ task dockerStartContainer(type: Exec, dependsOn: [checkDockerService, dockerCrea
 
 task dockerPopulate(dependsOn: dockerStartContainer) {
     doFirst {
-        new JsonSlurper().parseText(new String(Files.readAllBytes(Paths.get("$projectDir/docker/data.json")))).each {
+        new JsonSlurper().parseText(new String(Files.readAllBytes(Paths.get("$projectDir/docker-es-xpack/data.json")))).each {
             String [] action = it.action.toString().split("\\s")
             String content = it.data == null ? null : JsonOutput.toJson(it.data)
             esExecute(action[0], action[1], content)
