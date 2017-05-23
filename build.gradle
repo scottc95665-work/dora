@@ -7,7 +7,7 @@ buildscript {
     repositories {
         jcenter()
         maven {
-            url "https://plugins.gradle.org/m2/"
+            url "http://sonar.dev.cwds.io:8081/artifactory/repo"
         }
     }
     dependencies {
