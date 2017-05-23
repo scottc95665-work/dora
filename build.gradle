@@ -32,18 +32,22 @@ applicationDefaultJvmArgs = ["-Djava.library.path=.:./lib:/var/lib/jenkins/works
 
 project.ext {
     doraVersion = 0.21
-    configPath = "$rootProject.projectDir/config/"
     dropwizardVersion = "1.1.0"
     metricsVersion = "3.1.0"
     dropwizardSwaggerVersion = "1.0.0-1"
+
+    dockerPort = 2376
+    buildEnv = System.env.BUILD_ENV ?: 'JENKINS'
+    
     mainclass = "gov.ca.cwds.rest.DoraApplication"
     elasticHost = System.env.ELASTIC_HOST ?: '192.168.99.100'
     elasticPort = 9200
     elasticPort2 = 9300
-    dockerPort = 2376
+    configPath = "$rootProject.projectDir/config/"
     elasticUser = 'elastic'
     elasticPassword = 'changeme'
     elasticBaseUrl = "http://" + elasticHost + ":" + elasticPort
+    
     targetDockerHubOrganization = System.env.DOCKERHUB_ORG ?: 'drudenko185'
     targetDockerHubRepository = 'elasticsearch-xpack-data'
     dockerImageName = targetDockerHubOrganization + '/' + targetDockerHubRepository // like 'cwds/cals-data-model'
@@ -253,7 +257,7 @@ task createBuildDir {
 
 
 task checkDockerService {
-    //enabled = buildEnv == 'WIN_DEV'
+    enabled = project.buildEnv == 'WIN_DEV'
     doFirst {
         if (!isPortOpen(elasticHost, dockerPort)) {
             throw new GradleException('Docker service is not available. Windows users should start Docker Quickstart Terminal of Docker Toolbox')
