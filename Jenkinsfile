@@ -46,5 +46,5 @@ node ('dora-slave'){
 	}
 	}
 //	    emailext attachLog: true, body: 'For detail see log', recipientProviders: [[$class: 'DevelopersRecipientProvider']], subject: 'Cals-api unstable', to: 'Leonid.Marushevskiy@osi.ca.gov, Alex.Kuznetsov@osi.ca.gov'
-//	    cleanWs()
+	    cleanWs()
 }
