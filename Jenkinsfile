@@ -39,12 +39,10 @@ node ('dora-slave'){
             }
     }
 	}
-	// todo unlike dockerEsXpackPublish, the dockerDoraPublish command does not run any container, so maybe this all stage can be removed
-	//stage('Clean WorkSpace') {
-	//	    buildInfo = rtGradle.run buildFile: './docker-dora/build.gradle', tasks: 'dockerRemoveContainer'
-	//	    archiveArtifacts artifacts: '**/dora*.jar,readme.txt', fingerprint: true
-	//	    cleanWs()
-	//}
+    stage('Archive artifacts') {
+		    archiveArtifacts artifacts: '**/dora*.jar,readme.txt', fingerprint: true
 	}
-    //cleanWs()
+	}
+    cleanWs()
+
 }
