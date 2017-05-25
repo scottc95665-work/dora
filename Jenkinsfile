@@ -41,7 +41,7 @@ node ('dora-slave'){
 	}
 	stage('Clean WorkSpace') {
 		    buildInfo = rtGradle.run buildFile: './docker-es-xpack/build.gradle', tasks: 'dockerRemoveContainer'
-		    archiveArtifacts artifacts: '**/cals-data-model*.jar,readme.txt', fingerprint: true
+		    archiveArtifacts artifacts: '**/dora*.jar,readme.txt', fingerprint: true
 		    cleanWs()
 	}
 	}
