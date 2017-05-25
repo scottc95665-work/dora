@@ -1,0 +1,166 @@
+import groovy.json.JsonOutput
+import groovy.json.JsonSlurper
+
+import java.nio.file.Files
+import java.nio.file.Paths
+
+group projectGroup
+version projectVersion
+
+def buildEnv = System.env.BUILD_ENV ?: 'JENKINS'
+def devDockerHost = System.env.DEV_DOCKER_HOST ?: '192.168.99.100'
+def devDockerPort = 2376
+def elasticHost = buildEnv == 'WIN_DEV' ? devDockerHost : (System.env.ELASTIC_HOST ?: '127.0.0.1')
+
+project.ext {
+    elasticPort = 9200
+    elasticUser = 'elastic'
+    elasticPassword = 'changeme'
+    elasticBaseUrl = 'http://' + elasticHost + ":" + project.elasticPort
+}
+
+def targetDockerHubRepository = 'elasticsearch_xpack_data'
+def dockerImageName = targetDockerHubOrganization + '/' + targetDockerHubRepository // like 'cwds/elasticsearch_xpack_data'
+def dockerContainerName = targetDockerHubOrganization + '-' + targetDockerHubRepository + '-' + projectVersion
+def dockerTag = projectVersion + ((System.properties.getProperty('build') != null ) ? '.' + System.properties.getProperty('build') : '')
+
+def esExecute(String method, String path, String content) {
+    URL url = new URL(project.elasticBaseUrl + path)
+    HttpURLConnection connection = (HttpURLConnection) url.openConnection()
+    connection.setDoInput(true)
+    connection.setDoOutput(true)
+    connection.setRequestMethod(method)
+    String authString = project.elasticUser + ":" + project.elasticPassword
+    String authStringEnc = authString.bytes.encodeBase64().toString()
+    connection.setRequestProperty("Authorization", "Basic " + authStringEnc);
+    connection.setRequestProperty("Content-Type", "application/json")
+
+    if (content != null) {
+        OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream(), "UTF8")
+        writer.write(content);
+        writer.close();
+    }
+
+    BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF8"));
+    StringBuilder jsonString = new StringBuilder();
+    String line
+    while ((line = reader.readLine()) != null) {
+        jsonString.append(line)
+    }
+    print jsonString
+    int responseCode = connection.getResponseCode()
+    connection.disconnect()
+    return responseCode
+}
+
+void esConnect(baseUrl) {
+    int responseCode = 0
+    while (true) {
+        try {
+            responseCode = esExecute("GET", "/_xpack/security/role", null)
+        } catch (Exception e) {
+            //continue
+        }
+        if (responseCode == 200) {
+            break
+        }
+        println "retrying to connect to " + baseUrl + " ... "
+        sleep(7500)
+    }
+}
+
+def isPortOpen(host, port) {
+    try {
+        Socket socket = new Socket(host, port)
+        socket.close()
+        return true
+    } catch (IOException e) {
+        return false
+    }
+}
+
+task checkDockerService {
+    enabled = buildEnv == 'WIN_DEV'
+    doFirst {
+        if (!isPortOpen(devDockerHost, devDockerPort)) {
+            throw new GradleException('Docker service is not available. Windows users should start Docker Quickstart Terminal of Docker Toolbox')
+        }
+    }
+    doLast {
+        def dockerEnvVars = [:]
+        dockerEnvVars['DOCKER_CERT_PATH'] = System.getProperty("user.home") + '/.docker/machine/machines/default'
+        dockerEnvVars['DOCKER_HOST'] = "tcp://$devDockerHost:$devDockerPort"
+        dockerEnvVars['DOCKER_MACHINE_NAME'] = 'default'
+        dockerEnvVars['DOCKER_TLS_VERIFY'] = 1
+        tasks.withType(Exec) { environment << dockerEnvVars }
+    }
+}
+
+task dockerRemoveContainer(type: Exec, dependsOn: checkDockerService) {
+    ignoreExitValue true
+    doFirst {
+        commandLine 'docker', 'rm', '-v', '--force', dockerContainerName
+    }
+}
+
+task dockerCreateImage(type: Exec, dependsOn: [checkDockerService, dockerRemoveContainer]) {
+    doFirst {
+        commandLine 'docker', 'build', '-t', dockerImageName, '-f', "$projectDir/Dockerfile", projectDir
+    }
+}
+
+task dockerStartContainer(type: Exec, dependsOn: [checkDockerService, dockerCreateImage]) {
+    doFirst {
+        commandLine 'docker', 'run', '-d', "--name=$dockerContainerName", '-p', "$project.elasticPort:9200", '-e', "http.host=0.0.0.0", '-e', "transport.host=127.0.0.1", dockerImageName
+    }
+
+    doLast {
+        esConnect(project.elasticBaseUrl)
+    }
+}
+
+task dockerPopulate(dependsOn: dockerStartContainer) {
+    doFirst {
+        new JsonSlurper().parseText(new String(Files.readAllBytes(Paths.get("$projectDir/data.json")))).each {
+            String [] action = it.action.toString().split("\\s")
+            String content = it.data == null ? null : JsonOutput.toJson(it.data)
+            esExecute(action[0], action[1], content)
+        }
+    }
+}
+
+task dockerCommitPopulatedImage(type: Exec, dependsOn: [checkDockerService, dockerPopulate]) {
+    doFirst {
+        commandLine 'docker', 'commit', '-m', 'populated', dockerContainerName, dockerImageName
+    }
+}
+
+task dockerStopContainer(type: Exec, dependsOn: checkDockerService) {
+    doFirst {
+        commandLine 'docker', 'stop', dockerContainerName
+    }
+}
+
+task dockerTagImage(type: Exec, dependsOn: [checkDockerService, dockerCommitPopulatedImage]) {
+    doFirst {
+        commandLine 'docker', 'tag', dockerImageName, "$dockerImageName:$dockerTag"
+    }
+}
+
+task dockerPushTaggedVersion(type: Exec, dependsOn: [checkDockerService, dockerTagImage]) {
+    doFirst {
+        commandLine 'docker', 'push', "$dockerImageName:$dockerTag"
+    }
+}
+
+task dockerPushLatestVersion(type: Exec, dependsOn: [checkDockerService, dockerCommitPopulatedImage]) {
+    doFirst {
+        commandLine 'docker', 'push', "$dockerImageName:latest"
+    }
+}
+
+task dockerEsXpackPublish(dependsOn: [dockerStopContainer, dockerPushTaggedVersion, dockerPushLatestVersion]) {
+    doLast {
+        println 'Elasricsearch + X-Pack docker image is published'
+    }
+}

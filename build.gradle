@@ -1,8 +1,3 @@
-import java.nio.file.Files
-import java.nio.file.Paths
-import groovy.json.JsonSlurper
-import groovy.json.JsonOutput
-
 buildscript {
     repositories {
         jcenter()
@@ -31,28 +26,16 @@ sourceCompatibility = 1.8
 applicationDefaultJvmArgs = ["-Djava.library.path=.:./lib:/var/lib/jenkins/workspace/API/lib:/usr/local/lib"]
 
 project.ext {
-    projectVersion = 0.21
+    projectGroup = 'gov.ca.cwds.services'
+    projectVersion = '2.6-SNAPSHOT'
     dropwizardVersion = "1.1.0"
     metricsVersion = "3.1.0"
     dropwizardSwaggerVersion = "1.0.0-1"
 
-    dockerPort = 2376
-    buildEnv = System.env.BUILD_ENV ?: 'JENKINS'
-    
     mainclass = "gov.ca.cwds.rest.DoraApplication"
-    elasticHost = System.env.ELASTIC_HOST ?: '192.168.99.100'
-    elasticPort = 9200
-    elasticPort2 = 9300
     configPath = "$rootProject.projectDir/config/"
-    elasticUser = 'elastic'
-    elasticPassword = 'changeme'
-    elasticBaseUrl = "http://" + elasticHost + ":" + elasticPort
     
     targetDockerHubOrganization = System.env.DOCKERHUB_ORG ?: 'cwds'
-    targetDockerHubRepository = 'elasticsearch_xpack_data'
-    dockerImageName = targetDockerHubOrganization + '/' + targetDockerHubRepository // like 'cwds/cals-data-model'
-    dockerContainerName = targetDockerHubOrganization + '-' + targetDockerHubRepository + '-' + projectVersion
-    dockerTag = projectVersion + ((System.properties.getProperty('build') != null) ? '.' + System.properties.getProperty('build') : '')
 }
 
 version = projectVersion
@@ -124,6 +107,14 @@ dependencies {
     testCompile group: 'com.google.errorprone', name: 'error_prone_annotations', version: '2.0.19'
 }
 
+task printConfig {
+    doLast {
+        project.ext.properties
+                .sort { e1, e2 -> e1.key <=> e2.key }
+                .each { k, v -> println "${k} = " + v }
+    }
+}
+
 tasks.withType(Test) {
     enableAssertions = true
 
@@ -175,8 +166,8 @@ publishing {
     publications {
         library(MavenPublication) {
             from components.java
-            groupId 'gov.ca.cwds.services'
-            artifactId 'dora'
+            groupId projectGroup
+            artifactId rootProject.name
             version version + ((System.properties.getProperty('build') != null) ? '.' + System.properties.getProperty('build') : '')
         }
     }
@@ -184,160 +175,5 @@ publishing {
         maven {
             url "http://sonar.dev.cwds.io:8081/artifactory/libs-snapshot"
         }
-    }
-}
-
-
-void esConnect(baseUrl) {
-    int responseCode = 0
-    while (true) {
-        try {
-            responseCode = esExecute("GET", "/_xpack/security/role", null)
-        } catch (Exception e) {
-            //continue
-        }
-        if (responseCode == 200) {
-            break
-        }
-        println "retrying to connect to " + baseUrl + " ... "
-        sleep(7500)
-    }
-}
-
-def esExecute(String method, String path, String content) {
-    URL url = new URL(elasticBaseUrl + path)
-    HttpURLConnection connection = (HttpURLConnection) url.openConnection()
-    connection.setDoInput(true)
-    connection.setDoOutput(true)
-    connection.setRequestMethod(method)
-    String authString = elasticUser + ":" + elasticPassword
-    String authStringEnc = authString.bytes.encodeBase64().toString()
-    connection.setRequestProperty("Authorization", "Basic " + authStringEnc);
-    connection.setRequestProperty("Content-Type", "application/json")
-
-    if (content != null) {
-        OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream(), "UTF8")
-        writer.write(content);
-        writer.close();
-    }
-
-    BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF8"));
-    StringBuilder jsonString = new StringBuilder();
-    String line
-    while ((line = reader.readLine()) != null) {
-        jsonString.append(line)
-    }
-    print jsonString
-    int responseCode = connection.getResponseCode()
-    connection.disconnect()
-    return responseCode
-}
-
-def isPortOpen(host, port) {
-    try {
-        Socket socket = new Socket(host, port)
-        socket.close()
-        return true
-    } catch (IOException e) {
-        return false
-    }
-}
-
-task printConfig {
-    doLast {
-        project.ext.properties
-                .sort { e1, e2 -> e1.key <=> e2.key }
-                .each { k, v -> println "${k} = " + v }
-    }
-}
-
-task createBuildDir {
-    mkdir project.buildDir
-}
-
-
-task checkDockerService {
-    enabled = project.buildEnv == 'WIN_DEV'
-    doFirst {
-        if (!isPortOpen(elasticHost, dockerPort)) {
-            throw new GradleException('Docker service is not available. Windows users should start Docker Quickstart Terminal of Docker Toolbox')
-        }
-    }
-    doLast {
-        def dockerEnvVars = [:]
-        dockerEnvVars['DOCKER_CERT_PATH'] = System.getProperty("user.home") + '/.docker/machine/machines/default'
-        dockerEnvVars['DOCKER_HOST'] = "tcp://$elasticHost:$dockerPort"
-        dockerEnvVars['DOCKER_MACHINE_NAME'] = 'default'
-        dockerEnvVars['DOCKER_TLS_VERIFY'] = 1
-        tasks.withType(Exec) { environment << dockerEnvVars }
-    }
-}
-
-task dockerRemoveContainer(type: Exec, dependsOn: checkDockerService) {
-    ignoreExitValue true
-    doFirst {
-        commandLine 'docker', 'rm', '-v', '--force', dockerContainerName
-    }
-}
-
-task dockerCreateImage(type: Exec, dependsOn: [checkDockerService, dockerRemoveContainer]) {
-    doFirst {
-        commandLine 'docker', 'build', '-t', dockerImageName, '-f', './docker-es-xpack/Dockerfile', './docker-es-xpack'
-    }
-}
-
-task dockerStartContainer(type: Exec, dependsOn: [checkDockerService, dockerCreateImage]) {
-    doFirst {
-        commandLine 'docker', 'run', '-d', "--name=$dockerContainerName", '-p', "$elasticPort:9200", '-p', "$elasticPort2:9300", '-e', 'http.host=0.0.0.0', '-e', 'transport.host=127.0.0.1', dockerImageName
-    }
-
-    doLast {
-        esConnect(elasticBaseUrl)
-    }
-}
-
-task dockerPopulate(dependsOn: dockerStartContainer) {
-    doFirst {
-        new JsonSlurper().parseText(new String(Files.readAllBytes(Paths.get("$projectDir/docker-es-xpack/data.json")))).each {
-            String [] action = it.action.toString().split("\\s")
-            String content = it.data == null ? null : JsonOutput.toJson(it.data)
-            esExecute(action[0], action[1], content)
-        }
-    }
-}
-
-task dockerCommitPopulatedImage(type: Exec, dependsOn: [checkDockerService, dockerPopulate]) {
-    doFirst {
-        commandLine 'docker', 'commit', '-m', 'populated', dockerContainerName, dockerImageName
-    }
-}
-
-task dockerStopContainer(type: Exec, dependsOn: checkDockerService) {
-    doFirst {
-        commandLine 'docker', 'stop', dockerContainerName
-    }
-}
-
-task dockerTagImage(type: Exec, dependsOn: [checkDockerService, dockerCommitPopulatedImage]) {
-    doFirst {
-        commandLine 'docker', 'tag', dockerImageName, "$dockerImageName:$dockerTag"
-    }
-}
-
-task dockerPushTaggedVersion(type: Exec, dependsOn: [checkDockerService, dockerTagImage]) {
-    doFirst {
-        commandLine 'docker', 'push', "$dockerImageName:$dockerTag"
-    }
-}
-
-task dockerPushLatestVersion(type: Exec, dependsOn: [checkDockerService, dockerCommitPopulatedImage]) {
-    doFirst {
-        commandLine 'docker', 'push', "$dockerImageName:latest"
-    }
-}
-
-task dockerPublish(dependsOn: [dockerStopContainer, dockerPushTaggedVersion, dockerPushLatestVersion]) {
-    doLast {
-        println 'Published'
     }
 }
