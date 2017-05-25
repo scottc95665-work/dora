@@ -45,7 +45,7 @@ node ('dora-slave'){
 		    archiveArtifacts artifacts: '**/dora*.jar,readme.txt', fingerprint: true
 		    cleanWs()
 	}
+	*/
 	}
-    cleanWs()
-    */
+    //cleanWs()
 }
