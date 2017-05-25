@@ -4,25 +4,18 @@ import groovy.json.JsonSlurper
 import java.nio.file.Files
 import java.nio.file.Paths
 
-group projectGroup
-version projectVersion
-
-def buildEnv = System.env.BUILD_ENV ?: 'JENKINS'
-def devDockerHost = System.env.DEV_DOCKER_HOST ?: '192.168.99.100'
-def devDockerPort = 2376
-def elasticHost = buildEnv == 'WIN_DEV' ? devDockerHost : (System.env.ELASTIC_HOST ?: '127.0.0.1')
-
 project.ext {
+    elasticHost = project.buildEnv == 'WIN_DEV' ? project.devDockerHost : (System.env.ELASTIC_HOST ?: '127.0.0.1')
     elasticPort = 9200
     elasticUser = 'elastic'
     elasticPassword = 'changeme'
-    elasticBaseUrl = 'http://' + elasticHost + ":" + project.elasticPort
+    elasticBaseUrl = 'http://' + project.elasticHost + ":" + project.elasticPort
 }
 
 def targetDockerHubRepository = 'elasticsearch_xpack_data'
 def dockerImageName = targetDockerHubOrganization + '/' + targetDockerHubRepository // like 'cwds/elasticsearch_xpack_data'
 def dockerContainerName = targetDockerHubOrganization + '-' + targetDockerHubRepository + '-' + projectVersion
-def dockerTag = projectVersion + ((System.properties.getProperty('build') != null ) ? '.' + System.properties.getProperty('build') : '')
+def dockerTag = projectVersion
 
 def esExecute(String method, String path, String content) {
     URL url = new URL(project.elasticBaseUrl + path)
@@ -69,47 +62,20 @@ void esConnect(baseUrl) {
     }
 }
 
-def isPortOpen(host, port) {
-    try {
-        Socket socket = new Socket(host, port)
-        socket.close()
-        return true
-    } catch (IOException e) {
-        return false
-    }
-}
-
-task checkDockerService {
-    enabled = buildEnv == 'WIN_DEV'
-    doFirst {
-        if (!isPortOpen(devDockerHost, devDockerPort)) {
-            throw new GradleException('Docker service is not available. Windows users should start Docker Quickstart Terminal of Docker Toolbox')
-        }
-    }
-    doLast {
-        def dockerEnvVars = [:]
-        dockerEnvVars['DOCKER_CERT_PATH'] = System.getProperty("user.home") + '/.docker/machine/machines/default'
-        dockerEnvVars['DOCKER_HOST'] = "tcp://$devDockerHost:$devDockerPort"
-        dockerEnvVars['DOCKER_MACHINE_NAME'] = 'default'
-        dockerEnvVars['DOCKER_TLS_VERIFY'] = 1
-        tasks.withType(Exec) { environment << dockerEnvVars }
-    }
-}
-
-task dockerRemoveContainer(type: Exec, dependsOn: checkDockerService) {
+task dockerRemoveContainer(type: Exec, dependsOn: project.parent.checkDockerService) {
     ignoreExitValue true
     doFirst {
         commandLine 'docker', 'rm', '-v', '--force', dockerContainerName
     }
 }
 
-task dockerCreateImage(type: Exec, dependsOn: [checkDockerService, dockerRemoveContainer]) {
+task dockerCreateImage(type: Exec, dependsOn: [project.parent.checkDockerService, dockerRemoveContainer]) {
     doFirst {
         commandLine 'docker', 'build', '-t', dockerImageName, '-f', "$projectDir/Dockerfile", projectDir
     }
 }
 
-task dockerStartContainer(type: Exec, dependsOn: [checkDockerService, dockerCreateImage]) {
+task dockerStartContainer(type: Exec, dependsOn: [project.parent.checkDockerService, dockerCreateImage]) {
     doFirst {
         commandLine 'docker', 'run', '-d', "--name=$dockerContainerName", '-p', "$project.elasticPort:9200", '-e', "http.host=0.0.0.0", '-e', "transport.host=127.0.0.1", dockerImageName
     }
@@ -129,31 +95,31 @@ task dockerPopulate(dependsOn: dockerStartContainer) {
     }
 }
 
-task dockerCommitPopulatedImage(type: Exec, dependsOn: [checkDockerService, dockerPopulate]) {
+task dockerCommitPopulatedImage(type: Exec, dependsOn: [project.parent.checkDockerService, dockerPopulate]) {
     doFirst {
         commandLine 'docker', 'commit', '-m', 'populated', dockerContainerName, dockerImageName
     }
 }
 
-task dockerStopContainer(type: Exec, dependsOn: checkDockerService) {
+task dockerStopContainer(type: Exec, dependsOn: project.parent.checkDockerService) {
     doFirst {
         commandLine 'docker', 'stop', dockerContainerName
     }
 }
 
-task dockerTagImage(type: Exec, dependsOn: [checkDockerService, dockerCommitPopulatedImage]) {
+task dockerTagImage(type: Exec, dependsOn: [project.parent.checkDockerService, dockerCommitPopulatedImage]) {
     doFirst {
         commandLine 'docker', 'tag', dockerImageName, "$dockerImageName:$dockerTag"
     }
 }
 
-task dockerPushTaggedVersion(type: Exec, dependsOn: [checkDockerService, dockerTagImage]) {
+task dockerPushTaggedVersion(type: Exec, dependsOn: [project.parent.checkDockerService, dockerTagImage]) {
     doFirst {
         commandLine 'docker', 'push', "$dockerImageName:$dockerTag"
     }
 }
 
-task dockerPushLatestVersion(type: Exec, dependsOn: [checkDockerService, dockerCommitPopulatedImage]) {
+task dockerPushLatestVersion(type: Exec, dependsOn: [project.parent.checkDockerService, dockerCommitPopulatedImage]) {
     doFirst {
         commandLine 'docker', 'push', "$dockerImageName:latest"
     }

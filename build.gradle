@@ -36,6 +36,10 @@ project.ext {
     configPath = "$rootProject.projectDir/config/"
     
     targetDockerHubOrganization = System.env.DOCKERHUB_ORG ?: 'cwds'
+
+    buildEnv = System.env.BUILD_ENV ?: 'JENKINS'
+    devDockerHost = System.env.DEV_DOCKER_HOST ?: '192.168.99.100'
+    devDockerPort = 2376
 }
 
 version = projectVersion
@@ -55,7 +59,7 @@ shadowJar {
     manifest {
         attributes 'Main-Class': mainclass
     }
-    version = ''
+    version = projectVersion
 }
 
 dependencies {
@@ -174,6 +178,38 @@ publishing {
     repositories {
         maven {
             url "http://sonar.dev.cwds.io:8081/artifactory/libs-snapshot"
+        }
+    }
+}
+
+// reused in sub-modules
+def isPortOpen(host, port) {
+    try {
+        Socket socket = new Socket(host, port)
+        socket.close()
+        return true
+    } catch (IOException e) {
+        return false
+    }
+}
+
+// reused in sub-modules
+task checkDockerService {
+    enabled = project.buildEnv == 'WIN_DEV'
+    doFirst {
+        if (!isPortOpen(project.devDockerHost, project.devDockerPort)) {
+            throw new GradleException('Docker service is not available. Windows users should start Docker Quickstart Terminal of Docker Toolbox')
+        }
+    }
+    doLast {
+        def dockerEnvVars = [:]
+        dockerEnvVars['DOCKER_CERT_PATH'] = System.getProperty("user.home") + '/.docker/machine/machines/default'
+        dockerEnvVars['DOCKER_HOST'] = "tcp://$project.devDockerHost:$project.devDockerPort"
+        dockerEnvVars['DOCKER_MACHINE_NAME'] = 'default'
+        dockerEnvVars['DOCKER_TLS_VERIFY'] = 1
+
+        childProjects.each {
+            k, childProject -> childProject.tasks.withType(Exec) { environment << dockerEnvVars }
         }
     }
 }

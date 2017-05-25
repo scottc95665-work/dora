@@ -33,17 +33,19 @@ node ('dora-slave'){
 	stage ('Build Docker'){
 	  withEnv(['ELASTIC_HOST=127.0.0.1']) {
 	        buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: 'printConfig'
-	        buildInfo = rtGradle.run buildFile: './docker-es-xpack/build.gradle', tasks: 'dockerCreateImage'
+	        buildInfo = rtGradle.run buildFile: './docker-dora/build.gradle', tasks: 'dockerCreateImage'
 	        withDockerRegistry([credentialsId: '6ba8d05c-ca13-4818-8329-15d41a089ec0']) {
-                    buildInfo = rtGradle.run buildFile: './docker-es-xpack/build.gradle', tasks: 'dockerEsXpackPublish'
+                    buildInfo = rtGradle.run buildFile: './docker-dora/build.gradle', tasks: 'dockerDoraPublish'
             }
     }
 	}
+	/* todo unlike dockerEsXpackPublish, the dockerDoraPublish command does not run any container, so maybe this all stage can be removed
 	stage('Clean WorkSpace') {
-		    buildInfo = rtGradle.run buildFile: './docker-es-xpack/build.gradle', tasks: 'dockerRemoveContainer'
+		    buildInfo = rtGradle.run buildFile: './docker-dora/build.gradle', tasks: 'dockerRemoveContainer'
 		    archiveArtifacts artifacts: '**/dora*.jar,readme.txt', fingerprint: true
 		    cleanWs()
 	}
 	}
     cleanWs()
+    */
 }

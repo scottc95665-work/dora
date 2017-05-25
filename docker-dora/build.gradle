@@ -1,0 +1,58 @@
+def targetDockerHubRepository = rootProject.name
+def dockerImageName = targetDockerHubOrganization + '/' + targetDockerHubRepository // like 'cwds/elasticsearch_xpack_data'
+def dockerTag = projectVersion
+
+def doraDistFileName = "dora-${projectVersion}-dist.jar" // as shadowJar makes it
+def dockerContextDir = "$project.parent.buildDir/docker-dora"
+
+task dockerCopyConfig(type: Copy) {
+    from "$project.parent.projectDir/config"
+    into "$dockerContextDir/config"
+    include 'dora.yml'
+    include 'shiro.ini'
+}
+
+task dockerCopyDist(type: Copy, dependsOn: project.parent.shadowJar) {
+    from "$project.parent.buildDir/libs"
+    into "$dockerContextDir/libs"
+    include doraDistFileName
+}
+
+task dockerfile(type: Copy) {
+    from file("$projectDir/Dockerfile-dora.template")
+    into dockerContextDir
+    rename { file -> 'Dockerfile-dora' }
+    expand(
+        dora_dist_file_name: doraDistFileName
+    )
+}
+
+task dockerCreateImage(type: Exec, dependsOn: [project.parent.checkDockerService, dockerCopyConfig, dockerCopyDist, dockerfile]) {
+    doFirst {
+        commandLine 'docker', 'build', '-t', dockerImageName, '-f', "$dockerContextDir/Dockerfile-dora", dockerContextDir
+    }
+}
+
+task dockerTagImage(type: Exec, dependsOn: [project.parent.checkDockerService, dockerCreateImage]) {
+    doFirst {
+        commandLine 'docker', 'tag', dockerImageName, "$dockerImageName:$dockerTag"
+    }
+}
+
+task dockerPushTaggedVersion(type: Exec, dependsOn: [project.parent.checkDockerService, dockerTagImage]) {
+    doFirst {
+        commandLine 'docker', 'push', "$dockerImageName:$dockerTag"
+    }
+}
+
+task dockerPushLatestVersion(type: Exec, dependsOn: [project.parent.checkDockerService, dockerCreateImage]) {
+    doFirst {
+        commandLine 'docker', 'push', "$dockerImageName:latest"
+    }
+}
+
+task dockerDoraPublish(dependsOn: [dockerPushTaggedVersion, dockerPushLatestVersion]) {
+    doLast {
+        println "Dora $projectVersion is published"
+    }
+}
