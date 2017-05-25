@@ -77,3 +77,17 @@ Use the gradlew command to execute the test task:
 Before commiting changes to the reporsitory please run the following to ensure the build is successful.
 
     % ./gradlew clean test integrationTest javadoc
+
+## Running docker container with Dora
+
+    % ./docker pull cwds/dora
+    % ./docker run -d --name=<container name> -p 8080:8080 -e ES_HOST=<ELASTICSEARCH_IP> -e ES_PORT=9200 cwds/dora
+
+For example:
+
+    % docker run -d --name=dora1 -p 8080:8080 -e ES_HOST=192.168.56.1 -e ES_PORT=9200 cwds/dora
+
+Assuming that Dora's IP address is 192.168.99.100, the Dora should be able to handle POST requests to URLs like:
+
+    % http://192.168.99.100:8080/dora/people/person/_search
+    % http://192.168.99.100:8080/dora/facilities/facilitiy/_search

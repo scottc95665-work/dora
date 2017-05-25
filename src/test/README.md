@@ -47,3 +47,12 @@ body: {
 
 ```http://localhost:9200/people/person/_search```
 
+5. Check with some other REST client:
+
+```
+curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{ \ 
+           "query" : { \ 
+               "term" : { "name" : "John" } \ 
+           } \ 
+       }' 'http://localhost:8080/dora/people/person/_search'
+```
