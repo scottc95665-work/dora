@@ -48,6 +48,7 @@ node ('dora-slave'){
 	   cleanWs()
        slackSend channel: "#cals-api", baseUrl: 'https://hooks.slack.com/services/', tokenCredentialId: 'slackmessagetpt2', message: "Build Succes: ${env.JOB_NAME} ${env.BUILD_NUMBER}"
 	}
+	}
     cleanWs()
 
 }
