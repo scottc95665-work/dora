@@ -107,7 +107,7 @@ task dockerStopContainer(type: Exec, dependsOn: project.parent.checkDockerServic
     }
 }
 
-task dockerTagImage(type: Exec, dependsOn: [project.parent.checkDockerService, dockerCommitPopulatedImage]) {
+task dockerTagImage(type: Exec, dependsOn: project.parent.checkDockerService) {
     doFirst {
         commandLine 'docker', 'tag', dockerImageName, "$dockerImageName:$dockerTag"
     }
@@ -119,13 +119,13 @@ task dockerPushTaggedVersion(type: Exec, dependsOn: [project.parent.checkDockerS
     }
 }
 
-task dockerPushLatestVersion(type: Exec, dependsOn: [project.parent.checkDockerService, dockerCommitPopulatedImage]) {
+task dockerPushLatestVersion(type: Exec, dependsOn: project.parent.checkDockerService) {
     doFirst {
         commandLine 'docker', 'push', "$dockerImageName:latest"
     }
 }
 
-task dockerEsXpackPublish(dependsOn: [dockerStopContainer, dockerPushTaggedVersion, dockerPushLatestVersion]) {
+task dockerEsXpackPublish(dependsOn: [dockerCommitPopulatedImage, dockerStopContainer, dockerPushTaggedVersion, dockerPushLatestVersion]) {
     doLast {
         println 'Elasricsearch + X-Pack docker image is published'
     }
