@@ -33,7 +33,7 @@ task dockerCreateImage(type: Exec, dependsOn: [project.parent.checkDockerService
     }
 }
 
-task dockerTagImage(type: Exec, dependsOn: [project.parent.checkDockerService, dockerCreateImage]) {
+task dockerTagImage(type: Exec, dependsOn: project.parent.checkDockerService) {
     doFirst {
         commandLine 'docker', 'tag', dockerImageName, "$dockerImageName:$dockerTag"
     }
@@ -45,13 +45,13 @@ task dockerPushTaggedVersion(type: Exec, dependsOn: [project.parent.checkDockerS
     }
 }
 
-task dockerPushLatestVersion(type: Exec, dependsOn: [project.parent.checkDockerService, dockerCreateImage]) {
+task dockerPushLatestVersion(type: Exec, dependsOn: project.parent.checkDockerService) {
     doFirst {
         commandLine 'docker', 'push', "$dockerImageName:latest"
     }
 }
 
-task dockerDoraPublish(dependsOn: [dockerPushTaggedVersion, dockerPushLatestVersion]) {
+task dockerDoraPublish(dependsOn: [dockerCreateImage, dockerPushTaggedVersion, dockerPushLatestVersion]) {
     doLast {
         println "Dora $projectVersion is published"
     }
