@@ -57,7 +57,7 @@ void esConnect(baseUrl) {
         if (responseCode == 200) {
             break
         }
-        println "retrying to connect to " + baseUrl + " ... "
+        println "\nretrying to connect to " + baseUrl + " ... "
         sleep(7500)
     }
 }
@@ -73,6 +73,7 @@ task dockerCreateImage(type: Exec, dependsOn: [project.parent.checkDockerService
     doFirst {
         commandLine 'docker', 'build', '-t', dockerImageName, '-f', "$projectDir/Dockerfile", projectDir
     }
+    dockerRemoveContainer.mustRunAfter(project.parent.checkDockerService)
 }
 
 task dockerStartContainer(type: Exec, dependsOn: [project.parent.checkDockerService, dockerCreateImage]) {
@@ -83,6 +84,8 @@ task dockerStartContainer(type: Exec, dependsOn: [project.parent.checkDockerServ
     doLast {
         esConnect(project.elasticBaseUrl)
     }
+    
+    dockerCreateImage.mustRunAfter(project.parent.checkDockerService)
 }
 
 task dockerPopulate(dependsOn: dockerStartContainer) {
@@ -99,6 +102,7 @@ task dockerCommitPopulatedImage(type: Exec, dependsOn: [project.parent.checkDock
     doFirst {
         commandLine 'docker', 'commit', '-m', 'populated', dockerContainerName, dockerImageName
     }
+    dockerPopulate.mustRunAfter(project.parent.checkDockerService)
 }
 
 task dockerStopContainer(type: Exec, dependsOn: project.parent.checkDockerService) {
@@ -117,6 +121,7 @@ task dockerPushTaggedVersion(type: Exec, dependsOn: [project.parent.checkDockerS
     doFirst {
         commandLine 'docker', 'push', "$dockerImageName:$dockerTag"
     }
+    dockerTagImage.mustRunAfter(project.parent.checkDockerService)
 }
 
 task dockerPushLatestVersion(type: Exec, dependsOn: project.parent.checkDockerService) {
@@ -127,6 +132,9 @@ task dockerPushLatestVersion(type: Exec, dependsOn: project.parent.checkDockerSe
 
 task dockerEsXpackPublish(dependsOn: [dockerCommitPopulatedImage, dockerStopContainer, dockerPushTaggedVersion, dockerPushLatestVersion]) {
     doLast {
-        println 'Elasricsearch + X-Pack docker image is published'
+        println '\nElasricsearch + X-Pack docker image is published'
     }
+    dockerStopContainer.mustRunAfter(dockerCommitPopulatedImage)
+    dockerPushTaggedVersion.mustRunAfter(dockerStopContainer)
+    dockerPushLatestVersion.mustRunAfter(dockerStopContainer)
 }

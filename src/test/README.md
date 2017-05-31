@@ -42,6 +42,14 @@ body: {
           }
       }
 ```
+or, to fetch all data:
+```
+body: {
+    "query" : {
+        "match_all" : {}
+    }
+}
+```
 
 4. Check with Elasticsearch directly:
 

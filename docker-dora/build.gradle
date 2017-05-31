@@ -43,6 +43,7 @@ task dockerPushTaggedVersion(type: Exec, dependsOn: [project.parent.checkDockerS
     doFirst {
         commandLine 'docker', 'push', "$dockerImageName:$dockerTag"
     }
+    dockerTagImage.mustRunAfter(project.parent.checkDockerService)
 }
 
 task dockerPushLatestVersion(type: Exec, dependsOn: project.parent.checkDockerService) {
@@ -53,6 +54,8 @@ task dockerPushLatestVersion(type: Exec, dependsOn: project.parent.checkDockerSe
 
 task dockerDoraPublish(dependsOn: [dockerCreateImage, dockerPushTaggedVersion, dockerPushLatestVersion]) {
     doLast {
-        println "Dora $projectVersion is published"
+        println "\nDora $projectVersion is published"
     }
+    dockerPushTaggedVersion.mustRunAfter(dockerCreateImage)
+    dockerPushLatestVersion.mustRunAfter(dockerCreateImage)
 }
