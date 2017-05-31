@@ -86,6 +86,10 @@ Before commiting changes to the reporsitory please run the following to ensure t
 For example:
 
     % docker run -d --name=dora1 -p 8080:8080 -e ES_HOST=192.168.56.1 -e ES_PORT=9200 cwds/dora
+    
+Add `-e SHOW_SWAGGER=true` to turn on swagger for development purposes:
+
+    % docker run -d --name=dora1 -p 8080:8080 -e ES_HOST=192.168.56.1 -e ES_PORT=9200 -e SHOW_SWAGGER=true cwds/dora
 
 Assuming that Dora's IP address is 192.168.99.100, the Dora should be able to handle **POST** requests to URLs like:
 
@@ -107,3 +111,15 @@ curl -X POST --header 'Content-Type: application/json' --header 'Accept: applica
 Assuming that Dora's IP address is 192.168.99.100, the Dora should be able to handle **GET** requests like:
 
     % curl -X GET --header 'Accept: application/json' http://192.168.99.100:8080/application
+
+## Running docker container with Elasticsearch + X-Pack
+
+There is a Docker Image with Elasticsearch 5.3.2 and X-Pack.
+
+Pull the Docker image:
+
+    % docker pull cwds/elasticsearch_xpack_data
+
+Run the container:
+
+    % docker run -d --name=<container name>  -p 9200:9200 -p 9300:9300 cwds/elasticsearch_xpack_data
