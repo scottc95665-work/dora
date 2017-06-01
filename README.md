@@ -78,6 +78,16 @@ Before commiting changes to the reporsitory please run the following to ensure t
 
     % ./gradlew clean test integrationTest javadoc
 
+## Building and publishing docker image with Dora
+ 
+The following command will build a versioned docker image with Dora and publish it to DockerHub as `cwds/dora` 
+
+    % ./gradlew :docker-dora:dockerDoraPublish
+
+A developer might want to set the following environment variables prior running that command locally: 
+- BUILD_ENV=WIN_DEV
+- DOCKERHUB_ORG=\<own Docker ID\>
+
 ## Running docker container with Dora
 
     % ./docker pull cwds/dora
@@ -111,6 +121,18 @@ curl -X POST --header 'Content-Type: application/json' --header 'Accept: applica
 Assuming that Dora's IP address is 192.168.99.100, the Dora should be able to handle **GET** requests like:
 
     % curl -X GET --header 'Accept: application/json' http://192.168.99.100:8080/application
+
+## Building and publishing docker image with Elasticsearch + X-Pack
+ 
+The following command will build a versioned docker image with Elasticsearch 5.3.2 + X-Pack and publish it to DockerHub as `cwds/elasticsearch_xpack_data` 
+
+    % ./gradlew :docker-es-xpack:dockerEsXpackPublish
+    
+A developer might want to set the following environment variables prior running that command locally: 
+- BUILD_ENV=WIN_DEV
+- DOCKERHUB_ORG=\<own Docker ID\>
+
+_**It is not recommended to publish the docker image with Elasticsearch + X-Pack to public repository**_
 
 ## Running docker container with Elasticsearch + X-Pack
 
