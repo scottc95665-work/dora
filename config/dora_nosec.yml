@@ -2,7 +2,7 @@ applicationName: CWDS Dora
 version: ${APP_VERSION:-local}
 
 shiro:
-  iniConfigs: ["file:${SHIRO_CONFIG_PATH:-config/shiro.ini}"]
+  iniConfigs: ["file:${SHIRO_CONFIG_PATH:-config/shiro_nosec.ini}"]
   
 swagger:
   templateName: swagger.mustache
@@ -18,7 +18,7 @@ elasticsearch:
   host: ${ES_HOST:-es.dev.cwds.tabordasolutions.net}
   port: ${ES_PORT:-9200}
   xpack:
-    enabled: ${XPACK_ENABLED:-true}
+    enabled: false
     user: elastic
     password: changeme
 
