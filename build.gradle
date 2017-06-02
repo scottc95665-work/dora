@@ -27,7 +27,7 @@ applicationDefaultJvmArgs = ["-Djava.library.path=.:./lib:/var/lib/jenkins/works
 
 project.ext {
     projectGroup = 'gov.ca.cwds.services'
-    projectVersion = '2.6-SNAPSHOT'
+    projectVersion = '2.6'
     dropwizardVersion = "1.1.0"
     metricsVersion = "3.1.0"
     dropwizardSwaggerVersion = "1.0.0-1"
