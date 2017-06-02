@@ -123,6 +123,10 @@ Assuming that Dora's IP address is 192.168.99.100, the Dora should be able to ha
 Security is enabled by default in Dora. To run Dora in secured mode, simply omit `-e XPACK_ENABLED=false` from the docker commands above.
 Or use `-e XPACK_ENABLED=true`.
 
+Add `-e LOGIN_URL=…` to configure Perry location which is used when you click the login button on the swagger UI.
+
+For example: `-e LOGIN_URL=http://localhost:8090/authn/login`
+
 ## Building and publishing docker image with Elasticsearch + X-Pack
  
 The following command will build a versioned docker image with Elasticsearch 5.3.2 + X-Pack and publish it to DockerHub as `cwds/elasticsearch_xpack_data` 
