@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ -z "$XPACK_ENABLED" || "$XPACK_ENABLED" ]; then
+if ([ -z "$XPACK_ENABLED" ] || $XPACK_ENABLED); then
   echo "X-PACK enabled"
   DORA_CONFIG="config/dora.yml"
 else
@@ -8,4 +8,4 @@ else
   DORA_CONFIG="config/dora_nosec.yml"
 fi
 
-java -jar dora.jar server ${dora_config}
+java -jar dora.jar server ${DORA_CONFIG}
