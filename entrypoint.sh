@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ -z "$XPACK_ENABLED" ]; then
+if [ -z "$XPACK_ENABLED" || "$XPACK_ENABLED" ]; then
   echo "X-PACK disabled"
   DORA_CONFIG="config/dora_nosec.yml"
 else

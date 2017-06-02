@@ -2,7 +2,7 @@ FROM cwds/javajdk
 RUN mkdir /opt/cwds-dora
 RUN mkdir /opt/cwds-dora/logs
 ADD config/* /opt/cwds-dora/config/
-ADD ./entrypoint.sh /opt/cwds-dora/entrypoint.sh
+ADD entrypoint.sh /opt/cwds-dora/entrypoint.sh
 ADD libs/${dora_dist_file_name} /opt/cwds-dora/${dora_dist_file_name}
 EXPOSE 8080
 WORKDIR /opt/cwds-dora
