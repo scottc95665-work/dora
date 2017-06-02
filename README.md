@@ -18,23 +18,17 @@ Configuration options are available in the file config/dora.yml.
 
 #### Disabling Security
 - Elasticsearch Server:
-    - file: <ELASTICSEARCH_ROOT>config/elasticsearch.yml
-    - option: xpack.security.enabled: false
+    - file: `<ELASTICSEARCH_ROOT>/config/elasticsearch.yml`
+    - option: `xpack.security.enabled: false`
 - Dora:
-    - file: <DORA_PROJECT_ROOT>/config/dora.yml
-    - option: elasticsearch.xpack.enabled: false
+    - file: `<DORA_PROJECT_ROOT>/config/dora_nosec.yml` (note **_nosec** suffix)
 
 #### Enabling Security
 - Elasticsearch Server:
-    - file: <ELASTICSEARCH_ROOT>/config/elasticsearch.yml
-    - option: xpack.security.enabled: true
+    - file: `<ELASTICSEARCH_ROOT>/config/elasticsearch.yml`
+    - option: `xpack.security.enabled: true`
 - Dora:
-    - file: <DORA_PROJECT_ROOT>/config/dora.yml
-      - option: elasticsearch.xpack.enabled: true
-    - file: <DORA_PROJECT_ROOT>/config/shiro.ini
-      - option: perryClient.serviceProviderId = dora
-      - option: perryRealm = gov.ca.cwds.auth.realms.PerryAccountRealm
-      - option: /** = noSession, perry
+    - use configuration file with pre-configured security: `<DORA_PROJECT_ROOT>/config/dora.yml`
 
 ## Development Environment
 
@@ -51,6 +45,7 @@ Configuration options are available in the file config/dora.yml.
 - APP_ADMIN_PORT - default: `8081`
 - LOGIN_URL - default: `http://localhost:8090/authn/login`
 - SHOW_SWAGGER - set to `true` to have a link like `http://localhost:8080/swagger` (default: `false`)
+- XPACK_ENABLED - true/false, has effect only when used while running a docker container based on the cwds/dora
 
 ### Run Dora
 
@@ -88,23 +83,24 @@ A developer might want to set the following environment variables prior running 
 - BUILD_ENV=WIN_DEV
 - DOCKERHUB_ORG=\<own Docker ID\>
 
-## Running docker container with Dora
+## Running docker container with Dora in non-secured mode
 
-    % ./docker pull cwds/dora
-    % ./docker run -d --name=<container name> -p 8080:8080 -e ES_HOST=<ELASTICSEARCH_IP> -e ES_PORT=9200 cwds/dora
+    % docker pull cwds/dora
+    % docker run -d --name=<container name> -p 8080:8080 -e ES_HOST=<ELASTICSEARCH_IP> -e ES_PORT=9200 -e XPACK_ENABLED=false cwds/dora
 
 For example:
 
-    % docker run -d --name=dora1 -p 8080:8080 -e ES_HOST=192.168.56.1 -e ES_PORT=9200 cwds/dora
+    % docker run -d --name=dora1 -p 8080:8080 -e ES_HOST=192.168.56.1 -e ES_PORT=9200 -e XPACK_ENABLED=false cwds/dora
     
 Add `-e SHOW_SWAGGER=true` to turn on swagger for development purposes:
 
-    % docker run -d --name=dora1 -p 8080:8080 -e ES_HOST=192.168.56.1 -e ES_PORT=9200 -e SHOW_SWAGGER=true cwds/dora
+    % docker run -d --name=dora1 -p 8080:8080 -e ES_HOST=192.168.56.1 -e ES_PORT=9200 -e XPACK_ENABLED=false -e SHOW_SWAGGER=true cwds/dora
+
+Assuming that Dora's IP address is 192.168.99.100, swagger should be available at: `http://192.168.99.100:8080/swagger`
 
 Assuming that Dora's IP address is 192.168.99.100, the Dora should be able to handle **POST** requests to URLs like:
-
-    % http://192.168.99.100:8080/dora/people/person/_search
-    % http://192.168.99.100:8080/dora/facilities/facilitiy/_search
+- `http://192.168.99.100:8080/dora/people/person/_search`
+- `http://192.168.99.100:8080/dora/facilities/facilitiy/_search`
     
 for example:
 
@@ -113,7 +109,7 @@ curl -X POST --header 'Content-Type: application/json' --header 'Accept: applica
            "query" : { \ 
                "term" : { "name" : "John" } \ 
            } \ 
-       }' 'http://localhost:8080/dora/people/person/_search'
+       }' 'http://192.168.99.100:8080/dora/people/person/_search'
 ```
 
 ## Dora availability quick check
@@ -121,6 +117,11 @@ curl -X POST --header 'Content-Type: application/json' --header 'Accept: applica
 Assuming that Dora's IP address is 192.168.99.100, the Dora should be able to handle **GET** requests like:
 
     % curl -X GET --header 'Accept: application/json' http://192.168.99.100:8080/application
+
+## Running docker container with Dora in secured mode
+
+Security is enabled by default in Dora. To run Dora in secured mode, simply omit `-e XPACK_ENABLED=false` from the docker commands above.
+Or use `-e XPACK_ENABLED=true`.
 
 ## Building and publishing docker image with Elasticsearch + X-Pack
  
