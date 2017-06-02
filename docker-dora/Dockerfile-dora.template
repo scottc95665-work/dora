@@ -1,9 +1,10 @@
 FROM cwds/javajdk
 RUN mkdir /opt/cwds-dora
 RUN mkdir /opt/cwds-dora/logs
-ADD config/dora.yml /opt/cwds-dora/config/dora.yml
-ADD config/shiro.ini /opt/cwds-dora/config/shiro.ini
+ADD config/* /opt/cwds-dora/config/*
+ADD entrypoint.sh /opt/cwds-dora/entrypoint.sh
 ADD libs/${dora_dist_file_name} /opt/cwds-dora/${dora_dist_file_name}
 EXPOSE 8080
 WORKDIR /opt/cwds-dora
-CMD ["java", "-jar", "${dora_dist_file_name}", "server", "config/dora.yml"]
+RUN chmod +x /opt/cwds-dora/entrypoint.sh
+CMD ["/opt/cwds-dora/entrypoint.sh"]
