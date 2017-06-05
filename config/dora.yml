@@ -11,7 +11,7 @@ swagger:
   title: CWDS Dora
   description: RESTful search services for the CWS New System.
   logo: images/CWDS-API-Logo-Horizontal.png
-  loginUrl: ${LOGIN_URL:-http://localhost:8090/authn/login}
+  loginUrl: ${PERRY_URL:-http://localhost:8090/authn/login}
   showSwagger: ${SHOW_SWAGGER:-false}
 
 elasticsearch:
