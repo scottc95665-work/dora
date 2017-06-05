@@ -1,5 +1,4 @@
 import static org.gradle.api.logging.LogLevel.*
-import org.apache.tools.ant.filters.ReplaceTokens
 
 buildscript {
     repositories {
