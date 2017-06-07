@@ -11,12 +11,12 @@ swagger:
   title: CWDS Dora
   description: RESTful search services for the CWS New System.
   logo: images/CWDS-API-Logo-Horizontal.png
-  loginUrl: ${LOGIN_URL:-http://localhost:8090/authn/login}
+  loginUrl: ${LOGIN_URL:-http://192.168.99.100:8080/authn/login}
   spId: ${SP_ID}
   showSwagger: ${SHOW_SWAGGER:-false}
 
 elasticsearch:
-  host: ${ES_HOST:-es.dev.cwds.tabordasolutions.net}
+  host: ${ES_HOST:-192.168.99.100}
   port: ${ES_PORT:-9200}
   xpack:
     enabled: ${XPACK_ENABLED:-true}
@@ -26,10 +26,10 @@ elasticsearch:
 server:
   applicationConnectors:
   - type: http 
-    port: ${APP_STD_PORT:-8080}
+    port: ${APP_STD_PORT:-8090}
   adminConnectors:
   - type: http
-    port: ${APP_ADMIN_PORT:-8081}
+    port: ${APP_ADMIN_PORT:-8091}
     
   requestLog:
     appenders:

@@ -46,10 +46,10 @@ version = projectVersion
 mainClassName = mainclass
 
 repositories {
-    mavenLocal()
     mavenCentral()
     maven { url "https://plugins.gradle.org/m2/" }
     maven { url "http://sonar.dev.cwds.io:8081/artifactory/repo" }
+    maven { url "http://maven2.cwds.tabordasolutions.net" }
 }
 
 shadowJar {
@@ -65,7 +65,7 @@ shadowJar {
 dependencies {
     // Dropwizard-guice 1.0.0.2 conflicts with jersey-client 2.25.
     // Exclude transitive dependencies.
-    compile('gov.ca.cwds.api:api-core:0.25') {
+    compile('gov.ca.cwds.api:api-core:0.24.272') {
         exclude group: 'org.glassfish.jersey.core'
     }
     // https://mvnrepository.com/artifact/org.apache.commons/commons-compress
