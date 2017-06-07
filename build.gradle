@@ -68,10 +68,8 @@ dependencies {
     compile('gov.ca.cwds.api:api-core:0.25') {
         exclude group: 'org.glassfish.jersey.core'
     }
-// https://mvnrepository.com/artifact/org.apache.commons/commons-compress
+    // https://mvnrepository.com/artifact/org.apache.commons/commons-compress
     compile group: 'org.apache.commons', name: 'commons-compress', version: '1.14'
-
-
 
     compile group: "io.dropwizard", name: "dropwizard-client", version: dropwizardVersion
     compile group: "io.dropwizard", name: "dropwizard-views", version: dropwizardVersion
