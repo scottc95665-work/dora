@@ -1,5 +1,5 @@
 rootProject.name = 'dora'
 include 'docker-es-xpack'
 include 'docker-dora'
-include 'src'
+include 'dora-api'
 
