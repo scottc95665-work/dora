@@ -43,7 +43,7 @@ Configuration options are available in the file config/dora.yml.
 - ES_PORT - port of the Elasticsearch server (default: `9200`)
 - APP_STD_PORT - default: `8080`
 - APP_ADMIN_PORT - default: `8081`
-- LOGIN_URL - default: `http://localhost:8090/authn/login`
+- PERRY_URL - default: `http://localhost:8090/authn/login`
 - SHOW_SWAGGER - set to `true` to have a link like `http://localhost:8080/swagger` (default: `false`)
 - XPACK_ENABLED - true/false, has effect only when used while running a docker container based on the cwds/dora
 
@@ -123,9 +123,9 @@ Assuming that Dora's IP address is 192.168.99.100, the Dora should be able to ha
 Security is enabled by default in Dora. To run Dora in secured mode, simply omit `-e XPACK_ENABLED=false` from the docker commands above.
 Or use `-e XPACK_ENABLED=true`.
 
-Add `-e LOGIN_URL=…` to configure Perry location which is used when you click the login button on the swagger UI.
+Add `-e PERRY_URL=…` to configure Perry location which is used when you click the login button on the swagger UI.
 
-For example: `-e LOGIN_URL=http://localhost:8090/authn/login`
+For example: `-e PERRY_URL=http://localhost:8090/authn/login`
 
 ## Building and publishing docker image with Elasticsearch + X-Pack
  
