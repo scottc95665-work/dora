@@ -12,7 +12,7 @@ swagger:
   description: RESTful search services for the CWS New System.
   logo: images/CWDS-API-Logo-Horizontal.png
   loginUrl: ${LOGIN_URL:-http://localhost:8090/authn/login}
-  spId: ${SP_ID}
+  spId: ${SP_ID} # service provider ID for Identity Mapping (defines security attributes for specific application)
   showSwagger: ${SHOW_SWAGGER:-false}
 
 elasticsearch:
