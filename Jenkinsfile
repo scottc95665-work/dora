@@ -14,7 +14,7 @@ node ('dora-slave'){
         // TODO: use gradlew (wrapper) for build
 		def buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: 'jar'
    }
-   stage('CoverageCheck_and_Test') {
+   stage('Unit Tests') {
 		buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: 'test jacocoTestReport'
    }
 
@@ -23,7 +23,7 @@ node ('dora-slave'){
 			buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: 'sonarqube --stacktrace'
 		}
     }
-	stage ('Push to artifactory'){
+	stage ('Push to Artifactory'){
 	    rtGradle.deployer repo:'libs-snapshot', server: serverArti
 	    rtGradle.deployer.deployArtifacts = true
 		buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: 'artifactoryPublish'
@@ -38,10 +38,10 @@ node ('dora-slave'){
             }
     }
 	}
-    stage('Archive artifacts') {
+    stage('Archive Artifacts') {
 		    archiveArtifacts artifacts: '**/dora*.jar,readme.txt', fingerprint: true
 	}
-	stage('Deploy app'){
+	stage('Deploy Application'){
 	   git branch: 'master', credentialsId: '433ac100-b3c2-4519-b4d6-207c029a103b', url: 'git@github.com:ca-cwds/de-ansible.git'
 	   sh 'ansible-playbook -e DORA_API_VERSION=$APP_VERSION -i $inventory deploy-dora.yml --vault-password-file ~/.ssh/vault.txt -vv'
 	   cleanWs()
