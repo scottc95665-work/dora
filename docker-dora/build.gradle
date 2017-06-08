@@ -16,6 +16,7 @@ task dockerCopyConfig(type: Copy) {
     into "$dockerContextDir/config"
     include 'dora*.yml'
     include 'shiro*.ini'
+    include '*.jks'
 }
 
 task dockerCopyDist(type: Copy, dependsOn: project.parent.shadowJar) {

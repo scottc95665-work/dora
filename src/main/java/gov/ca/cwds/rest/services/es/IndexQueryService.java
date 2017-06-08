@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.common.base.Strings;
-import gov.ca.cwds.auth.realms.PerryAccountRealm;
+import gov.ca.cwds.auth.realms.PerryAccount;
 import gov.ca.cwds.data.es.ApiElasticSearchException;
 import gov.ca.cwds.rest.ElasticsearchConfiguration;
 import org.apache.commons.codec.binary.Base64;
@@ -179,7 +179,7 @@ public class IndexQueryService
         if(subject != null) {
             List principals = subject.getPrincipals().asList();
             if(principals.size() == 2) {
-                PerryAccountRealm.PerryAccount account = (PerryAccountRealm.PerryAccount) principals.get(1);
+                PerryAccount account = (PerryAccount) principals.get(1);
                 if(account.getRoles() != null) {
                     if(!account.getRoles().isEmpty()) {
                         return account.getRoles().iterator().next();
