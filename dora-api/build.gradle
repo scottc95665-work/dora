@@ -1,0 +1,144 @@
+buildscript {
+    dependencies {
+        classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.3'
+    }
+}
+
+plugins {
+    id 'net.ltgt.apt' version '0.9'
+    id "org.sonarqube" version "2.2.1"
+}
+
+group projectGroup
+version projectVersion
+
+apply plugin: "jacoco"
+apply plugin: 'java'
+apply plugin: 'application'
+apply plugin: 'maven-publish'
+apply plugin: 'com.github.johnrengelman.shadow'
+
+sonarqube {
+    properties {
+        property "sonar.projectName", "${name}"
+        property "sonar.projectKey", "${group}:${name}"
+        property "sonar.jacoco.reportPath", "${project.buildDir}/jacoco/test.exec"
+    }
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled false
+        csv.enabled false
+        html.destination "${project.buildDir}/jacocoHtml"
+    }
+
+    afterEvaluate {
+        classDirectories = files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: [
+                    'org/hibernate/*'
+            ])
+        })
+    }
+}
+
+sourceCompatibility = 1.8
+
+project.ext {
+    dropwizardVersion = "1.1.0"
+    metricsVersion = "3.1.0"
+    dropwizardSwaggerVersion = "1.0.0-1"
+    mainclass = "gov.ca.cwds.rest.DoraApplication"
+}
+
+shadowJar {
+    classifier = 'dist'
+    baseName = 'dora'
+    mergeServiceFiles()
+    manifest {
+        attributes 'Main-Class': mainclass
+    }
+    version = projectVersion
+}
+
+mainClassName = mainclass
+
+repositories {
+    maven { url "http://sonar.dev.cwds.io:8081/artifactory/repo" }
+}
+
+dependencies {
+    // Dropwizard-guice 1.0.0.2 conflicts with jersey-client 2.25.
+    // Exclude transitive dependencies.
+    compile('gov.ca.cwds.api:api-core:0.22.237') {
+        exclude group: 'org.glassfish.jersey.core'
+    }
+
+    compile group: "io.dropwizard", name: "dropwizard-client", version: dropwizardVersion
+    compile group: "io.dropwizard", name: "dropwizard-views", version: dropwizardVersion
+    compile group: "io.dropwizard", name: "dropwizard-views-mustache", version: dropwizardVersion
+    compile group: 'io.dropwizard', name: 'dropwizard-assets', version: dropwizardVersion
+    compile group: "io.dropwizard", name: "dropwizard-testing", version: dropwizardVersion
+    compile group: "io.dropwizard.metrics", name: "metrics-core", version: metricsVersion
+
+    compile group: "org.glassfish.jersey.ext", name: "jersey-declarative-linking", version: "2.23.2"
+    compile group: "javax.el", name: "javax.el-api", version: "2.2.4"
+    compile group: "org.glassfish.web", name: "javax.el", version: "2.2.4"
+    compile group: 'org.bouncycastle', name: 'bcprov-jdk16', version: '1.46'
+    compile group: 'commons-beanutils', name: 'commons-beanutils', version: '1.9.3'
+    compile group: 'org.slf4j', name: 'slf4j-ext', version: '1.7.22'
+
+    compile group: 'org.glassfish.jersey.core', name: 'jersey-client', version: '2.25.1'
+    compile group: 'com.hubspot.dropwizard', name: 'dropwizard-guice', version: '1.0.6.0'
+
+    compile 'com.fasterxml.jackson.module:jackson-module-guice:2.8.2'
+    compile group: 'org.secnod.dropwizard', name: 'dropwizard-shiro', version: '0.2.0'
+
+    compile fileTree(dir: 'lib', include: ['*.jar'])
+
+    compile group: 'io.swagger', name: 'swagger-jersey2-jaxrs', version: '1.5.9'
+    compile group: 'io.swagger', name: 'swagger-annotations', version: '1.5.9'
+    compile group: 'org.json', name: 'json', version: '20090211'
+
+    testCompile 'org.mockito:mockito-core:2.0.54-beta'
+    testCompile group: 'org.hamcrest', name: 'hamcrest-junit', version: '2.0.0.0'
+    testCompile('org.glassfish.jersey.test-framework.providers:jersey-test-framework-provider-grizzly2:2.23.2') {
+        exclude group: 'javax.servlet', module: 'javax.servlet-api'
+        exclude group: 'junit', module: 'junit'
+    }
+
+    testCompile group: 'nl.jqno.equalsverifier', name: 'equalsverifier', version: '2.1.6'
+    testCompile group: "com.github.fge", name: "json-schema-validator", version: "2.2.6"
+
+    testCompile group: 'com.google.errorprone', name: 'error_prone_annotations', version: '2.0.19'
+}
+
+
+run {
+    args "server", configPath + "dora.yml"
+}
+
+test {
+    exclude '**/*IT*'
+}
+
+task integrationTest(type: Test, dependsOn: testClasses) {
+    include '**/*IT*'
+    exclude '**/*Test*'
+}
+
+publishing {
+    publications {
+        library(MavenPublication) {
+            from components.java
+            groupId projectGroup
+            artifactId rootProject.name
+            version version + ((System.properties.getProperty('build') != null) ? '.' + System.properties.getProperty('build') : '')
+        }
+    }
+    repositories {
+        maven {
+            url "http://sonar.dev.cwds.io:8081/artifactory/libs-snapshot"
+        }
+    }
+}

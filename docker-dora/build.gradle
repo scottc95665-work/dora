@@ -18,7 +18,7 @@ task dockerCopyConfig(type: Copy) {
     include 'shiro*.ini'
 }
 
-task dockerCopyDist(type: Copy, dependsOn: project.parent.shadowJar) {
+task dockerCopyDist(type: Copy, dependsOn: project.parent.project("dora-api").shadowJar) {
     from "$project.parent.buildDir/libs"
     into "$dockerContextDir/libs"
     include doraDistFileName
