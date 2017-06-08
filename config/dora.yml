@@ -11,7 +11,7 @@ swagger:
   title: CWDS Dora
   description: RESTful search services for the CWS New System.
   logo: images/CWDS-API-Logo-Horizontal.png
-  loginUrl: ${LOGIN_URL:-http://localhost:8080/authn/login}
+  loginUrl: ${LOGIN_URL:-http://localhost:8090/authn/login}
   spId: ${SP_ID}
   showSwagger: ${SHOW_SWAGGER:-false}
 
