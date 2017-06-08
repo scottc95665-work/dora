@@ -20,7 +20,7 @@ task dockerCopyConfig(type: Copy) {
 }
 
 task dockerCopyDist(type: Copy, dependsOn: ':dora-api:shadowJar') {
-    from "$project.parent.buildDir/libs"
+    from "$project.parent.projectDir/dora-api/build/libs"
     into "$dockerContextDir/libs"
     include doraDistFileName
 }
