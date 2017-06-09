@@ -19,8 +19,8 @@ task dockerCopyConfig(type: Copy) {
     include '*.jks'
 }
 
-task dockerCopyDist(type: Copy, dependsOn: project.parent.shadowJar) {
-    from "$project.parent.buildDir/libs"
+task dockerCopyDist(type: Copy, dependsOn: ':dora-api:shadowJar') {
+    from "$project.parent.projectDir/dora-api/build/libs"
     into "$dockerContextDir/libs"
     include doraDistFileName
 }

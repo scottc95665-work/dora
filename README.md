@@ -51,9 +51,9 @@ Configuration options are available in the file config/dora.yml.
 
 Use the gradlew command to execute the run task:
 
-    % ./gradlew run
+    % ./gradlew :dora-api:run
 
-This will run the server on your local machine, port 8080.
+This will run the server on your local machine in non-secured mode, port 8080.
 
 ### Unit Testing
 
