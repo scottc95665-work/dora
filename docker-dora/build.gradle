@@ -1,3 +1,5 @@
+import org.apache.tools.ant.filters.FixCrLfFilter;
+
 def targetDockerHubRepository = rootProject.name
 def dockerImageName = targetDockerHubOrganization + '/' + targetDockerHubRepository // like 'cwds/elasticsearch_xpack_data'
 def dockerTag = projectVersion
@@ -9,6 +11,7 @@ task dockerCopyScripts(type: Copy) {
     from projectDir
     into dockerContextDir
     include 'entrypoint.sh'
+    filter(FixCrLfFilter.class, eol:FixCrLfFilter.CrLf.newInstance("lf"))
 }
 
 task dockerCopyConfig(type: Copy) {
