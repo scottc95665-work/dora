@@ -12,6 +12,7 @@ import gov.ca.cwds.rest.services.es.IndexQueryService;
 import io.dropwizard.testing.junit.ResourceTestRule;
 
 import java.io.ByteArrayInputStream;
+import java.nio.charset.StandardCharsets;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 
@@ -89,7 +90,8 @@ public class IndexQueryResourceTest {
         .request(MediaType.APPLICATION_JSON).post(Entity.json(""));
 
     String actualResponseBody = IOUtils
-        .toString((ByteArrayInputStream) actualResponse.getEntity(), "UTF-8");
+        .toString((ByteArrayInputStream) actualResponse.getEntity(),
+            StandardCharsets.UTF_8.displayName());
 
     assertThat(actualResponse.getStatus(), is(200));
     assertThat(actualResponseBody, is("fred"));

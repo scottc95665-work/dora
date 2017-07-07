@@ -10,6 +10,7 @@ import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 
@@ -109,11 +110,13 @@ public class IndexQueryService {
       applySecurity(connection);
       if (StringUtils.isNotEmpty(payload)) {
         String query = payload.trim();
-        OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream(), "UTF8");
+        OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream(),
+            StandardCharsets.UTF_8);
         writer.write(query);
         writer.close();
       }
-      reader = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF8"));
+      reader = new BufferedReader(
+          new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8));
       String line;
       while ((line = reader.readLine()) != null) {
         jsonString.append(line);
@@ -162,8 +165,8 @@ public class IndexQueryService {
     String password = esConfig.getXpack().getPassword();
 
     String authString = name + ":" + password;
-    byte[] authEncBytes = Base64.encodeBase64(authString.getBytes("UTF-8"));
-    String authStringEnc = new String(authEncBytes, "UTF-8");
+    byte[] authEncBytes = Base64.encodeBase64(authString.getBytes(StandardCharsets.UTF_8));
+    String authStringEnc = new String(authEncBytes, StandardCharsets.UTF_8);
     connection.setRequestProperty("Authorization", "Basic " + authStringEnc);
   }
 
