@@ -51,4 +51,8 @@ public class SwaggerView extends View {
   public String getCallbackUrl() {
     return callbackUrl;
   }
+
+  public String getSpId() {
+    return swaggerConfiguration.getSpId();
+  }
 }

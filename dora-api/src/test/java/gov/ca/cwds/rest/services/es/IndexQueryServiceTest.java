@@ -30,48 +30,47 @@ import org.mockito.internal.util.reflection.Whitebox;
 @SuppressWarnings("javadoc")
 public class IndexQueryServiceTest {
 
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
 
-    @Mock
-    private IndexQueryRequest req;
+  @Mock
+  private IndexQueryRequest req;
 
-    @Mock
-    private ElasticsearchConfiguration esConfig;
+  @Spy
+  @InjectMocks
+  private IndexQueryService target; // "Class Under Test"
 
-    @Spy
-    @InjectMocks
-    private IndexQueryService target; // "Class Under Test"
+  @Before
+  public void initMocks() {
+    MockitoAnnotations.initMocks(this);
+  }
 
-    @Before
-    public void initMocks() {
-        MockitoAnnotations.initMocks(this);
-    }
+  @Test
+  public void type() throws Exception {
+    assertThat(IndexQueryService.class, notNullValue());
+  }
 
-    @Test
-    public void type() throws Exception {
-        assertThat(IndexQueryService.class, notNullValue());
-    }
+  @Test
+  public void instantiation() throws Exception {
+    assertThat(target, notNullValue());
+  }
 
-    @Test
-    public void instantiation() throws Exception {
-        assertThat(target, notNullValue());
-    }
+  @Test
+  public void testHandleRequest() throws Exception {
+    Map<String, String> test = new HashMap<>();
+    test.put("a", "value");
+    req = new IndexQueryRequest("people", "person", test);
 
-    @Test
-    public void testHandleRequest() throws Exception {
-        Map<String, String> test = new HashMap<>();
-        test.put("a", "value");
-        req = new IndexQueryRequest("people", "person", test);
-        esConfig = new ElasticsearchConfiguration("localhost", "9200");
+    ElasticsearchConfiguration esConfig = new ElasticsearchConfiguration("localhost", "9200");
+    assertThat(esConfig.getHost(), is(equalTo("localhost")));
+    assertThat(esConfig.getPort(), is(equalTo("9200")));
 
-        Whitebox.setInternalState(target, "esConfig", esConfig);
-        doReturn("fred").when(target)
-                .searchIndexByQuery(Mockito.anyString(), Mockito.anyString(), Mockito.anyString());
-        final IndexQueryResponse actual = target.handleRequest(req);
-        IndexQueryResponse expected = new IndexQueryResponse("fred");
+    Whitebox.setInternalState(target, "esConfig", esConfig);
+    doReturn("fred").when(target).executionResult(Mockito.anyString(), Mockito.anyString());
+    final IndexQueryResponse actual = target.handleRequest(req);
+    final IndexQueryResponse expected = new IndexQueryResponse("fred");
 
-        assertThat(actual, is(equalTo(expected)));
-    }
+    assertThat(actual, is(equalTo(expected)));
+  }
 
 }

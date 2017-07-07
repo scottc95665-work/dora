@@ -94,7 +94,7 @@ public class IndexQueryService {
    * @param payload the payload specified by user
    * @return the JSON payload returned by the external web service
    */
-  private String executionResult(String targetURL, String payload) {
+  String executionResult(String targetURL, String payload) {
     HttpURLConnection connection = null;
     BufferedReader reader = null;
     StringBuilder jsonString = new StringBuilder();

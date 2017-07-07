@@ -45,6 +45,9 @@ public class SwaggerConfiguration {
   @JsonProperty
   private boolean showSwagger = false;
 
+  @JsonProperty
+  private String spId;
+
   /**
    * @return the templateName
    */
@@ -106,5 +109,10 @@ public class SwaggerConfiguration {
    */
   public boolean isShowSwagger() {
     return showSwagger;
+  }
+
+  @SuppressWarnings("javadoc")
+  public String getSpId() {
+    return spId;
   }
 }
