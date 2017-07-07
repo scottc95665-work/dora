@@ -3,8 +3,6 @@ package gov.ca.cwds.inject;
 import com.google.inject.AbstractModule;
 
 import gov.ca.cwds.rest.DoraApplication;
-import gov.ca.cwds.rest.DoraConfiguration;
-import io.dropwizard.setup.Bootstrap;
 
 /**
  * Bootstraps and configures the CWDS RESTful API application.
@@ -14,16 +12,11 @@ import io.dropwizard.setup.Bootstrap;
  */
 public class ApplicationModule extends AbstractModule {
 
-    private Bootstrap<DoraConfiguration> bootstrap;
-
     /**
      * Constructor. {@link AbstractModule#AbstractModule()}
-     *
-     * @param bootstrap API configuration
      */
-    public ApplicationModule(Bootstrap<DoraConfiguration> bootstrap) {
+    public ApplicationModule() {
         super();
-        this.bootstrap = bootstrap;
     }
 
     /**
