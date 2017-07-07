@@ -1,14 +1,17 @@
 package gov.ca.cwds.rest;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * @author CWDS Elasticsearch Team
  */
 public class ElasticsearchConfiguration {
+    @NotEmpty
     @JsonProperty("host")
     private String host;
 
+    @NotEmpty
     @JsonProperty("port")
     private String port;
 

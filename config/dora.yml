@@ -16,7 +16,7 @@ swagger:
   showSwagger: ${SHOW_SWAGGER:-false}
 
 elasticsearch:
-  host: ${ES_HOST:-es.dev.cwds.tabordasolutions.net}
+  host: ${ES_HOST:-dora.dev.cwds.io}
   port: ${ES_PORT:-9200}
   xpack:
     enabled: ${XPACK_ENABLED:-true}
