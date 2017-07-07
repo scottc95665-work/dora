@@ -15,8 +15,9 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.common.base.Strings;
-import gov.ca.cwds.auth.realms.PerryAccount;
+
 import gov.ca.cwds.rest.ElasticsearchConfiguration;
+import gov.ca.cwds.security.shiro.realms.PerryAccount;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
