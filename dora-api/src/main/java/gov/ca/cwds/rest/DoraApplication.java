@@ -43,8 +43,6 @@ public final class DoraApplication extends Application<DoraConfiguration> {
   @SuppressWarnings("unused")
   private static final Logger LOGGER = LoggerFactory.getLogger(DoraApplication.class);
 
-  private static Injector injector;
-
   private GuiceBundle<DoraConfiguration> guiceBundle;
 
   private final ShiroBundle<DoraConfiguration> shiroBundle = new ShiroBundle<DoraConfiguration>() {
@@ -78,9 +76,9 @@ public final class DoraApplication extends Application<DoraConfiguration> {
     bootstrap.setConfigurationSourceProvider(new SubstitutingSourceProvider(
         bootstrap.getConfigurationSourceProvider(), new EnvironmentVariableSubstitutor(false)));
 
-    bootstrap.addBundle(new ViewBundle<DoraConfiguration>());
+    bootstrap.addBundle(new ViewBundle<>());
     guiceBundle = GuiceBundle.<DoraConfiguration>newBuilder()
-        .addModule(new ApplicationModule(bootstrap))
+        .addModule(new ApplicationModule())
         .setConfigClass(bootstrap.getApplication().getConfigurationClass())
         .enableAutoConfig(getClass().getPackage().getName()).build();
 
@@ -89,8 +87,7 @@ public final class DoraApplication extends Application<DoraConfiguration> {
   }
 
   @Override
-  public final void run(final DoraConfiguration configuration, final Environment environment)
-      throws Exception {
+  public final void run(final DoraConfiguration configuration, final Environment environment) {
     environment.jersey().register(new ShiroExceptionMapper());
     environment.servlets().setSessionHandler(new SessionHandler());
 
@@ -146,7 +143,7 @@ public final class DoraApplication extends Application<DoraConfiguration> {
     // Story #129093035: Catch/handle 500 errors.
     environment.jersey().register(UnhandledExceptionMapperImpl.class);
 
-    injector = guiceBundle.getInjector();
+    Injector injector = guiceBundle.getInjector();
     environment.servlets()
         .addFilter("AuditAndLoggingFilter",
             injector.getInstance(RequestResponseLoggingFilter.class))

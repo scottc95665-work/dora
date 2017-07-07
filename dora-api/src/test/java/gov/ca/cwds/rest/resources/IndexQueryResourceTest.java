@@ -46,7 +46,6 @@ public class IndexQueryResourceTest {
 
   @Test
   public void testPostNullGives400() throws Exception {
-
     final int actual =
         inMemoryResource.client().target(FOUND_RESOURCE).request()
             .accept(MediaType.APPLICATION_JSON)
@@ -54,12 +53,10 @@ public class IndexQueryResourceTest {
 
     int expected = 400;
     assertThat(actual, is(expected));
-
   }
 
   @Test
   public void testPostNonJsonGives400() throws Exception {
-
     final int actual =
         inMemoryResource.client().target(FOUND_RESOURCE).request()
             .accept(MediaType.APPLICATION_JSON)

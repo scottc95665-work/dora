@@ -7,6 +7,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
@@ -138,7 +139,7 @@ public class IndexQueryService {
     return jsonString.toString();
   }
 
-  private void applySecurity(HttpURLConnection connection) {
+  private void applySecurity(HttpURLConnection connection) throws UnsupportedEncodingException {
     if (esConfig.getXpack() != null) {
       ElasticsearchConfiguration.XpackConfiguration xpackConfiguration = esConfig.getXpack();
       if (xpackConfiguration.isEnabled()) {
@@ -155,13 +156,14 @@ public class IndexQueryService {
     }
   }
 
-  private void setAuthorizationHeader(HttpURLConnection connection) {
+  private void setAuthorizationHeader(HttpURLConnection connection)
+      throws UnsupportedEncodingException {
     String name = esConfig.getXpack().getUser();
     String password = esConfig.getXpack().getPassword();
 
     String authString = name + ":" + password;
-    byte[] authEncBytes = Base64.encodeBase64(authString.getBytes());
-    String authStringEnc = new String(authEncBytes);
+    byte[] authEncBytes = Base64.encodeBase64(authString.getBytes("UTF-8"));
+    String authStringEnc = new String(authEncBytes, "UTF-8");
     connection.setRequestProperty("Authorization", "Basic " + authStringEnc);
   }
 
