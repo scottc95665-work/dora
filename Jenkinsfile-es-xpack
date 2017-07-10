@@ -14,7 +14,7 @@ node ('dora-slave'){
     }
  	stage ('Build Docker'){
  	  withEnv(['ELASTIC_HOST=127.0.0.1']) {
- 	        buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: 'printConfig'
+ 	        buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: 'printConfig', switches: '--stacktrace --no-daemon'
  	        buildInfo = rtGradle.run buildFile: './docker-es-xpack/build.gradle', tasks: 'dockerCreateImage', switches: '--stacktrace --no-daemon'
  	        withDockerRegistry([credentialsId: '6ba8d05c-ca13-4818-8329-15d41a089ec0']) {
                      buildInfo = rtGradle.run buildFile: './docker-es-xpack/build.gradle', tasks: 'dockerEsXpackPublish'
