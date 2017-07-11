@@ -1,5 +1,4 @@
 [
-  //ROLES and FILTERS
   {
     "action": "POST /_xpack/security/role/sealed",
     "data": {
