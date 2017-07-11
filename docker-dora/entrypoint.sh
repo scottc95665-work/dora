@@ -1,5 +1,7 @@
 #!/bin/bash
 
+JAVA_OPT="-Xms128m -Xmx512m"
+
 if ([ -z "$XPACK_ENABLED" ] || $XPACK_ENABLED); then
   echo "X-PACK enabled"
   DORA_CONFIG="config/dora.yml"
@@ -8,4 +10,4 @@ else
   DORA_CONFIG="config/dora_nosec.yml"
 fi
 
-java -jar dora.jar server ${DORA_CONFIG}
+java ${JAVA_OPT} -jar dora.jar -server ${DORA_CONFIG}
