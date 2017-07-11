@@ -67,7 +67,7 @@
       ]
     }
   },
-//USERS
+
   {
     "action": "POST /_xpack/security/user/sealed",
     "data": {
