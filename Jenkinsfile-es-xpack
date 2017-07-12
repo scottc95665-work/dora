@@ -62,6 +62,7 @@ node ('dora-slave'){
  	stage('Clean WorkSpace') {
  		    buildInfo = rtGradle.run buildFile: './docker-es-xpack/build.gradle', tasks: 'dockerRemoveContainer'
  		    archiveArtifacts artifacts: '**/dora*.jar,readme.txt', fingerprint: true
+ 		    currentBuild.result = "SUCCESSFUL"
  	}
  } catch (Exception e)    {
 	   errorcode = e;
