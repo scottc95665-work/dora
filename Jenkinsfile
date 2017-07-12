@@ -47,7 +47,6 @@ node ('dora-slave'){
 		  git branch: 'development', credentialsId: '433ac100-b3c2-4519-b4d6-207c029a103b', url: 'git@github.com:ca-cwds/dora.git'
 		  rtGradle.tool = "Gradle_35"
 		  rtGradle.resolver repo:'repo', server: serverArti
-		  rtGradle.useWrapper = true
    }
    stage('Build'){
 		buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: 'jar'
