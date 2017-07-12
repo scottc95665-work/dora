@@ -18,8 +18,10 @@ def notifyBuild(String buildStatus, Exception e) {
   } else {
     color = 'RED'
     colorCode = '#FF0000'
-    details +="<p>Error message ${e.message}, stacktrace: ${e}</p>"
-    summary +="\nError message ${e.message}, stacktrace: ${e}"
+    if (e != null) {
+        details +="<p>Error message ${e.message}, stacktrace: ${e}</p>"
+        summary +="\nError message ${e.message}, stacktrace: ${e}"
+    }
   }
 
   // Send notifications
