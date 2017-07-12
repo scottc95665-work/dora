@@ -72,6 +72,6 @@ node ('dora-slave'){
 
 	}finally {
 		notifyBuild(currentBuild.result,errorcode)
-		clearWS()
+		cleanWs()
 	}
  }
