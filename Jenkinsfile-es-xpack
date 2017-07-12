@@ -68,10 +68,10 @@ node ('dora-slave'){
  } catch (Exception e)    {
 	   errorcode = e;
 	   currentBuild.result = "FAIL"
+	   notifyBuild(currentBuild.result,errorcode)
 	   throw e;
 
-	}finally {
-		notifyBuild(currentBuild.result,errorcode)
+	} finally {
 		cleanWs()
 	}
  }
