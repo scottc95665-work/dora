@@ -1,4 +1,3 @@
-
 def notifyBuild(String buildStatus, Exception e) {
   buildStatus =  buildStatus ?: 'SUCCESSFUL'
 
@@ -67,11 +66,9 @@ node ('dora-slave'){
  		    buildInfo = rtGradle.run buildFile: './docker-es-xpack/build.gradle', tasks: 'dockerRemoveContainer'
  		    currentBuild.result = "SUCCESSFUL"
  	}
- } catch (Exception e)    {
+ } catch (Exception e) {
 	   errorcode = e;
 	   currentBuild.result = "FAIL"
 	   notifyBuild(currentBuild.result,errorcode)
-	   throw e;
-  }
  }
-
+}
