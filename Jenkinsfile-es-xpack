@@ -1,3 +1,4 @@
+
 def notifyBuild(String buildStatus, Exception e) {
   buildStatus =  buildStatus ?: 'SUCCESSFUL'
 
@@ -73,5 +74,6 @@ node ('dora-slave'){
 
 	} finally {
 		cleanWs()
+		exit 0
 	}
  }
