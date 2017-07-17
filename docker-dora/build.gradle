@@ -19,7 +19,7 @@ task dockerCopyConfig(type: Copy) {
     into "$dockerContextDir/config"
     include 'dora*.yml'
     include 'shiro*.ini'
-    include '*.jks'
+    include '*.jceks'
 }
 
 task dockerCopyDist(type: Copy, dependsOn: ':dora-api:shadowJar') {

@@ -1,56 +1,5 @@
 [
   {
-    "action": "POST /_xpack/security/role/sealed",
-    "data": {
-      "cluster": [],
-      "indices": [
-        {
-          "names": [
-            "peop*"
-          ],
-          "privileges": [
-            "read"
-          ],
-          "query": "{\"bool\": {\"should\": [{\"match\": {\"type.sensitivityIndicator\": {\"query\": \"R\",\"operator\": \"or\"}}},{\"match\": {\"type.sensitivityIndicator\": \"N\"}}]}}"
-        }
-      ]
-    }
-  },
-  {
-    "action": "POST /_xpack/security/role/sensitive",
-    "data": {
-      "cluster": [],
-      "indices": [
-        {
-          "names": [
-            "peop*"
-          ],
-          "privileges": [
-            "read"
-          ],
-          "query": "{\"bool\": {\"should\": [{\"match\": {\"type.sensitivityIndicator\": {\"query\": \"S\",\"operator\": \"or\"}}},{\"match\": {\"type.sensitivityIndicator\": \"N\"}}]}}"
-        }
-      ]
-    }
-  },
-  {
-    "action": "POST /_xpack/security/role/all",
-    "data": {
-      "cluster": [],
-      "indices": [
-        {
-          "names": [
-            "peop*"
-          ],
-          "privileges": [
-            "read"
-          ],
-          "query": "{\"bool\": {\"should\": [{\"match\": {\"type.sensitivityIndicator\": {\"query\": \"S\",\"operator\": \"or\"}}},{\"match\": {\"type.sensitivityIndicator\": {\"query\": \"R\",\"operator\": \"or\"}}}, {\"match\": {\"type.sensitivityIndicator\": \"N\"}}]}}"
-        }
-      ]
-    }
-  },
-  {
     "action": "POST /_xpack/security/role/none",
     "data": {
       "cluster": [],
@@ -67,22 +16,6 @@
       ]
     }
   },
-
-  {
-    "action": "POST /_xpack/security/user/sealed",
-    "data": {
-      "password": "password",
-      "roles": [
-        "sealed"
-      ],
-      "full_name": "sealed",
-      "email": "",
-      "metadata": {
-        "intelligence": 7
-      },
-      "enabled": true
-    }
-  },
   {
     "action": "POST /_xpack/security/user/none",
     "data": {
@@ -91,36 +24,6 @@
         "none"
       ],
       "full_name": "none",
-      "email": "",
-      "metadata": {
-        "intelligence": 7
-      },
-      "enabled": true
-    }
-  },
-  {
-    "action": "POST /_xpack/security/user/sensitive",
-    "data": {
-      "password": "password",
-      "roles": [
-        "sensitive"
-      ],
-      "full_name": "sensitive",
-      "email": "",
-      "metadata": {
-        "intelligence": 7
-      },
-      "enabled": true
-    }
-  },
-  {
-    "action": "POST /_xpack/security/user/all",
-    "data": {
-      "password": "password",
-      "roles": [
-        "all"
-      ],
-      "full_name": "all",
       "email": "",
       "metadata": {
         "intelligence": 7
