@@ -1,5 +1,4 @@
 [
-
   {
     "action": "POST /_xpack/security/role/none",
     "data": {
@@ -17,7 +16,6 @@
       ]
     }
   },
-
   {
     "action": "POST /_xpack/security/user/none",
     "data": {
