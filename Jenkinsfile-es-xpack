@@ -60,7 +60,6 @@ node ('dora-slave'){
    }
    stage('Clean WorkSpace') {
      buildInfo = rtGradle.run buildFile: './docker-es-xpack/build.gradle', tasks: 'dockerRemoveContainer'
-     currentBuild.result = "SUCCESSFUL"
    }
 
  } catch (Exception e)    {
@@ -69,6 +68,4 @@ node ('dora-slave'){
 	   notifyBuild(currentBuild.result,errorcode)
 	   throw e;
 	}
-
-
 }
