@@ -10,4 +10,4 @@ else
   DORA_CONFIG="config/dora_nosec.yml"
 fi
 
-java ${JAVA_OPT} -jar dora.jar -server ${DORA_CONFIG}
+java ${JAVA_OPT} -jar dora.jar server ${DORA_CONFIG}
