@@ -11,7 +11,7 @@
           "privileges": [
             "read"
           ],
-          "query": "{\"match\": {\"type.sensitivityIndicator\": \"N\"}}"
+          "query": "{\"match\": {\"sensitivity_indicator\": \"N\"}}"
         }
       ]
     }
