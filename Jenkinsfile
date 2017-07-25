@@ -1,18 +1,55 @@
+def notifyBuild(String buildStatus, Exception e) {
+  buildStatus =  buildStatus ?: 'SUCCESSFUL'
+
+  // Default values
+  def colorName = 'RED'
+  def colorCode = '#FF0000'
+  def subject = "${buildStatus}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'"
+  def summary = """*${buildStatus}*: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':\nMore detail in console output at <${env.BUILD_URL}|${env.BUILD_URL}>"""
+  def details = """${buildStatus}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':\n
+    Check console output at ${env.BUILD_URL} """
+  // Override default values based on build status
+  if (buildStatus == 'STARTED') {
+    color = 'YELLOW'
+    colorCode = '#FFFF00'
+  } else if (buildStatus == 'SUCCESSFUL') {
+    color = 'GREEN'
+    colorCode = '#00FF00'
+  } else {
+    color = 'RED'
+    colorCode = '#FF0000'
+    details +="<p>Error message ${e.message}, stacktrace: ${e}</p>"
+    summary +="\nError message ${e.message}, stacktrace: ${e}"
+  }
+
+  // Send notifications
+
+  slackSend channel: "#cals-api", baseUrl: 'https://hooks.slack.com/services/', tokenCredentialId: 'slackmessagetpt2', color: colorCode, message: summary
+  emailext(
+      subject: subject,
+      body: details,
+      attachLog: true,
+      recipientProviders: [[$class: 'DevelopersRecipientProvider']],
+      to: "Leonid.Marushevskiy@osi.ca.gov, Alex.Kuznetsov@osi.ca.gov"
+    )
+}
+
 node ('dora-slave'){
    def serverArti = Artifactory.server 'CWDS_DEV'
    def rtGradle = Artifactory.newGradleBuild()
-   properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '3')), disableConcurrentBuilds(), [$class: 'RebuildSettings', autoRebuild: false, rebuildDisabled: false], parameters([string(defaultValue: 'latest', description: '', name: 'APP_VERSION'), string(defaultValue: 'inventories/tpt2dev/hosts.yml', description: '', name: 'inventory')]), pipelineTriggers([pollSCM('H/5 * * * *')])])
+   properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '3')), disableConcurrentBuilds(), [$class: 'RebuildSettings', autoRebuild: false, rebuildDisabled: false], parameters([string(defaultValue: 'latest', description: '', name: 'APP_VERSION'), string(defaultValue: 'inventories/tpt2dev/hosts.yml', description: '', name: 'inventory')]), pipelineTriggers([githubPush()])])
+   def errorcode = null;
+   def buildInfo = '';
 
-   catchError {
+ try {
 
    stage('Preparation') {
-		  git branch: 'development', credentialsId: '433ac100-b3c2-4519-b4d6-207c029a103b', url: 'git@github.com:ca-cwds/dora.git'
+		  checkout([$class: 'GitSCM', branches: [[name: '*/development']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '433ac100-b3c2-4519-b4d6-207c029a103b', url: 'git@github.com:ca-cwds/dora.git']]])
 		  rtGradle.tool = "Gradle_35"
 		  rtGradle.resolver repo:'repo', server: serverArti
    }
    stage('Build'){
-        // TODO: use gradlew (wrapper) for build
-		def buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: 'jar'
+		buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: 'jar'
    }
    stage('Unit Tests') {
 		buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: 'test jacocoTestReport'
@@ -25,6 +62,7 @@ node ('dora-slave'){
     }
 	stage ('Push to Artifactory'){
 	    rtGradle.deployer repo:'libs-snapshot', server: serverArti
+	    //rtGradle.deployer repo:'libs-release', server: serverArti
 	    rtGradle.deployer.deployArtifacts = true
 		buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: 'artifactoryPublish'
 		rtGradle.deployer.deployArtifacts = false
@@ -42,12 +80,18 @@ node ('dora-slave'){
 		    archiveArtifacts artifacts: '**/dora*.jar,readme.txt', fingerprint: true
 	}
 	stage('Deploy Application'){
-	   git branch: 'master', credentialsId: '433ac100-b3c2-4519-b4d6-207c029a103b', url: 'git@github.com:ca-cwds/de-ansible.git'
+	   checkout changelog: false, poll: false, scm: [$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'IgnoreNotifyCommit']], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '433ac100-b3c2-4519-b4d6-207c029a103b', url: 'git@github.com:ca-cwds/de-ansible.git']]]
 	   sh 'ansible-playbook -e DORA_API_VERSION=$APP_VERSION -i $inventory deploy-dora.yml --vault-password-file ~/.ssh/vault.txt -vv'
-	   cleanWs()
-       slackSend channel: "#cals-api", baseUrl: 'https://hooks.slack.com/services/', tokenCredentialId: 'slackmessagetpt2', message: "Build Succes: ${env.JOB_NAME} ${env.BUILD_NUMBER}"
 	}
+ } catch (Exception e)    {
+	   errorcode = e;
+	   currentBuild.result = "FAIL"
+	   throw e;
+
+	}finally {
+		notifyBuild(currentBuild.result,errorcode)
+		cleanWs()
 	}
-    cleanWs()
+
 
 }

@@ -20,8 +20,8 @@ elasticsearch:
   port: ${ES_PORT:-9200}
   xpack:
     enabled: ${XPACK_ENABLED:-true}
-    user: elastic
-    password: changeme
+    user: ${XPACK_USER:-elastic}
+    password: ${XPACK_PASSWORD:-changeme}
 
 server:
   applicationConnectors:
