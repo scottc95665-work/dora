@@ -2,7 +2,13 @@ package gov.ca.cwds.rest.services.es;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
+import com.google.common.base.Strings;
+import com.google.inject.Inject;
+import gov.ca.cwds.rest.ElasticsearchConfiguration;
 import gov.ca.cwds.rest.api.DoraException;
+import gov.ca.cwds.rest.api.domain.es.IndexQueryRequest;
+import gov.ca.cwds.rest.api.domain.es.IndexQueryResponse;
+import gov.ca.cwds.security.shiro.realms.PerryAccount;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -13,11 +19,6 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
-
-import com.google.common.base.Strings;
-
-import gov.ca.cwds.rest.ElasticsearchConfiguration;
-import gov.ca.cwds.security.shiro.realms.PerryAccount;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
@@ -25,11 +26,6 @@ import org.apache.shiro.subject.Subject;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.google.inject.Inject;
-
-import gov.ca.cwds.rest.api.domain.es.IndexQueryRequest;
-import gov.ca.cwds.rest.api.domain.es.IndexQueryResponse;
 
 
 /**
@@ -40,6 +36,10 @@ import gov.ca.cwds.rest.api.domain.es.IndexQueryResponse;
 public class IndexQueryService {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(IndexQueryService.class);
+
+  private static final String REQUEST_METHOD_GET = "GET";
+  private static final String REQUEST_PROPERTY_CONTENT_TYPE = "Content-Type";
+  private static final String APPLICATION_JSON = "application/json";
 
   private ElasticsearchConfiguration esConfig;
 
@@ -102,12 +102,7 @@ public class IndexQueryService {
     StringBuilder jsonString = new StringBuilder();
 
     try {
-      URL url = new URL(targetURL);
-      connection = (HttpURLConnection) url.openConnection();
-      connection.setDoInput(true);
-      connection.setDoOutput(true);
-      connection.setRequestMethod("GET");
-      connection.setRequestProperty("Content-Type", "application/json");
+      connection = createConnection(targetURL);
       applySecurity(connection);
       if (StringUtils.isNotEmpty(payload)) {
         String query = payload.trim();
@@ -141,6 +136,17 @@ public class IndexQueryService {
     }
 
     return jsonString.toString();
+  }
+
+  HttpURLConnection createConnection(String targetURL)
+      throws IOException {
+    URL url = new URL(targetURL);
+    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+    connection.setDoInput(true);
+    connection.setDoOutput(true);
+    connection.setRequestMethod(REQUEST_METHOD_GET);
+    connection.setRequestProperty(REQUEST_PROPERTY_CONTENT_TYPE, APPLICATION_JSON);
+    return connection;
   }
 
   private void applySecurity(HttpURLConnection connection) throws UnsupportedEncodingException {

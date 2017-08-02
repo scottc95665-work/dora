@@ -1,27 +1,30 @@
 package gov.ca.cwds.rest.resources;
 
+import static gov.ca.cwds.rest.DoraConstants.RESOURCE_APPLICATION;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 
+import com.squarespace.jersey2.guice.JerseyGuiceUtils;
+import gov.ca.cwds.rest.BaseDoraApplicationTest;
+import io.dropwizard.testing.junit.ResourceTestRule;
+import javax.ws.rs.client.Invocation;
+import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
-
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Test;
-
-import com.squarespace.jersey2.guice.JerseyGuiceUtils;
-
-import io.dropwizard.testing.junit.ResourceTestRule;
 
 /**
  * @author CWDS API Team
  *
  */
 @SuppressWarnings("javadoc")
-public class ApplicationResourceTest {
+public class ApplicationResourceTest extends BaseDoraApplicationTest {
+
   private static final String APP_NAME = "my app";
   private static final String VERSION = "1.0.0";
 
@@ -38,7 +41,8 @@ public class ApplicationResourceTest {
       ResourceTestRule.builder().addResource(new ApplicationResource(APP_NAME, VERSION)).build();
 
   @Before
-  public void setup() {}
+  public void setup() {
+  }
 
   @Test
   public void applicationGetReturns200() {
@@ -49,21 +53,33 @@ public class ApplicationResourceTest {
   @Test
   public void applicationGetReturnsCorrectName() {
     assertThat(resources.client().target("/application").request()
-        .accept(MediaType.APPLICATION_JSON).get().readEntity(String.class),
+            .accept(MediaType.APPLICATION_JSON).get().readEntity(String.class),
         containsString(APP_NAME));
   }
 
   @Test
   public void applicationGetReturnsCorrectVersion() {
     assertThat(resources.client().target("/application").request()
-        .accept(MediaType.APPLICATION_JSON).get().readEntity(String.class),
+            .accept(MediaType.APPLICATION_JSON).get().readEntity(String.class),
         containsString(VERSION));
   }
 
   @Test
   public void applicationGetReturnsV1JsonContentType() {
     assertThat(resources.client().target("/application").request()
-        .accept(MediaType.APPLICATION_JSON).get().getMediaType().toString(),
+            .accept(MediaType.APPLICATION_JSON).get().getMediaType().toString(),
         is(equalTo(MediaType.APPLICATION_JSON)));
+  }
+
+  @Test
+  public void testApplicationVersion() throws Exception {
+    WebTarget target = clientTestRule
+        .target(RESOURCE_APPLICATION);
+    Invocation.Builder invocation = target.request();
+
+    String response = invocation.get(String.class);
+
+    Assert.assertTrue(response.contains("CWDS Dora TEST"));
+    Assert.assertTrue(response.contains("local"));
   }
 }
