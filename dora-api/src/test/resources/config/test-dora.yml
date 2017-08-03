@@ -1,5 +1,5 @@
 applicationName: CWDS Dora TEST
-version: ${APP_VERSION:-local}
+version: version
 
 shiro:
   iniConfigs: ["file:${SHIRO_CONFIG_PATH:-src/test/resources/config/shiro_nosec_test.ini}"]
