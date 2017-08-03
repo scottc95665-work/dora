@@ -8,6 +8,10 @@ buildscript {
     }
 }
 
+plugins {
+    id "com.github.hierynomus.license" version "0.14.0"
+}
+
 project.logging.setLevelInternal(INFO)
 
 project.ext {
