@@ -80,6 +80,6 @@ public class ApplicationResourceTest extends BaseDoraApplicationTest {
     String response = invocation.get(String.class);
 
     Assert.assertTrue(response.contains("CWDS Dora TEST"));
-    Assert.assertTrue(response.contains("local"));
+    Assert.assertTrue(response.contains("version"));
   }
 }
