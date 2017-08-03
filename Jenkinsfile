@@ -53,8 +53,12 @@ node ('dora-slave'){
    }
    stage('Unit Tests') {
 		buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: 'test jacocoTestReport'
+		publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'build/reports/tests/test', reportFiles: 'index.html', reportName: 'JUnit Reports', reportTitles: 'JUnit tests summary'])
    }
-
+   stage('License Report') {
+   		buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: 'downloadLicenses'
+   		publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'build/reports/license', reportFiles: 'license-dependency.html', reportName: 'License Report', reportTitles: 'License summary'])
+   }
    stage('SonarQube analysis'){
 		withSonarQubeEnv('Core-SonarQube') {
 			buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: 'sonarqube --stacktrace'
