@@ -5,14 +5,17 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
 
 import gov.ca.cwds.rest.ElasticsearchConfiguration;
+import gov.ca.cwds.rest.api.DoraException;
 import gov.ca.cwds.rest.api.domain.es.IndexQueryRequest;
 import gov.ca.cwds.rest.api.domain.es.IndexQueryResponse;
-
+import java.io.ByteArrayInputStream;
+import java.net.HttpURLConnection;
 import java.util.HashMap;
 import java.util.Map;
-
 import org.hamcrest.junit.ExpectedException;
 import org.junit.Before;
 import org.junit.Rule;
@@ -73,4 +76,46 @@ public class IndexQueryServiceTest {
     assertThat(actual, is(equalTo(expected)));
   }
 
+  @Test
+  public void testInvalidUrlExecution() throws Exception {
+    thrown.expect(DoraException.class);
+    target.executionResult("non_valid_url", "test_payload");
+
+  }
+
+  @Test
+  public void testExecution() throws Exception {
+    ElasticsearchConfiguration esConfig = new ElasticsearchConfiguration(null, null);
+    ElasticsearchConfiguration.XpackConfiguration xpackConfiguration = new ElasticsearchConfiguration.XpackConfiguration();
+    xpackConfiguration.setEnabled(false);
+    esConfig.setXpack(xpackConfiguration);
+    Whitebox.setInternalState(target, "esConfig", esConfig);
+
+    HttpURLConnection connection = mock(HttpURLConnection.class);
+
+    doReturn(new ByteArrayInputStream("testInputString".getBytes())).when(connection)
+        .getInputStream();
+    doReturn(connection).when(target).createConnection(Mockito.anyString());
+
+    assertThat("testInputString", is(equalTo(target.executionResult("mockedURL", ""))));
+  }
+
+  @Test
+  public void testApplySecurity() throws Exception {
+    ElasticsearchConfiguration esConfig = new ElasticsearchConfiguration(null, null);
+    ElasticsearchConfiguration.XpackConfiguration xpackConfiguration = new ElasticsearchConfiguration.XpackConfiguration();
+    xpackConfiguration.setEnabled(false);
+    esConfig.setXpack(xpackConfiguration);
+
+    Whitebox.setInternalState(target, "esConfig", esConfig);
+
+    HttpURLConnection connection = mock(HttpURLConnection.class);
+
+    doThrow(new RuntimeException()).when(connection)
+        .getInputStream();
+    doReturn(connection).when(target).createConnection(Mockito.anyString());
+
+    thrown.expect(DoraException.class);
+    target.executionResult("mockedURL", "");
+  }
 }
