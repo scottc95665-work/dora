@@ -80,7 +80,7 @@ node ('dora-slave'){
     }
 	}
     stage('Archive Artifacts') {
-		    archiveArtifacts artifacts: '**/dora*.jar,readme.txt', fingerprint: truels -la
+		    archiveArtifacts artifacts: '**/dora*.jar,readme.txt', fingerprint: true
 	}
 	stage('Deploy Application'){
 	   git changelog: false, credentialsId: '433ac100-b3c2-4519-b4d6-207c029a103b', poll: false, url: 'git@github.com:ca-cwds/de-ansible.git'
