@@ -44,6 +44,7 @@ node ('dora-slave'){
  try {
 
    stage('Preparation') {
+          cleanWs()
 		  checkout([$class: 'GitSCM', branches: [[name: '*/development']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '433ac100-b3c2-4519-b4d6-207c029a103b', url: 'git@github.com:ca-cwds/dora.git']]])
 		  rtGradle.tool = "Gradle_35"
 		  rtGradle.resolver repo:'repo', server: serverArti
@@ -53,15 +54,13 @@ node ('dora-slave'){
    }
    stage('Unit Tests') {
 		buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: 'test jacocoTestReport'
-		publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'dora-api/build/reports/tests', reportFiles: 'index.html', reportName: 'JUnit Reports', reportTitles: 'JUnit tests summary'])
    }
    stage('License Report') {
    		buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: 'downloadLicenses'
-   		publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'build/reports/license', reportFiles: 'license-dependency.html', reportName: 'License Report', reportTitles: 'License summary'])
    }
    stage('SonarQube analysis'){
 		withSonarQubeEnv('Core-SonarQube') {
-			buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: 'sonarqube --stacktrace'
+			buildInfo = rtGradle.run buildFile: 'build.gradle', switches: '--info', tasks: 'sonarqube'
 		}
     }
 	stage ('Push to Artifactory'){
@@ -90,11 +89,12 @@ node ('dora-slave'){
  } catch (Exception e)    {
 	   errorcode = e;
 	   currentBuild.result = "FAIL"
+	   notifyBuild(currentBuild.result,errorcode)
 	   throw e;
 
 	}finally {
-		notifyBuild(currentBuild.result,errorcode)
-		cleanWs()
+   		publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'build/reports/license', reportFiles: 'license-dependency.html', reportName: 'License Report', reportTitles: 'License summary'])
+		publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'dora-api/build/reports/tests', reportFiles: 'index.html', reportName: 'JUnit Reports', reportTitles: 'JUnit tests summary'])
 	}
 
 
