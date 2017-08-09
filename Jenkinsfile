@@ -83,7 +83,7 @@ node ('dora-slave'){
 		    archiveArtifacts artifacts: '**/dora*.jar,readme.txt', fingerprint: truels -la
 	}
 	stage('Deploy Application'){
-	   checkout changelog: false, poll: false, scm: [$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'IgnoreNotifyCommit']], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '433ac100-b3c2-4519-b4d6-207c029a103b', url: 'git@github.com:ca-cwds/de-ansible.git']]]
+	   git changelog: false, credentialsId: '433ac100-b3c2-4519-b4d6-207c029a103b', poll: false, url: 'git@github.com:ca-cwds/de-ansible.git'
 	   sh 'ansible-playbook -e DORA_API_VERSION=$APP_VERSION -i $inventory deploy-dora.yml --vault-password-file ~/.ssh/vault.txt -vv'
 	}
  } catch (Exception e)    {
