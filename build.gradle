@@ -10,6 +10,7 @@ buildscript {
 
 plugins {
     id "com.github.hierynomus.license" version "0.14.0"
+    id "org.sonarqube" version "2.5"
 }
 
 project.logging.setLevelInternal(INFO)
@@ -30,6 +31,14 @@ project.ext {
 
 repositories {
     maven { url "http://sonar.dev.cwds.io:8081/artifactory/repo" }
+}
+
+
+sonarqube {
+    properties {
+        property "sonar.jacoco.reportPath", "${buildDir}/jacoco/test.exec"
+        property "sonar.jacoco.itReportPath", "${buildDir}/jacoco/integrationTest.exec"
+    }
 }
 
 task printConfig {
