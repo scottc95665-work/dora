@@ -64,12 +64,14 @@ void esConnect(baseUrl) {
 
 task dockerRemoveContainer(type: Exec, dependsOn: project.parent.checkDockerService) {
     ignoreExitValue true
+    environment << project.dockerEnvVars
     doFirst {
         commandLine 'docker', 'rm', '-v', '--force', dockerContainerName
     }
 }
 
 task dockerCreateImage(type: Exec, dependsOn: [project.parent.checkDockerService, dockerRemoveContainer]) {
+    environment << project.dockerEnvVars
     doFirst {
         commandLine 'docker', 'build', '-t', dockerImageName, '-f', "$projectDir/Dockerfile", projectDir
     }
@@ -77,14 +79,13 @@ task dockerCreateImage(type: Exec, dependsOn: [project.parent.checkDockerService
 }
 
 task dockerStartContainer(type: Exec, dependsOn: [project.parent.checkDockerService, dockerCreateImage]) {
+    environment << project.dockerEnvVars
     doFirst {
         commandLine 'docker', 'run', '-d', "--name=$dockerContainerName", '-p', "$project.elasticPort:9200", '-e', "http.host=0.0.0.0", '-e', "transport.host=127.0.0.1", dockerImageName
     }
-
     doLast {
         esConnect(project.elasticBaseUrl)
     }
-    
     dockerCreateImage.mustRunAfter(project.parent.checkDockerService)
 }
 
@@ -99,6 +100,7 @@ task dockerPopulate(dependsOn: dockerStartContainer) {
 }
 
 task dockerCommitPopulatedImage(type: Exec, dependsOn: [project.parent.checkDockerService, dockerPopulate]) {
+    environment << project.dockerEnvVars
     doFirst {
         commandLine 'docker', 'commit', '-m', 'populated', dockerContainerName, dockerImageName
     }
@@ -106,18 +108,21 @@ task dockerCommitPopulatedImage(type: Exec, dependsOn: [project.parent.checkDock
 }
 
 task dockerStopContainer(type: Exec, dependsOn: project.parent.checkDockerService) {
+    environment << project.dockerEnvVars
     doFirst {
         commandLine 'docker', 'stop', dockerContainerName
     }
 }
 
 task dockerTagImage(type: Exec, dependsOn: project.parent.checkDockerService) {
+    environment << project.dockerEnvVars
     doFirst {
         commandLine 'docker', 'tag', dockerImageName, "$dockerImageName:$dockerTag"
     }
 }
 
 task dockerPushTaggedVersion(type: Exec, dependsOn: [project.parent.checkDockerService, dockerTagImage]) {
+    environment << project.dockerEnvVars
     doFirst {
         commandLine 'docker', 'push', "$dockerImageName:$dockerTag"
     }
@@ -125,6 +130,7 @@ task dockerPushTaggedVersion(type: Exec, dependsOn: [project.parent.checkDockerS
 }
 
 task dockerPushLatestVersion(type: Exec, dependsOn: project.parent.checkDockerService) {
+    environment << project.dockerEnvVars
     doFirst {
         commandLine 'docker', 'push', "$dockerImageName:latest"
     }

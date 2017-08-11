@@ -38,18 +38,21 @@ task dockerfile(type: Copy) {
 }
 
 task dockerCreateImage(type: Exec, dependsOn: [project.parent.checkDockerService, dockerCopyScripts, dockerCopyConfig, dockerCopyDist, dockerfile]) {
+    environment << project.dockerEnvVars
     doFirst {
         commandLine 'docker', 'build', '-t', dockerImageName, '-f', "$dockerContextDir/Dockerfile-dora", dockerContextDir
     }
 }
 
 task dockerTagImage(type: Exec, dependsOn: project.parent.checkDockerService) {
+    environment << project.dockerEnvVars
     doFirst {
         commandLine 'docker', 'tag', dockerImageName, "$dockerImageName:$dockerTag"
     }
 }
 
 task dockerPushTaggedVersion(type: Exec, dependsOn: [project.parent.checkDockerService, dockerTagImage]) {
+    environment << project.dockerEnvVars
     doFirst {
         commandLine 'docker', 'push', "$dockerImageName:$dockerTag"
     }
@@ -57,6 +60,7 @@ task dockerPushTaggedVersion(type: Exec, dependsOn: [project.parent.checkDockerS
 }
 
 task dockerPushLatestVersion(type: Exec, dependsOn: project.parent.checkDockerService) {
+    environment << project.dockerEnvVars
     doFirst {
         commandLine 'docker', 'push', "$dockerImageName:latest"
     }

@@ -80,7 +80,6 @@ The following command will build a versioned docker image with Dora and publish 
     % ./gradlew :docker-dora:dockerDoraPublish
 
 A developer might want to set the following environment variables prior running that command locally: 
-- BUILD_ENV=WIN_DEV
 - DOCKERHUB_ORG=\<own Docker ID\>
 
 ## Running docker container with Dora in non-secured mode
@@ -134,7 +133,6 @@ The following command will build a versioned docker image with Elasticsearch 5.3
     % ./gradlew :docker-es-xpack:dockerEsXpackPublish
     
 A developer might want to set the following environment variables prior running that command locally: 
-- BUILD_ENV=WIN_DEV
 - DOCKERHUB_ORG=\<own Docker ID\>
 
 _**It is not recommended to publish the docker image with Elasticsearch + X-Pack to public repository**_
