@@ -29,7 +29,6 @@ public class ApplicationModule extends AbstractModule {
     protected void configure() {
         install(new ServicesModule());
         install(new ResourcesModule());
-        install(new FiltersModule());
         install(new AuditingModule());
     }
 

@@ -4,8 +4,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.google.inject.Injector;
 import com.hubspot.dropwizard.guice.GuiceBundle;
-import gov.ca.cwds.rest.filters.RequestResponseLoggingFilter;
-import gov.ca.cwds.rest.filters.UnhandledExceptionMapperImpl;
 import gov.ca.cwds.rest.resources.SwaggerResource;
 import io.dropwizard.Application;
 import io.dropwizard.assets.AssetsBundle;
@@ -99,9 +97,6 @@ public final class DoraApplication extends Application<DoraConfiguration> {
 
     LOGGER.info("Configuring SWAGGER");
     configureSwagger(configuration, environment);
-
-    LOGGER.info("Registering Filters");
-    registerFilters(environment);
   }
 
   private void configureCors(final Environment environment) {
@@ -139,14 +134,4 @@ public final class DoraApplication extends Application<DoraConfiguration> {
     environment.jersey().register(swaggerResource);
   }
 
-  private void registerFilters(final Environment environment) {
-    // Story #129093035: Catch/handle 500 errors.
-    environment.jersey().register(UnhandledExceptionMapperImpl.class);
-
-    Injector injector = guiceBundle.getInjector();
-    environment.servlets()
-        .addFilter("AuditAndLoggingFilter",
-            injector.getInstance(RequestResponseLoggingFilter.class))
-        .addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), true, "/*");
-  }
 }

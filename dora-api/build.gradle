@@ -70,7 +70,7 @@ repositories {
 dependencies {
     // Dropwizard-guice 1.0.0.2 conflicts with jersey-client 2.25.
     // Exclude transitive dependencies.
-    compile('gov.ca.cwds.api:api-core:0.24.272') {
+    compile('gov.ca.cwds.api:api-core-rest:3.6.400') {
         exclude group: 'org.glassfish.jersey.core'
     }
 
