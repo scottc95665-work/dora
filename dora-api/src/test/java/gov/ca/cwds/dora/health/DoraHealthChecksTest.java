@@ -45,8 +45,7 @@ public class DoraHealthChecksTest {
     Result result = new ElasticsearchHealthCheck(esConfig).check();
     assertNotNull(result);
     assertFalse(result.isHealthy());
-    assertEquals(UNHEALTHY_ELASTICSEARCH_MSG + "Connection refused: no further information",
-        result.getMessage());
+    assertTrue(result.getMessage().startsWith(UNHEALTHY_ELASTICSEARCH_MSG));
   }
 
   private void assertIncorrectElasticsearchConfiguration(ElasticsearchConfiguration esConfig)
