@@ -49,7 +49,7 @@ public class ElasticsearchHealthCheck extends BasicDoraHealthCheck {
       return Result.healthy(healthyMsg);
 
     } catch (IOException e) {
-      LOGGER.error(e.getMessage(), e);
+      LOGGER.error("I/O error while hitting Elasticsearch", e);
       return Result.unhealthy(UNHEALTHY_ELASTICSEARCH_MSG + e.getMessage());
     }
   }

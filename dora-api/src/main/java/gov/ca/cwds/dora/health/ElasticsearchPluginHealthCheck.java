@@ -59,7 +59,7 @@ public class ElasticsearchPluginHealthCheck extends ElasticsearchHealthCheck {
       }
 
     } catch (IOException e) {
-      LOGGER.error(e.getMessage(), e);
+      LOGGER.error("I/O error while hitting Elasticsearch", e);
       return Result.unhealthy(UNHEALTHY_ELASTICSEARCH_MSG + e.getMessage());
     }
   }

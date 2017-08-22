@@ -14,8 +14,8 @@ public class BasicDoraHealthCheck extends HealthCheck {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(BasicDoraHealthCheck.class);
 
-  private static final String HEALTHY_ES_CONFIG_MSG = "Dora is configured for Elasticsearch on %s:%s with X-pack %s.";
-  private static final String UNHEALTHY_ES_CONFIG_MSG = "Dora is not properly configured for Elasticsearch.";
+  static final String HEALTHY_ES_CONFIG_MSG = "Dora is configured for Elasticsearch on %s:%s with X-pack %s.";
+  static final String UNHEALTHY_ES_CONFIG_MSG = "Dora is not properly configured for Elasticsearch.";
 
   ElasticsearchConfiguration esConfig;
 
@@ -37,7 +37,7 @@ public class BasicDoraHealthCheck extends HealthCheck {
       LOGGER.info(healthyMsg);
       return Result.healthy(healthyMsg);
     } else {
-      LOGGER.error(HEALTHY_ES_CONFIG_MSG);
+      LOGGER.error(UNHEALTHY_ES_CONFIG_MSG);
       return HealthCheck.Result.unhealthy(UNHEALTHY_ES_CONFIG_MSG);
     }
   }
