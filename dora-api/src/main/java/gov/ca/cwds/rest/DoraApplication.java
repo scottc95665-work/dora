@@ -3,13 +3,10 @@ package gov.ca.cwds.rest;
 import com.codahale.metrics.health.HealthCheck;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.google.inject.Injector;
 import com.hubspot.dropwizard.guice.GuiceBundle;
 import gov.ca.cwds.dora.health.BasicDoraHealthCheck;
 import gov.ca.cwds.dora.health.ElasticsearchHealthCheck;
 import gov.ca.cwds.dora.health.ElasticsearchPluginHealthCheck;
-import gov.ca.cwds.rest.filters.RequestResponseLoggingFilter;
-import gov.ca.cwds.rest.filters.UnhandledExceptionMapperImpl;
 import gov.ca.cwds.rest.resources.SwaggerResource;
 import io.dropwizard.Application;
 import io.dropwizard.assets.AssetsBundle;
@@ -51,8 +48,6 @@ public final class DoraApplication extends Application<DoraConfiguration> {
   private static final String PHONETIC_SEARCH_PLUGIN_NAME = "analysis-phonetic";
   private static final String X_PACK_PLUGIN_NAME = "x-pack";
 
-  private GuiceBundle<DoraConfiguration> guiceBundle;
-
   private final ShiroBundle<DoraConfiguration> shiroBundle = new ShiroBundle<DoraConfiguration>() {
     @Override
     protected ShiroConfiguration narrow(DoraConfiguration configuration) {
@@ -85,7 +80,7 @@ public final class DoraApplication extends Application<DoraConfiguration> {
         bootstrap.getConfigurationSourceProvider(), new EnvironmentVariableSubstitutor(false)));
 
     bootstrap.addBundle(new ViewBundle<>());
-    guiceBundle = GuiceBundle.<DoraConfiguration>newBuilder()
+    GuiceBundle<DoraConfiguration> guiceBundle = GuiceBundle.<DoraConfiguration>newBuilder()
         .addModule(new ApplicationModule())
         .setConfigClass(bootstrap.getApplication().getConfigurationClass())
         .enableAutoConfig(getClass().getPackage().getName()).build();
