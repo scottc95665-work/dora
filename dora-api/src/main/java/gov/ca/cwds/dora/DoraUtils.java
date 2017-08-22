@@ -30,7 +30,7 @@ public final class DoraUtils {
               esConfig.getXpack().getPassword()));
 
       return RestClient
-          .builder(new HttpHost(esConfig.getHost(), Integer.valueOf(esConfig.getPort())))
+          .builder(new HttpHost(esConfig.getHost(), Integer.parseInt(esConfig.getPort())))
           .setHttpClientConfigCallback(
               httpClientBuilder -> httpClientBuilder
                   .setDefaultCredentialsProvider(credentialsProvider))
@@ -38,7 +38,7 @@ public final class DoraUtils {
     } else {
       // build anonymous ES REST client
       return RestClient
-          .builder(new HttpHost(esConfig.getHost(), Integer.valueOf(esConfig.getPort()))).build();
+          .builder(new HttpHost(esConfig.getHost(), Integer.parseInt(esConfig.getPort()))).build();
     }
   }
 
