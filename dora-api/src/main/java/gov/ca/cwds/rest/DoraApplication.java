@@ -111,9 +111,6 @@ public final class DoraApplication extends Application<DoraConfiguration> {
 
     LOGGER.info("Configuring SWAGGER");
     configureSwagger(configuration, environment);
-
-    LOGGER.info("Registering Filters");
-    registerFilters(environment);
   }
 
   private void configureCors(final Environment environment) {
@@ -149,17 +146,6 @@ public final class DoraApplication extends Application<DoraConfiguration> {
     final SwaggerResource swaggerResource =
         new SwaggerResource(apiConfiguration.getSwaggerConfiguration());
     environment.jersey().register(swaggerResource);
-  }
-
-  private void registerFilters(final Environment environment) {
-    // Story #129093035: Catch/handle 500 errors.
-    environment.jersey().register(UnhandledExceptionMapperImpl.class);
-
-    Injector injector = guiceBundle.getInjector();
-    environment.servlets()
-        .addFilter("AuditAndLoggingFilter",
-            injector.getInstance(RequestResponseLoggingFilter.class))
-        .addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), true, "/*");
   }
 
   private void registerHealthChecks(final DoraConfiguration configuration,
