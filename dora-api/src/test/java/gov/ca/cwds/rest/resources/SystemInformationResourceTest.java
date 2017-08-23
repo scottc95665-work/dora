@@ -15,7 +15,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * @author CWDS API Team
+ * @author CWDS TPT-2
  */
 @SuppressWarnings("javadoc")
 public class SystemInformationResourceTest extends BaseDoraApplicationTest {
@@ -46,7 +46,10 @@ public class SystemInformationResourceTest extends BaseDoraApplicationTest {
   public void testSystemInformationGet() throws Exception {
     SystemInformationDTO systemInformationDTO = clientTestRule.target(SYSTEM_INFORMATION)
         .request(MediaType.APPLICATION_JSON).get(SystemInformationDTO.class);
-    assertThat(systemInformationDTO.getApplicationName(), is(equalTo("CWDS Dora TEST")));
+    assertThat(systemInformationDTO.getApplicationName(), is(equalTo("CWDS Dora")));
     assertThat(systemInformationDTO.getVersion(), is(notNullValue()));
+
+    assertThat(systemInformationDTO.getHealthCheckResults(), is(notNullValue()));
+    assertThat(systemInformationDTO.getHealthCheckResults().values().size(), is(equalTo(5)));
   }
 }

@@ -139,12 +139,18 @@ run {
 }
 
 test {
-    exclude '**/*IT*'
+    exclude '**/*IT*', '**/*SmokeTest*'
 }
 
 task integrationTest(type: Test, dependsOn: testClasses) {
     include '**/*IT*'
     exclude '**/*Test*'
+}
+
+task smokeTest(type: Test) {
+    // URL where smoke tests will be pointed to (change it in gradle.properties)
+    systemProperty 'dora.url', project.property('dora.url')
+    include 'SmokeTestSuite.class'
 }
 
 publishing {
