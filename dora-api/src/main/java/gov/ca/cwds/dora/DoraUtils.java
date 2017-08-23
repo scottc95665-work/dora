@@ -15,6 +15,9 @@ import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.elasticsearch.client.Response;
 import org.elasticsearch.client.RestClient;
 
+/**
+ * @author CWDS TPT-2
+ */
 public final class DoraUtils {
 
   private DoraUtils() {

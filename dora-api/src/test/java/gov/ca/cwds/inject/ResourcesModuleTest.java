@@ -10,7 +10,7 @@ import com.google.inject.ProvisionException;
 import gov.ca.cwds.rest.DoraConfiguration;
 import gov.ca.cwds.rest.ElasticsearchConfiguration;
 import gov.ca.cwds.rest.SwaggerConfiguration;
-import gov.ca.cwds.rest.resources.ApplicationResource;
+import gov.ca.cwds.rest.resources.SystemInformationResource;
 import gov.ca.cwds.rest.resources.SwaggerResource;
 import org.junit.Before;
 import org.junit.Rule;
@@ -54,14 +54,14 @@ public class ResourcesModuleTest {
 
     thrown.expect(ProvisionException.class);
     //should throw ProvisionException because appName and appVersion are not @Nullable
-    ApplicationResource applicationResource = injector.getInstance(ApplicationResource.class);
-    SwaggerResource swaggerResource = injector.getInstance(SwaggerResource.class);
+    injector.getInstance(SystemInformationResource.class);
+    injector.getInstance(SwaggerResource.class);
   }
 
   @Test
   public void testSwaggerConfigurationNPE() throws Exception {
     thrown.expect(NullPointerException.class);
-    SwaggerConfiguration swaggerConfiguration = module.swaggerConfiguration(null);
+    module.swaggerConfiguration(null);
   }
 
   @Test
@@ -77,7 +77,7 @@ public class ResourcesModuleTest {
   @Test
   public void testElasticSearchConfigurationNPE() throws Exception {
     thrown.expect(NullPointerException.class);
-    ElasticsearchConfiguration elasticsearchConfiguration = module.elasticSearchConfig(null);
+    module.elasticSearchConfig(null);
   }
 
   @Test

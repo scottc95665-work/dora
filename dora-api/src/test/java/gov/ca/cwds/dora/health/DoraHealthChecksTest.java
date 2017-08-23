@@ -13,6 +13,9 @@ import gov.ca.cwds.rest.ElasticsearchConfiguration;
 import gov.ca.cwds.rest.ElasticsearchConfiguration.XpackConfiguration;
 import org.junit.Test;
 
+/**
+ * @author CWDS TPT-2
+ */
 public class DoraHealthChecksTest {
 
   @Test

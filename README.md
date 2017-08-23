@@ -116,7 +116,7 @@ curl -X POST --header 'Content-Type: application/json' --header 'Accept: applica
 
 Assuming that Dora's IP address is 192.168.99.100, the Dora should be able to handle **GET** requests like:
 
-    % curl -X GET --header 'Accept: application/json' http://192.168.99.100:8080/application
+    % curl -X GET --header 'Accept: application/json' http://192.168.99.100:8080/system-information
 
 ## Running docker container with Dora in secured mode
 
