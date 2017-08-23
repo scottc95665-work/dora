@@ -2,8 +2,15 @@ package gov.ca.cwds.rest.resources;
 
 import static gov.ca.cwds.rest.DoraConstants.SYSTEM_INFORMATION;
 
+import com.codahale.metrics.health.HealthCheck;
+import com.codahale.metrics.health.HealthCheck.Result;
+import gov.ca.cwds.dora.dto.HealthCheckResultDTO;
 import gov.ca.cwds.dora.dto.SystemInformationDTO;
+import io.dropwizard.setup.Environment;
 import io.swagger.annotations.ApiOperation;
+import java.util.Map.Entry;
+import java.util.SortedMap;
+import java.util.TreeMap;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 
@@ -27,6 +34,7 @@ public class SystemInformationResource {
 
   private String applicationName;
   private String version;
+  private Environment environment;
 
   /**
    * Constructor
@@ -36,9 +44,10 @@ public class SystemInformationResource {
    */
   @Inject
   public SystemInformationResource(@Named("app.name") String applicationName,
-      @Named("app.version") String version) {
+      @Named("app.version") String version, Environment environment) {
     this.applicationName = applicationName;
     this.version = version;
+    this.environment = environment;
   }
 
   /**
@@ -52,6 +61,20 @@ public class SystemInformationResource {
     SystemInformationDTO systemInformationDTO = new SystemInformationDTO();
     systemInformationDTO.setApplicationName(applicationName);
     systemInformationDTO.setVersion(version);
+
+    SortedMap<String, HealthCheckResultDTO> healthCheckResults = new TreeMap<>();
+    SortedMap<String, Result> healthChecks = environment.healthChecks().runHealthChecks();
+    for(Entry<String, Result> entry : healthChecks.entrySet()) {
+      healthCheckResults.put(entry.getKey(), getHealthCheckResultDTO(entry.getValue()));
+    }
+    systemInformationDTO.setHealthCheckResults(healthCheckResults);
+
     return systemInformationDTO;
+  }
+
+  private HealthCheckResultDTO getHealthCheckResultDTO(HealthCheck.Result result) {
+    HealthCheckResultDTO healthCheckResultDTO = new HealthCheckResultDTO();
+    healthCheckResultDTO.setResult(result);
+    return healthCheckResultDTO;
   }
 }

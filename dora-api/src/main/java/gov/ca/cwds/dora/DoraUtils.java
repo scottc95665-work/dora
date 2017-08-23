@@ -2,10 +2,13 @@ package gov.ca.cwds.dora;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import gov.ca.cwds.rest.ElasticsearchConfiguration;
+import gov.ca.cwds.rest.api.DoraException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Properties;
 import java.util.stream.Stream;
 import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScope;
@@ -19,6 +22,9 @@ import org.elasticsearch.client.RestClient;
  * @author CWDS TPT-2
  */
 public final class DoraUtils {
+
+  private static final String SYS_INFO_PROPERTIES_FILE = "system-information.properties";
+  private static final String BUILD_VERSION = "build.version";
 
   private DoraUtils() {
     // no op
@@ -75,5 +81,20 @@ public final class DoraUtils {
           plugin -> ((Map<String, Object>) plugin).get("name").equals(pluginName)
       );
     }).map(Entry::getKey);
+  }
+
+  public static Properties getSystemInformationProperties() {
+    Properties versionProperties = new Properties();
+    try {
+      InputStream is = ClassLoader.getSystemResourceAsStream(SYS_INFO_PROPERTIES_FILE);
+      versionProperties.load(is);
+    } catch (IOException e) {
+      throw new DoraException("Can't read " + SYS_INFO_PROPERTIES_FILE, e);
+    }
+    return versionProperties;
+  }
+
+  public static String getAppVersion() {
+    return getSystemInformationProperties().getProperty(BUILD_VERSION);
   }
 }

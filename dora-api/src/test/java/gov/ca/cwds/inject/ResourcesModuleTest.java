@@ -22,7 +22,6 @@ import org.junit.rules.ExpectedException;
  */
 public class ResourcesModuleTest {
 
-  private static final String APP_VERSION = "TestVersion";
   private static final String APP_NAME = "AppName";
 
   private ResourcesModule module;
@@ -44,18 +43,6 @@ public class ResourcesModuleTest {
   public void testConfigureFail() throws Exception {
     thrown.expect(IllegalStateException.class);
     module.configure();
-  }
-
-  @Test
-  public void testConfigure() throws Exception {
-    Injector injector = Guice.createInjector(module);
-    ResourcesModule resourcesModule = injector.getInstance(ResourcesModule.class);
-    assertNotNull(resourcesModule);
-
-    thrown.expect(ProvisionException.class);
-    //should throw ProvisionException because appName and appVersion are not @Nullable
-    injector.getInstance(SystemInformationResource.class);
-    injector.getInstance(SwaggerResource.class);
   }
 
   @Test
@@ -94,24 +81,18 @@ public class ResourcesModuleTest {
   @Test
   public void testAppName() throws Exception {
     DoraConfiguration testDoraConfiguration = new DoraConfiguration();
-    String appName = module.appName(testDoraConfiguration);
+    String appName = module.provideAppName(testDoraConfiguration);
     assertNull(appName);
 
     testDoraConfiguration.setApplicationName(APP_NAME);
-    appName = module.appName(testDoraConfiguration);
+    appName = module.provideAppName(testDoraConfiguration);
     assertNotNull(appName);
     assertEquals(APP_NAME, appName);
   }
 
   @Test
   public void testAppVersion() throws Exception {
-    DoraConfiguration testDoraConfiguration = new DoraConfiguration();
-    String version = module.appVersion(testDoraConfiguration);
-    assertNull(version);
-
-    testDoraConfiguration.setVersion(APP_VERSION);
-    version = module.appVersion(testDoraConfiguration);
+    String version = module.provideAppVersion();
     assertNotNull(version);
-    assertEquals(APP_VERSION, version);
   }
 }
