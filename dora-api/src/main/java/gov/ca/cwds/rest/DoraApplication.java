@@ -91,6 +91,7 @@ public final class DoraApplication extends Application<DoraConfiguration> {
   }
 
   @Override
+  @SuppressWarnings("findsecbugs:CRLF_INJECTION_LOGS") // DoraConfiguration and system-information.properties are trusted sources
   public final void run(final DoraConfiguration configuration, final Environment environment) {
     //register and run application health checks
     registerHealthChecks(configuration, environment);
