@@ -1,3 +1,5 @@
+import org.apache.tools.ant.filters.ReplaceTokens
+
 buildscript {
     dependencies {
         classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.3'
@@ -48,6 +50,7 @@ project.ext {
     dropwizardVersion = "1.1.0"
     metricsVersion = "3.1.0"
     dropwizardSwaggerVersion = "1.0.0-1"
+    elasticsearchVersion = "5.5.1"
     mainclass = "gov.ca.cwds.rest.DoraApplication"
 }
 
@@ -64,15 +67,26 @@ shadowJar {
 mainClassName = mainclass
 
 repositories {
+    mavenCentral()
     maven { url "http://sonar.dev.cwds.io:8081/artifactory/repo" }
+}
+
+processResources {
+    filter(ReplaceTokens, tokens: [
+        'build.version': projectVersion
+    ])
 }
 
 dependencies {
     // Dropwizard-guice 1.0.0.2 conflicts with jersey-client 2.25.
     // Exclude transitive dependencies.
-    compile('gov.ca.cwds.api:api-core:0.24.272') {
+    compile('gov.ca.cwds.api:api-core-rest:3.6.400') {
         exclude group: 'org.glassfish.jersey.core'
+        exclude group: 'org.elasticsearch', module: 'elasticsearch'
+        exclude group: 'org.elasticsearch.client', module: 'transport'
     }
+    compile group: 'org.elasticsearch', name: 'elasticsearch', version: elasticsearchVersion
+    compile group: 'org.elasticsearch.client', name: 'transport', version: elasticsearchVersion
 
     compile group: 'org.apache.commons', name: 'commons-compress', version: '1.14'
 
@@ -125,12 +139,18 @@ run {
 }
 
 test {
-    exclude '**/*IT*'
+    exclude '**/*IT*', '**/*SmokeTest*'
 }
 
 task integrationTest(type: Test, dependsOn: testClasses) {
     include '**/*IT*'
     exclude '**/*Test*'
+}
+
+task smokeTest(type: Test) {
+    // URL where smoke tests will be pointed to (change it in gradle.properties)
+    systemProperty 'dora.url', project.property('dora.url')
+    include '**/*SmokeTestSuite*'
 }
 
 publishing {

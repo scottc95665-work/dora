@@ -44,6 +44,7 @@ node ('dora-slave'){
  try {
 
    stage('Preparation') {
+          cleanWs()
 		  checkout([$class: 'GitSCM', branches: [[name: '*/development']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '433ac100-b3c2-4519-b4d6-207c029a103b', url: 'git@github.com:ca-cwds/dora.git']]])
 		  rtGradle.tool = "Gradle_35"
 		  rtGradle.resolver repo:'repo', server: serverArti
@@ -54,10 +55,12 @@ node ('dora-slave'){
    stage('Unit Tests') {
 		buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: 'test jacocoTestReport'
    }
-
+   stage('License Report') {
+   		buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: 'downloadLicenses'
+   }
    stage('SonarQube analysis'){
 		withSonarQubeEnv('Core-SonarQube') {
-			buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: 'sonarqube --stacktrace'
+			buildInfo = rtGradle.run buildFile: 'build.gradle', switches: '--info', tasks: 'sonarqube'
 		}
     }
 	stage ('Push to Artifactory'){
@@ -80,18 +83,23 @@ node ('dora-slave'){
 		    archiveArtifacts artifacts: '**/dora*.jar,readme.txt', fingerprint: true
 	}
 	stage('Deploy Application'){
-	   checkout changelog: false, poll: false, scm: [$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'IgnoreNotifyCommit']], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '433ac100-b3c2-4519-b4d6-207c029a103b', url: 'git@github.com:ca-cwds/de-ansible.git']]]
+	   git changelog: false, credentialsId: '433ac100-b3c2-4519-b4d6-207c029a103b', poll: false, url: 'git@github.com:ca-cwds/de-ansible.git'
 	   sh 'ansible-playbook -e DORA_API_VERSION=$APP_VERSION -i $inventory deploy-dora.yml --vault-password-file ~/.ssh/vault.txt -vv'
 	}
+	stage('Smoke Tests') {
+    git branch: 'development', url: 'https://github.com/ca-cwds/dora.git'
+    buildInfo = rtGradle.run buildFile: './dora-api/build.gradle', tasks: 'smokeTest --stacktrace'
+    publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'dora-api/build/reports/tests/smokeTest', reportFiles: 'index.html', reportName: 'Smoke Tests Report', reportTitles: 'Smoke tests summary'])
+  }
  } catch (Exception e)    {
 	   errorcode = e;
 	   currentBuild.result = "FAIL"
+	   notifyBuild(currentBuild.result,errorcode)
 	   throw e;
 
 	}finally {
-		notifyBuild(currentBuild.result,errorcode)
-		cleanWs()
+   		publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'build/reports/license/', reportFiles: 'license-dependency.html', reportName: 'License Report', reportTitles: 'License summary'])
+   		publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'dora-api/build/reports/tests/test/', reportFiles: 'index.html', reportName: 'JUnit Reports', reportTitles: 'JUnit tests summary'])
+   		publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'dora-api/build/reports/tests/smokeTest', reportFiles: 'index.html', reportName: 'Smoke Tests Reports', reportTitles: 'Smoke tests summary'])
 	}
-
-
 }

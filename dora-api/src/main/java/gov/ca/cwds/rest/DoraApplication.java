@@ -1,11 +1,13 @@
 package gov.ca.cwds.rest;
 
+import com.codahale.metrics.health.HealthCheck;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.google.inject.Injector;
 import com.hubspot.dropwizard.guice.GuiceBundle;
-import gov.ca.cwds.rest.filters.RequestResponseLoggingFilter;
-import gov.ca.cwds.rest.filters.UnhandledExceptionMapperImpl;
+import gov.ca.cwds.dora.DoraUtils;
+import gov.ca.cwds.dora.health.BasicDoraHealthCheck;
+import gov.ca.cwds.dora.health.ElasticsearchHealthCheck;
+import gov.ca.cwds.dora.health.ElasticsearchPluginHealthCheck;
 import gov.ca.cwds.rest.resources.SwaggerResource;
 import io.dropwizard.Application;
 import io.dropwizard.assets.AssetsBundle;
@@ -16,6 +18,7 @@ import io.dropwizard.views.ViewBundle;
 import io.swagger.jaxrs.config.BeanConfig;
 import io.swagger.jaxrs.listing.ApiListingResource;
 import java.util.EnumSet;
+import java.util.Map;
 import javax.servlet.DispatcherType;
 import javax.servlet.FilterRegistration;
 import org.eclipse.jetty.server.session.SessionHandler;
@@ -43,7 +46,8 @@ public final class DoraApplication extends Application<DoraConfiguration> {
   @SuppressWarnings("unused")
   private static final Logger LOGGER = LoggerFactory.getLogger(DoraApplication.class);
 
-  private GuiceBundle<DoraConfiguration> guiceBundle;
+  private static final String PHONETIC_SEARCH_PLUGIN_NAME = "analysis-phonetic";
+  private static final String X_PACK_PLUGIN_NAME = "x-pack";
 
   private final ShiroBundle<DoraConfiguration> shiroBundle = new ShiroBundle<DoraConfiguration>() {
     @Override
@@ -77,7 +81,7 @@ public final class DoraApplication extends Application<DoraConfiguration> {
         bootstrap.getConfigurationSourceProvider(), new EnvironmentVariableSubstitutor(false)));
 
     bootstrap.addBundle(new ViewBundle<>());
-    guiceBundle = GuiceBundle.<DoraConfiguration>newBuilder()
+    GuiceBundle<DoraConfiguration> guiceBundle = GuiceBundle.<DoraConfiguration>newBuilder()
         .addModule(new ApplicationModule())
         .setConfigClass(bootstrap.getApplication().getConfigurationClass())
         .enableAutoConfig(getClass().getPackage().getName()).build();
@@ -87,21 +91,23 @@ public final class DoraApplication extends Application<DoraConfiguration> {
   }
 
   @Override
+  @SuppressWarnings("findsecbugs:CRLF_INJECTION_LOGS") // DoraConfiguration and system-information.properties are trusted sources
   public final void run(final DoraConfiguration configuration, final Environment environment) {
+    //register and run application health checks
+    registerHealthChecks(configuration, environment);
+    runHealthChecks(environment);
+
     environment.jersey().register(new ShiroExceptionMapper());
     environment.servlets().setSessionHandler(new SessionHandler());
 
     LOGGER.info("Application name: {}, Version: {}", configuration.getApplicationName(),
-        configuration.getVersion());
+        DoraUtils.getAppVersion());
 
     LOGGER.info("Configuring CORS: Cross-Origin Resource Sharing");
     configureCors(environment);
 
     LOGGER.info("Configuring SWAGGER");
     configureSwagger(configuration, environment);
-
-    LOGGER.info("Registering Filters");
-    registerFilters(environment);
   }
 
   private void configureCors(final Environment environment) {
@@ -139,14 +145,24 @@ public final class DoraApplication extends Application<DoraConfiguration> {
     environment.jersey().register(swaggerResource);
   }
 
-  private void registerFilters(final Environment environment) {
-    // Story #129093035: Catch/handle 500 errors.
-    environment.jersey().register(UnhandledExceptionMapperImpl.class);
+  private void registerHealthChecks(final DoraConfiguration configuration,
+      final Environment environment) {
+    environment.healthChecks().register("dora-es-config",
+        new BasicDoraHealthCheck(configuration.getElasticsearchConfiguration()));
+    environment.healthChecks().register("elasticsearch-status",
+        new ElasticsearchHealthCheck(configuration.getElasticsearchConfiguration()));
+    environment.healthChecks().register("elasticsearch-plugin-" + PHONETIC_SEARCH_PLUGIN_NAME,
+        new ElasticsearchPluginHealthCheck(configuration.getElasticsearchConfiguration(), PHONETIC_SEARCH_PLUGIN_NAME));
+    environment.healthChecks().register("elasticsearch-plugin-" + X_PACK_PLUGIN_NAME,
+        new ElasticsearchPluginHealthCheck(configuration.getElasticsearchConfiguration(), X_PACK_PLUGIN_NAME));
+  }
 
-    Injector injector = guiceBundle.getInjector();
-    environment.servlets()
-        .addFilter("AuditAndLoggingFilter",
-            injector.getInstance(RequestResponseLoggingFilter.class))
-        .addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), true, "/*");
+  private void runHealthChecks(Environment environment) {
+    for (Map.Entry<String, HealthCheck.Result> entry :
+        environment.healthChecks().runHealthChecks().entrySet()) {
+      if (!entry.getValue().isHealthy()) {
+        LOGGER.error("Fail - {}: {}", entry.getKey(), entry.getValue().getMessage());
+      }
+    }
   }
 }
