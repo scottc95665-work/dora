@@ -1,5 +1,4 @@
-applicationName: CWDS Dora TEST
-version: version
+applicationName: CWDS Dora
 
 shiro:
   iniConfigs: ["file:${SHIRO_CONFIG_PATH:-src/test/resources/config/shiro_nosec_test.ini}"]
@@ -47,3 +46,5 @@ logging:
       timeZone: UTC
       target: stdout
       logFormat: '%X{remoteAddress} [%date{ISO8601}] %level "%thread" "%X{uniqueId}" %logger: "%message%n"'
+
+version: -UNUSED-

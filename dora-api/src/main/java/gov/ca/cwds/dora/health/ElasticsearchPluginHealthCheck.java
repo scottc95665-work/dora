@@ -10,6 +10,9 @@ import org.elasticsearch.client.RestClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * @author CWDS TPT-2
+ */
 public class ElasticsearchPluginHealthCheck extends ElasticsearchHealthCheck {
 
   private static final Logger LOGGER = LoggerFactory

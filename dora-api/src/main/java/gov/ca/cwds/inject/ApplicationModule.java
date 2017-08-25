@@ -12,24 +12,21 @@ import gov.ca.cwds.rest.DoraApplication;
  */
 public class ApplicationModule extends AbstractModule {
 
-    /**
-     * Constructor. {@link AbstractModule#AbstractModule()}
-     */
-    public ApplicationModule() {
-        super();
-    }
+  /**
+   * Constructor. {@link AbstractModule#AbstractModule()}
+   */
+  public ApplicationModule() {
+    super();
+  }
 
-    /**
-     * Configure and initialize API components, including services, resources, data access objects
-     * (DAO), web service filters, and auditing.
-     * <p>
-     * {@inheritDoc}
-     */
-    @Override
-    protected void configure() {
-        install(new ServicesModule());
-        install(new ResourcesModule());
-        install(new AuditingModule());
-    }
-
+  /**
+   * Configure and initialize API components, including services, resources, data access objects
+   * (DAO), web service filters, and auditing. <p> {@inheritDoc}
+   */
+  @Override
+  protected void configure() {
+    install(new ServicesModule());
+    install(new ResourcesModule());
+    install(new AuditingModule());
+  }
 }

@@ -1,3 +1,5 @@
+import org.apache.tools.ant.filters.ReplaceTokens
+
 buildscript {
     dependencies {
         classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.3'
@@ -69,6 +71,12 @@ repositories {
     maven { url "http://sonar.dev.cwds.io:8081/artifactory/repo" }
 }
 
+processResources {
+    filter(ReplaceTokens, tokens: [
+        'build.version': projectVersion
+    ])
+}
+
 dependencies {
     // Dropwizard-guice 1.0.0.2 conflicts with jersey-client 2.25.
     // Exclude transitive dependencies.
@@ -131,12 +139,18 @@ run {
 }
 
 test {
-    exclude '**/*IT*'
+    exclude '**/*IT*', '**/*SmokeTest*'
 }
 
 task integrationTest(type: Test, dependsOn: testClasses) {
     include '**/*IT*'
     exclude '**/*Test*'
+}
+
+task smokeTest(type: Test) {
+    // URL where smoke tests will be pointed to (change it in gradle.properties)
+    systemProperty 'dora.url', project.property('dora.url')
+    include '**/*SmokeTestSuite*'
 }
 
 publishing {

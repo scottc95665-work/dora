@@ -4,6 +4,7 @@ import com.codahale.metrics.health.HealthCheck;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.hubspot.dropwizard.guice.GuiceBundle;
+import gov.ca.cwds.dora.DoraUtils;
 import gov.ca.cwds.dora.health.BasicDoraHealthCheck;
 import gov.ca.cwds.dora.health.ElasticsearchHealthCheck;
 import gov.ca.cwds.dora.health.ElasticsearchPluginHealthCheck;
@@ -90,6 +91,7 @@ public final class DoraApplication extends Application<DoraConfiguration> {
   }
 
   @Override
+  @SuppressWarnings("findsecbugs:CRLF_INJECTION_LOGS") // DoraConfiguration and system-information.properties are trusted sources
   public final void run(final DoraConfiguration configuration, final Environment environment) {
     //register and run application health checks
     registerHealthChecks(configuration, environment);
@@ -99,7 +101,7 @@ public final class DoraApplication extends Application<DoraConfiguration> {
     environment.servlets().setSessionHandler(new SessionHandler());
 
     LOGGER.info("Application name: {}, Version: {}", configuration.getApplicationName(),
-        configuration.getVersion());
+        DoraUtils.getAppVersion());
 
     LOGGER.info("Configuring CORS: Cross-Origin Resource Sharing");
     configureCors(environment);
