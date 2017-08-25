@@ -149,3 +149,9 @@ Pull the Docker image:
 Run the container:
 
     % docker run -d --name=<container name>  -p 9200:9200 -p 9300:9300 cwds/elasticsearch_xpack_data
+    
+## Clean Up
+
+Run ```gradlew :docker-dora:dockerCleanUp``` - to remove the dora image from local docker environment.
+
+Run ```gradlew :docker-es-xpack:dockerCleanUp``` - to remove the elasticsearch_xpack_data image from local docker environment.
