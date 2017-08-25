@@ -4,8 +4,8 @@ import com.google.inject.Inject;
 import gov.ca.cwds.dora.DoraUtils;
 import gov.ca.cwds.rest.ElasticsearchConfiguration;
 import java.io.IOException;
+import java.util.Map;
 import java.util.Optional;
-import org.elasticsearch.client.Response;
 import org.elasticsearch.client.RestClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,10 +18,10 @@ public class ElasticsearchPluginHealthCheck extends ElasticsearchHealthCheck {
   private static final Logger LOGGER = LoggerFactory
       .getLogger(ElasticsearchPluginHealthCheck.class);
 
-  private static final String ES_PLUGINS_ENDPOINT = "/_nodes/plugins";
+  static final String ES_PLUGINS_ENDPOINT = "/_nodes/plugins";
 
-  private static final String HEALTHY_ES_PLUGIN_MSG = "%s plugin is installed on every Elasticsearch node.";
-  private static final String UNHEALTHY_ES_PLUGIN_MSG = "%s plugin is not installed on the following Elasticsearch nodes: %s";
+  static final String HEALTHY_ES_PLUGIN_MSG = "%s plugin is installed on every Elasticsearch node.";
+  static final String UNHEALTHY_ES_PLUGIN_MSG = "%s plugin is not installed on the following Elasticsearch nodes: %s";
 
   private String pluginName;
 
@@ -44,10 +44,9 @@ public class ElasticsearchPluginHealthCheck extends ElasticsearchHealthCheck {
     }
 
     try (RestClient esRestClient = DoraUtils.createElasticsearchClient(esConfig)) {
-      Response response = esRestClient.performRequest("GET", ES_PLUGINS_ENDPOINT);
+      Map<String, Object> jsonMap = performRequest(esRestClient, "GET", ES_PLUGINS_ENDPOINT);
 
-      Optional<String> badEsNodesOptional = DoraUtils
-          .extractNodesWithoutPlugin(DoraUtils.responseToJsonMap(response), pluginName)
+      Optional<String> badEsNodesOptional = DoraUtils.extractNodesWithoutPlugin(jsonMap, pluginName)
           .reduce((s1, s2) -> String.join(", ", s1, s2));
 
       if (badEsNodesOptional.isPresent()) {

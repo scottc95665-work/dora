@@ -83,7 +83,7 @@ public final class DoraUtils {
     }).map(Entry::getKey);
   }
 
-  public static Properties getSystemInformationProperties() {
+  private static Properties getSystemInformationProperties() {
     Properties versionProperties = new Properties();
     try {
       InputStream is = ClassLoader.getSystemResourceAsStream(SYS_INFO_PROPERTIES_FILE);

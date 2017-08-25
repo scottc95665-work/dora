@@ -7,6 +7,24 @@ def dockerTag = projectVersion
 def doraDistFileName = "dora-${projectVersion}-dist.jar" // as shadowJar makes it
 def dockerContextDir = "$project.parent.buildDir/docker-dora"
 
+task dockerCleanUpLatest(type: Exec, dependsOn: project.parent.checkDockerService) {
+    ignoreExitValue true
+    environment << project.dockerEnvVars
+    doFirst {
+        commandLine 'docker', 'rmi', '--force', "$dockerImageName:latest"
+    }
+}
+
+task dockerCleanUpTagged(type: Exec, dependsOn: project.parent.checkDockerService) {
+    ignoreExitValue true
+    environment << project.dockerEnvVars
+    doFirst {
+        commandLine 'docker', 'rmi', '--force', "$dockerImageName:$dockerTag"
+    }
+}
+
+task dockerCleanUp (dependsOn: [dockerCleanUpLatest, dockerCleanUpTagged]) {}
+
 task dockerCopyScripts(type: Copy) {
     from projectDir
     into dockerContextDir
@@ -37,11 +55,12 @@ task dockerfile(type: Copy) {
     )
 }
 
-task dockerCreateImage(type: Exec, dependsOn: [project.parent.checkDockerService, dockerCopyScripts, dockerCopyConfig, dockerCopyDist, dockerfile]) {
+task dockerCreateImage(type: Exec, dependsOn: [project.parent.checkDockerService, dockerCleanUp, dockerCopyScripts, dockerCopyConfig, dockerCopyDist, dockerfile]) {
     environment << project.dockerEnvVars
     doFirst {
         commandLine 'docker', 'build', '-t', dockerImageName, '-f', "$dockerContextDir/Dockerfile-dora", dockerContextDir
     }
+    dockerCleanUp.mustRunAfter(project.parent.checkDockerService)
 }
 
 task dockerTagImage(type: Exec, dependsOn: project.parent.checkDockerService) {

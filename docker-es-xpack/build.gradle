@@ -62,6 +62,24 @@ void esConnect(baseUrl) {
     }
 }
 
+task dockerCleanUpLatest(type: Exec, dependsOn: project.parent.checkDockerService) {
+    ignoreExitValue true
+    environment << project.dockerEnvVars
+    doFirst {
+        commandLine 'docker', 'rmi', '--force', "$dockerImageName:latest"
+    }
+}
+
+task dockerCleanUpTagged(type: Exec, dependsOn: project.parent.checkDockerService) {
+    ignoreExitValue true
+    environment << project.dockerEnvVars
+    doFirst {
+        commandLine 'docker', 'rmi', '--force', "$dockerImageName:$dockerTag"
+    }
+}
+
+task dockerCleanUp (dependsOn: [dockerCleanUpLatest, dockerCleanUpTagged]) {}
+
 task dockerRemoveContainer(type: Exec, dependsOn: project.parent.checkDockerService) {
     ignoreExitValue true
     environment << project.dockerEnvVars
@@ -70,12 +88,13 @@ task dockerRemoveContainer(type: Exec, dependsOn: project.parent.checkDockerServ
     }
 }
 
-task dockerCreateImage(type: Exec, dependsOn: [project.parent.checkDockerService, dockerRemoveContainer]) {
+task dockerCreateImage(type: Exec, dependsOn: [project.parent.checkDockerService, dockerRemoveContainer, dockerCleanUp]) {
     environment << project.dockerEnvVars
     doFirst {
         commandLine 'docker', 'build', '-t', dockerImageName, '-f', "$projectDir/Dockerfile", projectDir
     }
     dockerRemoveContainer.mustRunAfter(project.parent.checkDockerService)
+    dockerCleanUp.mustRunAfter(dockerRemoveContainer)
 }
 
 task dockerStartContainer(type: Exec, dependsOn: [project.parent.checkDockerService, dockerCreateImage]) {
@@ -92,19 +111,37 @@ task dockerStartContainer(type: Exec, dependsOn: [project.parent.checkDockerServ
 task dockerPopulate(dependsOn: dockerStartContainer) {
     doFirst {
         new JsonSlurper().parseText(new String(Files.readAllBytes(Paths.get("$projectDir/data.json")))).each {
-            String [] action = it.action.toString().split("\\s")
+            String[] action = it.action.toString().split("\\s")
             String content = it.data == null ? null : JsonOutput.toJson(it.data)
             esExecute(action[0], action[1], content)
         }
     }
 }
 
-task dockerCommitPopulatedImage(type: Exec, dependsOn: [project.parent.checkDockerService, dockerPopulate]) {
+task dockerPopulateTestPeople(dependsOn: dockerStartContainer) {
+    enabled = (System.getProperty("es.populate.test.people") ?: 'false').equalsIgnoreCase('true')
+    doFirst {
+        // create people index
+        esExecute("PUT", "/people", "{}")
+    }
+    doLast {
+        // populate test people data
+        ["1", "2", "3", "4"].each {
+            String esUrl = "/people/person/$it"
+            String content = new String(Files.readAllBytes(Paths.get("$projectDir/test_data/people/person_${it}.json")))
+            esExecute("PUT", esUrl, content)
+        }
+        // verify with URL like: http://192.168.99.100:9200/people/person/_search?pretty
+    }
+}
+
+task dockerCommitPopulatedImage(type: Exec, dependsOn: [project.parent.checkDockerService, dockerPopulate, dockerPopulateTestPeople]) {
     environment << project.dockerEnvVars
     doFirst {
         commandLine 'docker', 'commit', '-m', 'populated', dockerContainerName, dockerImageName
     }
     dockerPopulate.mustRunAfter(project.parent.checkDockerService)
+    dockerPopulateTestPeople.mustRunAfter(project.parent.checkDockerService)
 }
 
 task dockerStopContainer(type: Exec, dependsOn: project.parent.checkDockerService) {
