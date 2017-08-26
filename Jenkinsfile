@@ -91,7 +91,7 @@ node('dora-slave') {
             publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'dora-api/build/reports/tests/smokeTest', reportFiles: 'index.html', reportName: 'Smoke Tests Report', reportTitles: 'Smoke tests summary'])
         }
         stage('Clean WorkSpace') {
-            buildInfo = rtGradle.run buildFile: './docker-dora/build.gradle', tasks: 'dockerCleanUp'
+            buildInfo = rtGradle.run buildFile: './docker-dora/build.gradle', tasks: 'dockerCleanUpTagged'
         }
     } catch (Exception e) {
         errorcode = e;
