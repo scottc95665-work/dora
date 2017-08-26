@@ -67,7 +67,7 @@ node ('dora-slave'){
         }
         stage('Clean WorkSpace') {
             buildInfo = rtGradle.run buildFile: './docker-es-xpack/build.gradle', tasks: 'dockerRemoveContainer'
-            buildInfo = rtGradle.run buildFile: './docker-es-xpack/build.gradle', tasks: 'dockerCleanUp'
+            buildInfo = rtGradle.run buildFile: './docker-es-xpack/build.gradle', tasks: 'dockerCleanUpTagged'
         }
 
     } catch (Exception e)    {
