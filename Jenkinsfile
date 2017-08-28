@@ -90,6 +90,7 @@ node('dora-slave') {
         }
         stage('Smoke Tests') {
             git branch: 'development', url: 'https://github.com/ca-cwds/dora.git'
+            sh "curl http://dora.dev.cwds.io:8083/system-information"
             buildInfo = rtGradle.run buildFile: './dora-api/build.gradle', tasks: 'smokeTest --stacktrace'
             publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'dora-api/build/reports/tests/smokeTest', reportFiles: 'index.html', reportName: 'Smoke Tests Report', reportTitles: 'Smoke tests summary'])
         }
