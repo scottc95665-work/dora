@@ -57,7 +57,7 @@ node ('dora-slave'){
             rtGradle.resolver repo:'repo', server: serverArti
         }
         stage('Build Docker'){
-            withEnv(['ELASTIC_HOST=127.0.0.1']) {
+            withEnv(['ELASTIC_HOST=127.0.0.1','ELASTIC_PORT=10200']) {
                 buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: 'printConfig', switches: '--info'
                 buildInfo = rtGradle.run buildFile: './docker-es-xpack/build.gradle', tasks: 'dockerCreateImage', switches: '--info'
                 withDockerRegistry([credentialsId: '6ba8d05c-ca13-4818-8329-15d41a089ec0']) {
