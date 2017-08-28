@@ -21,13 +21,13 @@ apply plugin: 'maven-publish'
 apply plugin: 'com.github.johnrengelman.shadow'
 /*apply plugin: 'org.sonarqube'*/
 
-sonarqube {
+/*sonarqube {
     properties {
         property "sonar.projectName", "${name}"
         property "sonar.projectKey", "${group}:${name}"
         property "sonar.jacoco.reportPaths", "${project.buildDir}/jacoco/test.exec"
     }
-}
+}*/
 
 jacocoTestReport {
     reports {

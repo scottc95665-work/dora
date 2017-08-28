@@ -39,6 +39,8 @@ repositories {
 
 sonarqube {
     properties {
+        property "sonar.projectName", "${name}"
+        property "sonar.projectKey", "${group}:${name}"
         property "sonar.jacoco.reportPath", "${buildDir}/jacoco/test.exec"
         property "sonar.jacoco.itReportPath", "${buildDir}/jacoco/integrationTest.exec"
     }
