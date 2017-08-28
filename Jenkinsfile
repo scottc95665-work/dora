@@ -82,6 +82,9 @@ node('dora-slave') {
             archiveArtifacts artifacts: '**/dora*.jar,readme.txt', fingerprint: true
         }
         stage('Deploy Application') {
+ 	        withDockerRegistry([credentialsId: '6ba8d05c-ca13-4818-8329-15d41a089ec0']) {
+	           sh "cd /opt/dora-es; docker-compose pull ; docker-compose up -d"
+	        }
             git changelog: false, credentialsId: '433ac100-b3c2-4519-b4d6-207c029a103b', poll: false, url: 'git@github.com:ca-cwds/de-ansible.git'
             sh 'ansible-playbook -e DORA_API_VERSION=$APP_VERSION -i $inventory deploy-dora.yml --vault-password-file ~/.ssh/vault.txt -vv'
         }
