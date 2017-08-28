@@ -4,7 +4,6 @@ RUN mkdir /opt/cwds-dora/logs
 ADD config/* /opt/cwds-dora/config/
 ADD entrypoint.sh /opt/cwds-dora/
 ADD libs/${dora_dist_file_name} /opt/cwds-dora/dora.jar
-EXPOSE 8080
 RUN chmod +x /opt/cwds-dora/entrypoint.sh
 WORKDIR /opt/cwds-dora
 CMD ["/opt/cwds-dora/entrypoint.sh"]

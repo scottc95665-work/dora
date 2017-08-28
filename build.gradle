@@ -1,3 +1,5 @@
+import org.apache.tools.ant.taskdefs.condition.Os
+
 import static org.gradle.api.logging.LogLevel.*
 
 buildscript {
@@ -17,14 +19,15 @@ project.logging.setLevelInternal(INFO)
 
 project.ext {
     projectGroup = 'gov.ca.cwds.services'
-    projectVersion = '3.5-SNAPSHOT'
+    projectVersion = '0.4.1-SNAPSHOT'
 
     mainclass = "gov.ca.cwds.rest.DoraApplication"
     configPath = "$rootProject.projectDir/config/"
 
     targetDockerHubOrganization = System.env.DOCKERHUB_ORG ?: 'cwds'
 
-    buildEnv = System.env.BUILD_ENV ?: 'JENKINS'
+    // assume that Windows users use the Docker Toolbox
+    buildEnv = System.env.BUILD_ENV ?: (Os.isFamily(Os.FAMILY_WINDOWS) ? 'WIN_DEV' : 'JENKINS')
     devDockerHost = System.env.DEV_DOCKER_HOST ?: '192.168.99.100'
     devDockerPort = 2376
 }
@@ -64,23 +67,20 @@ def isPortOpen(host, port) {
     }
 }
 
+project.ext.dockerEnvVars = project.buildEnv != 'WIN_DEV' ? [:] : [
+    DOCKER_CERT_PATH: System.getProperty("user.home") + '/.docker/machine/machines/default',
+    DOCKER_HOST: "tcp://$project.devDockerHost:$project.devDockerPort",
+    DOCKER_MACHINE_NAME: 'default',
+    DOCKER_TLS_VERIFY: '1',
+    COMPOSE_CONVERT_WINDOWS_PATHS: 'true'
+]
+
 // reused in sub-modules
 task checkDockerService {
     enabled = project.buildEnv == 'WIN_DEV'
     doFirst {
         if (!isPortOpen(project.devDockerHost, project.devDockerPort)) {
             throw new GradleException('Docker service is not available. Windows users should start Docker Quickstart Terminal of Docker Toolbox')
-        }
-    }
-    doLast {
-        def dockerEnvVars = [:]
-        dockerEnvVars['DOCKER_CERT_PATH'] = System.getProperty("user.home") + '/.docker/machine/machines/default'
-        dockerEnvVars['DOCKER_HOST'] = "tcp://$project.devDockerHost:$project.devDockerPort"
-        dockerEnvVars['DOCKER_MACHINE_NAME'] = 'default'
-        dockerEnvVars['DOCKER_TLS_VERIFY'] = 1
-
-        childProjects.each {
-            k, childProject -> childProject.tasks.withType(Exec) { environment << dockerEnvVars }
         }
     }
 }

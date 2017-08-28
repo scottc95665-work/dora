@@ -7,13 +7,7 @@ package gov.ca.cwds.rest;
  */
 public interface DoraConstants {
 
-    /**
-     * A {@code String} constant representing {@value #RESOURCE_APPLICATION} API..
-     */
-    String RESOURCE_APPLICATION = "application";
+    String SYSTEM_INFORMATION = "system-information";
 
-    /**
-     * A {@code String} constant representing {@value #RESOURCE_ELASTICSEARCH_INDEX_QUERY} API.
-     */
     String RESOURCE_ELASTICSEARCH_INDEX_QUERY = "dora";
 }

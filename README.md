@@ -44,6 +44,7 @@ Configuration options are available in the file config/dora.yml.
 - APP_STD_PORT - default: `8080`
 - APP_ADMIN_PORT - default: `8081`
 - PERRY_URL - default: `http://localhost:8090/authn/login`
+- SP_ID - service provider ID for Identity Mapping (defines security attributes for specific application)
 - SHOW_SWAGGER - set to `true` to have a link like `http://localhost:8080/swagger` (default: `false`)
 - XPACK_ENABLED - true/false, has effect only when used while running a docker container based on the cwds/dora
 
@@ -80,22 +81,21 @@ The following command will build a versioned docker image with Dora and publish 
     % ./gradlew :docker-dora:dockerDoraPublish
 
 A developer might want to set the following environment variables prior running that command locally: 
-- BUILD_ENV=WIN_DEV
 - DOCKERHUB_ORG=\<own Docker ID\>
 
 ## Running docker container with Dora in non-secured mode
 
     % docker pull cwds/dora
-    % docker run -d --name=<container name> -p 8080:8080 -e ES_HOST=<ELASTICSEARCH_IP> -e ES_PORT=9200 -e XPACK_ENABLED=false cwds/dora
+    % docker run -d --name=<container name> -p 8080:8080 -p 8081:8081 -e ES_HOST=<ELASTICSEARCH_IP> -e ES_PORT=9200 -e XPACK_ENABLED=false cwds/dora
 
 For example:
 
-    % docker run -d --name=dora1 -p 8080:8080 -e ES_HOST=192.168.56.1 -e ES_PORT=9200 -e XPACK_ENABLED=false cwds/dora
+    % docker run -d --name=dora1 -p 8080:8080 -p 8081:8081 -e ES_HOST=192.168.56.1 -e ES_PORT=9200 -e XPACK_ENABLED=false cwds/dora
     
 Add `-e SHOW_SWAGGER=true` to turn on swagger for development purposes:
 
-    % docker run -d --name=dora1 -p 8080:8080 -e ES_HOST=192.168.56.1 -e ES_PORT=9200 -e XPACK_ENABLED=false -e SHOW_SWAGGER=true cwds/dora
-
+    % docker run -d --name=dora1 -p 8080:8080 -p 8081:8081 -e ES_HOST=192.168.56.1 -e ES_PORT=9200 -e XPACK_ENABLED=false -e SHOW_SWAGGER=true cwds/dora
+    
 Assuming that Dora's IP address is 192.168.99.100, swagger should be available at: `http://192.168.99.100:8080/swagger`
 
 Assuming that Dora's IP address is 192.168.99.100, the Dora should be able to handle **POST** requests to URLs like:
@@ -116,7 +116,7 @@ curl -X POST --header 'Content-Type: application/json' --header 'Accept: applica
 
 Assuming that Dora's IP address is 192.168.99.100, the Dora should be able to handle **GET** requests like:
 
-    % curl -X GET --header 'Accept: application/json' http://192.168.99.100:8080/application
+    % curl -X GET --header 'Accept: application/json' http://192.168.99.100:8080/system-information
 
 ## Running docker container with Dora in secured mode
 
@@ -134,7 +134,6 @@ The following command will build a versioned docker image with Elasticsearch 5.3
     % ./gradlew :docker-es-xpack:dockerEsXpackPublish
     
 A developer might want to set the following environment variables prior running that command locally: 
-- BUILD_ENV=WIN_DEV
 - DOCKERHUB_ORG=\<own Docker ID\>
 
 _**It is not recommended to publish the docker image with Elasticsearch + X-Pack to public repository**_
@@ -150,3 +149,9 @@ Pull the Docker image:
 Run the container:
 
     % docker run -d --name=<container name>  -p 9200:9200 -p 9300:9300 cwds/elasticsearch_xpack_data
+    
+## Clean Up
+
+Run ```gradlew :docker-dora:dockerCleanUp``` - to remove the dora image from local docker environment.
+
+Run ```gradlew :docker-es-xpack:dockerCleanUp``` - to remove the elasticsearch_xpack_data image from local docker environment.

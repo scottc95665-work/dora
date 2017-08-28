@@ -55,8 +55,4 @@ public abstract class BaseDoraApplicationTest {
   @After
   public void tearDown() throws Exception {
   }
-
-  private static boolean isIntegrationTestsRunning() {
-    return System.getProperty("dora.url") != null;
-  }
 }

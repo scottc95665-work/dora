@@ -4,10 +4,11 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.name.Named;
 
+import gov.ca.cwds.dora.DoraUtils;
 import gov.ca.cwds.rest.DoraConfiguration;
 import gov.ca.cwds.rest.ElasticsearchConfiguration;
 import gov.ca.cwds.rest.SwaggerConfiguration;
-import gov.ca.cwds.rest.resources.ApplicationResource;
+import gov.ca.cwds.rest.resources.SystemInformationResource;
 import gov.ca.cwds.rest.resources.SwaggerResource;
 
 /**
@@ -27,7 +28,7 @@ public class ResourcesModule extends AbstractModule {
 
   @Override
   protected void configure() {
-    bind(ApplicationResource.class);
+    bind(SystemInformationResource.class);
     bind(SwaggerResource.class);
   }
 
@@ -43,13 +44,13 @@ public class ResourcesModule extends AbstractModule {
 
   @Provides
   @Named("app.name")
-  public String appName(DoraConfiguration doraConfiguration) {
+  public String provideAppName(DoraConfiguration doraConfiguration) {
     return doraConfiguration.getApplicationName();
   }
 
   @Provides
   @Named("app.version")
-  public String appVersion(DoraConfiguration doraConfiguration) {
-    return doraConfiguration.getVersion();
+  public String provideAppVersion() {
+    return DoraUtils.getAppVersion();
   }
 }
