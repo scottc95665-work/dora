@@ -19,6 +19,7 @@ apply plugin: 'java'
 apply plugin: 'application'
 apply plugin: 'maven-publish'
 apply plugin: 'com.github.johnrengelman.shadow'
+apply plugin: 'org.sonarqube'
 
 sonarqube {
     properties {
