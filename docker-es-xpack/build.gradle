@@ -119,7 +119,7 @@ task dockerPopulate(dependsOn: dockerStartContainer) {
 }
 
 task dockerPopulateTestPeople(dependsOn: dockerStartContainer) {
-    enabled = (System.getProperty("es.populate.test.people") ?: 'false').equalsIgnoreCase('true')
+    enabled = (System.getProperty("es.populate.test.people") ?: 'true').equalsIgnoreCase('true')
     doFirst {
         // create people index
         esExecute("PUT", "/people", "{}")
