@@ -1,0 +1,13 @@
+{
+  "action": "POST /_xpack/security/user/${role}",
+  "content": {
+    "password": "password",
+    "roles": [
+      "${role}"
+    ],
+    "metadata": {
+      "intelligence": 7
+    },
+    "enabled": true
+  }
+}

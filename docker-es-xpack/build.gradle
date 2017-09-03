@@ -15,8 +15,9 @@ project.ext {
 
     xpackPoliciesFile = "${buildDir}/xpack_policies.json"
     templateEngine = new SimpleTemplateEngine()
-    xpackPolicyTemplate = project.templateEngine.createTemplate(new File("$projectDir/xpack_policy_template.json"))
+    xpackRoleTemplate = project.templateEngine.createTemplate(new File("$projectDir/xpack_role_template.json"))
     xpackQueryTemplate = project.templateEngine.createTemplate(new File("$projectDir/xpack_query_template.json"))
+    xpackUserTemplate = project.templateEngine.createTemplate(new File("$projectDir/xpack_user_template.json"))
 }
 
 def targetDockerHubRepository = 'elasticsearch_xpack_data'
@@ -124,15 +125,26 @@ def readFile(String path) {
  * @param privileges - [countySensitive, countySealed, stateSensitive, stateSealed, county]
  * @return
  */
-def xpackPolicyJson(privileges) {
+def xpackRoleJson(privileges) {
     def xpackQuery = project.xpackQueryTemplate.make([
         hasSealed: privileges[1] == 'T' || privileges[3] == 'T',
         county_id: privileges[4]
     ]).toString()
 
-    return new JsonSlurper().parseText(project.xpackPolicyTemplate.make([
+    return new JsonSlurper().parseText(project.xpackRoleTemplate.make([
         role : privileges.join('.'),
         query: JsonOutput.toJson(xpackQuery)
+    ]).toString())
+}
+
+/**
+ *
+ * @param privileges - [countySensitive, countySealed, stateSensitive, stateSealed, county]
+ * @return
+ */
+def xpackUserJson(privileges) {
+    return new JsonSlurper().parseText(project.xpackUserTemplate.make([
+            role : privileges.join('.')
     ]).toString())
 }
 
@@ -145,7 +157,10 @@ def generateXpackPolicies() {
             privilegesLists.county_sealed.each { countySealed ->
                 privilegesLists.state_sensitive.each { stateSensitive ->
                     privilegesLists.state_sealed.each { stateSealed ->
-                        xpackPolicyTemplateArray.add(xpackPolicyJson(
+                        xpackPolicyTemplateArray.add(xpackRoleJson(
+                                [countySensitive, countySealed, stateSensitive, stateSealed, county]
+                        ))
+                        xpackPolicyTemplateArray.add(xpackUserJson(
                                 [countySensitive, countySealed, stateSensitive, stateSealed, county]
                         ))
                     }
