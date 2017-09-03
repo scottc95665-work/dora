@@ -1,0 +1,12 @@
+{
+  "query": {
+    "bool": { "should": [
+      { "match": { "sensitivity_indicator": "N" }},
+      { "match": { "sensitivity_indicator": "S" }}<% if (hasSealed) { %>,
+      { "bool": { "must": [
+        { "match": { "sensitivity_indicator": "R" }},
+        { "match": { "county_id": "${county_id}" }}
+      ]}}<% } %>
+    ]}
+  }
+}

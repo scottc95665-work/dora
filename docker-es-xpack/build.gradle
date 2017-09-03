@@ -1,5 +1,7 @@
+import groovy.json.JsonBuilder
 import groovy.json.JsonOutput
 import groovy.json.JsonSlurper
+import groovy.text.SimpleTemplateEngine
 
 import java.nio.file.Files
 import java.nio.file.Paths
@@ -9,7 +11,12 @@ project.ext {
     elasticPort = System.env.ELASTIC_PORT ?: '9200'
     elasticUser = 'elastic'
     elasticPassword = 'changeme'
-    elasticBaseUrl = 'http://' + project.elasticHost + ":" + project.elasticPort
+    elasticBaseUrl = "http://${project.elasticHost}:${project.elasticPort}"
+
+    xpackPoliciesFile = "${buildDir}/xpack_policies.json"
+    templateEngine = new SimpleTemplateEngine()
+    xpackPolicyTemplate = project.templateEngine.createTemplate(new File("$projectDir/xpack_policy_template.json"))
+    xpackQueryTemplate = project.templateEngine.createTemplate(new File("$projectDir/xpack_query_template.json"))
 }
 
 def targetDockerHubRepository = 'elasticsearch_xpack_data'
@@ -108,11 +115,60 @@ task dockerStartContainer(type: Exec, dependsOn: [project.parent.checkDockerServ
     dockerCreateImage.mustRunAfter(project.parent.checkDockerService)
 }
 
-task dockerPopulate(dependsOn: dockerStartContainer) {
+def readFile(String path) {
+    return new String(Files.readAllBytes(Paths.get(path)))
+}
+
+/**
+ * 
+ * @param privileges - [countySensitive, countySealed, stateSensitive, stateSealed, county]
+ * @return
+ */
+def xpackPolicyJson(privileges) {
+    def xpackQuery = project.xpackQueryTemplate.make([
+        hasSealed: privileges[1] == 'T' || privileges[3] == 'T',
+        county_id: privileges[4]
+    ]).toString()
+
+    return new JsonSlurper().parseText(project.xpackPolicyTemplate.make([
+        role : privileges.join('.'),
+        query: JsonOutput.toJson(xpackQuery)
+    ]).toString())
+}
+
+def generateXpackPolicies() {
+    def xpackPolicyTemplateArray = []
+    
+    def privilegesLists = new JsonSlurper().parseText(readFile("$projectDir/privileges_lists.json"))
+    privilegesLists.county.each { county ->
+        privilegesLists.county_sensitive.each { countySensitive ->
+            privilegesLists.county_sealed.each { countySealed ->
+                privilegesLists.state_sensitive.each { stateSensitive ->
+                    privilegesLists.state_sealed.each { stateSealed ->
+                        xpackPolicyTemplateArray.add(xpackPolicyJson(
+                                [countySensitive, countySealed, stateSensitive, stateSealed, county]
+                        ))
+                    }
+                }
+            }
+        }
+    }
+
+    // write policies to docker-es-xpack/build/xpack_policies.json for manual verification
+    File xpackPoliciesFile = new File(project.xpackPoliciesFile)
+    xpackPoliciesFile.write(new JsonBuilder(xpackPolicyTemplateArray).toPrettyString())
+    
+    return xpackPolicyTemplateArray
+}
+
+task dockerPopulateXpackPolicies(dependsOn: dockerStartContainer) {
     doFirst {
-        new JsonSlurper().parseText(new String(Files.readAllBytes(Paths.get("$projectDir/data.json")))).each {
-            String[] action = it.action.toString().split("\\s")
-            String content = it.data == null ? null : JsonOutput.toJson(it.data)
+        mkdir project.buildDir
+    }
+    doLast {
+        generateXpackPolicies().each {
+            String[] action = it.action.split("\\s")
+            String content = it.content == null ? null : JsonOutput.toJson(it.content)
             esExecute(action[0], action[1], content)
         }
     }
@@ -126,21 +182,21 @@ task dockerPopulateTestPeople(dependsOn: dockerStartContainer) {
     }
     doLast {
         // populate test people data
-        ["1", "2", "3", "4"].each {
-            String esUrl = "/people/person/$it"
-            String content = new String(Files.readAllBytes(Paths.get("$projectDir/test_data/people/person_${it}.json")))
+        ["R", "S", "N"].each {
+            String esUrl = "/people/person/person_$it"
+            String content = readFile("$projectDir/test_data/people/person_${it}.json")
             esExecute("PUT", esUrl, content)
         }
         // verify with URL like: http://192.168.99.100:9200/people/person/_search?pretty
     }
 }
 
-task dockerCommitPopulatedImage(type: Exec, dependsOn: [project.parent.checkDockerService, dockerPopulate, dockerPopulateTestPeople]) {
+task dockerCommitPopulatedImage(type: Exec, dependsOn: [project.parent.checkDockerService, dockerPopulateXpackPolicies, dockerPopulateTestPeople]) {
     environment << project.dockerEnvVars
     doFirst {
         commandLine 'docker', 'commit', '-m', 'populated', dockerContainerName, dockerImageName
     }
-    dockerPopulate.mustRunAfter(project.parent.checkDockerService)
+    dockerPopulateXpackPolicies.mustRunAfter(project.parent.checkDockerService)
     dockerPopulateTestPeople.mustRunAfter(project.parent.checkDockerService)
 }
 
