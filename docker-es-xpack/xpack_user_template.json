@@ -1,7 +1,7 @@
 {
   "action": "POST /_xpack/security/user/${role}",
   "content": {
-    "password": "password",
+    "password": "${uuid}",
     "roles": [
       "${role}"
     ],

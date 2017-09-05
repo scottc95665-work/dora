@@ -144,7 +144,8 @@ def xpackRoleJson(privileges) {
  */
 def xpackUserJson(privileges) {
     return new JsonSlurper().parseText(project.xpackUserTemplate.make([
-            role : privileges.join('.')
+            role: privileges.join('.'),
+            uuid: UUID.randomUUID()
     ]).toString())
 }
 
