@@ -4,25 +4,20 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.base.Strings;
 import com.google.inject.Inject;
+import gov.ca.cwds.dora.security.DoraSecurityUtils;
 import gov.ca.cwds.rest.ElasticsearchConfiguration;
 import gov.ca.cwds.rest.api.DoraException;
 import gov.ca.cwds.rest.api.domain.es.IndexQueryRequest;
 import gov.ca.cwds.rest.api.domain.es.IndexQueryResponse;
-import gov.ca.cwds.security.shiro.realms.PerryAccount;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.util.List;
 import java.util.Map;
-import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.subject.Subject;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -103,7 +98,7 @@ public class IndexQueryService {
 
     try {
       connection = createConnection(targetURL);
-      applySecurity(connection);
+      DoraSecurityUtils.applySecurity(connection, esConfig);
       if (StringUtils.isNotEmpty(payload)) {
         String query = payload.trim();
         OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream(),
@@ -147,49 +142,5 @@ public class IndexQueryService {
     connection.setRequestMethod(REQUEST_METHOD_GET);
     connection.setRequestProperty(REQUEST_PROPERTY_CONTENT_TYPE, APPLICATION_JSON);
     return connection;
-  }
-
-  private void applySecurity(HttpURLConnection connection) throws UnsupportedEncodingException {
-    if (esConfig.getXpack() != null) {
-      ElasticsearchConfiguration.XpackConfiguration xpackConfiguration = esConfig.getXpack();
-      if (xpackConfiguration.isEnabled()) {
-        setAuthorizationHeader(connection);
-        setRunAsuser(connection);
-      }
-    }
-  }
-
-  private void setRunAsuser(HttpURLConnection connection) {
-    String runAsUser = getElasticsearchRunAsUser();
-    if (runAsUser != null) {
-      connection.setRequestProperty("es-security-runas-user", runAsUser);
-    }
-  }
-
-  private void setAuthorizationHeader(HttpURLConnection connection)
-      throws UnsupportedEncodingException {
-    String name = esConfig.getXpack().getUser();
-    String password = esConfig.getXpack().getPassword();
-
-    String authString = name + ":" + password;
-    byte[] authEncBytes = Base64.encodeBase64(authString.getBytes(StandardCharsets.UTF_8));
-    String authStringEnc = new String(authEncBytes, StandardCharsets.UTF_8);
-    connection.setRequestProperty("Authorization", "Basic " + authStringEnc);
-  }
-
-  private String getElasticsearchRunAsUser() {
-    Subject subject = SecurityUtils.getSubject();
-    if (subject != null) {
-      List principals = subject.getPrincipals().asList();
-      if (principals.size() == 2) {
-        PerryAccount account = (PerryAccount) principals.get(1);
-        if (account.getRoles() != null) {
-          if (!account.getRoles().isEmpty()) {
-            return account.getRoles().iterator().next();
-          }
-        }
-      }
-    }
-    return null;
   }
 }
