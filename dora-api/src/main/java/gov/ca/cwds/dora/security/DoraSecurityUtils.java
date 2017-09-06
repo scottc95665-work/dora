@@ -28,7 +28,7 @@ public final class DoraSecurityUtils {
     return null;
   }
 
-  private static String getElasticsearchRunAsUser(IntakeAccount account) {
+  public static String getElasticsearchRunAsUser(IntakeAccount account) {
     String countySensitive = "F";
     String countySealed = "F";
     String stateSensitive = "F";
