@@ -42,7 +42,7 @@ node ('dora-slave'){
       disableConcurrentBuilds(),
       [$class: 'RebuildSettings', autoRebuild: false, rebuildDisabled: false],
       parameters([
-        booleanParam(defaultValue: false, description: '', name: 'ES_POPULATE_TEST_PEOPLE'),
+        booleanParam(defaultValue: false, description: '', name: 'ES_POPULATE_TEST_PEOPLE')
       ])
     ])
 
@@ -57,7 +57,7 @@ node ('dora-slave'){
             rtGradle.resolver repo:'repo', server: serverArti
         }
         stage('Build Docker'){
-            withEnv(['ELASTIC_HOST=127.0.0.1']) {
+            withEnv(['ELASTIC_HOST=127.0.0.1','ELASTIC_PORT=10200']) {
                 buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: 'printConfig', switches: '--info'
                 buildInfo = rtGradle.run buildFile: './docker-es-xpack/build.gradle', tasks: 'dockerCreateImage', switches: '--info'
                 withDockerRegistry([credentialsId: '6ba8d05c-ca13-4818-8329-15d41a089ec0']) {
@@ -67,7 +67,7 @@ node ('dora-slave'){
         }
         stage('Clean WorkSpace') {
             buildInfo = rtGradle.run buildFile: './docker-es-xpack/build.gradle', tasks: 'dockerRemoveContainer'
-            buildInfo = rtGradle.run buildFile: './docker-es-xpack/build.gradle', tasks: 'dockerCleanUp'
+            buildInfo = rtGradle.run buildFile: './docker-es-xpack/build.gradle', tasks: 'dockerCleanUpTagged'
         }
 
     } catch (Exception e)    {

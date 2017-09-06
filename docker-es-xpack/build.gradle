@@ -6,7 +6,7 @@ import java.nio.file.Paths
 
 project.ext {
     elasticHost = project.buildEnv == 'WIN_DEV' ? project.devDockerHost : (System.env.ELASTIC_HOST ?: '192.168.99.100')
-    elasticPort = 9200
+    elasticPort = (System.env.ELASTIC_PORT ?: '9200')
     elasticUser = 'elastic'
     elasticPassword = 'changeme'
     elasticBaseUrl = 'http://' + project.elasticHost + ":" + project.elasticPort
