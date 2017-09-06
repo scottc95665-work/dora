@@ -1,0 +1,11 @@
+{
+  "user": "RACFID",
+  "staffId": "34",
+  "roles": ["Supervisor"],
+  "county_code": "19",
+  "county_name": "Los Angeles",
+  "privileges": [
+    "Statewide Read",
+    "Sensitive Persons"
+  ]
+}
