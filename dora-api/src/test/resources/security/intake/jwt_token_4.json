@@ -1,0 +1,11 @@
+{
+  "user": "RACFID",
+  "staffId": "34",
+  "roles": ["Supervisor"],
+  "county_code": "3",
+  "county_name": "Amador",
+  "privileges": [
+    "Statewide Read",
+    "Sealed"
+  ]
+}
