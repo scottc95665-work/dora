@@ -1,5 +1,6 @@
 package gov.ca.cwds.rest.resources;
 
+import static gov.ca.cwds.rest.DoraConstants.RESOURCE_ELASTICSEARCH_INDEX_QUERY;
 import static gov.ca.cwds.rest.DoraConstants.SYSTEM_INFORMATION;
 
 import com.codahale.metrics.health.HealthCheck;
@@ -28,7 +29,7 @@ import javax.ws.rs.core.MediaType;
  * @author CWDS API Team
  */
 @Api(value = SYSTEM_INFORMATION, hidden = true)
-@Path(SYSTEM_INFORMATION)
+@Path(RESOURCE_ELASTICSEARCH_INDEX_QUERY+"/"+SYSTEM_INFORMATION)
 @Produces(MediaType.APPLICATION_JSON)
 public class SystemInformationResource {
 
