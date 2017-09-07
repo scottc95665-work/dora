@@ -29,7 +29,7 @@ import javax.ws.rs.core.MediaType;
  * @author CWDS API Team
  */
 @Api(value = SYSTEM_INFORMATION, hidden = true)
-@Path(RESOURCE_ELASTICSEARCH_INDEX_QUERY+"/"+SYSTEM_INFORMATION)
+@Path(SYSTEM_INFORMATION)
 @Produces(MediaType.APPLICATION_JSON)
 public class SystemInformationResource {
 

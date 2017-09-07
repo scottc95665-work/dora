@@ -21,13 +21,13 @@ public class DoraSmokeTest extends BaseDoraApplicationTest {
 
   @Test
   public void testApplicationGetReturns200() {
-    assertThat(clientTestRule.target(RESOURCE_ELASTICSEARCH_INDEX_QUERY+"/"+SYSTEM_INFORMATION).request()
+    assertThat(clientTestRule.target(SYSTEM_INFORMATION).request()
         .accept(MediaType.APPLICATION_JSON).get().getStatus(), is(equalTo(200)));
   }
 
   @Test
   public void testSystemInformationGet() {
-    SystemInformationDTO systemInformationDTO = clientTestRule.target(RESOURCE_ELASTICSEARCH_INDEX_QUERY+"/"+SYSTEM_INFORMATION)
+    SystemInformationDTO systemInformationDTO = clientTestRule.target(SYSTEM_INFORMATION)
         .request(MediaType.APPLICATION_JSON).get(SystemInformationDTO.class);
 
     assertThat(systemInformationDTO.getApplicationName(), is(equalTo("CWDS Dora")));
@@ -36,7 +36,7 @@ public class DoraSmokeTest extends BaseDoraApplicationTest {
 
   @Test
   public void testHealthy() throws Exception {
-    SystemInformationDTO systemInformationDTO = clientTestRule.target(RESOURCE_ELASTICSEARCH_INDEX_QUERY+"/"+SYSTEM_INFORMATION)
+    SystemInformationDTO systemInformationDTO = clientTestRule.target(SYSTEM_INFORMATION)
         .request(MediaType.APPLICATION_JSON).get(SystemInformationDTO.class);
 
     assertThat(systemInformationDTO.getHealthCheckResults(), is(notNullValue()));

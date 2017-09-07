@@ -34,20 +34,20 @@ public class SystemInformationResourceTest extends BaseDoraApplicationTest {
 
   @Test
   public void testApplicationGetReturns200() {
-    assertThat(clientTestRule.target(RESOURCE_ELASTICSEARCH_INDEX_QUERY+"/"+SYSTEM_INFORMATION).request()
+    assertThat(clientTestRule.target(SYSTEM_INFORMATION).request()
         .accept(MediaType.APPLICATION_JSON).get().getStatus(), is(equalTo(200)));
   }
 
   @Test
   public void testApplicationGetReturnsV1JsonContentType() {
-    assertThat(clientTestRule.target(RESOURCE_ELASTICSEARCH_INDEX_QUERY+"/"+SYSTEM_INFORMATION).request()
+    assertThat(clientTestRule.target(SYSTEM_INFORMATION).request()
             .accept(MediaType.APPLICATION_JSON).get().getMediaType().toString(),
         is(equalTo(MediaType.APPLICATION_JSON)));
   }
 
   @Test
   public void testSystemInformationGet() throws Exception {
-    SystemInformationDTO systemInformationDTO = clientTestRule.target(RESOURCE_ELASTICSEARCH_INDEX_QUERY+"/"+SYSTEM_INFORMATION)
+    SystemInformationDTO systemInformationDTO = clientTestRule.target(SYSTEM_INFORMATION)
         .request(MediaType.APPLICATION_JSON).get(SystemInformationDTO.class);
 
     assertThat(systemInformationDTO.getApplicationName(), is(equalTo("CWDS Dora")));
@@ -56,7 +56,7 @@ public class SystemInformationResourceTest extends BaseDoraApplicationTest {
 
   @Test
   public void testHealthChecksResults() throws Exception {
-    SystemInformationDTO systemInformationDTO = clientTestRule.target(RESOURCE_ELASTICSEARCH_INDEX_QUERY+"/"+SYSTEM_INFORMATION)
+    SystemInformationDTO systemInformationDTO = clientTestRule.target(SYSTEM_INFORMATION)
         .request(MediaType.APPLICATION_JSON).get(SystemInformationDTO.class);
 
     SortedMap<String, HealthCheckResultDTO> healthCheckResults = systemInformationDTO
