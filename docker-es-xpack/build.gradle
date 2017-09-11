@@ -9,8 +9,8 @@ import java.nio.file.Paths
 project.ext {
     elasticHost = project.buildEnv == 'WIN_DEV' ? project.devDockerHost : (System.env.ELASTIC_HOST ?: '192.168.99.100')
     elasticPort = System.env.ELASTIC_PORT ?: '9200'
-    elasticUser = 'elastic'
-    elasticPassword = 'changeme'
+    elasticUser = System.env.XPACK_USER ?: 'elastic'
+    elasticPassword = System.env.XPACK_PASSWORD ?: 'changeme'
     elasticBaseUrl = "http://${project.elasticHost}:${project.elasticPort}"
 
     xpackPoliciesFile = "${buildDir}/xpack_policies.json"
