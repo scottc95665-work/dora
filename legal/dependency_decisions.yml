@@ -1,0 +1,55 @@
+---
+- - :whitelist
+  - Apache 2.0
+  - :who: 
+    :why: 
+    :versions: []
+    :when: 2017-09-10 04:59:17.899918000 Z
+- - :whitelist
+  - MIT
+  - :who: 
+    :why: 
+    :versions: []
+    :when: 2017-09-10 04:59:18.739919000 Z
+- - :whitelist
+  - BSD
+  - :who: 
+    :why: 
+    :versions: []
+    :when: 2017-09-10 04:59:19.554923000 Z
+- - :whitelist
+  - Apache Software Licenses
+  - :who: 
+    :why: 
+    :versions: []
+    :when: 2017-09-10 04:59:20.366924000 Z
+- - :whitelist
+  - Eclipse Public License 1.0
+  - :who: 
+    :why: 
+    :versions: []
+    :when: 2017-09-10 04:59:21.175926000 Z
+- - :whitelist
+  - The Apache License, Version 2.0
+  - :who: 
+    :why: 
+    :versions: []
+    :when: 2017-09-10 04:59:21.995927000 Z
+- - :whitelist
+  - The BSD License
+  - :who: 
+    :why: 
+    :versions: []
+    :when: 2017-09-10 04:59:22.817928000 Z
+- - :whitelist
+  - The MIT License
+  - :who: 
+    :why: 
+    :versions: []
+    :when: 2017-09-10 04:59:23.667929000 Z
+- - :whitelist
+  - New BSD License
+  - :who: 
+    :why: 
+    :versions: []
+    :when: 2017-09-10 04:59:25.558932000 Z
