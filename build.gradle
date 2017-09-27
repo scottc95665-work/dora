@@ -19,7 +19,7 @@ project.logging.setLevelInternal(INFO)
 
 project.ext {
     projectGroup = 'gov.ca.cwds.services'
-    projectVersion = '0.4.2'
+    projectVersion = '0.4.3-SNAPSHOT'
 
     mainclass = "gov.ca.cwds.rest.DoraApplication"
     configPath = "$rootProject.projectDir/config/"
