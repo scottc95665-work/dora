@@ -27,7 +27,7 @@ public final class DoraSecurityUtils {
       List principals = subject.getPrincipals().asList();
       if (principals.size() == 2) {
         String runAsUser = getElasticsearchRunAsUser((IntakeAccount) principals.get(1));
-        LOGGER.info("runAsUser: " + runAsUser);
+        LOGGER.info("runAsUser: {}", runAsUser);
         return runAsUser;
       }
     }
