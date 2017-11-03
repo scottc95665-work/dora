@@ -10,8 +10,12 @@ import java.util.Set;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public final class DoraSecurityUtils {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(DoraSecurityUtils.class);
 
   private DoraSecurityUtils() {
     // no op
@@ -22,7 +26,9 @@ public final class DoraSecurityUtils {
     if (subject != null) {
       List principals = subject.getPrincipals().asList();
       if (principals.size() == 2) {
-        return getElasticsearchRunAsUser((IntakeAccount) principals.get(1));
+        String runAsUser = getElasticsearchRunAsUser((IntakeAccount) principals.get(1));
+        LOGGER.info("runAsUser: " + runAsUser);
+        return runAsUser;
       }
     }
     return null;
