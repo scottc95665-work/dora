@@ -1,0 +1,27 @@
+{
+  "action": "POST /_xpack/security/role/${role}",
+  "content": {
+    "cluster": [],
+    "indices": [
+      {
+        "names": [
+          "peop*"
+        ],
+        "privileges": [
+          "read"
+        ],
+        "query": ${query}
+      },
+      {
+        "names": [
+          "screen*",
+          "facilit*",
+          "rfa*"
+        ],
+        "privileges": [
+          "read"
+        ]
+      }
+    ]
+  }
+}

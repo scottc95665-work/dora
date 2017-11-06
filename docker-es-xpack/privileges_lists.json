@@ -1,0 +1,26 @@
+{
+  "county_id": [
+    "1086",
+    "1123",
+    "1111",
+    "1124",
+    "1077",
+    "1071"
+  ],
+  "county_sensitive": [
+    "T",
+    "F"
+  ],
+  "county_sealed": [
+    "T",
+    "F"
+  ],
+  "state_sensitive": [
+    "T",
+    "F"
+  ],
+  "state_sealed": [
+    "T",
+    "F"
+  ]
+}

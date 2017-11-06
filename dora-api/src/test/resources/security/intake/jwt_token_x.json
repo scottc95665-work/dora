@@ -1,0 +1,9 @@
+{
+  "user": "RACFID",
+  "staffId": "34",
+  "roles": ["Supervisor"],
+  "privileges": [
+    "Statewide Read",
+    "Sealed"
+  ]
+}
