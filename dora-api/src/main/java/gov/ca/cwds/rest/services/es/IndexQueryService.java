@@ -1,7 +1,5 @@
 package gov.ca.cwds.rest.services.es;
 
-import static com.google.common.base.Preconditions.checkArgument;
-
 import com.google.common.base.Strings;
 import com.google.inject.Inject;
 import gov.ca.cwds.dora.security.DoraSecurityUtils;
@@ -9,18 +7,20 @@ import gov.ca.cwds.rest.ElasticsearchConfiguration;
 import gov.ca.cwds.rest.api.DoraException;
 import gov.ca.cwds.rest.api.domain.es.IndexQueryRequest;
 import gov.ca.cwds.rest.api.domain.es.IndexQueryResponse;
-import java.io.BufferedReader;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
-import org.apache.commons.lang3.StringUtils;
-import org.json.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import static com.google.common.base.Preconditions.checkArgument;
 
 
 /**
@@ -63,7 +63,7 @@ public class IndexQueryService {
    * Search given index by pass-through query.
    *
    * @param index index to search
-   * @param type "person" or otherwise
+   * @param type  "person" or otherwise
    * @param query user-provided query
    * @return JSON ES results
    */
@@ -77,8 +77,8 @@ public class IndexQueryService {
 
     StringBuilder sb = new StringBuilder();
     sb.append("http://").append(esConfig.getHost().trim()).append(':')
-        .append(esConfig.getPort()).append('/').append(index).append('/').append(type.trim())
-        .append("/_search");
+            .append(esConfig.getPort()).append('/').append(index).append('/').append(type.trim())
+            .append("/_search");
     final String targetURL = sb.toString();
     LOGGER.warn("ES SEARCH URL: {}", targetURL);
     return executionResult(targetURL, query);
@@ -88,13 +88,11 @@ public class IndexQueryService {
    * Consume an external REST web service, specifying URL, request headers and JSON payload
    *
    * @param targetURL the target URL
-   * @param payload the payload specified by user
+   * @param payload   the payload specified by user
    * @return the JSON payload returned by the external web service
    */
   String executionResult(String targetURL, String payload) {
     HttpURLConnection connection = null;
-    BufferedReader reader = null;
-    StringBuilder jsonString = new StringBuilder();
 
     try {
       connection = createConnection(targetURL);
@@ -102,39 +100,27 @@ public class IndexQueryService {
       if (StringUtils.isNotEmpty(payload)) {
         String query = payload.trim();
         OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream(),
-            StandardCharsets.UTF_8);
+                StandardCharsets.UTF_8);
         writer.write(query);
         writer.close();
       }
-      reader = new BufferedReader(
-          new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8));
-      String line;
-      while ((line = reader.readLine()) != null) {
-        jsonString.append(line);
+
+      if (connection.getResponseCode() == 200) {
+        return IOUtils.toString(connection.getInputStream());
+      } else {
+        throw new DoraException(IOUtils.toString(connection.getErrorStream()));
       }
-    } catch (IOException | RuntimeException e) {
-      final String msg = "Error in ElasticSearch: " + e.getMessage();
-      LOGGER.error(msg, e);
-      throw new DoraException(msg, e);
+    } catch (IOException e) {
+      throw new DoraException(e.getMessage(), e);
     } finally {
-      if (reader != null) {
-        try {
-          reader.close();
-        } catch (IOException e) {
-          final String msg = "Error in ElasticSearch: " + e.getMessage();
-          LOGGER.error(msg, e);
-        }
-      }
       if (connection != null) {
         connection.disconnect();
       }
     }
-
-    return jsonString.toString();
   }
 
   HttpURLConnection createConnection(String targetURL)
-      throws IOException {
+          throws IOException {
     URL url = new URL(targetURL);
     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
     connection.setDoInput(true);

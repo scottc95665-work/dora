@@ -75,17 +75,11 @@ public class IndexQueryResource {
       @PathParam("type") @ApiParam(required = true, name = "type", value = "The document type") String type,
       @Valid @ApiParam(required = true) Object req
   ) {
-    try {
       IndexQueryRequest indexQueryRequest = new IndexQueryRequest(index, type, req);
       IndexQueryResponse indexQueryResponse = indexQueryService.handleRequest(indexQueryRequest);
 
       return indexQueryResponse == null ? null
           : Response.status(Response.Status.OK).entity(indexQueryResponse.getSearchResults())
               .build();
-    } catch (RuntimeException e) {
-      LOGGER.error("Query ERROR: {}", e.getMessage(), e);
-      throw new DoraException("Query ERROR: " + e.getMessage(), e);
-    }
   }
-
 }

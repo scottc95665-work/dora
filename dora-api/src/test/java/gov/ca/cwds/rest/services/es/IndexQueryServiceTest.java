@@ -92,7 +92,7 @@ public class IndexQueryServiceTest {
     Whitebox.setInternalState(target, "esConfig", esConfig);
 
     HttpURLConnection connection = mock(HttpURLConnection.class);
-
+    doReturn(200).when(connection).getResponseCode();
     doReturn(new ByteArrayInputStream("testInputString".getBytes())).when(connection)
         .getInputStream();
     doReturn(connection).when(target).createConnection(Mockito.anyString());
