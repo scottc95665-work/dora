@@ -13,6 +13,7 @@ import gov.ca.cwds.rest.api.DoraException;
 import gov.ca.cwds.rest.api.domain.es.IndexQueryRequest;
 import gov.ca.cwds.rest.api.domain.es.IndexQueryResponse;
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.HashMap;
 import java.util.Map;
@@ -111,10 +112,10 @@ public class IndexQueryServiceTest {
 
     HttpURLConnection connection = mock(HttpURLConnection.class);
 
-    doThrow(new RuntimeException()).when(connection)
+    doThrow(new IOException()).when(connection)
         .getInputStream();
     doReturn(connection).when(target).createConnection(Mockito.anyString());
-
+    doReturn(200).when(connection).getResponseCode();
     thrown.expect(DoraException.class);
     target.executionResult("mockedURL", "");
   }
