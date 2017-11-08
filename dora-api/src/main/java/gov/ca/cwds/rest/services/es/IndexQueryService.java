@@ -16,7 +16,9 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.Invocation.Builder;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.HttpStatus;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -85,26 +87,27 @@ public class IndexQueryService {
    */
   String invokeElasticsearch(String targetURL, String query) {
     try {
-      return postRequest(createElasticsearchRequest(targetURL), query);
+      Client client;
+      if (esConfig.getXpack() != null && esConfig.getXpack().isEnabled()) {
+        client = SecureClientFactory.createSecureClient();
+      } else {
+        client = ClientBuilder.newClient();
+      }
+      WebTarget target = client.target(targetURL);
+      return postRequest(target.request(MediaType.TEXT_PLAIN), query);
+    } catch (DoraException e) {
+      throw e;
     } catch (RuntimeException e) {
-      final String msg = "Error while communicating with ElasticSearch: " + e.getMessage();
-      LOGGER.error(msg, e);
-      throw new DoraException(msg, e);
+      throw new DoraException(e.getMessage());
     }
-  }
-
-  private Builder createElasticsearchRequest(String targetURL) {
-    Client client;
-    if (esConfig.getXpack() != null && esConfig.getXpack().isEnabled()) {
-      client = SecureClientFactory.createSecureClient();
-    } else {
-      client = ClientBuilder.newClient();
-    }
-    WebTarget target = client.target(targetURL);
-    return target.request(MediaType.TEXT_PLAIN);
   }
 
   String postRequest(Builder request, String query) {
-    return request.post(Entity.text(query.trim()), String.class);
+    Response response = request.post(Entity.text(query.trim()));
+    if (HttpStatus.SC_OK == response.getStatus()) {
+      return response.readEntity(String.class);
+    } else {
+      throw new DoraException(response.getStatusInfo().getReasonPhrase());
+    }
   }
 }

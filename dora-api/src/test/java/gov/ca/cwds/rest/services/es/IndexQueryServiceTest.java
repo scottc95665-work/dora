@@ -70,12 +70,6 @@ public class IndexQueryServiceTest {
   }
 
   @Test
-  public void testInvalidUrl() throws Exception {
-    thrown.expect(DoraException.class);
-    target.invokeElasticsearch("invalid_url", "test_payload");
-  }
-
-  @Test
   public void testInvokeElasticsearch() throws Exception {
     ElasticsearchConfiguration esConfig = new ElasticsearchConfiguration("localhost", "9200");
     ElasticsearchConfiguration.XpackConfiguration xpackConfiguration = new ElasticsearchConfiguration.XpackConfiguration();
@@ -93,7 +87,7 @@ public class IndexQueryServiceTest {
     xpackConfiguration.setEnabled(false);
     esConfig.setXpack(xpackConfiguration);
     Whitebox.setInternalState(target, "esConfig", esConfig);
-    doThrow(new RuntimeException()).when(target).postRequest(Mockito.anyObject(), Mockito.anyString());
+    doThrow(new DoraException("")).when(target).postRequest(Mockito.anyObject(), Mockito.anyString());
     thrown.expect(DoraException.class);
     target.invokeElasticsearch("http://localhost:8080", "{}");
   }
