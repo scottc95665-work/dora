@@ -37,7 +37,6 @@ repositories {
     maven { url "http://sonar.dev.cwds.io:8081/artifactory/repo" }
 }
 
-
 sonarqube {
     properties {
         property "sonar.projectName", "${name}"
