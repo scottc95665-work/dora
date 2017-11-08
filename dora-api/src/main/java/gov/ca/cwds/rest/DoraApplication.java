@@ -84,7 +84,7 @@ public final class DoraApplication extends BaseApiApplication<DoraConfiguration>
     configureSwagger(configuration, environment);
   }
 
-  private void configureCors(final Environment environment) {
+  private static void configureCors(final Environment environment) {
     FilterRegistration.Dynamic filter =
             environment.servlets().addFilter("CORS", CrossOriginFilter.class);
     filter.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
