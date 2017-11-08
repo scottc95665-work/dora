@@ -62,7 +62,7 @@ processResources {
 dependencies {
     // Dropwizard-guice 1.0.0.2 conflicts with jersey-client 2.25.
     // Exclude transitive dependencies.
-    compile('gov.ca.cwds.api:api-core-rest:3.6.400') {
+    compile('gov.ca.cwds.api:api-core-rest:3.6.438') {
         exclude group: 'org.glassfish.jersey.core'
         exclude group: 'org.elasticsearch', module: 'elasticsearch'
         exclude group: 'org.elasticsearch.client', module: 'transport'
