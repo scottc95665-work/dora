@@ -9,6 +9,8 @@ import java.io.IOException;
  * @author CWDS TPT-2
  */
 public final class CwdsPrivileges {
+
+  private static final int COUNTY_CODE_TO_ID_DELTA = 1067;
   private boolean countySensitive = false;
   private boolean countySealed = false;
   private boolean stateSensitive = false;
@@ -96,7 +98,7 @@ public final class CwdsPrivileges {
 
   private static String countyCodeToCountyId(String countyCode) {
     try {
-      return String.valueOf(Integer.valueOf(countyCode) + 1067);
+      return String.valueOf(Integer.valueOf(countyCode) + COUNTY_CODE_TO_ID_DELTA);
     } catch (NumberFormatException e) {
       return "";
     }

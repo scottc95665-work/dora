@@ -83,8 +83,8 @@ public class IndexQueryService {
    * @return the JSON payload returned by the external web service
    */
   String invokeElasticsearch(String targetURL, String query) {
+    Client client = null;
     try {
-      Client client;
       if (esConfig.getXpack() != null && esConfig.getXpack().isEnabled()) {
         client = SecureClientFactory.createSecureClient();
       } else {
@@ -96,6 +96,10 @@ public class IndexQueryService {
       throw e;
     } catch (RuntimeException e) {
       throw new DoraException(e.getMessage());
+    } finally {
+      if (null != client) {
+        client.close();
+      }
     }
   }
 
