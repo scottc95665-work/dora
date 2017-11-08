@@ -2,4 +2,4 @@ rootProject.name = 'dora'
 include 'docker-es-xpack'
 include 'docker-dora'
 include 'dora-api'
-
+include 'x-pack-perry-realm'

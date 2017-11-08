@@ -1,0 +1,80 @@
+[
+  {
+    "action": "POST /_xpack/security/role/worker",
+    "content": {
+      "cluster": [],
+      "indices": [
+        {
+          "names": [
+            "screen*",
+            "rfa1a*",
+            "facilit*"
+          ],
+          "privileges": [
+            "read"
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "action": "POST /_xpack/security/role/people_worker",
+    "content": {
+      "cluster": [],
+      "indices": [
+        {
+          "names": [
+            "peop*"
+          ],
+          "privileges": [
+            "read"
+          ],
+          "query": "{ \"match\": { \"sensitivity_indicator\": \"N\" } }"
+        }
+      ]
+    }
+  },
+  {
+    "action": "POST /_xpack/security/role/people_sensitive",
+    "content": {
+      "cluster": [],
+      "indices": [
+        {
+          "names": [
+            "peop*"
+          ],
+          "privileges": [
+            "read"
+          ],
+          "query": "{ \"match\": { \"sensitivity_indicator\": \"S\" } }"
+        }
+      ]
+    }
+  },
+  {
+    "action": "POST /_xpack/security/role/people_sealed",
+    "content": {
+      "cluster": [],
+      "indices": [
+        {
+          "names": [
+            "peop*"
+          ],
+          "privileges": [
+            "read"
+          ],
+          "query": {
+            "template" : {
+              "inline" : {
+                "bool": { "must": [
+                  { "match": { "sensitivity_indicator": "R" }},
+                  { "match": { "client_county.id": "{{_user.metadata.county_id}}" }}
+                ]}
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+]

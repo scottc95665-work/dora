@@ -5,7 +5,7 @@
   "county_code": "19",
   "county_name": "Los Angeles",
   "privileges": [
-    "Countywide Read",
-    "Sensitive Persons"
+    "Statewide Read",
+    "Sealed"
   ]
 }

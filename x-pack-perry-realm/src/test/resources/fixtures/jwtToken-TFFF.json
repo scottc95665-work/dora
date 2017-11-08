@@ -2,8 +2,8 @@
   "user": "RACFID",
   "staffId": "34",
   "roles": ["Supervisor"],
-  "county_code": "19",
-  "county_name": "Los Angeles",
+  "county_code": "56",
+  "county_name": "Ventura",
   "privileges": [
     "Countywide Read/Write",
     "Sealed"

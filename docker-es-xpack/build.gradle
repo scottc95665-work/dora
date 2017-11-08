@@ -1,10 +1,8 @@
-import groovy.json.JsonBuilder
 import groovy.json.JsonOutput
 import groovy.json.JsonSlurper
-import groovy.text.SimpleTemplateEngine
-
 import java.nio.file.Files
 import java.nio.file.Paths
+import org.apache.tools.ant.filters.FixCrLfFilter
 
 project.ext {
     elasticHost = project.buildEnv == 'WIN_DEV' ? project.devDockerHost : (System.env.ELASTIC_HOST ?: '192.168.99.100')
@@ -12,18 +10,13 @@ project.ext {
     elasticUser = System.env.XPACK_USER ?: 'elastic'
     elasticPassword = System.env.XPACK_PASSWORD ?: 'changeme'
     elasticBaseUrl = "http://${project.elasticHost}:${project.elasticPort}"
-
-    xpackPoliciesFile = "${buildDir}/xpack_policies.json"
-    templateEngine = new SimpleTemplateEngine()
-    xpackRoleTemplate = project.templateEngine.createTemplate(new File("$projectDir/xpack_role_template.json"))
-    xpackQueryTemplate = project.templateEngine.createTemplate(new File("$projectDir/xpack_query_template.json"))
-    xpackUserTemplate = project.templateEngine.createTemplate(new File("$projectDir/xpack_user_template.json"))
 }
 
 def targetDockerHubRepository = 'elasticsearch_xpack_data'
 def dockerImageName = targetDockerHubOrganization + '/' + targetDockerHubRepository // like 'cwds/elasticsearch_xpack_data'
 def dockerContainerName = targetDockerHubOrganization + '-' + targetDockerHubRepository + '-' + projectVersion
 def dockerTag = projectVersion
+def dockerContextDir = "$project.parent.buildDir/$project.name"
 
 def esExecute(String method, String path, String content) {
     URL url = new URL(project.elasticBaseUrl + path)
@@ -96,10 +89,31 @@ task dockerRemoveContainer(type: Exec, dependsOn: project.parent.checkDockerServ
     }
 }
 
-task dockerCreateImage(type: Exec, dependsOn: [project.parent.checkDockerService, dockerRemoveContainer, dockerCleanUp]) {
+task dockerCopyScripts(type: Copy) {
+    from projectDir
+    into dockerContextDir
+    include 'entrypoint.sh'
+    include 'elasticsearch.yml'
+    filter(FixCrLfFilter.class, eol:FixCrLfFilter.CrLf.newInstance("lf"))
+}
+
+task dockerCopyXpackPerryRealm(type: Copy, dependsOn: ':x-pack-perry-realm:buildZip') {
+    from "$project.parent.projectDir/x-pack-perry-realm/build/distributions"
+    into dockerContextDir
+    include "x-pack-perry-realm-${projectVersion}.zip"
+    rename { file -> 'x-pack-perry-realm.zip' }
+}
+
+task dockerfile(type: Copy) {
+    from file("$projectDir/Dockerfile")
+    into dockerContextDir
+}
+
+task dockerCreateImage(type: Exec, dependsOn: [project.parent.checkDockerService, dockerRemoveContainer, dockerCleanUp, dockerCopyScripts, dockerCopyXpackPerryRealm, dockerfile]) {
     environment << project.dockerEnvVars
     doFirst {
-        commandLine 'docker', 'build', '-t', dockerImageName, '-f', "$projectDir/Dockerfile", projectDir
+        commandLine 'docker', 'build', '-t', dockerImageName, '-f', "$dockerContextDir/Dockerfile",
+                '--build-arg', "ELASTICSEARCH_VERSION=$project.elasticsearchVersion", dockerContextDir
     }
     dockerRemoveContainer.mustRunAfter(project.parent.checkDockerService)
     dockerCleanUp.mustRunAfter(dockerRemoveContainer)
@@ -116,74 +130,14 @@ task dockerStartContainer(type: Exec, dependsOn: [project.parent.checkDockerServ
     dockerCreateImage.mustRunAfter(project.parent.checkDockerService)
 }
 
-def readFile(String path) {
+static def readFile(String path) {
     return new String(Files.readAllBytes(Paths.get(path)))
-}
-
-/**
- * 
- * @param privileges - [countySensitive, countySealed, stateSensitive, stateSealed, countyId]
- * @return
- */
-def xpackRoleJson(privileges) {
-    def xpackQuery = project.xpackQueryTemplate.make([
-        hasSealed: privileges[1] == 'T' || privileges[3] == 'T',
-        county_id: privileges[4]
-    ]).toString()
-
-    return new JsonSlurper().parseText(project.xpackRoleTemplate.make([
-        role : privileges.join('.'),
-        query: JsonOutput.toJson(xpackQuery)
-    ]).toString())
-}
-
-/**
- *
- * @param privileges - [countySensitive, countySealed, stateSensitive, stateSealed, countyId]
- * @return
- */
-def xpackUserJson(privileges) {
-    return new JsonSlurper().parseText(project.xpackUserTemplate.make([
-            role: privileges.join('.'),
-            uuid: UUID.randomUUID()
-    ]).toString())
-}
-
-def generateXpackPolicies() {
-    def xpackPolicyTemplateArray = []
-    
-    def privilegesLists = new JsonSlurper().parseText(readFile("$projectDir/privileges_lists.json"))
-    privilegesLists.county_id.each { countyId ->
-        privilegesLists.county_sensitive.each { countySensitive ->
-            privilegesLists.county_sealed.each { countySealed ->
-                privilegesLists.state_sensitive.each { stateSensitive ->
-                    privilegesLists.state_sealed.each { stateSealed ->
-                        xpackPolicyTemplateArray.add(xpackRoleJson(
-                                [countySensitive, countySealed, stateSensitive, stateSealed, countyId]
-                        ))
-                        xpackPolicyTemplateArray.add(xpackUserJson(
-                                [countySensitive, countySealed, stateSensitive, stateSealed, countyId]
-                        ))
-                    }
-                }
-            }
-        }
-    }
-
-    // write policies to docker-es-xpack/build/xpack_policies.json for manual verification
-    File xpackPoliciesFile = new File(project.xpackPoliciesFile)
-    xpackPoliciesFile.write(new JsonBuilder(xpackPolicyTemplateArray).toPrettyString())
-    
-    return xpackPolicyTemplateArray
 }
 
 task dockerPopulateXpackPolicies {
     doFirst {
-        mkdir project.buildDir
-    }
-    doLast {
-        generateXpackPolicies().each {
-            String[] action = it.action.split("\\s")
+        new JsonSlurper().parseText(readFile("$projectDir/xpack_policies.json")).each {
+            String[] action = it.action.toString().split("\\s")
             String content = it.content == null ? null : JsonOutput.toJson(it.content)
             esExecute(action[0], action[1], content)
         }

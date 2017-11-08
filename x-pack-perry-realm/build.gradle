@@ -1,0 +1,87 @@
+import org.apache.tools.ant.filters.ReplaceTokens
+
+version projectVersion
+
+buildscript {
+    repositories {
+        jcenter()
+        maven {
+            url "https://artifacts.elastic.co/maven"
+        }
+    }
+
+    dependencies {
+        classpath "org.elasticsearch.gradle:build-tools:${project.elasticsearchVersion}"
+    }
+}
+
+apply plugin: 'jacoco'
+apply plugin: 'maven-publish'
+apply plugin: 'java'
+
+jacocoTestReport {
+    reports {
+        xml.enabled false
+        csv.enabled false
+        html.destination "${project.buildDir}/jacocoHtml"
+    }
+    afterEvaluate {
+        classDirectories = files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: [
+                    'gov/ca/cwds/xpack/realm/perry*'
+            ])
+        })
+    }
+}
+
+sourceCompatibility = 1.8
+
+repositories {
+    jcenter()
+    maven {
+        url "https://artifacts.elastic.co/maven"
+    }
+}
+
+configurations {
+    provided
+}
+sourceSets {
+    main.compileClasspath += configurations.provided
+    test.compileClasspath += configurations.provided
+    test.runtimeClasspath += configurations.provided
+}
+
+dependencies {
+    provided "org.elasticsearch:elasticsearch:${project.elasticsearchVersion}"
+    provided "org.elasticsearch.plugin:x-pack-api:${project.elasticsearchVersion}"
+
+    testCompile 'io.dropwizard:dropwizard-testing:1.1.0'
+    testCompile group: 'junit', name: 'junit', version: '4.+'
+}
+
+processResources {
+    filter(ReplaceTokens, tokens: [
+            'version'      : version,
+            'xpack.version': project.elasticsearchVersion,
+            'java.version' : targetCompatibility as String
+    ])
+}
+
+task buildZip(type:Zip, dependsOn: jar) {
+    from "build/libs/x-pack-perry-realm-${version}.jar"
+    from 'build/resources/main/x-pack-extension-descriptor.properties'
+}
+
+publishing {
+    publications {
+        library(MavenPublication) {
+            artifact source: buildZip, extension: 'zip'
+        }
+    }
+    repositories {
+        maven {
+            url "http://sonar.dev.cwds.io:8081/artifactory/libs-snapshot"
+        }
+    }
+}

@@ -1,0 +1,10 @@
+{
+  "user": "RACFID",
+  "staffId": "34",
+  "roles": ["Assistant"],
+  "county_code": "19",
+  "county_name": "Los Angeles",
+  "privileges": [
+    "nothing"
+  ]
+}
