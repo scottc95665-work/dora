@@ -64,9 +64,6 @@ public class IndexQueryService {
    * @return JSON ES results
    */
   private String searchIndexByQuery(final String index, final String type, final String query) {
-    LOGGER.info("index: {}", index);
-    LOGGER.info("type: {}", type);
-    LOGGER.info("query: {}", query);
     checkArgument(!Strings.isNullOrEmpty(index), "index name cannot be Null or empty");
     checkArgument(!Strings.isNullOrEmpty(type), "type cannot be Null or empty");
     checkArgument(!Strings.isNullOrEmpty(query), "query cannot be Null or empty");
