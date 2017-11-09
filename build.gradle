@@ -20,6 +20,7 @@ project.logging.setLevelInternal(INFO)
 project.ext {
     projectGroup = 'gov.ca.cwds.services'
     projectVersion = '0.4.5-SNAPSHOT'
+    elasticsearchVersion = '5.5.2'
 
     mainclass = "gov.ca.cwds.rest.DoraApplication"
     configPath = "$rootProject.projectDir/config/"
@@ -35,7 +36,6 @@ project.ext {
 repositories {
     maven { url "http://sonar.dev.cwds.io:8081/artifactory/repo" }
 }
-
 
 sonarqube {
     properties {

@@ -6,15 +6,11 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.mock;
 
 import gov.ca.cwds.rest.ElasticsearchConfiguration;
 import gov.ca.cwds.rest.api.DoraException;
 import gov.ca.cwds.rest.api.domain.es.IndexQueryRequest;
 import gov.ca.cwds.rest.api.domain.es.IndexQueryResponse;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.net.HttpURLConnection;
 import java.util.HashMap;
 import java.util.Map;
 import org.hamcrest.junit.ExpectedException;
@@ -22,23 +18,19 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 import org.mockito.internal.util.reflection.Whitebox;
 
 /**
- * @author CWDS API Team
+ * @author CWDS TPT-2
  */
 @SuppressWarnings("javadoc")
 public class IndexQueryServiceTest {
 
   @Rule
   public ExpectedException thrown = ExpectedException.none();
-
-  @Mock
-  private IndexQueryRequest req;
 
   @Spy
   @InjectMocks
@@ -63,14 +55,14 @@ public class IndexQueryServiceTest {
   public void testHandleRequest() throws Exception {
     Map<String, String> test = new HashMap<>();
     test.put("a", "value");
-    req = new IndexQueryRequest("people", "person", test);
+    IndexQueryRequest req = new IndexQueryRequest("people", "person", test);
 
     ElasticsearchConfiguration esConfig = new ElasticsearchConfiguration("localhost", "9200");
     assertThat(esConfig.getHost(), is(equalTo("localhost")));
     assertThat(esConfig.getPort(), is(equalTo("9200")));
 
     Whitebox.setInternalState(target, "esConfig", esConfig);
-    doReturn("fred").when(target).executionResult(Mockito.anyString(), Mockito.anyString());
+    doReturn("fred").when(target).invokeElasticsearch(Mockito.anyString(), Mockito.anyString());
     final IndexQueryResponse actual = target.handleRequest(req);
     final IndexQueryResponse expected = new IndexQueryResponse("fred");
 
@@ -78,45 +70,25 @@ public class IndexQueryServiceTest {
   }
 
   @Test
-  public void testInvalidUrlExecution() throws Exception {
-    thrown.expect(DoraException.class);
-    target.executionResult("non_valid_url", "test_payload");
-
+  public void testInvokeElasticsearch() throws Exception {
+    ElasticsearchConfiguration esConfig = new ElasticsearchConfiguration("localhost", "9200");
+    ElasticsearchConfiguration.XpackConfiguration xpackConfiguration = new ElasticsearchConfiguration.XpackConfiguration();
+    xpackConfiguration.setEnabled(true);
+    esConfig.setXpack(xpackConfiguration);
+    Whitebox.setInternalState(target, "esConfig", esConfig);
+    doReturn("{ hits: 0 }").when(target).postRequest(Mockito.anyObject(), Mockito.anyString());
+    assertThat("{ hits: 0 }", is(equalTo(target.invokeElasticsearch("http://localhost:8080", "{}"))));
   }
 
   @Test
-  public void testExecution() throws Exception {
-    ElasticsearchConfiguration esConfig = new ElasticsearchConfiguration(null, null);
+  public void testDoraException() throws Exception {
+    ElasticsearchConfiguration esConfig = new ElasticsearchConfiguration("localhost", "9200");
     ElasticsearchConfiguration.XpackConfiguration xpackConfiguration = new ElasticsearchConfiguration.XpackConfiguration();
     xpackConfiguration.setEnabled(false);
     esConfig.setXpack(xpackConfiguration);
     Whitebox.setInternalState(target, "esConfig", esConfig);
-
-    HttpURLConnection connection = mock(HttpURLConnection.class);
-    doReturn(200).when(connection).getResponseCode();
-    doReturn(new ByteArrayInputStream("testInputString".getBytes())).when(connection)
-        .getInputStream();
-    doReturn(connection).when(target).createConnection(Mockito.anyString());
-
-    assertThat("testInputString", is(equalTo(target.executionResult("mockedURL", ""))));
-  }
-
-  @Test
-  public void testApplySecurity() throws Exception {
-    ElasticsearchConfiguration esConfig = new ElasticsearchConfiguration(null, null);
-    ElasticsearchConfiguration.XpackConfiguration xpackConfiguration = new ElasticsearchConfiguration.XpackConfiguration();
-    xpackConfiguration.setEnabled(false);
-    esConfig.setXpack(xpackConfiguration);
-
-    Whitebox.setInternalState(target, "esConfig", esConfig);
-
-    HttpURLConnection connection = mock(HttpURLConnection.class);
-
-    doThrow(new IOException()).when(connection)
-        .getInputStream();
-    doReturn(connection).when(target).createConnection(Mockito.anyString());
-    doReturn(200).when(connection).getResponseCode();
+    doThrow(new DoraException("")).when(target).postRequest(Mockito.anyObject(), Mockito.anyString());
     thrown.expect(DoraException.class);
-    target.executionResult("mockedURL", "");
+    target.invokeElasticsearch("http://localhost:8080", "{}");
   }
 }

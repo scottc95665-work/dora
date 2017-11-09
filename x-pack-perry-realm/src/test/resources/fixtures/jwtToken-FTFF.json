@@ -1,0 +1,11 @@
+{
+  "user": "RACFID",
+  "staffId": "34",
+  "roles": ["Supervisor"],
+  "county_code": "56",
+  "county_name": "Ventura",
+  "privileges": [
+    "Countywide Read",
+    "Sensitive Persons"
+  ]
+}
