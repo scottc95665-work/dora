@@ -95,7 +95,7 @@ public class IndexQueryService {
     } catch (DoraException e) {
       throw e;
     } catch (RuntimeException e) {
-      throw new DoraException(e.getMessage());
+      throw new DoraException(e.getMessage(), e);
     } finally {
       if (null != client) {
         client.close();

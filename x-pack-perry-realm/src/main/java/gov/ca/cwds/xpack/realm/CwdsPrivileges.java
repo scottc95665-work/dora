@@ -52,37 +52,37 @@ public final class CwdsPrivileges {
   public static CwdsPrivileges fromJson(String json) throws IOException {
     CwdsPrivileges cwdsPrivileges = new CwdsPrivileges();
 
-    JsonParser parser = jsonFactory.createParser(json);
-
     boolean hasSealed = false;
     boolean hasSensitive = false;
     boolean hasCountywideRead = false;
     boolean hasStatewideRead = false;
 
-    while(parser.nextToken() != JsonToken.END_OBJECT){
-      String fieldName = parser.getCurrentName();
+    try (JsonParser parser = jsonFactory.createParser(json)) {
+      while (parser.nextToken() != JsonToken.END_OBJECT) {
+        String fieldName = parser.getCurrentName();
 
-      if("county_code".equals(fieldName)) {
-        parser.nextToken(); // current token is "county_code", move to its value
+        if ("county_code".equals(fieldName)) {
+          parser.nextToken(); // current token is "county_code", move to its value
 
-        // JWT token will contain County Code, but Person documents in ES index and X-Pack roles use County ID
-        cwdsPrivileges.countyId = countyCodeToCountyId(parser.getValueAsString());
+          // JWT token will contain County Code, but Person documents in ES index and X-Pack roles use County ID
+          cwdsPrivileges.countyId = countyCodeToCountyId(parser.getValueAsString());
 
-      } else if ("privileges".equals(fieldName)){
-        parser.nextToken(); // current token is "[", move next
-        // messages is array, loop until token equal to "]"
-        while (parser.nextToken() != JsonToken.END_ARRAY) {
-          String privilege = parser.getValueAsString().trim();
-          if ("Sealed".equalsIgnoreCase(privilege)) {
-            hasSealed = true;
-          } else if ("Sensitive Persons".equalsIgnoreCase(privilege)) {
-            hasSensitive = true;
-          } else if ("Countywide Read".equalsIgnoreCase(privilege)) {
-            hasCountywideRead = true;
-          } else if ("Countywide Read/Write".equalsIgnoreCase(privilege)) {
-            hasCountywideRead = true;
-          } else if ("Statewide Read".equalsIgnoreCase(privilege)) {
-            hasStatewideRead = true;
+        } else if ("privileges".equals(fieldName)) {
+          parser.nextToken(); // current token is "[", move next
+          // messages is array, loop until token equal to "]"
+          while (parser.nextToken() != JsonToken.END_ARRAY) {
+            String privilege = parser.getValueAsString().trim();
+            if ("Sealed".equalsIgnoreCase(privilege)) {
+              hasSealed = true;
+            } else if ("Sensitive Persons".equalsIgnoreCase(privilege)) {
+              hasSensitive = true;
+            } else if ("Countywide Read".equalsIgnoreCase(privilege)) {
+              hasCountywideRead = true;
+            } else if ("Countywide Read/Write".equalsIgnoreCase(privilege)) {
+              hasCountywideRead = true;
+            } else if ("Statewide Read".equalsIgnoreCase(privilege)) {
+              hasStatewideRead = true;
+            }
           }
         }
       }
@@ -98,7 +98,7 @@ public final class CwdsPrivileges {
 
   private static String countyCodeToCountyId(String countyCode) {
     try {
-      return String.valueOf(Integer.valueOf(countyCode) + COUNTY_CODE_TO_ID_DELTA);
+      return String.valueOf(Integer.parseInt(countyCode) + COUNTY_CODE_TO_ID_DELTA);
     } catch (NumberFormatException e) {
       return "";
     }
