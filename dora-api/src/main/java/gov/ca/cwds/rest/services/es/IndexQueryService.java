@@ -1,6 +1,7 @@
 package gov.ca.cwds.rest.services.es;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static gov.ca.cwds.dora.DoraUtils.getElasticSearchSearchResultCount;
 
 import com.google.common.base.Strings;
 import com.google.inject.Inject;
@@ -52,7 +53,16 @@ public class IndexQueryService {
       LOGGER.error("query cannot be null.");
       throw new DoraException("query cannot be null.");
     }
-    return new IndexQueryResponse(searchIndexByQuery(req.getIndex(), req.getType(), query));
+
+    LOGGER.debug("User are searching {} in Elastic Search index {}", req.getIndex(), req.getType());
+
+    IndexQueryResponse esIndexQueryResponse = new IndexQueryResponse(
+        searchIndexByQuery(req.getIndex(), req.getType(), query));
+
+    LOGGER.debug("Elastic Search returned {} results",
+        getElasticSearchSearchResultCount(esIndexQueryResponse));
+
+    return esIndexQueryResponse;
   }
 
   /**
@@ -71,7 +81,7 @@ public class IndexQueryService {
     final String targetURL = String.format("http://%s:%s/%s/%s/_search",
         esConfig.getHost().trim(), esConfig.getPort().trim(), index.trim(), type.trim());
 
-    LOGGER.warn("ES SEARCH URL: {}", targetURL);
+    LOGGER.debug("User searched {} in ElasticSearch", targetURL);
     return invokeElasticsearch(targetURL, query);
   }
 

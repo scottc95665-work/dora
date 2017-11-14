@@ -48,6 +48,6 @@ logging:
       threshold: WARN
       timeZone: UTC
       target: stdout
-      logFormat: '%X{remoteAddress} [%date{ISO8601}] %level "%thread" "%X{uniqueId}" %logger: "%message%n"'
+      logFormat: '%X{remoteAddress} [%date{ISO8601}] %level "%thread" "id: [%X{UNIQUE_ID}]" %logger: "%message%n"'
 
 version: -UNUSED-

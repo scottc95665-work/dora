@@ -2,6 +2,7 @@ package gov.ca.cwds.rest.resources;
 
 import static gov.ca.cwds.rest.DoraConstants.RESOURCE_ELASTICSEARCH_INDEX_QUERY;
 
+import com.google.inject.Inject;
 import gov.ca.cwds.rest.api.domain.es.IndexQueryRequest;
 import gov.ca.cwds.rest.api.domain.es.IndexQueryResponse;
 import gov.ca.cwds.rest.services.es.IndexQueryService;
@@ -10,7 +11,6 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -19,12 +19,10 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.inject.Inject;
 
 /**
  * A resource providing a RESTful interface for Elasticsearch Query.
@@ -74,14 +72,15 @@ public class IndexQueryResource {
       @PathParam("type") @ApiParam(required = true, name = "type", value = "The document type") String type,
       @Valid @ApiParam(required = true) Object req
   ) {
-      LOGGER.info("index: {}", index);
-      LOGGER.info("type: {}", type);
-      LOGGER.info("query: {}", req);
-      IndexQueryRequest indexQueryRequest = new IndexQueryRequest(index, type, req);
-      IndexQueryResponse indexQueryResponse = indexQueryService.handleRequest(indexQueryRequest);
+    LOGGER.info("index: {}", index);
+    LOGGER.info("type: {}", type);
+    LOGGER.info("query: {}", req);
 
-      return indexQueryResponse == null ? null
-          : Response.status(Response.Status.OK).entity(indexQueryResponse.getSearchResults())
-              .build();
+    IndexQueryRequest indexQueryRequest = new IndexQueryRequest(index, type, req);
+    IndexQueryResponse indexQueryResponse = indexQueryService.handleRequest(indexQueryRequest);
+
+    return indexQueryResponse == null ? null
+        : Response.status(Response.Status.OK).entity(indexQueryResponse.getSearchResults())
+            .build();
   }
 }
