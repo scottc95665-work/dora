@@ -75,8 +75,7 @@ public class RequestResponseLoggingFilter implements Filter {
       RequestResponseLoggingHttpServletRequest wrappedRequest =
           new RequestResponseLoggingHttpServletRequest(httpServletRequest);
 
-      auditLogger.audit(httpServletRequest.toString());
-      auditLogger.audit(requestContent(wrappedRequest));
+      performRequestAuditLogging(httpServletRequest, wrappedRequest);
 
       final HttpServletResponse httpServletResponse = (HttpServletResponse) response;
       RequestResponseLoggingHttpServletResponseWrapper wrappedResponse =
@@ -84,10 +83,7 @@ public class RequestResponseLoggingFilter implements Filter {
 
       try {
         chain.doFilter(wrappedRequest, wrappedResponse);
-        String responseStringBuilder = String.valueOf(wrappedResponse) +
-            wrappedResponse.getContent();
-        auditLogger
-            .audit(responseStringBuilder.replaceAll("\n", " ").replaceAll("\r", ""));
+        performResponseAuditLogging(wrappedResponse);
       } catch (Exception e) {
         LOGGER.error(e.getMessage(), e);
         throw new ApiException("Unable to handle request:" + uniqueId, e);
@@ -96,6 +92,21 @@ public class RequestResponseLoggingFilter implements Filter {
         RequestExecutionContextImpl.stopRequest();
       }
     }
+  }
+
+  private void performRequestAuditLogging(HttpServletRequest httpServletRequest,
+      RequestResponseLoggingHttpServletRequest wrappedRequest)
+      throws IOException {
+    auditLogger.audit(httpServletRequest.toString());
+    auditLogger.audit(requestContent(wrappedRequest));
+  }
+
+  private void performResponseAuditLogging(
+      RequestResponseLoggingHttpServletResponseWrapper wrappedResponse) {
+    String responseStringBuilder = String.valueOf(wrappedResponse) +
+        wrappedResponse.getContent();
+    auditLogger
+        .audit(responseStringBuilder.replaceAll("\n", " ").replaceAll("\r", ""));
   }
 
   private void setLoggingContextParameters(String uniqueId, HttpServletRequest httpServletRequest) {
