@@ -92,10 +92,10 @@ class RequestExecutionContextImpl implements RequestExecutionContext {
    * 
    */
   static void startRequest() {
-    PerryUserIdentity userIdentity = new PerryUserIdentity();
-    userIdentity.setUser(DEFAULT_USER_ID);
+    PerryUserIdentity userIdentity = createUserIdentityWithDefaultUser();
 
     Subject currentUser = SecurityUtils.getSubject();
+
     if (currentUser.getPrincipals() != null) {
       @SuppressWarnings("rawtypes")
       List principals = currentUser.getPrincipals().asList();
@@ -110,6 +110,12 @@ class RequestExecutionContextImpl implements RequestExecutionContext {
     }
 
     RequestExecutionContextRegistry.register(new RequestExecutionContextImpl(userIdentity));
+  }
+
+  private static PerryUserIdentity createUserIdentityWithDefaultUser(){
+    PerryUserIdentity userIdentity = new PerryUserIdentity();
+    userIdentity.setUser(DEFAULT_USER_ID);
+    return userIdentity;
   }
 
   /**

@@ -70,14 +70,7 @@ public class RequestResponseLoggingFilter implements Filter {
 
       RequestExecutionContextImpl.startRequest();
 
-      loggingContext.setLogParameter(LogParameter.UNIQUE_ID, uniqueId);
-      loggingContext.setLogParameter(LogParameter.USER_ID,
-          RequestExecutionContext.instance().getUserId());
-      loggingContext.setLogParameter(LogParameter.REQUEST_START_TIME,
-          DomainChef.cookStrictTimestamp(RequestExecutionContext.instance().getRequestStartTime()));
-      loggingContext.setLogParameter(LogParameter.REMOTE_ADDRESS,
-          httpServletRequest.getRemoteAddr());
-      loggingContext.setLogParameter(LogParameter.REQUEST_ID, Thread.currentThread().getName());
+      setLoggingContextParameters(uniqueId, httpServletRequest);
 
       RequestResponseLoggingHttpServletRequest wrappedRequest =
           new RequestResponseLoggingHttpServletRequest(httpServletRequest);
@@ -88,6 +81,7 @@ public class RequestResponseLoggingFilter implements Filter {
       final HttpServletResponse httpServletResponse = (HttpServletResponse) response;
       RequestResponseLoggingHttpServletResponseWrapper wrappedResponse =
           new RequestResponseLoggingHttpServletResponseWrapper(httpServletResponse);
+
       try {
         chain.doFilter(wrappedRequest, wrappedResponse);
         String responseStringBuilder = String.valueOf(wrappedResponse) +
@@ -102,6 +96,17 @@ public class RequestResponseLoggingFilter implements Filter {
         RequestExecutionContextImpl.stopRequest();
       }
     }
+  }
+
+  private void setLoggingContextParameters(String uniqueId, HttpServletRequest httpServletRequest) {
+    loggingContext.setLogParameter(LogParameter.UNIQUE_ID, uniqueId);
+    loggingContext.setLogParameter(LogParameter.USER_ID,
+        RequestExecutionContext.instance().getUserId());
+    loggingContext.setLogParameter(LogParameter.REQUEST_START_TIME,
+        DomainChef.cookStrictTimestamp(RequestExecutionContext.instance().getRequestStartTime()));
+    loggingContext.setLogParameter(LogParameter.REMOTE_ADDRESS,
+        httpServletRequest.getRemoteAddr());
+    loggingContext.setLogParameter(LogParameter.REQUEST_ID, Thread.currentThread().getName());
   }
 
   @Override
