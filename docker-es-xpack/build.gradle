@@ -5,7 +5,7 @@ import java.nio.file.Paths
 import org.apache.tools.ant.filters.FixCrLfFilter
 
 project.ext {
-    elasticHost = project.buildEnv == 'WIN_DEV' ? project.devDockerHost : (System.env.ELASTIC_HOST ?: '192.168.99.100')
+    elasticHost = project.buildEnv == 'WIN_DEV' ? project.devDockerHost : (System.env.ELASTIC_HOST ?: 'localhost')
     elasticPort = System.env.ELASTIC_PORT ?: '9200'
     elasticUser = System.env.XPACK_USER ?: 'elastic'
     elasticPassword = System.env.XPACK_PASSWORD ?: 'changeme'
