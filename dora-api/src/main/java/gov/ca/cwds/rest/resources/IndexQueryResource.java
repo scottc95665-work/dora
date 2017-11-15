@@ -19,6 +19,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -72,9 +73,8 @@ public class IndexQueryResource {
       @PathParam("type") @ApiParam(required = true, name = "type", value = "The document type") String type,
       @Valid @ApiParam(required = true) Object req
   ) {
-    LOGGER.info("index: {}", index);
-    LOGGER.info("type: {}", type);
-    LOGGER.info("query: {}", req);
+    LOGGER.info("index: {}. type: {} query: {}", index, type,
+        StringEscapeUtils.escapeJava(req.toString()));
 
     IndexQueryRequest indexQueryRequest = new IndexQueryRequest(index, type, req);
     IndexQueryResponse indexQueryResponse = indexQueryService.handleRequest(indexQueryRequest);

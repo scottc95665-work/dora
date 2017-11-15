@@ -39,8 +39,6 @@ server:
 logging:
   level: ${LOGLEVEL:-WARN}
   loggers:
-    "AUDIT":
-      level: ALL
     "gov.ca.cwds":
       level: DEBUG
   appenders:
@@ -48,6 +46,6 @@ logging:
       threshold: WARN
       timeZone: UTC
       target: stdout
-      logFormat: '%X{remoteAddress} [%date{ISO8601}] %level "%thread" "id: [%X{UNIQUE_ID}]" %logger: "%message%n"'
+      logFormat: '[%X{UNIQUE_ID}] %X{remoteAddress} [%date{ISO8601}] %level "[%X{REQUEST_ID}]" %logger: "%message%n"'
 
 version: -UNUSED-
