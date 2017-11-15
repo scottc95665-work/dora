@@ -100,27 +100,19 @@ public final class DoraUtils {
   }
 
   @SuppressWarnings("unchecked")
-  public static Integer getElasticSearchSearchResultCount(IndexQueryResponse indexQueryResponse) {
-    Integer total = 0;
+  public static Integer getElasticSearchSearchResultCount(IndexQueryResponse indexQueryResponse)
+      throws IOException {
 
     Map<String, Object> mapFromIndexQueryResponse = getMapFromIndexQueryResponse(
         indexQueryResponse.getSearchResults());
 
-    if (null != mapFromIndexQueryResponse) {
-      total = (Integer) ((Map<String, Object>) mapFromIndexQueryResponse.get("hits")).get("total");
-    }
-
-    return total;
+    return (Integer) ((Map<String, Object>) mapFromIndexQueryResponse.get("hits")).get("total");
   }
 
   @SuppressWarnings("unchecked")
-  private static Map<String, Object> getMapFromIndexQueryResponse(String indexQueryResponse) {
+  private static Map<String, Object> getMapFromIndexQueryResponse(String indexQueryResponse)
+      throws IOException {
     ObjectMapper mapper = new ObjectMapper();
-    try {
-      return mapper.readValue(indexQueryResponse, Map.class);
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-    return null;
+    return mapper.readValue(indexQueryResponse, Map.class);
   }
 }

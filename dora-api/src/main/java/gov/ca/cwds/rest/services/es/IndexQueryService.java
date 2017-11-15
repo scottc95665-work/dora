@@ -10,6 +10,7 @@ import gov.ca.cwds.rest.api.DoraException;
 import gov.ca.cwds.rest.api.domain.es.IndexQueryRequest;
 import gov.ca.cwds.rest.api.domain.es.IndexQueryResponse;
 import gov.ca.cwds.security.SecureClientFactory;
+import java.io.IOException;
 import java.util.Map;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -59,8 +60,12 @@ public class IndexQueryService {
     IndexQueryResponse esIndexQueryResponse = new IndexQueryResponse(
         searchIndexByQuery(req.getIndex(), req.getType(), query));
 
-    LOGGER.debug("Elastic Search returned {} results",
-        getElasticSearchSearchResultCount(esIndexQueryResponse));
+    try {
+      LOGGER.debug("Elastic Search returned {} results",
+          getElasticSearchSearchResultCount(esIndexQueryResponse));
+    } catch (IOException e) {
+      throw new DoraException("Can't parse ES response", e);
+    }
 
     return esIndexQueryResponse;
   }
