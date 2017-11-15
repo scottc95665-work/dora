@@ -16,7 +16,7 @@ import org.apache.shiro.subject.Subject;
 /**
  * Common information carrier for all requests. Includes the request start time stamp and user
  * information. Each request is separated by thread local.
- * 
+ *
  * @author CWDS API Team
  */
 class RequestExecutionContextImpl implements RequestExecutionContext {
@@ -30,7 +30,7 @@ class RequestExecutionContextImpl implements RequestExecutionContext {
 
   /**
    * Private constructor
-   * 
+   *
    * @param userIdentity User identity
    */
   private RequestExecutionContextImpl(PerryUserIdentity userIdentity) {
@@ -41,7 +41,7 @@ class RequestExecutionContextImpl implements RequestExecutionContext {
 
   /**
    * Store request execution parameter
-   * 
+   *
    * @param parameter Parameter
    * @param value Parameter value
    */
@@ -52,7 +52,7 @@ class RequestExecutionContextImpl implements RequestExecutionContext {
 
   /**
    * Retrieve request execution parameter
-   * 
+   *
    * @param parameter Parameter
    * @return The parameter value
    */
@@ -63,7 +63,7 @@ class RequestExecutionContextImpl implements RequestExecutionContext {
 
   /**
    * Get user id if stored.
-   * 
+   *
    * @return The user id
    */
   @Override
@@ -78,7 +78,7 @@ class RequestExecutionContextImpl implements RequestExecutionContext {
 
   /**
    * Get request start time if stored
-   * 
+   *
    * @return The request start time
    */
   @Override
@@ -89,30 +89,46 @@ class RequestExecutionContextImpl implements RequestExecutionContext {
   /**
    * Servlet filter marks the start of a web request. This method is only accessible by the filters
    * package.
-   * 
    */
   static void startRequest() {
-    PerryUserIdentity userIdentity = createUserIdentityWithDefaultUser();
+    PerryUserIdentity currentUserInformation = getCurrentUserInformation();
 
-    Subject currentUser = SecurityUtils.getSubject();
-
-    if (currentUser.getPrincipals() != null) {
-      @SuppressWarnings("rawtypes")
-      List principals = currentUser.getPrincipals().asList();
-
-      if (principals.size() > 1 && principals.get(1) instanceof PerryUserIdentity) {
-        PerryUserIdentity currentUserInfo = (PerryUserIdentity) principals.get(1);
-        String staffPersonId = currentUserInfo.getStaffId();
-        if (!StringUtils.isBlank(staffPersonId)) {
-          userIdentity = currentUserInfo;
-        }
-      }
+    //try to get current user identity and created ExecutionContext with it
+    if (null != currentUserInformation) {
+      RequestExecutionContextRegistry
+          .register(new RequestExecutionContextImpl(currentUserInformation));
+      return;
     }
 
+    // if no there is no current user identity, create ExecutionContext with default user identity
+    PerryUserIdentity userIdentity = createUserIdentityWithDefaultUser();
     RequestExecutionContextRegistry.register(new RequestExecutionContextImpl(userIdentity));
   }
 
-  private static PerryUserIdentity createUserIdentityWithDefaultUser(){
+  private static PerryUserIdentity getCurrentUserInformation() {
+    Subject currentUser = SecurityUtils.getSubject();
+
+    if (null == currentUser.getPrincipals()) {
+      return null;
+    }
+
+    @SuppressWarnings("rawtypes")
+    List principals = currentUser.getPrincipals().asList();
+
+    if (!(principals.size() > 1 && principals.get(1) instanceof PerryUserIdentity)) {
+      return null;
+    }
+
+    PerryUserIdentity currentUserInfo = (PerryUserIdentity) principals.get(1);
+    String staffPersonId = currentUserInfo.getStaffId();
+    if (!StringUtils.isBlank(staffPersonId)) {
+      return currentUserInfo;
+    }
+
+    return null;
+  }
+
+  private static PerryUserIdentity createUserIdentityWithDefaultUser() {
     PerryUserIdentity userIdentity = new PerryUserIdentity();
     userIdentity.setUser(DEFAULT_USER_ID);
     return userIdentity;
