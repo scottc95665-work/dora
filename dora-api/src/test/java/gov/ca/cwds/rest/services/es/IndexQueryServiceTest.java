@@ -10,7 +10,6 @@ import static org.mockito.Mockito.doThrow;
 import gov.ca.cwds.rest.ElasticsearchConfiguration;
 import gov.ca.cwds.rest.api.DoraException;
 import gov.ca.cwds.rest.api.domain.es.IndexQueryRequest;
-import gov.ca.cwds.rest.api.domain.es.IndexQueryResponse;
 import java.util.HashMap;
 import java.util.Map;
 import org.hamcrest.junit.ExpectedException;
@@ -63,10 +62,9 @@ public class IndexQueryServiceTest {
 
     Whitebox.setInternalState(target, "esConfig", esConfig);
     doReturn("fred").when(target).invokeElasticsearch(Mockito.anyString(), Mockito.anyString());
-    final IndexQueryResponse actual = target.handleRequest(req);
-    final IndexQueryResponse expected = new IndexQueryResponse("fred");
 
-    assertThat(actual, is(equalTo(expected)));
+    thrown.expect(DoraException.class);
+    target.handleRequest(req);
   }
 
   @Test
@@ -77,7 +75,8 @@ public class IndexQueryServiceTest {
     esConfig.setXpack(xpackConfiguration);
     Whitebox.setInternalState(target, "esConfig", esConfig);
     doReturn("{ hits: 0 }").when(target).postRequest(Mockito.anyObject(), Mockito.anyString());
-    assertThat("{ hits: 0 }", is(equalTo(target.invokeElasticsearch("http://localhost:8080", "{}"))));
+    assertThat("{ hits: 0 }",
+        is(equalTo(target.invokeElasticsearch("http://localhost:8080", "{}"))));
   }
 
   @Test
@@ -87,7 +86,8 @@ public class IndexQueryServiceTest {
     xpackConfiguration.setEnabled(false);
     esConfig.setXpack(xpackConfiguration);
     Whitebox.setInternalState(target, "esConfig", esConfig);
-    doThrow(new DoraException("")).when(target).postRequest(Mockito.anyObject(), Mockito.anyString());
+    doThrow(new DoraException("")).when(target)
+        .postRequest(Mockito.anyObject(), Mockito.anyString());
     thrown.expect(DoraException.class);
     target.invokeElasticsearch("http://localhost:8080", "{}");
   }

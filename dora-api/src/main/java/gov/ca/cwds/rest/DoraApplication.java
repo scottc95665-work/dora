@@ -3,12 +3,14 @@ package gov.ca.cwds.rest;
 import com.codahale.metrics.health.HealthCheck;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.google.inject.Injector;
 import com.google.inject.Module;
 import gov.ca.cwds.dora.DoraUtils;
 import gov.ca.cwds.dora.health.BasicDoraHealthCheck;
 import gov.ca.cwds.dora.health.ElasticsearchHealthCheck;
 import gov.ca.cwds.dora.health.ElasticsearchPluginHealthCheck;
 import gov.ca.cwds.inject.ApplicationModule;
+import gov.ca.cwds.rest.filters.RequestResponseLoggingFilter;
 import gov.ca.cwds.rest.resources.SwaggerResource;
 import io.dropwizard.assets.AssetsBundle;
 import io.dropwizard.setup.Bootstrap;
@@ -71,8 +73,15 @@ public final class DoraApplication extends BaseApiApplication<DoraConfiguration>
     registerHealthChecks(configuration, environment);
     runHealthChecks(environment);
 
+    Injector injector = guiceBundle.getInjector();
+
     environment.jersey().register(new ShiroExceptionMapper());
     environment.servlets().setSessionHandler(new SessionHandler());
+
+    environment.servlets()
+        .addFilter("AuditAndLoggingFilter",
+            injector.getInstance(RequestResponseLoggingFilter.class))
+        .addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), true, "/*");
 
     LOGGER.info("Application name: {}, Version: {}", configuration.getApplicationName(),
             DoraUtils.getAppVersion());

@@ -28,5 +28,6 @@ public class ApplicationModule extends AbstractModule {
     install(new ServicesModule());
     install(new ResourcesModule());
     install(new AuditingModule());
+    install(new FiltersModule());
   }
 }

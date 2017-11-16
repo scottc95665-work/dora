@@ -3,6 +3,7 @@ package gov.ca.cwds.dora;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import gov.ca.cwds.rest.ElasticsearchConfiguration;
 import gov.ca.cwds.rest.api.DoraException;
+import gov.ca.cwds.rest.api.domain.es.IndexQueryResponse;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -96,5 +97,22 @@ public final class DoraUtils {
 
   public static String getAppVersion() {
     return getSystemInformationProperties().getProperty(BUILD_VERSION);
+  }
+
+  @SuppressWarnings("unchecked")
+  public static Integer getElasticSearchSearchResultCount(IndexQueryResponse indexQueryResponse)
+      throws IOException {
+
+    Map<String, Object> mapFromIndexQueryResponse = getMapFromIndexQueryResponse(
+        indexQueryResponse.getSearchResults());
+
+    return (Integer) ((Map<String, Object>) mapFromIndexQueryResponse.get("hits")).get("total");
+  }
+
+  @SuppressWarnings("unchecked")
+  private static Map<String, Object> getMapFromIndexQueryResponse(String indexQueryResponse)
+      throws IOException {
+    ObjectMapper mapper = new ObjectMapper();
+    return mapper.readValue(indexQueryResponse, Map.class);
   }
 }
