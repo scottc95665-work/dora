@@ -1,7 +1,6 @@
 package gov.ca.cwds.rest.filters;
 
 import com.google.inject.Inject;
-import gov.ca.cwds.logging.AuditLogger;
 import gov.ca.cwds.logging.LoggingContext;
 import gov.ca.cwds.logging.LoggingContext.LogParameter;
 import gov.ca.cwds.rest.api.ApiException;

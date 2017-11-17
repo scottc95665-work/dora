@@ -1,5 +1,6 @@
 package gov.ca.cwds.rest.resources;
 
+import static gov.ca.cwds.dora.DoraUtils.escapeCRLF;
 import static gov.ca.cwds.rest.DoraConstants.RESOURCE_ELASTICSEARCH_INDEX_QUERY;
 
 import com.google.inject.Inject;
@@ -19,7 +20,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import org.apache.commons.lang3.StringEscapeUtils;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -73,11 +73,17 @@ public class IndexQueryResource {
       @PathParam("type") @ApiParam(required = true, name = "type", value = "The document type") String type,
       @Valid @ApiParam(required = true) Object req
   ) {
-    LOGGER.info("index: {}. type: {} query: {}", index, type,
-        StringEscapeUtils.escapeJava(req.toString()));
+    long startTime = System.currentTimeMillis();
+
+    if (null != index && null != type && null != req) {
+      LOGGER.info("index: {}. type: {} query: {}", escapeCRLF(index),
+          escapeCRLF(type), escapeCRLF(req.toString()));
+    }
 
     IndexQueryRequest indexQueryRequest = new IndexQueryRequest(index, type, req);
     IndexQueryResponse indexQueryResponse = indexQueryService.handleRequest(indexQueryRequest);
+
+    LOGGER.info("Index search total time: {}", (System.currentTimeMillis() - startTime));
 
     return indexQueryResponse == null ? null
         : Response.status(Response.Status.OK).entity(indexQueryResponse.getSearchResults())

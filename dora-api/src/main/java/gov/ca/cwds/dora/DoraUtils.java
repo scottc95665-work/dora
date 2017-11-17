@@ -115,4 +115,8 @@ public final class DoraUtils {
     ObjectMapper mapper = new ObjectMapper();
     return mapper.readValue(indexQueryResponse, Map.class);
   }
+
+  public static String escapeCRLF(String str) {
+    return str.replaceAll("[\r\n]", "");
+  }
 }
