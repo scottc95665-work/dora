@@ -103,10 +103,15 @@ public final class DoraUtils {
   public static Integer getElasticSearchSearchResultCount(IndexQueryResponse indexQueryResponse)
       throws IOException {
 
-    Map<String, Object> mapFromIndexQueryResponse = getMapFromIndexQueryResponse(
-        indexQueryResponse.getSearchResults());
+    return (Integer) ((Map<String, Object>) getMapFromIndexQueryResponse(
+        indexQueryResponse.getSearchResults()).get("hits")).get("total");
+  }
 
-    return (Integer) ((Map<String, Object>) mapFromIndexQueryResponse.get("hits")).get("total");
+  @SuppressWarnings("unchecked")
+  public static Integer getElasticSearchSearchTime(IndexQueryResponse indexQueryResponse)
+      throws IOException {
+    return (Integer) getMapFromIndexQueryResponse(
+        indexQueryResponse.getSearchResults()).get("took");
   }
 
   @SuppressWarnings("unchecked")
@@ -114,5 +119,9 @@ public final class DoraUtils {
       throws IOException {
     ObjectMapper mapper = new ObjectMapper();
     return mapper.readValue(indexQueryResponse, Map.class);
+  }
+
+  public static String escapeCRLF(String str) {
+    return null != str ? str.replaceAll("[\r\n]", "") : null;
   }
 }

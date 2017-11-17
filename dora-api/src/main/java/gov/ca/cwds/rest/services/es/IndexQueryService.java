@@ -2,6 +2,7 @@ package gov.ca.cwds.rest.services.es;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static gov.ca.cwds.dora.DoraUtils.getElasticSearchSearchResultCount;
+import static gov.ca.cwds.dora.DoraUtils.getElasticSearchSearchTime;
 
 import com.google.common.base.Strings;
 import com.google.inject.Inject;
@@ -61,6 +62,8 @@ public class IndexQueryService {
         searchIndexByQuery(req.getIndex(), req.getType(), query));
 
     try {
+      LOGGER.debug("Elastic Search took {} milliseconds to execute the search",
+          getElasticSearchSearchTime(esIndexQueryResponse));
       LOGGER.debug("Elastic Search returned {} results",
           getElasticSearchSearchResultCount(esIndexQueryResponse));
     } catch (IOException e) {

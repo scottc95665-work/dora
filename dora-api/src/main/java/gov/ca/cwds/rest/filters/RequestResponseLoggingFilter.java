@@ -1,7 +1,6 @@
 package gov.ca.cwds.rest.filters;
 
 import com.google.inject.Inject;
-import gov.ca.cwds.logging.AuditLogger;
 import gov.ca.cwds.logging.LoggingContext;
 import gov.ca.cwds.logging.LoggingContext.LogParameter;
 import gov.ca.cwds.rest.api.ApiException;
@@ -43,18 +42,15 @@ public class RequestResponseLoggingFilter implements Filter {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(RequestResponseLoggingFilter.class);
 
-  private AuditLogger auditLogger;
   private LoggingContext loggingContext;
 
   /**
    * Constructor
    *
-   * @param auditLogger The audit logger
    * @param loggingContext API logging context
    */
   @Inject
-  public RequestResponseLoggingFilter(AuditLogger auditLogger, LoggingContext loggingContext) {
-    this.auditLogger = auditLogger;
+  public RequestResponseLoggingFilter(LoggingContext loggingContext) {
     this.loggingContext = loggingContext;
   }
 
@@ -75,15 +71,12 @@ public class RequestResponseLoggingFilter implements Filter {
       RequestResponseLoggingHttpServletRequest wrappedRequest =
           new RequestResponseLoggingHttpServletRequest(httpServletRequest);
 
-      performRequestAuditLogging(httpServletRequest, wrappedRequest);
-
       final HttpServletResponse httpServletResponse = (HttpServletResponse) response;
       RequestResponseLoggingHttpServletResponseWrapper wrappedResponse =
           new RequestResponseLoggingHttpServletResponseWrapper(httpServletResponse);
 
       try {
         chain.doFilter(wrappedRequest, wrappedResponse);
-        performResponseAuditLogging(wrappedResponse);
       } catch (Exception e) {
         LOGGER.error(e.getMessage(), e);
         throw new ApiException("Unable to handle request:" + uniqueId, e);
@@ -92,21 +85,6 @@ public class RequestResponseLoggingFilter implements Filter {
         RequestExecutionContextImpl.stopRequest();
       }
     }
-  }
-
-  private void performRequestAuditLogging(HttpServletRequest httpServletRequest,
-      RequestResponseLoggingHttpServletRequest wrappedRequest)
-      throws IOException {
-    auditLogger.audit(httpServletRequest.toString());
-    auditLogger.audit(requestContent(wrappedRequest));
-  }
-
-  private void performResponseAuditLogging(
-      RequestResponseLoggingHttpServletResponseWrapper wrappedResponse) {
-    String responseStringBuilder = String.valueOf(wrappedResponse) +
-        wrappedResponse.getContent();
-    auditLogger
-        .audit(responseStringBuilder.replaceAll("\n", " ").replaceAll("\r", ""));
   }
 
   private void setLoggingContextParameters(String uniqueId, HttpServletRequest httpServletRequest) {
