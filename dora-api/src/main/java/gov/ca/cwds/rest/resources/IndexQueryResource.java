@@ -75,8 +75,8 @@ public class IndexQueryResource {
   ) {
     long startTime = System.currentTimeMillis();
 
-      LOGGER.info("index: {}. type: {} query: {}", escapeCRLF(index),
-          escapeCRLF(type), escapeCRLF(req.toString()));
+    LOGGER.info("index: {}. type: {} query: {}", escapeCRLF(index),
+        escapeCRLF(type), escapeCRLF((null != req) ? req.toString() : null));
 
     IndexQueryRequest indexQueryRequest = new IndexQueryRequest(index, type, req);
     IndexQueryResponse indexQueryResponse = indexQueryService.handleRequest(indexQueryRequest);
