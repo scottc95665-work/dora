@@ -8,12 +8,9 @@ import gov.ca.cwds.rest.api.domain.DomainChef;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.nio.charset.StandardCharsets;
-import java.util.Enumeration;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -108,28 +105,12 @@ public class RequestResponseLoggingFilter implements Filter {
     // Shall override parent abstract method but nothing to do
   }
 
-  private String requestContent(HttpServletRequest request) throws IOException {
-    String headerName;
-    StringBuilder sb = new StringBuilder();
-    Enumeration<String> headerNames = request.getHeaderNames();
-    if (headerNames != null) {
-      while (headerNames.hasMoreElements()) {
-        headerName = headerNames.nextElement();
-        sb.append(headerName).append(": ").append(request.getHeader(headerName));
-      }
-    }
-    InputStream bodyInputStream = request.getInputStream();
-    sb.append(new String(IOUtils.toByteArray(bodyInputStream), StandardCharsets.UTF_8));
-
-    return sb.toString().replace('\n', ' ');
-  }
-
   private static class RequestResponseLoggingHttpServletRequest extends HttpServletRequestWrapper {
 
     private final byte[] body;
     private final HttpServletRequest wrappedRequest;
 
-    public RequestResponseLoggingHttpServletRequest(HttpServletRequest request) throws IOException {
+    RequestResponseLoggingHttpServletRequest(HttpServletRequest request) throws IOException {
       super(request);
       body = IOUtils.toByteArray(request.getInputStream());
       wrappedRequest = request;
@@ -189,13 +170,9 @@ public class RequestResponseLoggingFilter implements Filter {
 
     private HttpServletResponse wrappedResponse;
 
-    public RequestResponseLoggingHttpServletResponseWrapper(HttpServletResponse response) {
+    RequestResponseLoggingHttpServletResponseWrapper(HttpServletResponse response) {
       super(response);
       wrappedResponse = response;
-    }
-
-    public String getContent() {
-      return bos == null ? "" : bos.toString();
     }
 
     @Override
@@ -241,7 +218,7 @@ public class RequestResponseLoggingFilter implements Filter {
 
       private final TeeOutputStream targetStream;
 
-      public TeeServletOutputStream(OutputStream one, OutputStream two) {
+      TeeServletOutputStream(OutputStream one, OutputStream two) {
         targetStream = new TeeOutputStream(one, two);
       }
 
