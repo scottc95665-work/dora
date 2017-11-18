@@ -1,7 +1,6 @@
 package gov.ca.cwds.rest.filters;
 
 import com.google.inject.Inject;
-import gov.ca.cwds.logging.AuditLogger;
 import gov.ca.cwds.logging.LoggingContext;
 import gov.ca.cwds.logging.LoggingContext.LogParameter;
 import gov.ca.cwds.rest.api.ApiException;
@@ -9,12 +8,9 @@ import gov.ca.cwds.rest.api.domain.DomainChef;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.nio.charset.StandardCharsets;
-import java.util.Enumeration;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -43,18 +39,15 @@ public class RequestResponseLoggingFilter implements Filter {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(RequestResponseLoggingFilter.class);
 
-  private AuditLogger auditLogger;
   private LoggingContext loggingContext;
 
   /**
    * Constructor
    *
-   * @param auditLogger The audit logger
    * @param loggingContext API logging context
    */
   @Inject
-  public RequestResponseLoggingFilter(AuditLogger auditLogger, LoggingContext loggingContext) {
-    this.auditLogger = auditLogger;
+  public RequestResponseLoggingFilter(LoggingContext loggingContext) {
     this.loggingContext = loggingContext;
   }
 
@@ -75,15 +68,12 @@ public class RequestResponseLoggingFilter implements Filter {
       RequestResponseLoggingHttpServletRequest wrappedRequest =
           new RequestResponseLoggingHttpServletRequest(httpServletRequest);
 
-      performRequestAuditLogging(httpServletRequest, wrappedRequest);
-
       final HttpServletResponse httpServletResponse = (HttpServletResponse) response;
       RequestResponseLoggingHttpServletResponseWrapper wrappedResponse =
           new RequestResponseLoggingHttpServletResponseWrapper(httpServletResponse);
 
       try {
         chain.doFilter(wrappedRequest, wrappedResponse);
-        performResponseAuditLogging(wrappedResponse);
       } catch (Exception e) {
         LOGGER.error(e.getMessage(), e);
         throw new ApiException("Unable to handle request:" + uniqueId, e);
@@ -92,21 +82,6 @@ public class RequestResponseLoggingFilter implements Filter {
         RequestExecutionContextImpl.stopRequest();
       }
     }
-  }
-
-  private void performRequestAuditLogging(HttpServletRequest httpServletRequest,
-      RequestResponseLoggingHttpServletRequest wrappedRequest)
-      throws IOException {
-    auditLogger.audit(httpServletRequest.toString());
-    auditLogger.audit(requestContent(wrappedRequest));
-  }
-
-  private void performResponseAuditLogging(
-      RequestResponseLoggingHttpServletResponseWrapper wrappedResponse) {
-    String responseStringBuilder = String.valueOf(wrappedResponse) +
-        wrappedResponse.getContent();
-    auditLogger
-        .audit(responseStringBuilder.replaceAll("\n", " ").replaceAll("\r", ""));
   }
 
   private void setLoggingContextParameters(String uniqueId, HttpServletRequest httpServletRequest) {
@@ -130,28 +105,12 @@ public class RequestResponseLoggingFilter implements Filter {
     // Shall override parent abstract method but nothing to do
   }
 
-  private String requestContent(HttpServletRequest request) throws IOException {
-    String headerName;
-    StringBuilder sb = new StringBuilder();
-    Enumeration<String> headerNames = request.getHeaderNames();
-    if (headerNames != null) {
-      while (headerNames.hasMoreElements()) {
-        headerName = headerNames.nextElement();
-        sb.append(headerName).append(": ").append(request.getHeader(headerName));
-      }
-    }
-    InputStream bodyInputStream = request.getInputStream();
-    sb.append(new String(IOUtils.toByteArray(bodyInputStream), StandardCharsets.UTF_8));
-
-    return sb.toString().replace('\n', ' ');
-  }
-
   private static class RequestResponseLoggingHttpServletRequest extends HttpServletRequestWrapper {
 
     private final byte[] body;
     private final HttpServletRequest wrappedRequest;
 
-    public RequestResponseLoggingHttpServletRequest(HttpServletRequest request) throws IOException {
+    RequestResponseLoggingHttpServletRequest(HttpServletRequest request) throws IOException {
       super(request);
       body = IOUtils.toByteArray(request.getInputStream());
       wrappedRequest = request;
@@ -211,13 +170,9 @@ public class RequestResponseLoggingFilter implements Filter {
 
     private HttpServletResponse wrappedResponse;
 
-    public RequestResponseLoggingHttpServletResponseWrapper(HttpServletResponse response) {
+    RequestResponseLoggingHttpServletResponseWrapper(HttpServletResponse response) {
       super(response);
       wrappedResponse = response;
-    }
-
-    public String getContent() {
-      return bos == null ? "" : bos.toString();
     }
 
     @Override
@@ -263,7 +218,7 @@ public class RequestResponseLoggingFilter implements Filter {
 
       private final TeeOutputStream targetStream;
 
-      public TeeServletOutputStream(OutputStream one, OutputStream two) {
+      TeeServletOutputStream(OutputStream one, OutputStream two) {
         targetStream = new TeeOutputStream(one, two);
       }
 

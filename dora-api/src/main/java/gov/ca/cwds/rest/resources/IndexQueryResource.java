@@ -1,5 +1,6 @@
 package gov.ca.cwds.rest.resources;
 
+import static gov.ca.cwds.dora.DoraUtils.escapeCRLF;
 import static gov.ca.cwds.rest.DoraConstants.RESOURCE_ELASTICSEARCH_INDEX_QUERY;
 
 import com.google.inject.Inject;
@@ -72,12 +73,15 @@ public class IndexQueryResource {
       @PathParam("type") @ApiParam(required = true, name = "type", value = "The document type") String type,
       @Valid @ApiParam(required = true) Object req
   ) {
-    LOGGER.info("index: {}", index);
-    LOGGER.info("type: {}", type);
-    LOGGER.info("query: {}", req);
+    long startTime = System.currentTimeMillis();
+
+    LOGGER.info("index: {}. type: {} query: {}", escapeCRLF(index),
+        escapeCRLF(type), escapeCRLF((null != req) ? req.toString() : null));
 
     IndexQueryRequest indexQueryRequest = new IndexQueryRequest(index, type, req);
     IndexQueryResponse indexQueryResponse = indexQueryService.handleRequest(indexQueryRequest);
+
+    LOGGER.info("Index search total time: {}", (System.currentTimeMillis() - startTime));
 
     return indexQueryResponse == null ? null
         : Response.status(Response.Status.OK).entity(indexQueryResponse.getSearchResults())
