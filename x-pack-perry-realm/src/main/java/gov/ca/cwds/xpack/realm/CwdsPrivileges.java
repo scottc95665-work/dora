@@ -17,6 +17,8 @@ public final class CwdsPrivileges {
   private boolean stateSealed = false;
   private String countyId = "";
 
+  private static boolean isGovernmentEntityTypeIsStateOfCalifornia;
+
   private static JsonFactory jsonFactory;
 
   static {
@@ -57,7 +59,18 @@ public final class CwdsPrivileges {
     boolean hasCountywideRead = false;
     boolean hasStatewideRead = false;
 
+    // new vars
+    String governmentEntityType;
+    boolean socialWorkerOnly = false;
+    boolean countySensitive = false;
+    boolean countySealed = false;
+    boolean stateSensitive = false;
+    boolean stateSealed = false;
+
     try (JsonParser parser = jsonFactory.createParser(json)) {
+
+      checkThatGovernmentEntityTypeIsStateOfCalifornia(parser);
+
       while (parser.nextToken() != JsonToken.END_OBJECT) {
         String fieldName = parser.getCurrentName();
 
@@ -72,16 +85,23 @@ public final class CwdsPrivileges {
           // messages is array, loop until token equal to "]"
           while (parser.nextToken() != JsonToken.END_ARRAY) {
             String privilege = parser.getValueAsString().trim();
-            if ("Sealed".equalsIgnoreCase(privilege)) {
-              hasSealed = true;
+
+            //determine 1. Social Worker Only Privilege
+            if ("CWS Case Management System".equalsIgnoreCase(privilege)) {
+              socialWorkerOnly = true;
             } else if ("Sensitive Persons".equalsIgnoreCase(privilege)) {
-              hasSensitive = true;
-            } else if ("Countywide Read".equalsIgnoreCase(privilege)) {
-              hasCountywideRead = true;
-            } else if ("Countywide Read/Write".equalsIgnoreCase(privilege)) {
-              hasCountywideRead = true;
-            } else if ("Statewide Read".equalsIgnoreCase(privilege)) {
-              hasStatewideRead = true;
+              //determine 2. County Sensitive Privilege
+              countySensitive = !isGovernmentEntityTypeIsStateOfCalifornia;
+
+              //determine 4. State Sensitive Privilege
+              stateSensitive = isGovernmentEntityTypeIsStateOfCalifornia;
+            }
+            //determine 3. County Sealed Privilege
+            else if ("Sealed".equalsIgnoreCase(privilege)) {
+              countySealed = !isGovernmentEntityTypeIsStateOfCalifornia;
+
+              //determine 5. State Sealed Privilege
+              countySealed = isGovernmentEntityTypeIsStateOfCalifornia;
             }
           }
         }
@@ -94,6 +114,28 @@ public final class CwdsPrivileges {
     cwdsPrivileges.stateSealed = hasStatewideRead && hasSealed;
 
     return cwdsPrivileges;
+  }
+
+  private static void checkThatGovernmentEntityTypeIsStateOfCalifornia(
+      JsonParser parser) throws IOException {
+    isGovernmentEntityTypeIsStateOfCalifornia = "State of California"
+        .equalsIgnoreCase(getGovernmentEntityType(parser));
+  }
+
+  private static String getGovernmentEntityType(JsonParser parser) throws IOException {
+    String getGovernmentEntityType = null;
+
+    while (parser.nextToken() != JsonToken.END_OBJECT) {
+      String fieldName = parser.getCurrentName();
+      if ("government_entity_type".equals(fieldName)) {
+        parser.nextToken(); // current token is "[", move next
+        // messages is array, loop until token equal to "]"
+        while (parser.nextToken() != JsonToken.END_ARRAY) {
+          getGovernmentEntityType = parser.getValueAsString().trim();
+        }
+      }
+    }
+    return getGovernmentEntityType;
   }
 
   private static String countyCodeToCountyId(String countyCode) {
