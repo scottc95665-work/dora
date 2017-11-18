@@ -78,6 +78,11 @@ public final class DoraUtils {
     return (Integer) ((Map<String, Object>)jsonMap.get("hits")).get("total");
   }
 
+  @SuppressWarnings("unchecked")
+  public static Integer getElasticSearchSearchTime(Map<String, Object> jsonMap) {
+    return (Integer) jsonMap.get("took");
+  }
+
   public static String extractElasticsearchClusterName(Map<String, Object> jsonMap) {
     return jsonMap.get("cluster_name").toString();
   }
@@ -111,5 +116,9 @@ public final class DoraUtils {
 
   public static String getAppVersion() {
     return getSystemInformationProperties().getProperty(BUILD_VERSION);
+  }
+
+  public static String escapeCRLF(String str) {
+    return null != str ? str.replaceAll("[\r\n]", "") : null;
   }
 }

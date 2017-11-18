@@ -2,6 +2,7 @@ package gov.ca.cwds.rest.services.es;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static gov.ca.cwds.dora.DoraUtils.getElasticSearchSearchResultCount;
+import static gov.ca.cwds.dora.DoraUtils.getElasticSearchSearchTime;
 import static gov.ca.cwds.dora.DoraUtils.stringToJsonMap;
 
 import com.google.common.base.Strings;
@@ -67,7 +68,9 @@ public class IndexQueryService {
     String esResponse = searchIndexByQuery(index, documentType, query);
     Map<String, Object> esResponseJsonMap = stringToJsonMap(esResponse);
 
-    LOGGER.debug("Elastic Search returned {} results",
+    LOGGER.debug("Elastic Search took {} milliseconds to execute the search",
+        getElasticSearchSearchTime(esResponseJsonMap));
+    LOGGER.debug("Elastic Search has {} results in total",
         getElasticSearchSearchResultCount(esResponseJsonMap));
 
     String filteredResponse;
