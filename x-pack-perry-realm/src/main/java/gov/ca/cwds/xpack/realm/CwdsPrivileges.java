@@ -11,6 +11,9 @@ import java.io.IOException;
 public final class CwdsPrivileges {
 
   private static final int COUNTY_CODE_TO_ID_DELTA = 1067;
+  private static final String STATE_OF_CALIFORNIA_COUNTY_CODE = "99";
+  private static final String STATE_OF_CALIFORNIA_COUNTY_ID = "1126";
+
   private boolean countySensitive = false;
   private boolean countySealed = false;
   private boolean stateSensitive = false;
@@ -97,6 +100,9 @@ public final class CwdsPrivileges {
   }
 
   private static String countyCodeToCountyId(String countyCode) {
+    if (STATE_OF_CALIFORNIA_COUNTY_CODE.equals(countyCode)) {
+      return STATE_OF_CALIFORNIA_COUNTY_ID;
+    }
     try {
       return String.valueOf(Integer.parseInt(countyCode) + COUNTY_CODE_TO_ID_DELTA);
     } catch (NumberFormatException e) {

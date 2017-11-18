@@ -1,0 +1,419 @@
+{
+  "first_name" : "Bullwinkle",
+  "middle_name" : "",
+  "last_name" : "Rulten",
+  "date_of_birth" : "1982-05-03",
+  "gender" : "male",
+  "ssn" : "",
+  "type" : "gov.ca.cwds.data.persistence.cms.rep.ReplicatedClient",
+  "sensitivity_indicator" : "N",
+  "client_county" : {
+    "id" : "1084",
+    "description" : "Lake"
+  },
+  "race_ethnicity" : {
+    "race_codes" : [
+      {
+        "id" : "824",
+        "description" : "Cambodian*"
+      },
+      {
+        "id" : "821",
+        "description" : "American Indian*"
+      }
+    ],
+    "hispanic_codes" : [ ],
+    "unable_to_determine_code" : "",
+    "hispanic_origin_code" : "U",
+    "hispanic_unable_to_determine_code" : ""
+  },
+  "source" : "{\n  \"adjudicatedDelinquentIndicator\" : \"\",\n  \"adoptionStatusCode\" : \"N\",\n  \"alienRegistrationNumber\" : \"\",\n  \"birthCity\" : \"\",\n  \"birthCountryCodeType\" : 0,\n  \"birthDate\" : \"1982-05-03\",\n  \"birthFacilityName\" : \"\",\n  \"birthStateCodeType\" : 0,\n  \"birthplaceVerifiedIndicator\" : \"N\",\n  \"childClientIndicatorVar\" : \"Y\",\n  \"clientAddresses\" : [ {\n    \"addressType\" : 30,\n    \"addresses\" : [ {\n      \"addressDescription\" : \"\",\n      \"apiAdrUnitNumber\" : \"\",\n      \"apiAdrUnitType\" : 0,\n      \"apiAdrZip4\" : \"2432\",\n      \"city\" : \"Lakeport\",\n      \"emergencyExtension\" : 3434342,\n      \"emergencyNumber\" : 4314343243,\n      \"frgAdrtB\" : \"N\",\n      \"governmentEntityCd\" : 1084,\n      \"headerAddress\" : \"\",\n      \"id\" : \"7M7nd3Z01b\",\n      \"lastUpdatedId\" : \"q48\",\n      \"lastUpdatedTime\" : \"2005-12-09\",\n      \"legacyDescriptor\" : {\n        \"legacy_id\" : \"7M7nd3Z01b\",\n        \"legacy_ui_id\" : \"0417-8718-3395-3000099\",\n        \"legacy_last_updated\" : \"2005-12-09T16:20:43.320-0800\",\n        \"legacy_table_name\" : \"ADDRS_T\",\n        \"legacy_table_description\" : \"Address\"\n      },\n      \"legacyId\" : \"7M7nd3Z01b\",\n      \"messageExtension\" : 4314,\n      \"messageNumber\" : 4313243243,\n      \"phones\" : [ {\n        \"phoneNumber\" : \"1850000803\",\n        \"phoneNumberExtension\" : \"341\"\n      }, {\n        \"phoneNumber\" : \"4313243243\",\n        \"phoneNumberExtension\" : \"4314\",\n        \"phoneType\" : { }\n      }, {\n        \"phoneNumber\" : \"4314343243\",\n        \"phoneNumberExtension\" : \"4314343243\",\n        \"phoneType\" : { }\n      } ],\n      \"postDirCd\" : \"\",\n      \"preDirCd\" : \"\",\n      \"primaryExtension\" : 341,\n      \"primaryKey\" : \"7M7nd3Z01b\",\n      \"primaryNumber\" : 1850000803,\n      \"replicatedEntity\" : {\n        \"replicationOperation\" : \"I\",\n        \"replicationDate\" : \"1997-12-02\"\n      },\n      \"replicationDate\" : \"1997-12-02\",\n      \"replicationOperation\" : \"I\",\n      \"stateCd\" : 1828,\n      \"streetAddress\" : \"5425 Meadow Valley Pass\",\n      \"streetName\" : \"Meadow Valley Pass\",\n      \"streetNumber\" : \"5425\",\n      \"streetSuffixCd\" : 0,\n      \"unitDesignationCd\" : 0,\n      \"unitNumber\" : \"\",\n      \"zip\" : \"43432\",\n      \"zip4\" : 2432\n    } ],\n    \"bkInmtId\" : \"          \",\n    \"effEndDt\" : \"2005-12-09\",\n    \"fkAddress\" : \"7M7nd3Z01b\",\n    \"fkClient\" : \"AB4MdCj01b\",\n    \"homelessInd\" : \"N\",\n    \"id\" : \"5XbpkO101b\",\n    \"lastUpdatedId\" : \"q48\",\n    \"lastUpdatedTime\" : \"2005-12-09\",\n    \"legacyId\" : \"5XbpkO101b\",\n    \"primaryKey\" : \"5XbpkO101b\",\n    \"replicatedEntity\" : {\n      \"replicationOperation\" : \"I\",\n      \"replicationDate\" : \"2005-12-09\"\n    },\n    \"replicationDate\" : \"2005-12-09\",\n    \"replicationOperation\" : \"I\"\n  }, {\n    \"addressType\" : 27,\n    \"addresses\" : [ {\n      \"addressDescription\" : \"\",\n      \"apiAdrUnitNumber\" : \"\",\n      \"apiAdrUnitType\" : 0,\n      \"apiAdrZip4\" : \"9494\",\n      \"city\" : \"Lakeport\",\n      \"emergencyExtension\" : 785748,\n      \"emergencyNumber\" : 7582478574,\n      \"frgAdrtB\" : \"N\",\n      \"governmentEntityCd\" : 1084,\n      \"headerAddress\" : \"\",\n      \"id\" : \"HKesS9p01b\",\n      \"lastUpdatedId\" : \"q48\",\n      \"lastUpdatedTime\" : \"2005-12-09\",\n      \"legacyDescriptor\" : {\n        \"legacy_id\" : \"HKesS9p01b\",\n        \"legacy_ui_id\" : \"0984-5306-9296-1000099\",\n        \"legacy_last_updated\" : \"2005-12-09T16:20:43.320-0800\",\n        \"legacy_table_name\" : \"ADDRS_T\",\n        \"legacy_table_description\" : \"Address\"\n      },\n      \"legacyId\" : \"HKesS9p01b\",\n      \"messageExtension\" : 458787,\n      \"messageNumber\" : 7485704578,\n      \"phones\" : [ {\n        \"phoneNumber\" : \"8560002760\",\n        \"phoneNumberExtension\" : \"748\"\n      }, {\n        \"phoneNumber\" : \"7485704578\",\n        \"phoneNumberExtension\" : \"458787\",\n        \"phoneType\" : { }\n      }, {\n        \"phoneNumber\" : \"7582478574\",\n        \"phoneNumberExtension\" : \"7582478574\",\n        \"phoneType\" : { }\n      } ],\n      \"postDirCd\" : \"\",\n      \"preDirCd\" : \"\",\n      \"primaryExtension\" : 748,\n      \"primaryKey\" : \"HKesS9p01b\",\n      \"primaryNumber\" : 8560002760,\n      \"replicatedEntity\" : {\n        \"replicationOperation\" : \"I\",\n        \"replicationDate\" : \"1997-12-02\"\n      },\n      \"replicationDate\" : \"1997-12-02\",\n      \"replicationOperation\" : \"I\",\n      \"stateCd\" : 1828,\n      \"streetAddress\" : \"4234 Jay Road\",\n      \"streetName\" : \"Jay Road\",\n      \"streetNumber\" : \"4234\",\n      \"streetSuffixCd\" : 0,\n      \"unitDesignationCd\" : 0,\n      \"unitNumber\" : \"\",\n      \"zip\" : \"95453\",\n      \"zip4\" : 9494\n    } ],\n    \"bkInmtId\" : \"          \",\n    \"fkAddress\" : \"HKesS9p01b\",\n    \"fkClient\" : \"AB4MdCj01b\",\n    \"homelessInd\" : \"N\",\n    \"id\" : \"FW8uZUH01b\",\n    \"lastUpdatedId\" : \"q48\",\n    \"lastUpdatedTime\" : \"2005-12-09\",\n    \"legacyId\" : \"FW8uZUH01b\",\n    \"primaryKey\" : \"FW8uZUH01b\",\n    \"replicatedEntity\" : {\n      \"replicationOperation\" : \"I\",\n      \"replicationDate\" : \"2005-12-09\"\n    },\n    \"replicationDate\" : \"2005-12-09\",\n    \"replicationOperation\" : \"I\"\n  }, {\n    \"addressType\" : 29,\n    \"addresses\" : [ {\n      \"addressDescription\" : \"\",\n      \"apiAdrUnitNumber\" : \"\",\n      \"apiAdrUnitType\" : 0,\n      \"apiAdrZip4\" : \"9449\",\n      \"city\" : \"Lakeport\",\n      \"emergencyExtension\" : 745829,\n      \"emergencyNumber\" : 7452397584,\n      \"frgAdrtB\" : \"N\",\n      \"governmentEntityCd\" : 1084,\n      \"headerAddress\" : \"\",\n      \"id\" : \"Nlk2XTd01b\",\n      \"lastUpdatedId\" : \"q48\",\n      \"lastUpdatedTime\" : \"2005-12-09\",\n      \"legacyDescriptor\" : {\n        \"legacy_id\" : \"Nlk2XTd01b\",\n        \"legacy_ui_id\" : \"1350-1439-7833-7000099\",\n        \"legacy_last_updated\" : \"2005-12-09T16:20:43.320-0800\",\n        \"legacy_table_name\" : \"ADDRS_T\",\n        \"legacy_table_description\" : \"Address\"\n      },\n      \"legacyId\" : \"Nlk2XTd01b\",\n      \"messageExtension\" : 758,\n      \"messageNumber\" : 4527587483,\n      \"phones\" : [ {\n        \"phoneNumber\" : \"8260007159\",\n        \"phoneNumberExtension\" : \"7458\"\n      }, {\n        \"phoneNumber\" : \"4527587483\",\n        \"phoneNumberExtension\" : \"758\",\n        \"phoneType\" : { }\n      }, {\n        \"phoneNumber\" : \"7452397584\",\n        \"phoneNumberExtension\" : \"7452397584\",\n        \"phoneType\" : { }\n      } ],\n      \"postDirCd\" : \"\",\n      \"preDirCd\" : \"\",\n      \"primaryExtension\" : 7458,\n      \"primaryKey\" : \"Nlk2XTd01b\",\n      \"primaryNumber\" : 8260007159,\n      \"replicatedEntity\" : {\n        \"replicationOperation\" : \"I\",\n        \"replicationDate\" : \"1997-12-02\"\n      },\n      \"replicationDate\" : \"1997-12-02\",\n      \"replicationOperation\" : \"I\",\n      \"stateCd\" : 1828,\n      \"streetAddress\" : \"523 Moose Lane\",\n      \"streetName\" : \"Moose Lane\",\n      \"streetNumber\" : \"523\",\n      \"streetSuffixCd\" : 0,\n      \"unitDesignationCd\" : 0,\n      \"unitNumber\" : \"\",\n      \"zip\" : \"95453\",\n      \"zip4\" : 9449\n    } ],\n    \"bkInmtId\" : \"          \",\n    \"fkAddress\" : \"Nlk2XTd01b\",\n    \"fkClient\" : \"AB4MdCj01b\",\n    \"homelessInd\" : \"N\",\n    \"id\" : \"LxE4eo501b\",\n    \"lastUpdatedId\" : \"q48\",\n    \"lastUpdatedTime\" : \"2005-12-09\",\n    \"legacyId\" : \"LxE4eo501b\",\n    \"primaryKey\" : \"LxE4eo501b\",\n    \"replicatedEntity\" : {\n      \"replicationOperation\" : \"I\",\n      \"replicationDate\" : \"2005-12-09\"\n    },\n    \"replicationDate\" : \"2005-12-09\",\n    \"replicationOperation\" : \"I\"\n  }, {\n    \"addressType\" : 32,\n    \"addresses\" : [ {\n      \"addressDescription\" : \"the quick brown fox jumped over the lazy dogthe quick brown fox jumped over the lazy dogthe quick brown fox jumped over\",\n      \"apiAdrUnitNumber\" : \"\",\n      \"apiAdrUnitType\" : 0,\n      \"city\" : \"Lakeport\",\n      \"emergencyExtension\" : 0,\n      \"emergencyNumber\" : 0,\n      \"frgAdrtB\" : \"N\",\n      \"governmentEntityCd\" : 1084,\n      \"headerAddress\" : \"\",\n      \"id\" : \"1DpG48H01b\",\n      \"lastUpdatedId\" : \"q48\",\n      \"lastUpdatedTime\" : \"2005-12-09\",\n      \"legacyDescriptor\" : {\n        \"legacy_id\" : \"1DpG48H01b\",\n        \"legacy_ui_id\" : \"0069-4673-8467-3000099\",\n        \"legacy_last_updated\" : \"2005-12-09T16:20:43.320-0800\",\n        \"legacy_table_name\" : \"ADDRS_T\",\n        \"legacy_table_description\" : \"Address\"\n      },\n      \"legacyId\" : \"1DpG48H01b\",\n      \"messageExtension\" : 0,\n      \"messageNumber\" : 0,\n      \"phones\" : [ {\n        \"phoneNumber\" : \"9960003123\",\n        \"phoneNumberExtension\" : \"484848\"\n      } ],\n      \"postDirCd\" : \"\",\n      \"preDirCd\" : \"\",\n      \"primaryExtension\" : 484848,\n      \"primaryKey\" : \"1DpG48H01b\",\n      \"primaryNumber\" : 9960003123,\n      \"replicatedEntity\" : {\n        \"replicationOperation\" : \"I\",\n        \"replicationDate\" : \"1997-12-02\"\n      },\n      \"replicationDate\" : \"1997-12-02\",\n      \"replicationOperation\" : \"I\",\n      \"stateCd\" : 1828,\n      \"streetAddress\" : \"4949 Longview Center\",\n      \"streetName\" : \"Longview Center\",\n      \"streetNumber\" : \"4949\",\n      \"streetSuffixCd\" : 0,\n      \"unitDesignationCd\" : 0,\n      \"unitNumber\" : \"\",\n      \"zip\" : \"95654\",\n      \"zip4\" : 0\n    } ],\n    \"bkInmtId\" : \"          \",\n    \"effEndDt\" : \"2005-12-09\",\n    \"effStartDt\" : \"1997-12-02\",\n    \"fkAddress\" : \"1DpG48H01b\",\n    \"fkClient\" : \"AB4MdCj01b\",\n    \"fkReferral\" : \"9gbbBbN01b\",\n    \"homelessInd\" : \"N\",\n    \"id\" : \"Kg8mdjV01b\",\n    \"lastUpdatedId\" : \"q48\",\n    \"lastUpdatedTime\" : \"2005-12-09\",\n    \"legacyId\" : \"Kg8mdjV01b\",\n    \"primaryKey\" : \"Kg8mdjV01b\",\n    \"replicatedEntity\" : {\n      \"replicationOperation\" : \"I\",\n      \"replicationDate\" : \"2005-12-09\"\n    },\n    \"replicationDate\" : \"2005-12-09\",\n    \"replicationOperation\" : \"I\"\n  }, {\n    \"addressType\" : 28,\n    \"addresses\" : [ {\n      \"addressDescription\" : \"\",\n      \"apiAdrUnitNumber\" : \"\",\n      \"apiAdrUnitType\" : 0,\n      \"apiAdrZip4\" : \"4534\",\n      \"city\" : \"Lakeport\",\n      \"emergencyExtension\" : 523454,\n      \"emergencyNumber\" : 5243542354,\n      \"frgAdrtB\" : \"N\",\n      \"governmentEntityCd\" : 1084,\n      \"headerAddress\" : \"\",\n      \"id\" : \"Ab7mue101b\",\n      \"lastUpdatedId\" : \"q48\",\n      \"lastUpdatedTime\" : \"2005-12-09\",\n      \"legacyDescriptor\" : {\n        \"legacy_id\" : \"Ab7mue101b\",\n        \"legacy_ui_id\" : \"0602-0143-6246-5000099\",\n        \"legacy_last_updated\" : \"2005-12-09T16:20:43.320-0800\",\n        \"legacy_table_name\" : \"ADDRS_T\",\n        \"legacy_table_description\" : \"Address\"\n      },\n      \"legacyId\" : \"Ab7mue101b\",\n      \"messageExtension\" : 52345,\n      \"messageNumber\" : 4523452435,\n      \"phones\" : [ {\n        \"phoneNumber\" : \"8300001242\",\n        \"phoneNumberExtension\" : \"54235\"\n      }, {\n        \"phoneNumber\" : \"4523452435\",\n        \"phoneNumberExtension\" : \"52345\",\n        \"phoneType\" : { }\n      }, {\n        \"phoneNumber\" : \"5243542354\",\n        \"phoneNumberExtension\" : \"5243542354\",\n        \"phoneType\" : { }\n      } ],\n      \"postDirCd\" : \"\",\n      \"preDirCd\" : \"\",\n      \"primaryExtension\" : 54235,\n      \"primaryKey\" : \"Ab7mue101b\",\n      \"primaryNumber\" : 8300001242,\n      \"replicatedEntity\" : {\n        \"replicationOperation\" : \"I\",\n        \"replicationDate\" : \"1997-12-02\"\n      },\n      \"replicationDate\" : \"1997-12-02\",\n      \"replicationOperation\" : \"I\",\n      \"stateCd\" : 1828,\n      \"streetAddress\" : \"45435 Vahlen Crossing\",\n      \"streetName\" : \"Vahlen Crossing\",\n      \"streetNumber\" : \"45435\",\n      \"streetSuffixCd\" : 0,\n      \"unitDesignationCd\" : 0,\n      \"unitNumber\" : \"\",\n      \"zip\" : \"45435\",\n      \"zip4\" : 4534\n    } ],\n    \"bkInmtId\" : \"          \",\n    \"fkAddress\" : \"Ab7mue101b\",\n    \"fkClient\" : \"AB4MdCj01b\",\n    \"homelessInd\" : \"N\",\n    \"id\" : \"95MU0kj01b\",\n    \"lastUpdatedId\" : \"q48\",\n    \"lastUpdatedTime\" : \"2005-12-09\",\n    \"legacyId\" : \"95MU0kj01b\",\n    \"primaryKey\" : \"95MU0kj01b\",\n    \"replicatedEntity\" : {\n      \"replicationOperation\" : \"I\",\n      \"replicationDate\" : \"2005-12-09\"\n    },\n    \"replicationDate\" : \"2005-12-09\",\n    \"replicationOperation\" : \"I\"\n  }, {\n    \"addressType\" : 31,\n    \"addresses\" : [ {\n      \"addressDescription\" : \"\",\n      \"apiAdrUnitNumber\" : \"\",\n      \"apiAdrUnitType\" : 0,\n      \"apiAdrZip4\" : \"5235\",\n      \"city\" : \"Lakeport\",\n      \"emergencyExtension\" : 5234524,\n      \"emergencyNumber\" : 2534523452,\n      \"frgAdrtB\" : \"N\",\n      \"governmentEntityCd\" : 1084,\n      \"headerAddress\" : \"\",\n      \"id\" : \"8DSOtH701b\",\n      \"lastUpdatedId\" : \"q48\",\n      \"lastUpdatedTime\" : \"2005-12-09\",\n      \"legacyDescriptor\" : {\n        \"legacy_id\" : \"8DSOtH701b\",\n        \"legacy_ui_id\" : \"0466-7312-8124-9000099\",\n        \"legacy_last_updated\" : \"2005-12-09T16:20:43.320-0800\",\n        \"legacy_table_name\" : \"ADDRS_T\",\n        \"legacy_table_description\" : \"Address\"\n      },\n      \"legacyId\" : \"8DSOtH701b\",\n      \"messageExtension\" : 523544,\n      \"messageNumber\" : 5423542353,\n      \"phones\" : [ {\n        \"phoneNumber\" : \"5423542353\",\n        \"phoneNumberExtension\" : \"523544\",\n        \"phoneType\" : { }\n      }, {\n        \"phoneNumber\" : \"2534523452\",\n        \"phoneNumberExtension\" : \"2534523452\",\n        \"phoneType\" : { }\n      } ],\n      \"postDirCd\" : \"\",\n      \"preDirCd\" : \"\",\n      \"primaryExtension\" : 5432542,\n      \"primaryKey\" : \"8DSOtH701b\",\n      \"primaryNumber\" : 0,\n      \"replicatedEntity\" : {\n        \"replicationOperation\" : \"I\",\n        \"replicationDate\" : \"1997-12-02\"\n      },\n      \"replicationDate\" : \"1997-12-02\",\n      \"replicationOperation\" : \"I\",\n      \"stateCd\" : 1828,\n      \"streetAddress\" : \"3434 Thackeray Drive\",\n      \"streetName\" : \"Thackeray Drive\",\n      \"streetNumber\" : \"3434\",\n      \"streetSuffixCd\" : 0,\n      \"unitDesignationCd\" : 0,\n      \"unitNumber\" : \"\",\n      \"zip\" : \"53453\",\n      \"zip4\" : 5235\n    } ],\n    \"bkInmtId\" : \"          \",\n    \"fkAddress\" : \"8DSOtH701b\",\n    \"fkClient\" : \"AB4MdCj01b\",\n    \"homelessInd\" : \"N\",\n    \"id\" : \"6hh5zNp01b\",\n    \"lastUpdatedId\" : \"q48\",\n    \"lastUpdatedTime\" : \"2005-12-09\",\n    \"legacyId\" : \"6hh5zNp01b\",\n    \"primaryKey\" : \"6hh5zNp01b\",\n    \"replicatedEntity\" : {\n      \"replicationOperation\" : \"I\",\n      \"replicationDate\" : \"2005-12-09\"\n    },\n    \"replicationDate\" : \"2005-12-09\",\n    \"replicationOperation\" : \"I\"\n  } ],\n  \"clientCounty\" : 1084,\n  \"clientIndexNumber\" : \"\",\n  \"clientRaces\" : [ 821 ],\n  \"commentDescription\" : \"\",\n  \"commonFirstName\" : \"Bullwinkle\",\n  \"commonLastName\" : \"Rulten\",\n  \"commonMiddleName\" : \"\",\n  \"confidentialityInEffectIndicator\" : \"N\",\n  \"creationDate\" : \"1997-12-02\",\n  \"currCaChildrenServIndicator\" : \"N\",\n  \"currentlyOtherDescription\" : \"\",\n  \"currentlyRegionalCenterIndicator\" : \"N\",\n  \"deathDateVerifiedIndicator\" : \"N\",\n  \"deathPlace\" : \"\",\n  \"deathReasonText\" : \"\",\n  \"driverLicenseNumber\" : \"\",\n  \"driverLicenseStateCodeType\" : 0,\n  \"emailAddress\" : \"\",\n  \"estimatedDobCode\" : \"N\",\n  \"ethUnableToDetReasonCode\" : \"\",\n  \"genderCode\" : \"M\",\n  \"healthSummaryText\" : \"\",\n  \"hispUnableToDetReasonCode\" : \"\",\n  \"hispanicOriginCode\" : \"U\",\n  \"id\" : \"AB4MdCj01b\",\n  \"immigrationCountryCodeType\" : 0,\n  \"immigrationStatusType\" : 0,\n  \"incapacitatedParentCode\" : \"U\",\n  \"individualHealthCarePlanIndicator\" : \"N\",\n  \"lastUpdatedTime\" : \"1997-12-02\",\n  \"legacyDescriptor\" : {\n    \"legacy_id\" : \"AB4MdCj01b\",\n    \"legacy_ui_id\" : \"0578-1443-1625-7000099\",\n    \"legacy_last_updated\" : \"1997-12-02T11:51:54.870-0800\",\n    \"legacy_table_name\" : \"CLIENT_T\",\n    \"legacy_table_description\" : \"Client\"\n  },\n  \"legacyId\" : \"AB4MdCj01b\",\n  \"limitationOnScpHealthIndicator\" : \"N\",\n  \"limitedAccessCode\" : \"N\",\n  \"literateCode\" : \"Y\",\n  \"maritalCohabitatnHstryIndicatorVar\" : \"N\",\n  \"maritalStatusType\" : 1309,\n  \"militaryStatusCode\" : \"U\",\n  \"namePrefixDescription\" : \"\",\n  \"nameType\" : 1313,\n  \"outstandingWarrantIndicator\" : \"N\",\n  \"prevCaChildrenServIndicator\" : \"N\",\n  \"prevOtherDescription\" : \"\",\n  \"prevRegionalCenterIndicator\" : \"N\",\n  \"primaryEthnicityType\" : 824,\n  \"primaryKey\" : \"AB4MdCj01b\",\n  \"primaryLanguageType\" : 1255,\n  \"raceAndEthnicity\" : {\n    \"race_codes\" : [ {\n      \"id\" : \"824\",\n      \"description\" : \"Cambodian*\"\n    }, {\n      \"id\" : \"821\",\n      \"description\" : \"American Indian*\"\n    } ],\n    \"hispanic_codes\" : [ ],\n    \"unable_to_determine_code\" : \"\",\n    \"hispanic_origin_code\" : \"U\",\n    \"hispanic_unable_to_determine_code\" : \"\"\n  },\n  \"religionType\" : 0,\n  \"replicatedEntity\" : {\n    \"replicationOperation\" : \"I\",\n    \"replicationDate\" : \"1997-12-02\"\n  },\n  \"replicationDate\" : \"1997-12-02\",\n  \"replicationOperation\" : \"I\",\n  \"secondaryLanguageType\" : 1268,\n  \"sensitiveHlthInfoOnFileIndicator\" : \"N\",\n  \"sensitivityIndicator\" : \"N\",\n  \"soc158PlacementCode\" : \"N\",\n  \"soc158SealedClientIndicator\" : \"N\",\n  \"socialSecurityNumChangedCode\" : \"O\",\n  \"socialSecurityNumber\" : \"\",\n  \"suffixTitleDescription\" : \"\",\n  \"tribalAncestryClientIndicatorVar\" : \"N\",\n  \"tribalMembrshpVerifctnIndicatorVar\" : \"N\",\n  \"unemployedParentCode\" : \"U\",\n  \"zippyCreatedIndicator\" : \"N\"\n}",
+  "legacy_descriptor" : {
+    "legacy_id" : "AB4MdCj01b",
+    "legacy_ui_id" : "0578-1443-1625-7000099",
+    "legacy_last_updated" : "1997-12-02T11:51:54.870-0800",
+    "legacy_table_name" : "CLIENT_T",
+    "legacy_table_description" : "Client"
+  },
+  "legacy_id" : "AB4MdCj01b",
+  "addresses" : [
+    {
+      "id" : "7M7nd3Z01b",
+      "city" : "Lakeport",
+      "state_code" : "CA",
+      "state_name" : "California",
+      "zip" : "43432",
+      "zip_4" : "2432",
+      "street_number" : "5425",
+      "street_name" : "Meadow Valley Pass",
+      "legacy_descriptor" : {
+        "legacy_id" : "7M7nd3Z01b",
+        "legacy_ui_id" : "0417-8718-3395-3000099",
+        "legacy_last_updated" : "2005-12-09T16:20:43.320-0800",
+        "legacy_table_name" : "ADDRS_T",
+        "legacy_table_description" : "Address"
+      }
+    },
+    {
+      "id" : "HKesS9p01b",
+      "city" : "Lakeport",
+      "state_code" : "CA",
+      "state_name" : "California",
+      "zip" : "95453",
+      "zip_4" : "9494",
+      "street_number" : "4234",
+      "street_name" : "Jay Road",
+      "legacy_descriptor" : {
+        "legacy_id" : "HKesS9p01b",
+        "legacy_ui_id" : "0984-5306-9296-1000099",
+        "legacy_last_updated" : "2005-12-09T16:20:43.320-0800",
+        "legacy_table_name" : "ADDRS_T",
+        "legacy_table_description" : "Address"
+      }
+    },
+    {
+      "id" : "Nlk2XTd01b",
+      "city" : "Lakeport",
+      "state_code" : "CA",
+      "state_name" : "California",
+      "zip" : "95453",
+      "zip_4" : "9449",
+      "street_number" : "523",
+      "street_name" : "Moose Lane",
+      "legacy_descriptor" : {
+        "legacy_id" : "Nlk2XTd01b",
+        "legacy_ui_id" : "1350-1439-7833-7000099",
+        "legacy_last_updated" : "2005-12-09T16:20:43.320-0800",
+        "legacy_table_name" : "ADDRS_T",
+        "legacy_table_description" : "Address"
+      }
+    },
+    {
+      "id" : "1DpG48H01b",
+      "city" : "Lakeport",
+      "state_code" : "CA",
+      "state_name" : "California",
+      "zip" : "95654",
+      "street_number" : "4949",
+      "street_name" : "Longview Center",
+      "legacy_descriptor" : {
+        "legacy_id" : "1DpG48H01b",
+        "legacy_ui_id" : "0069-4673-8467-3000099",
+        "legacy_last_updated" : "2005-12-09T16:20:43.320-0800",
+        "legacy_table_name" : "ADDRS_T",
+        "legacy_table_description" : "Address"
+      }
+    },
+    {
+      "id" : "Ab7mue101b",
+      "city" : "Lakeport",
+      "state_code" : "CA",
+      "state_name" : "California",
+      "zip" : "45435",
+      "zip_4" : "4534",
+      "street_number" : "45435",
+      "street_name" : "Vahlen Crossing",
+      "legacy_descriptor" : {
+        "legacy_id" : "Ab7mue101b",
+        "legacy_ui_id" : "0602-0143-6246-5000099",
+        "legacy_last_updated" : "2005-12-09T16:20:43.320-0800",
+        "legacy_table_name" : "ADDRS_T",
+        "legacy_table_description" : "Address"
+      }
+    },
+    {
+      "id" : "8DSOtH701b",
+      "city" : "Lakeport",
+      "state_code" : "CA",
+      "state_name" : "California",
+      "zip" : "53453",
+      "zip_4" : "5235",
+      "street_number" : "3434",
+      "street_name" : "Thackeray Drive",
+      "legacy_descriptor" : {
+        "legacy_id" : "8DSOtH701b",
+        "legacy_ui_id" : "0466-7312-8124-9000099",
+        "legacy_last_updated" : "2005-12-09T16:20:43.320-0800",
+        "legacy_table_name" : "ADDRS_T",
+        "legacy_table_description" : "Address"
+      }
+    }
+  ],
+  "phone_numbers" : [
+    {
+      "number" : "1850000803"
+    },
+    {
+      "number" : "4313243243",
+      "type" : "Cell"
+    },
+    {
+      "number" : "4314343243",
+      "type" : "Other"
+    },
+    {
+      "number" : "8560002760"
+    },
+    {
+      "number" : "7485704578",
+      "type" : "Cell"
+    },
+    {
+      "number" : "7582478574",
+      "type" : "Other"
+    },
+    {
+      "number" : "8260007159"
+    },
+    {
+      "number" : "4527587483",
+      "type" : "Cell"
+    },
+    {
+      "number" : "7452397584",
+      "type" : "Other"
+    },
+    {
+      "number" : "9960003123"
+    },
+    {
+      "number" : "8300001242"
+    },
+    {
+      "number" : "4523452435",
+      "type" : "Cell"
+    },
+    {
+      "number" : "5243542354",
+      "type" : "Other"
+    },
+    {
+      "number" : "5423542353",
+      "type" : "Cell"
+    },
+    {
+      "number" : "2534523452",
+      "type" : "Other"
+    }
+  ],
+  "languages" : [
+    {
+      "id" : "1255",
+      "name" : "French",
+      "primary" : true
+    },
+    {
+      "id" : "1268",
+      "name" : "Hawaiian",
+      "primary" : false
+    }
+  ],
+  "id" : "AB4MdCj01b",
+  "searchable_date_of_birth" : [
+    "05031982",
+    "051982",
+    "1982",
+    "0503",
+    "531982",
+    "51982",
+    "53"
+  ],
+  "searchable_name" : [
+    "Bullwinkle",
+    "Rulten"
+  ],
+  "referrals" : [
+    {
+      "legacy_referral_id" : "9gbbBbN01b",
+      "legacy_last_updated" : "1997-12-02T14:34:47.155-0800",
+      "legacy_descriptor" : {
+        "legacy_last_updated" : "1997-12-02T14:34:47.155-0800",
+        "legacy_id" : "9gbbBbN01b",
+        "legacy_ui_id" : "0550-2352-8636-9000099",
+        "legacy_table_name" : "REFERL_T",
+        "legacy_table_description" : "Referral"
+      },
+      "reporter" : {
+        "legacy_reporter_id" : "9gbbBbN01b",
+        "legacy_descriptor" : {
+          "legacy_last_updated" : "1997-12-02T11:51:54.870-0800",
+          "legacy_id" : "9gbbBbN01b",
+          "legacy_ui_id" : "0550-2352-8636-9000099",
+          "legacy_table_name" : "REPTR_T",
+          "legacy_table_description" : "Reporter"
+        },
+        "last_name" : "Flintstone",
+        "id" : "9gbbBbN01b",
+        "first_name" : "Fred"
+      },
+      "county_name" : "Lake",
+      "response_time_id" : "1518",
+      "county_id" : "1084",
+      "allegations" : [
+        {
+          "legacy_allegation_id" : "K5WWrPV01b",
+          "perpetrator_legacy_client_id" : "FuWy75l01b",
+          "perpetrator" : {
+            "legacy_descriptor" : {
+              "legacy_last_updated" : "1999-10-11T14:25:49.254-0700",
+              "legacy_id" : "FuWy75l01b",
+              "legacy_ui_id" : "0903-7941-4204-9000099",
+              "legacy_table_name" : "CLIENT_T",
+              "legacy_table_description" : "Client"
+            },
+            "last_name" : "Zini",
+            "id" : "FuWy75l01b",
+            "first_name" : "Natasha",
+            "sensitivity_indicator" : "N"
+          },
+          "victim_last_name" : "Ferraraccio",
+          "legacy_descriptor" : {
+            "legacy_last_updated" : "1997-12-02T11:51:54.870-0800",
+            "legacy_id" : "K5WWrPV01b",
+            "legacy_ui_id" : "1141-0660-5040-1000099",
+            "legacy_table_name" : "ALLGTN_T",
+            "legacy_table_description" : "Allegation"
+          },
+          "victim_id" : "C0T75yj01b",
+          "perpetrator_id" : "FuWy75l01b",
+          "victim_first_name" : "Rocky",
+          "perpetrator_last_name" : "Zini",
+          "perpetrator_first_name" : "Natasha",
+          "victim_legacy_client_id" : "C0T75yj01b",
+          "disposition_description" : "",
+          "victim" : {
+            "legacy_descriptor" : {
+              "legacy_last_updated" : "1997-12-02T13:32:55.304-0800",
+              "legacy_id" : "C0T75yj01b",
+              "legacy_ui_id" : "0682-0330-3203-3000099",
+              "legacy_table_name" : "CLIENT_T",
+              "legacy_table_description" : "Client"
+            },
+            "last_name" : "Ferraraccio",
+            "id" : "C0T75yj01b",
+            "first_name" : "Rocky",
+            "sensitivity_indicator" : "S"
+          },
+          "id" : "K5WWrPV01b",
+          "allegation_description" : "Physical Abuse",
+          "disposition_id" : "0"
+        },
+        {
+          "legacy_allegation_id" : "5DiTY1Z01b",
+          "perpetrator_legacy_client_id" : "FuWy75l01b",
+          "perpetrator" : {
+            "legacy_descriptor" : {
+              "legacy_last_updated" : "1999-10-11T14:25:49.254-0700",
+              "legacy_id" : "FuWy75l01b",
+              "legacy_ui_id" : "0903-7941-4204-9000099",
+              "legacy_table_name" : "CLIENT_T",
+              "legacy_table_description" : "Client"
+            },
+            "last_name" : "Zini",
+            "id" : "FuWy75l01b",
+            "first_name" : "Natasha",
+            "sensitivity_indicator" : "S"
+          },
+          "victim_last_name" : "Rulten",
+          "legacy_descriptor" : {
+            "legacy_last_updated" : "1997-12-02T11:51:54.870-0800",
+            "legacy_id" : "5DiTY1Z01b",
+            "legacy_ui_id" : "0296-5681-0582-5000099",
+            "legacy_table_name" : "ALLGTN_T",
+            "legacy_table_description" : "Allegation"
+          },
+          "victim_id" : "AB4MdCj01b",
+          "perpetrator_id" : "FuWy75l01b",
+          "victim_first_name" : "Bullwinkle",
+          "perpetrator_last_name" : "Zini",
+          "perpetrator_first_name" : "Natasha",
+          "victim_legacy_client_id" : "AB4MdCj01b",
+          "disposition_description" : "",
+          "victim" : {
+            "legacy_descriptor" : {
+              "legacy_last_updated" : "1997-12-02T11:51:54.870-0800",
+              "legacy_id" : "AB4MdCj01b",
+              "legacy_ui_id" : "0578-1443-1625-7000099",
+              "legacy_table_name" : "CLIENT_T",
+              "legacy_table_description" : "Client"
+            },
+            "last_name" : "Rulten",
+            "id" : "AB4MdCj01b",
+            "first_name" : "Bullwinkle",
+            "sensitivity_indicator" : "N"
+          },
+          "id" : "5DiTY1Z01b",
+          "allegation_description" : "Physical Abuse",
+          "disposition_id" : "0"
+        }
+      ],
+      "assigned_social_worker" : {
+        "legacy_descriptor" : {
+          "legacy_last_updated" : "2002-08-20T16:08:49.205-0700",
+          "legacy_id" : "0N3",
+          "legacy_ui_id" : "0N3",
+          "legacy_table_name" : "STFPERST",
+          "legacy_table_description" : "Staff"
+        },
+        "last_name" : "Longaberger",
+        "id" : "0N3",
+        "legacy_assigned_social_worker_id" : "0N3",
+        "first_name" : "Kaaren"
+      },
+      "access_limitation" : {
+        "limited_access_government_entity_id" : "0",
+        "limited_access_code" : "N"
+      },
+      "response_time" : "10 Day",
+      "id" : "9gbbBbN01b",
+      "start_date" : "1997-12-02"
+    }
+  ],
+  "relationships" : [
+    {
+      "related_person_first_name" : "Boris",
+      "indexed_person_relationship" : "Son",
+      "relationship_context" : "Birth",
+      "related_person_legacy_id" : "Jne5GTZ01b",
+      "legacy_descriptor" : {
+        "legacy_last_updated" : "1997-12-02T11:51:54.000-0800",
+        "legacy_id" : "Jne5GTZ01b",
+        "legacy_ui_id" : "1124-6872-9328-1000099",
+        "legacy_table_name" : "CLIENT_T",
+        "legacy_table_description" : "Client"
+      },
+      "related_person_last_name" : "Brambell",
+      "related_person_relationship" : "Father"
+    },
+    {
+      "related_person_first_name" : "Natasha",
+      "indexed_person_relationship" : "Son",
+      "relationship_context" : "Birth",
+      "related_person_legacy_id" : "FuWy75l01b",
+      "legacy_descriptor" : {
+        "legacy_last_updated" : "1999-10-11T14:25:49.000-0700",
+        "legacy_id" : "FuWy75l01b",
+        "legacy_ui_id" : "0903-7941-4204-9000099",
+        "legacy_table_name" : "CLIENT_T",
+        "legacy_table_description" : "Client"
+      },
+      "related_person_last_name" : "Avey",
+      "related_person_relationship" : "Father"
+    },
+    {
+      "related_person_first_name" : "Rocky",
+      "indexed_person_relationship" : "Brother",
+      "relationship_context" : "",
+      "related_person_legacy_id" : "C0T75yj01b",
+      "legacy_descriptor" : {
+        "legacy_last_updated" : "1997-12-02T13:32:55.000-0800",
+        "legacy_id" : "C0T75yj01b",
+        "legacy_ui_id" : "0682-0330-3203-3000099",
+        "legacy_table_name" : "CLIENT_T",
+        "legacy_table_description" : "Client"
+      },
+      "related_person_last_name" : "Copnar",
+      "related_person_relationship" : "Brother"
+    }
+  ]
+}
