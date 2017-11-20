@@ -2,8 +2,8 @@
   "user": "RACFID",
   "staffId": "34",
   "roles": ["Supervisor"],
-  "county_code": "56",
-  "county_name": "Ventura",
+  "county_code": "99",
+  "county_name": "State of California",
   "privileges": [
     "Countywide Read/Write",
     "Sealed",

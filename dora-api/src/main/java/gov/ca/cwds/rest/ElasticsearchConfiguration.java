@@ -1,6 +1,7 @@
 package gov.ca.cwds.rest;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.Map;
 import org.hibernate.validator.constraints.NotEmpty;
 
 /**
@@ -14,6 +15,10 @@ public class ElasticsearchConfiguration {
     @NotEmpty
     @JsonProperty("port")
     private String port;
+
+    @NotEmpty
+    @JsonProperty
+    private Map<String, String> responseFieldFilters;
 
     public ElasticsearchConfiguration() {
         // no op
@@ -30,6 +35,10 @@ public class ElasticsearchConfiguration {
 
     public String getPort() {
         return port;
+    }
+
+    public Map<String, String> getResponseFieldFilters() {
+        return responseFieldFilters;
     }
 
     public static class XpackConfiguration {

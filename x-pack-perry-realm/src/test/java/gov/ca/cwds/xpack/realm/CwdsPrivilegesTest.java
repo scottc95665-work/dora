@@ -18,7 +18,7 @@ public class CwdsPrivilegesTest {
     assertCwdsPrivileges("fixtures/jwtToken-FFTF.json", false, false, true, false, "1086");
     assertCwdsPrivileges("fixtures/jwtToken-FTFF.json", false, true, false, false, "1123");
     assertCwdsPrivileges("fixtures/jwtToken-TFFF.json", true, false, false, false, "1123");
-    assertCwdsPrivileges("fixtures/jwtToken-TTTT.json", true, true, true, true, "1123");
+    assertCwdsPrivileges("fixtures/jwtToken-TTTT.json", true, true, true, true, "1126");
   }
 
   private void assertCwdsPrivileges(String jsonFile, boolean isCountySealed,

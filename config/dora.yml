@@ -19,6 +19,8 @@ swagger:
 elasticsearch:
   host: ${ES_HOST:-dora.dev.cwds.io}
   port: ${ES_PORT:-9200}
+  responseFieldFilters:
+    person: 'config/filters/person_filter.groovy'
   xpack:
     enabled: ${XPACK_ENABLED:-true}
     user: ${XPACK_USER:-elastic}

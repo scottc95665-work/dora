@@ -152,7 +152,7 @@ task dockerPopulateTestPeople {
     }
     doLast {
         // populate test people data
-        ["R", "S", "N"].each {
+        ["R", "S", "N", "NR", "NS"].each {
             String esUrl = "/people/person/person_$it"
             String content = readFile("$projectDir/test_data/people/person_${it}.json")
             esExecute("PUT", esUrl, content)

@@ -90,7 +90,9 @@ dependencies {
     compile group: 'com.hubspot.dropwizard', name: 'dropwizard-guice', version: '1.0.6.0'
 
     compile group: 'org.secnod.dropwizard', name: 'dropwizard-shiro', version: '0.2.0'
-    compile ('gov.ca.cwds.api:api-security:0.4.5-SNAPSHOT')
+    compile ('gov.ca.cwds.api:api-security:0.5.1-SNAPSHOT')
+
+    compile group: 'org.codehaus.groovy', name: 'groovy-all', version: '2.4.11'
 
     compile fileTree(dir: 'lib', include: ['*.jar'])
 

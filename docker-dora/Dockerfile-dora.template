@@ -1,7 +1,7 @@
 FROM cwds/javajdk
 RUN mkdir /opt/cwds-dora
 RUN mkdir /opt/cwds-dora/logs
-ADD config/* /opt/cwds-dora/config/
+ADD config /opt/cwds-dora/config
 ADD entrypoint.sh /opt/cwds-dora/
 ADD libs/${dora_dist_file_name} /opt/cwds-dora/dora.jar
 RUN chmod +x /opt/cwds-dora/entrypoint.sh
