@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * @author CWDS TPT-2
  */
-public class JsonTokenInfoHolder {
+public final class JsonTokenInfoHolder {
 
   private List<String> privileges;
   private String countyCode;

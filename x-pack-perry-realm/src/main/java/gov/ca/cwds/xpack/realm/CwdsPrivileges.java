@@ -3,6 +3,7 @@ package gov.ca.cwds.xpack.realm;
 import static gov.ca.cwds.xpack.realm.utils.Constants.CWS_CASE_MANAGEMENT_SYSTEM;
 import static gov.ca.cwds.xpack.realm.utils.Constants.SEALED;
 import static gov.ca.cwds.xpack.realm.utils.Constants.SENSITIVE_PERSONS;
+import static gov.ca.cwds.xpack.realm.utils.PerryRealmUtils.countyCodeToCountyId;
 import static gov.ca.cwds.xpack.realm.utils.PerryRealmUtils.parsePerryTokenFromJSON;
 
 import gov.ca.cwds.xpack.realm.utils.JsonTokenInfoHolder;
@@ -13,7 +14,6 @@ import java.io.IOException;
  */
 public final class CwdsPrivileges {
 
-  private static final int COUNTY_CODE_TO_ID_DELTA = 1067;
   private boolean countySensitive = false;
   private boolean socialWorkerOnly = false;
   private boolean countySealed = false;
@@ -66,14 +66,6 @@ public final class CwdsPrivileges {
         .isGovernmentEntityTypeIsStateOfCalifornia();
 
     return cwdsPrivileges;
-  }
-
-  private static String countyCodeToCountyId(String countyCode) {
-    try {
-      return String.valueOf(Integer.parseInt(countyCode) + COUNTY_CODE_TO_ID_DELTA);
-    } catch (NumberFormatException e) {
-      return "";
-    }
   }
 
   public boolean isCountySensitive() {
