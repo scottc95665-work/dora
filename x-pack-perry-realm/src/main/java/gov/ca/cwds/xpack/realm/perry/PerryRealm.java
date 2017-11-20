@@ -102,9 +102,12 @@ public class PerryRealm extends Realm {
 
       ArrayList<String> rolesList = new ArrayList<>();
       rolesList.add("worker");
-      rolesList.add("people_worker");
 
-      if (cwdsPrivileges.isCountySensitive() || cwdsPrivileges.isStateSensitive()) {
+      if (cwdsPrivileges.isSocialWorkerOnly()) {
+        rolesList.add("people_worker");
+      }
+
+      if (cwdsPrivileges.isSocialWorkerOnly() || cwdsPrivileges.isCountySensitive() || cwdsPrivileges.isStateSensitive() || cwdsPrivileges.isCountySealed() || cwdsPrivileges.isStateSealed()) {
         rolesList.add("people_sensitive");
       }
 
