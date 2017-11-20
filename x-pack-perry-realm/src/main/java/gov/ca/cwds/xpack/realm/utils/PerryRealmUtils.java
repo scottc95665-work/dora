@@ -114,12 +114,9 @@ public final class PerryRealmUtils {
           }
         }
       } else if (GOVERNMENT_ENTITY_TYPE.equals(fieldName)) {
-        parser.nextToken(); // current token is "[", move next
-        // messages is array, loop until token equal to "]"
-        while (parser.nextToken() != JsonToken.END_ARRAY) {
-          holder.setGovernmentEntityTypeIsStateOfCalifornia(
-              checkThatGovernmentEntityTypeIsStateOfCalifornia(parser.getValueAsString().trim()));
-        }
+        parser.nextToken();// current token is "government_entity_type", move to its value
+        holder.setGovernmentEntityTypeIsStateOfCalifornia(
+            checkThatGovernmentEntityTypeIsStateOfCalifornia(parser.getValueAsString().trim()));
       }
     }
 
