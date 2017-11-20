@@ -14,12 +14,14 @@ import java.util.SortedMap;
 import javax.ws.rs.core.MediaType;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
  * @author CWDS TPT-2
  */
 @SuppressWarnings("javadoc")
+@Ignore
 public class SystemInformationResourceTest extends BaseDoraApplicationTest {
 
   @After
