@@ -3,7 +3,6 @@ package gov.ca.cwds.dora;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import gov.ca.cwds.rest.ElasticsearchConfiguration;
 import gov.ca.cwds.rest.api.DoraException;
-import gov.ca.cwds.rest.api.domain.es.IndexQueryResponse;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -53,6 +52,16 @@ public final class DoraUtils {
   }
 
   @SuppressWarnings("unchecked")
+  public static Map<String, Object> stringToJsonMap(String jsonString) {
+    ObjectMapper mapper = new ObjectMapper();
+    try {
+      return mapper.readValue(jsonString, Map.class);
+    } catch (IOException e) {
+      throw new DoraException("failed to parse json string", e);
+    }
+  }
+
+  @SuppressWarnings("unchecked")
   public static Map<String, Object> responseToJsonMap(Response response) throws IOException {
     ObjectMapper mapper = new ObjectMapper();
     return mapper.readValue(response.getEntity().getContent(), Map.class);
@@ -62,6 +71,16 @@ public final class DoraUtils {
   public static String extractElasticsearchVersion(Map<String, Object> jsonMap) {
     Map<String, Object> version = (Map<String, Object>) jsonMap.get("version");
     return version.get("number").toString();
+  }
+
+  @SuppressWarnings("unchecked")
+  public static Integer getElasticSearchSearchResultCount(Map<String, Object> jsonMap) {
+    return (Integer) ((Map<String, Object>)jsonMap.get("hits")).get("total");
+  }
+
+  @SuppressWarnings("unchecked")
+  public static Integer getElasticSearchSearchTime(Map<String, Object> jsonMap) {
+    return (Integer) jsonMap.get("took");
   }
 
   public static String extractElasticsearchClusterName(Map<String, Object> jsonMap) {
@@ -97,28 +116,6 @@ public final class DoraUtils {
 
   public static String getAppVersion() {
     return getSystemInformationProperties().getProperty(BUILD_VERSION);
-  }
-
-  @SuppressWarnings("unchecked")
-  public static Integer getElasticSearchSearchResultCount(IndexQueryResponse indexQueryResponse)
-      throws IOException {
-
-    return (Integer) ((Map<String, Object>) getMapFromIndexQueryResponse(
-        indexQueryResponse.getSearchResults()).get("hits")).get("total");
-  }
-
-  @SuppressWarnings("unchecked")
-  public static Integer getElasticSearchSearchTime(IndexQueryResponse indexQueryResponse)
-      throws IOException {
-    return (Integer) getMapFromIndexQueryResponse(
-        indexQueryResponse.getSearchResults()).get("took");
-  }
-
-  @SuppressWarnings("unchecked")
-  private static Map<String, Object> getMapFromIndexQueryResponse(String indexQueryResponse)
-      throws IOException {
-    ObjectMapper mapper = new ObjectMapper();
-    return mapper.readValue(indexQueryResponse, Map.class);
   }
 
   public static String escapeCRLF(String str) {

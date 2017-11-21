@@ -70,10 +70,12 @@ public class SystemInformationResourceTest extends BaseDoraApplicationTest {
     // there is no Elasticsearch server available while Unit Tests
     assertHealthCheckResult(healthCheckResults.get("elasticsearch-status"), false);
     assertHealthCheckResult(healthCheckResults.get("elasticsearch-plugin-x-pack"), false);
-    assertHealthCheckResult(healthCheckResults.get("elasticsearch-plugin-analysis-phonetic"), false);
+    assertHealthCheckResult(healthCheckResults.get("elasticsearch-plugin-analysis-phonetic"),
+        false);
   }
 
-  private void assertHealthCheckResult(HealthCheckResultDTO healthCheckResultDTO, boolean isHealthy) {
+  private void assertHealthCheckResult(HealthCheckResultDTO healthCheckResultDTO,
+      boolean isHealthy) {
     assertThat(healthCheckResultDTO, is(notNullValue()));
     assertThat(healthCheckResultDTO.isHealthy(), is(isHealthy));
   }

@@ -35,6 +35,7 @@ task dockerCopyScripts(type: Copy) {
 task dockerCopyConfig(type: Copy) {
     from "$project.parent.projectDir/config"
     into "$dockerContextDir/config"
+    include 'filters/**'
     include 'dora*.yml'
     include 'shiro*.ini'
     include '*.jceks'

@@ -3,16 +3,21 @@ package gov.ca.cwds.rest.services.es;
 import static com.google.common.base.Preconditions.checkArgument;
 import static gov.ca.cwds.dora.DoraUtils.getElasticSearchSearchResultCount;
 import static gov.ca.cwds.dora.DoraUtils.getElasticSearchSearchTime;
+import static gov.ca.cwds.dora.DoraUtils.stringToJsonMap;
 
 import com.google.common.base.Strings;
 import com.google.inject.Inject;
+import gov.ca.cwds.dora.security.FieldFilterScript;
+import gov.ca.cwds.dora.security.FieldFilters;
+import gov.ca.cwds.dora.security.intake.IntakeAccount;
 import gov.ca.cwds.rest.ElasticsearchConfiguration;
 import gov.ca.cwds.rest.api.DoraException;
 import gov.ca.cwds.rest.api.domain.es.IndexQueryRequest;
 import gov.ca.cwds.rest.api.domain.es.IndexQueryResponse;
 import gov.ca.cwds.security.SecureClientFactory;
-import java.io.IOException;
+import gov.ca.cwds.security.realm.PerrySubject;
 import java.util.Map;
+import javax.script.ScriptException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -35,16 +40,17 @@ public class IndexQueryService {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(IndexQueryService.class);
 
+  @Inject
   private ElasticsearchConfiguration esConfig;
+
+  @Inject
+  private FieldFilters fieldFilters;
 
   /**
    * Constructor
-   *
-   * @param esConfig instance of ElasticsearchConfiguration with host and port assigned
    */
-  @Inject
-  public IndexQueryService(ElasticsearchConfiguration esConfig) {
-    this.esConfig = esConfig;
+  public IndexQueryService() {
+    // no op
   }
 
   public IndexQueryResponse handleRequest(IndexQueryRequest req) {
@@ -55,22 +61,40 @@ public class IndexQueryService {
       LOGGER.error("query cannot be null.");
       throw new DoraException("query cannot be null.");
     }
+    String index = req.getIndex();
+    String documentType = req.getType();
+    LOGGER.debug("User is searching for '{}' in Elasticsearch index '{}'", documentType, index);
 
-    LOGGER.debug("User are searching {} in Elastic Search index {}", req.getIndex(), req.getType());
+    String esResponse = searchIndexByQuery(index, documentType, query);
+    Map<String, Object> esResponseJsonMap = stringToJsonMap(esResponse);
 
-    IndexQueryResponse esIndexQueryResponse = new IndexQueryResponse(
-        searchIndexByQuery(req.getIndex(), req.getType(), query));
+    LOGGER.debug("Elastic Search took {} milliseconds to execute the search",
+        getElasticSearchSearchTime(esResponseJsonMap));
+    LOGGER.debug("Elastic Search has {} results in total",
+        getElasticSearchSearchResultCount(esResponseJsonMap));
 
-    try {
-      LOGGER.debug("Elastic Search took {} milliseconds to execute the search",
-          getElasticSearchSearchTime(esIndexQueryResponse));
-      LOGGER.debug("Elastic Search returned {} results",
-          getElasticSearchSearchResultCount(esIndexQueryResponse));
-    } catch (IOException e) {
-      throw new DoraException("Can't parse ES response", e);
+    String filteredResponse;
+    FieldFilterScript fieldFilterScript = fieldFilters.getFilter(documentType);
+    if (null == fieldFilterScript) {
+      LOGGER.info("Field filtering for document type '{}' is not set", documentType);
+      filteredResponse = esResponse;
+    } else {
+      LOGGER.info("Applying field filtering for document type '{}'", documentType);
+      filteredResponse = applyFieldFiltering(esResponseJsonMap, documentType);
     }
 
-    return esIndexQueryResponse;
+    return new IndexQueryResponse(filteredResponse);
+  }
+
+  private String applyFieldFiltering(Map<String, Object> esResponseJsonMap, String documentType) {
+    FieldFilterScript fieldFilterScript = fieldFilters.getFilter(documentType);
+    IntakeAccount account = PerrySubject.getPerryAccount();
+    try {
+      return fieldFilterScript.filter(esResponseJsonMap, account);
+    } catch (ScriptException e) {
+      throw new DoraException(
+          "Filed to apply Field Filtering for document type '" + documentType + "'", e);
+    }
   }
 
   /**

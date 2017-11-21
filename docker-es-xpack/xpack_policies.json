@@ -46,7 +46,47 @@
           "privileges": [
             "read"
           ],
-          "query": "{ \"match\": { \"sensitivity_indicator\": \"S\" } }"
+          "query": {
+            "template" : {
+              "inline" : {
+                "bool": { "must": [
+                  { "match": { "sensitivity_indicator": "S" }},
+                  { "match": { "client_county.id": "{{_user.metadata.county_id}}" }}
+                ]}
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  {
+    "action": "POST /_xpack/security/role/people_sensitive_no_county",
+    "content": {
+      "cluster": [],
+      "indices": [
+        {
+          "names": [
+            "peop*"
+          ],
+          "privileges": [
+            "read"
+          ],
+          "query": {
+            "template" : {
+              "inline" : {
+                "bool": { "must": [
+                  { "match": { "sensitivity_indicator": "S" }}
+                ],
+                  "must_not": {
+                    "exists": {
+                      "field": "client_county"
+                    }
+                  }
+                }
+              }
+            }
+          }
         }
       ]
     }
@@ -76,5 +116,36 @@
         }
       ]
     }
+  },
+  {
+  "action": "POST /_xpack/security/role/people_sealed_no_county",
+  "content": {
+    "cluster": [],
+    "indices": [
+      {
+        "names": [
+          "peop*"
+        ],
+        "privileges": [
+          "read"
+        ],
+        "query": {
+          "template" : {
+            "inline" : {
+              "bool": { "must": [
+                { "match": { "sensitivity_indicator": "R" }}
+              ],
+                "must_not": {
+                  "exists": {
+                    "field": "client_county"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
   }
+}
 ]

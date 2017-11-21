@@ -6,6 +6,7 @@
   "county_name": "Ventura",
   "privileges": [
     "Countywide Read/Write",
-    "Sealed"
+    "Sealed",
+    "CWS Case Management System"
   ]
 }
