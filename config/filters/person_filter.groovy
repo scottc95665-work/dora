@@ -7,10 +7,15 @@ final String authCountyId = STATE_OF_CALIFORNIA_COUNTY_CODE == account.countyCod
         account.countyCode.toInteger() + COUNTY_CODE_TO_ID_DELTA
 
 def hasSealedPrivilege = account.privileges.contains("Sealed")
+def hasSensitivePrivilege = account.privileges.contains("Sensitive Persons")
 
-def sameClientCounty = {
-    it?.client_county?.id == authCountyId
-}
+//def sameClientCounty = {
+//    it?.client_county?.id == authCountyId
+//}
+//
+//def clientHasNoCounty = {
+//    it?.client_county == null
+//}
 
 def isSealed = {
     it?.sensitivity_indicator == 'R'
@@ -29,29 +34,27 @@ def referralHasSealedData = {
     }
 }
 
-def referralHasSealedOrSensitiveData = {
+def referralHasSensitiveData = {
     it?.allegations?.find {
-        if (isSealed(it.perpetrator) || isSealed(it.victim) || isSensitive(it.perpetrator) || isSensitive(it.victim)) {
-            return true
+        if (isSensitive(it.perpetrator) || isSensitive(it.victim)) {
+            return true // break
         }
-        return false
+        return false // keep looping
     }
 }
 
 response.hits?.hits?.each {
 
-    def clientSensitivityIndicator = it._source?.sensitivity_indicator
+//    hasSameClientCounty = sameClientCounty(it._source)
+//    hasNoCounty = clientHasNoCounty(it._source)
 
-    if (clientSensitivityIndicator == 'N') {
-        it._source?.referrals = it._source?.referrals?.findAll({
-            !referralHasSealedOrSensitiveData(it)
-        })
-    } else if (clientSensitivityIndicator == 'R') {
-        hasSameClientCounty = sameClientCounty(it._source)
-        it._source?.referrals = it._source?.referrals?.findAll({
-            referralHasSealedData(it) ? hasSealedPrivilege && hasSameClientCounty : true
-        })
-    }
+    it._source?.referrals = it._source?.referrals?.findAll({
+        referralHasSensitiveData(it) ? hasSensitivePrivilege: true
+    })
+
+    it._source?.referrals = it._source?.referrals?.findAll({
+        referralHasSealedData(it) ? hasSealedPrivilege: true
+    })
 }
 
 response

@@ -22,8 +22,9 @@ import org.elasticsearch.xpack.security.authc.RealmConfig;
 import org.elasticsearch.xpack.security.user.User;
 
 /**
- * A custom {@link Realm} implementation that expects a valid Perry Token in the "Authorization" HTTP header.
- * The Perry Token is decoded into Json Token and its properties are used to build a list of X-Pack roles.
+ * A custom {@link Realm} implementation that expects a valid Perry Token in the "Authorization"
+ * HTTP header. The Perry Token is decoded into Json Token and its properties are used to build a
+ * list of X-Pack roles.
  *
  * @author CWDS TPT-2
  */
@@ -34,6 +35,13 @@ public class PerryRealm extends Realm {
   private static final String AUTHORIZATION_HEADER = "Authorization";
 
   private static final String SETTING_VALIDATION = "token_validation_url";
+
+  private static final String WORKER = "worker";
+  private static final String PEOPLE_WORKER = "people_worker";
+  private static final String PEOPLE_SENSITIVE = "people_sensitive";
+  private static final String PEOPLE_SENSITIVE_NO_COUNTY = "people_sensitive_no_county";
+  private static final String PEOPLE_SEALED = "people_sealed";
+  private static final String PEOPLE_SEALED_NO_COUNTY = "people_sealed_no_county";
 
   private String tokenValidationUrl;
 
@@ -49,7 +57,8 @@ public class PerryRealm extends Realm {
   }
 
   /**
-   * Indicates whether this realm supports the given token. This realm only support {@link PerryToken} objects for authentication
+   * Indicates whether this realm supports the given token. This realm only support {@link
+   * PerryToken} objects for authentication
    *
    * @param authenticationToken the token to test for support
    * @return true if the token is supported. false otherwise
@@ -62,7 +71,8 @@ public class PerryRealm extends Realm {
   /**
    * This method will extract a token from the given {@link RestRequest} if possible.
    *
-   * @param threadContext the {@link ThreadContext} that contains headers and transient objects for a request
+   * @param threadContext the {@link ThreadContext} that contains headers and transient objects for
+   * a request
    * @return the {@link AuthenticationToken} if possible to extract or <code>null</code>
    */
   @Override
@@ -71,7 +81,8 @@ public class PerryRealm extends Realm {
     return token == null ? null : new PerryToken(token);
   }
 
-  private String validatePerryToken(String token) throws IOException, PerryTokenValidationException {
+  private String validatePerryToken(String token)
+      throws IOException, PerryTokenValidationException {
     try (CloseableHttpClient httpClient = HttpClients.createMinimal()) {
       HttpGet httpGet = new HttpGet(tokenValidationUrl + token);
       try (CloseableHttpResponse response = httpClient.execute(httpGet)) {
@@ -86,9 +97,9 @@ public class PerryRealm extends Realm {
 
   /**
    * Method that handles the actual authentication of the token. This method will only be called if
-   * the token is a supported token. The method validates the Perry Token.
-   * If the Perry Token is valid, a {@link User} will be returned as the argument to the {@code listener}'s
-   * {@link ActionListener#onResponse(Object)} method. Else {@code null} is returned.
+   * the token is a supported token. The method validates the Perry Token. If the Perry Token is
+   * valid, a {@link User} will be returned as the argument to the {@code listener}'s {@link
+   * ActionListener#onResponse(Object)} method. Else {@code null} is returned.
    *
    * @param authenticationToken the token to authenticate
    * @param listener return authentication result by calling {@link ActionListener#onResponse(Object)}
@@ -101,19 +112,33 @@ public class PerryRealm extends Realm {
       logger.info(cwdsPrivileges);
 
       ArrayList<String> rolesList = new ArrayList<>();
-      rolesList.add("worker");
+      rolesList.add(WORKER);
+      logger.debug("adding {} role", WORKER);
 
       if (cwdsPrivileges.isSocialWorkerOnly()) {
-        rolesList.add("people_worker");
+        rolesList.add(PEOPLE_WORKER);
+        logger.debug("adding {} role", PEOPLE_WORKER);
       }
 
-      if (cwdsPrivileges.isSocialWorkerOnly() || cwdsPrivileges.isCountySensitive() || cwdsPrivileges.isStateSensitive() || cwdsPrivileges.isCountySealed() || cwdsPrivileges.isStateSealed()) {
-        rolesList.add("people_sensitive");
+      if (cwdsPrivileges.isCountySensitive() || cwdsPrivileges.isStateSensitive()) {
+        rolesList.add(PEOPLE_WORKER);
+        logger.debug("adding {} role", PEOPLE_WORKER);
+        rolesList.add(PEOPLE_SENSITIVE);
+        logger.debug("adding {} role", PEOPLE_SENSITIVE);
+      }
+
+      if (cwdsPrivileges.isCountySensitive()) {
+        rolesList.add(PEOPLE_SENSITIVE_NO_COUNTY);
+        logger.debug("adding {} role", PEOPLE_SENSITIVE_NO_COUNTY);
       }
 
       if (cwdsPrivileges.isCountySealed() || cwdsPrivileges.isStateSealed()) {
-        rolesList.add("people_sealed");
-        rolesList.add("people_sealed_no_county");
+        rolesList.add(PEOPLE_WORKER);
+        logger.debug("adding {} role", PEOPLE_WORKER);
+        rolesList.add(PEOPLE_SEALED);
+        logger.debug("adding {} role", PEOPLE_SEALED);
+        rolesList.add(PEOPLE_SEALED_NO_COUNTY);
+        logger.debug("adding {} role", PEOPLE_SEALED_NO_COUNTY);
       }
 
       String[] roles = rolesList.toArray(new String[rolesList.size()]);
@@ -136,21 +161,27 @@ public class PerryRealm extends Realm {
     }
   }
 
-  /** @deprecated */
+  /**
+   * @deprecated
+   */
   @Deprecated
   @Override
   public User authenticate(AuthenticationToken authenticationToken) {
     throw new UnsupportedOperationException("Deprecated");
   }
 
-  /** @deprecated */
+  /**
+   * @deprecated
+   */
   @Deprecated
   @Override
   public User lookupUser(String s) {
     throw new UnsupportedOperationException();
   }
 
-  /** @deprecated */
+  /**
+   * @deprecated
+   */
   @Deprecated
   @Override
   public boolean userLookupSupported() {
