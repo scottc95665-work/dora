@@ -91,32 +91,35 @@ public final class PerryRealmUtils {
 
   public static JsonTokenInfoHolder parsePerryTokenFromJSON(String json)
       throws IOException {
-    JsonParser parser = jsonFactory.createParser(json);
+
     JsonTokenInfoHolder holder = new JsonTokenInfoHolder();
     List<String> privileges = new LinkedList<>();
 
-    while (parser.nextToken() != JsonToken.END_OBJECT) {
-      String fieldName = parser.getCurrentName();
-      if (COUNTY_CODE.equals(fieldName)) {
-        parser.nextToken(); // current token is "county_code", move to its value
-        holder.setCountyCode(parser.getValueAsString());
-      } else if (PRIVILEGES.equals(fieldName)) {
-        parser.nextToken(); // current token is "[", move next
-        // messages is array, loop until token equal to "]"
-        while (parser.nextToken() != JsonToken.END_ARRAY) {
-          String privilege = parser.getValueAsString().trim();
-          if (CWS_CASE_MANAGEMENT_SYSTEM.equalsIgnoreCase(privilege)) {
-            privileges.add(CWS_CASE_MANAGEMENT_SYSTEM);
-          } else if (SENSITIVE_PERSONS.equalsIgnoreCase(privilege)) {
-            privileges.add(SENSITIVE_PERSONS);
-          } else if (SEALED.equalsIgnoreCase(privilege)) {
-            privileges.add(SEALED);
+    try (JsonParser parser = jsonFactory.createParser(json)) {
+
+      while (parser.nextToken() != JsonToken.END_OBJECT) {
+        String fieldName = parser.getCurrentName();
+        if (COUNTY_CODE.equals(fieldName)) {
+          parser.nextToken(); // current token is "county_code", move to its value
+          holder.setCountyCode(parser.getValueAsString());
+        } else if (PRIVILEGES.equals(fieldName)) {
+          parser.nextToken(); // current token is "[", move next
+          // messages is array, loop until token equal to "]"
+          while (parser.nextToken() != JsonToken.END_ARRAY) {
+            String privilege = parser.getValueAsString().trim();
+            if (CWS_CASE_MANAGEMENT_SYSTEM.equalsIgnoreCase(privilege)) {
+              privileges.add(CWS_CASE_MANAGEMENT_SYSTEM);
+            } else if (SENSITIVE_PERSONS.equalsIgnoreCase(privilege)) {
+              privileges.add(SENSITIVE_PERSONS);
+            } else if (SEALED.equalsIgnoreCase(privilege)) {
+              privileges.add(SEALED);
+            }
           }
+        } else if (GOVERNMENT_ENTITY_TYPE.equals(fieldName)) {
+          parser.nextToken();// current token is "government_entity_type", move to its value
+          holder.setGovernmentEntityTypeIsStateOfCalifornia(
+              checkThatGovernmentEntityTypeIsStateOfCalifornia(parser.getValueAsString()));
         }
-      } else if (GOVERNMENT_ENTITY_TYPE.equals(fieldName)) {
-        parser.nextToken();// current token is "government_entity_type", move to its value
-        holder.setGovernmentEntityTypeIsStateOfCalifornia(
-            checkThatGovernmentEntityTypeIsStateOfCalifornia(parser.getValueAsString()));
       }
     }
 
