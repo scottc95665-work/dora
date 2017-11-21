@@ -29,11 +29,29 @@ def referralHasSealedData = {
     }
 }
 
+def referralHasSealedOrSensitiveData = {
+    it?.allegations?.find {
+        if (isSealed(it.perpetrator) || isSealed(it.victim) || isSensitive(it.perpetrator) || isSensitive(it.victim)) {
+            return true
+        }
+        return false
+    }
+}
+
 response.hits?.hits?.each {
-    hasSameClientCounty = sameClientCounty(it._source)
-    it._source?.referrals = it._source?.referrals?.findAll({
-        referralHasSealedData(it) ? hasSealedPrivilege && hasSameClientCounty : true
-    })
+
+    def clientSensitivityIndicator = it._source?.sensitivity_indicator
+
+    if (clientSensitivityIndicator == 'N') {
+        it._source?.referrals = it._source?.referrals?.findAll({
+            !referralHasSealedOrSensitiveData(it)
+        })
+    } else if (clientSensitivityIndicator == 'R') {
+        hasSameClientCounty = sameClientCounty(it._source)
+        it._source?.referrals = it._source?.referrals?.findAll({
+            referralHasSealedData(it) ? hasSealedPrivilege && hasSameClientCounty : true
+        })
+    }
 }
 
 response
