@@ -99,7 +99,7 @@ public final class PerryRealmUtils {
       String fieldName = parser.getCurrentName();
       if (COUNTY_CODE.equals(fieldName)) {
         parser.nextToken(); // current token is "county_code", move to its value
-        holder.setCountyCode(parser.getValueAsString().trim());
+        holder.setCountyCode(parser.getValueAsString());
       } else if (PRIVILEGES.equals(fieldName)) {
         parser.nextToken(); // current token is "[", move next
         // messages is array, loop until token equal to "]"
@@ -116,7 +116,7 @@ public final class PerryRealmUtils {
       } else if (GOVERNMENT_ENTITY_TYPE.equals(fieldName)) {
         parser.nextToken();// current token is "government_entity_type", move to its value
         holder.setGovernmentEntityTypeIsStateOfCalifornia(
-            checkThatGovernmentEntityTypeIsStateOfCalifornia(parser.getValueAsString().trim()));
+            checkThatGovernmentEntityTypeIsStateOfCalifornia(parser.getValueAsString()));
       }
     }
 

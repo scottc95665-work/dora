@@ -113,6 +113,7 @@ public class PerryRealm extends Realm {
 
       if (cwdsPrivileges.isCountySealed() || cwdsPrivileges.isStateSealed()) {
         rolesList.add("people_sealed");
+        rolesList.add("people_sealed_no_county");
       }
 
       String[] roles = rolesList.toArray(new String[rolesList.size()]);
