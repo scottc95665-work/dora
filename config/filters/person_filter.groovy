@@ -2,9 +2,9 @@ final int COUNTY_CODE_TO_ID_DELTA = 1067
 final String STATE_OF_CALIFORNIA_COUNTY_CODE = "99"
 final String STATE_OF_CALIFORNIA_COUNTY_ID = "1126"
 
-final String authCountyId = STATE_OF_CALIFORNIA_COUNTY_CODE == account.countyCode ?
-        STATE_OF_CALIFORNIA_COUNTY_ID :
-        account.countyCode.toInteger() + COUNTY_CODE_TO_ID_DELTA
+//final String authCountyId = STATE_OF_CALIFORNIA_COUNTY_CODE == account.countyCode ?
+//        STATE_OF_CALIFORNIA_COUNTY_ID :
+//        account.countyCode.toInteger() + COUNTY_CODE_TO_ID_DELTA
 
 def hasSealedPrivilege = account.privileges.contains("Sealed")
 def hasSensitivePrivilege = account.privileges.contains("Sensitive Persons")

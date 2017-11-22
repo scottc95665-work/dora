@@ -7,7 +7,7 @@ public interface Constants {
 
   //fields
   String COUNTY_CODE = "county_code";
-  String GOVERNMENT_ENTITY_TYPE = "government_entity_type";
+  String COUNTY_NAME = "county_name";
   String PRIVILEGES = "privileges";
 
   //privileges

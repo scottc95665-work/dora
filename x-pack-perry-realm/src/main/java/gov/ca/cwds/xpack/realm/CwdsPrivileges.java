@@ -57,13 +57,13 @@ public final class CwdsPrivileges {
 
     cwdsPrivileges.socialWorkerOnly = holder.getPrivileges().contains(CWS_CASE_MANAGEMENT_SYSTEM);
     cwdsPrivileges.countySensitive = holder.getPrivileges().contains(SENSITIVE_PERSONS) && (!holder
-        .isGovernmentEntityTypeIsStateOfCalifornia());
+        .isCountyIsStateOfCalifornia());
     cwdsPrivileges.countySealed = holder.getPrivileges().contains(SEALED) && (!holder
-        .isGovernmentEntityTypeIsStateOfCalifornia());
+        .isCountyIsStateOfCalifornia());
     cwdsPrivileges.stateSensitive = holder.getPrivileges().contains(SENSITIVE_PERSONS) && holder
-        .isGovernmentEntityTypeIsStateOfCalifornia();
+        .isCountyIsStateOfCalifornia();
     cwdsPrivileges.stateSealed = holder.getPrivileges().contains(SEALED) && holder
-        .isGovernmentEntityTypeIsStateOfCalifornia();
+        .isCountyIsStateOfCalifornia();
 
     return cwdsPrivileges;
   }

@@ -1,8 +1,8 @@
 package gov.ca.cwds.xpack.realm.utils;
 
 import static gov.ca.cwds.xpack.realm.utils.Constants.COUNTY_CODE;
+import static gov.ca.cwds.xpack.realm.utils.Constants.COUNTY_NAME;
 import static gov.ca.cwds.xpack.realm.utils.Constants.CWS_CASE_MANAGEMENT_SYSTEM;
-import static gov.ca.cwds.xpack.realm.utils.Constants.GOVERNMENT_ENTITY_TYPE;
 import static gov.ca.cwds.xpack.realm.utils.Constants.PRIVILEGES;
 import static gov.ca.cwds.xpack.realm.utils.Constants.SEALED;
 import static gov.ca.cwds.xpack.realm.utils.Constants.SENSITIVE_PERSONS;
@@ -115,10 +115,10 @@ public final class PerryRealmUtils {
               privileges.add(SEALED);
             }
           }
-        } else if (GOVERNMENT_ENTITY_TYPE.equals(fieldName)) {
+        } else if (COUNTY_NAME.equals(fieldName)) {
           parser.nextToken();// current token is "government_entity_type", move to its value
-          holder.setGovernmentEntityTypeIsStateOfCalifornia(
-              checkThatGovernmentEntityTypeIsStateOfCalifornia(parser.getValueAsString()));
+          holder.setCountyIsStateOfCalifornia(
+              checkThatCountyIsStateOfCalifornia(parser.getValueAsString()));
         }
       }
     }
@@ -127,9 +127,9 @@ public final class PerryRealmUtils {
     return holder;
   }
 
-  private static boolean checkThatGovernmentEntityTypeIsStateOfCalifornia(
-      String governmentEntityType) {
-    return null != governmentEntityType && governmentEntityType
+  private static boolean checkThatCountyIsStateOfCalifornia(
+      String countyName) {
+    return null != countyName && countyName
         .equalsIgnoreCase(STATE_OF_CALIFORNIA);
   }
 
