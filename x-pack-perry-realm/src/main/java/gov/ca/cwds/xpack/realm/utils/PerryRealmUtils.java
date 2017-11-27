@@ -116,7 +116,7 @@ public final class PerryRealmUtils {
             }
           }
         } else if (COUNTY_NAME.equals(fieldName)) {
-          parser.nextToken();// current token is "government_entity_type", move to its value
+          parser.nextToken();
           holder.setCountyIsStateOfCalifornia(
               checkThatCountyIsStateOfCalifornia(parser.getValueAsString()));
         }

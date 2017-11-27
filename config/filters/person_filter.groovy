@@ -36,21 +36,12 @@ def caseHasSensitiveData = {
 }
 
 response.hits?.hits?.each {
-
     it._source?.cases = it._source?.cases?.findAll({
-        caseHasSealedData(it) ? hasSealedPrivilege : true
-    })
-
-    it._source?.cases = it._source?.cases?.findAll({
-        caseHasSensitiveData(it) ? hasSensitivePrivilege : true
+        caseHasSealedData(it) ? hasSealedPrivilege : (caseHasSensitiveData(it) ? hasSensitivePrivilege : true)
     })
 
     it._source?.referrals = it._source?.referrals?.findAll({
-        referralHasSensitiveData(it) ? hasSensitivePrivilege : true
-    })
-
-    it._source?.referrals = it._source?.referrals?.findAll({
-        referralHasSealedData(it) ? hasSealedPrivilege : true
+        referralHasSensitiveData(it) ? hasSensitivePrivilege : (referralHasSealedData(it) ? hasSealedPrivilege : true)
     })
 }
 
