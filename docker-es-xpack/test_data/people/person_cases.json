@@ -1,0 +1,386 @@
+{
+  "first_name": "Nina",
+  "middle_name": "",
+  "last_name": "Tunkin",
+  "gender": "female",
+  "ssn": "868007881",
+  "type": "gov.ca.cwds.data.persistence.cms.rep.ReplicatedClient",
+  "sensitivity_indicator": "N",
+  "client_county": {
+    "id": "1080",
+    "description": "Imperial"
+  },
+  "race_ethnicity": {
+    "race_codes": [],
+    "hispanic_codes": [],
+    "unable_to_determine_code": "",
+    "hispanic_origin_code": "U",
+    "hispanic_unable_to_determine_code": ""
+  },
+  "source": "{\n  \"adjudicatedDelinquentIndicator\" : \"\",\n  \"adoptionStatusCode\" : \"N\",\n  \"akas\" : { },\n  \"alienRegistrationNumber\" : \"\",\n  \"birthCity\" : \"\",\n  \"birthCountryCodeType\" : 0,\n  \"birthFacilityName\" : \"\",\n  \"birthStateCodeType\" : 0,\n  \"birthplaceVerifiedIndicator\" : \"N\",\n  \"childClientIndicatorVar\" : \"N\",\n  \"clientAddresses\" : [ ],\n  \"clientCounty\" : 1080,\n  \"clientIndexNumber\" : \"\",\n  \"clientRaces\" : [ 0 ],\n  \"clientSafetyAlerts\" : [ ],\n  \"commentDescription\" : \"\",\n  \"commonFirstName\" : \"Nina\",\n  \"commonLastName\" : \"Tunkin\",\n  \"commonMiddleName\" : \"\",\n  \"confidentialityInEffectIndicator\" : \"N\",\n  \"creationDate\" : \"1998-12-29\",\n  \"currCaChildrenServIndicator\" : \"N\",\n  \"currentlyOtherDescription\" : \"\",\n  \"currentlyRegionalCenterIndicator\" : \"N\",\n  \"deathDate\" : \"1998-12-16\",\n  \"deathDateVerifiedIndicator\" : \"N\",\n  \"deathPlace\" : \"\",\n  \"deathReasonText\" : \"1mcahwg0D8\",\n  \"driverLicenseNumber\" : \"\",\n  \"driverLicenseStateCodeType\" : 0,\n  \"emailAddress\" : \"\",\n  \"estimatedDobCode\" : \"U\",\n  \"ethUnableToDetReasonCode\" : \"\",\n  \"genderCode\" : \"F\",\n  \"healthSummaryText\" : \"\",\n  \"hispUnableToDetReasonCode\" : \"\",\n  \"hispanicOriginCode\" : \"U\",\n  \"id\" : \"TBCF40g0D8\",\n  \"immigrationCountryCodeType\" : 0,\n  \"immigrationStatusType\" : 0,\n  \"incapacitatedParentCode\" : \"U\",\n  \"individualHealthCarePlanIndicator\" : \"N\",\n  \"lastUpdatedTime\" : \"1998-12-30\",\n  \"legacyDescriptor\" : {\n    \"legacy_id\" : \"TBCF40g0D8\",\n    \"legacy_ui_id\" : \"1657-4651-9945-8000814\",\n    \"legacy_last_updated\" : \"1998-12-30T08:13:05.204-0800\",\n    \"legacy_table_name\" : \"CLIENT_T\",\n    \"legacy_table_description\" : \"Client\"\n  },\n  \"legacyId\" : \"TBCF40g0D8\",\n  \"limitationOnScpHealthIndicator\" : \"N\",\n  \"limitedAccessCode\" : \"N\",\n  \"literateCode\" : \"U\",\n  \"maritalCohabitatnHstryIndicatorVar\" : \"N\",\n  \"maritalStatusType\" : 0,\n  \"militaryStatusCode\" : \"U\",\n  \"namePrefixDescription\" : \"\",\n  \"nameType\" : 1313,\n  \"otherClientNames\" : [ ],\n  \"outstandingWarrantIndicator\" : \"N\",\n  \"prevCaChildrenServIndicator\" : \"N\",\n  \"prevOtherDescription\" : \"\",\n  \"prevRegionalCenterIndicator\" : \"N\",\n  \"primaryEthnicityType\" : 0,\n  \"primaryKey\" : \"TBCF40g0D8\",\n  \"primaryLanguageType\" : 0,\n  \"raceAndEthnicity\" : {\n    \"race_codes\" : [ ],\n    \"hispanic_codes\" : [ ],\n    \"unable_to_determine_code\" : \"\",\n    \"hispanic_origin_code\" : \"U\",\n    \"hispanic_unable_to_determine_code\" : \"\"\n  },\n  \"religionType\" : 0,\n  \"replicatedEntity\" : {\n    \"replicationOperation\" : \"I\",\n    \"replicationDate\" : \"2017-10-12\"\n  },\n  \"replicationDate\" : \"2017-10-12\",\n  \"replicationOperation\" : \"I\",\n  \"safetyAlerts\" : { },\n  \"secondaryLanguageType\" : 0,\n  \"sensitiveHlthInfoOnFileIndicator\" : \"N\",\n  \"sensitivityIndicator\" : \"N\",\n  \"soc158PlacementCode\" : \"N\",\n  \"soc158SealedClientIndicator\" : \"N\",\n  \"socialSecurityNumChangedCode\" : \"N\",\n  \"socialSecurityNumber\" : \"868007881\",\n  \"suffixTitleDescription\" : \"\",\n  \"tribalAncestryClientIndicatorVar\" : \"N\",\n  \"tribalMembrshpVerifctnIndicatorVar\" : \"N\",\n  \"unemployedParentCode\" : \"U\",\n  \"zippyCreatedIndicator\" : \"N\"\n}",
+  "legacy_descriptor": {
+    "legacy_id": "TBCF40g0D8",
+    "legacy_ui_id": "1657-4651-9945-8000814",
+    "legacy_last_updated": "1998-12-30T08:13:05.204-0800",
+    "legacy_table_name": "CLIENT_T",
+    "legacy_table_description": "Client"
+  },
+  "legacy_id": "TBCF40g0D8",
+  "addresses": [],
+  "phone_numbers": [],
+  "languages": [],
+  "id": "TBCF40g0D8",
+  "searchable_name": [
+    "Nina",
+    "Tunkin"
+  ],
+  "cases": [
+    {
+      "legacy_last_updated": "1999-09-14T23:29:12.000-0700",
+      "legacy_descriptor": {
+        "legacy_last_updated": "1999-09-14T23:29:12.000-0700",
+        "legacy_id": "2cRnPL00Cy",
+        "legacy_ui_id": "0148-8242-5533-0000804",
+        "legacy_table_name": "CASE_T",
+        "legacy_table_description": "Case"
+      },
+      "county_name": "Imperial",
+      "legacy_case_id": "2cRnPL00Cy",
+      "focus_child": {
+        "legacy_last_updated": "1999-10-11T14:25:49.000-0700",
+        "legacy_client_id": "3ju7sbi0Co",
+        "legacy_descriptor": {
+          "legacy_last_updated": "1999-10-11T14:25:49.000-0700",
+          "legacy_id": "3ju7sbi0Co",
+          "legacy_ui_id": "0212-4560-3721-8000794",
+          "legacy_table_name": "CLIENT_T",
+          "legacy_table_description": "Client"
+        },
+        "last_name": "Bloschke",
+        "id": "3ju7sbi0Co",
+        "first_name": "Lawrence"
+      },
+      "county_id": "1080",
+      "service_component": "Emergency Response",
+      "assigned_social_worker": {
+        "legacy_assigned_social_worker_last_updated": "2000-08-29T13:51:39.000-0700",
+        "legacy_descriptor": {
+          "legacy_last_updated": "2000-08-29T13:51:39.000-0700",
+          "legacy_id": "0D5",
+          "legacy_ui_id": "0D5",
+          "legacy_table_name": "STFPERST",
+          "legacy_table_description": "Staff"
+        },
+        "last_name": "FMFR2",
+        "id": "0D5",
+        "legacy_assigned_social_worker_id": "0D5",
+        "first_name": "South FM/FR Worker 2"
+      },
+      "access_limitation": {
+        "limited_access_government_entity_id": "0",
+        "limited_access_code": "S"
+      },
+      "id": "2cRnPL00Cy",
+      "service_component_id": "1692",
+      "start_date": "1998-12-22",
+      "parents": [
+        {
+          "legacy_source_table": "CLIENT_T",
+          "legacy_last_updated": "1998-12-31T09:17:30.000-0800",
+          "legacy_descriptor": {
+            "legacy_last_updated": "1998-12-31T09:17:30.000-0800",
+            "legacy_id": "Nqfm5X00D8",
+            "legacy_ui_id": "1354-6616-1648-2000814",
+            "legacy_table_name": "CLIENT_T",
+            "legacy_table_description": "Client"
+          },
+          "last_name": "Tissell",
+          "legacy_id": "Nqfm5X00D8",
+          "id": "Nqfm5X00D8",
+          "relationship": "Father/Son (Birth)",
+          "first_name": "Robert"
+        },
+        {
+          "legacy_source_table": "CLIENT_T",
+          "legacy_last_updated": "1998-12-30T08:13:05.000-0800",
+          "legacy_descriptor": {
+            "legacy_last_updated": "1998-12-30T08:13:05.000-0800",
+            "legacy_id": "TBCF40g0D8",
+            "legacy_ui_id": "1657-4651-9945-8000814",
+            "legacy_table_name": "CLIENT_T",
+            "legacy_table_description": "Client"
+          },
+          "last_name": "Tunkin",
+          "legacy_id": "TBCF40g0D8",
+          "id": "TBCF40g0D8",
+          "relationship": "Mother/Son (Birth)",
+          "first_name": "Nina"
+        }
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "related_person_first_name": "Alex",
+      "indexed_person_relationship": "Unknown",
+      "relationship_context": "",
+      "related_person_legacy_id": "PrRH3VE0Fj",
+      "legacy_descriptor": {
+        "legacy_last_updated": "2000-05-22T14:19:12.000-0700",
+        "legacy_id": "PrRH3VE0Fj",
+        "legacy_ui_id": "1468-9639-5581-2000975",
+        "legacy_table_name": "CLIENT_T",
+        "legacy_table_description": "Client"
+      },
+      "related_person_last_name": "Gavigan",
+      "related_person_relationship": "Unknown"
+    },
+    {
+      "related_person_first_name": "Anna",
+      "indexed_person_relationship": "Unknown",
+      "relationship_context": "",
+      "related_person_legacy_id": "4GrHFQK0Fj",
+      "legacy_descriptor": {
+        "legacy_last_updated": "2000-05-22T11:41:25.000-0700",
+        "legacy_id": "4GrHFQK0Fj",
+        "legacy_ui_id": "0242-6463-2432-4000975",
+        "legacy_table_name": "CLIENT_T",
+        "legacy_table_description": "Client"
+      },
+      "related_person_last_name": "Glasspoole",
+      "related_person_relationship": "Unknown"
+    },
+    {
+      "related_person_first_name": "Lawrence",
+      "indexed_person_relationship": "Mother",
+      "relationship_context": "Birth",
+      "related_person_legacy_id": "3ju7sbi0Co",
+      "legacy_descriptor": {
+        "legacy_last_updated": "1999-10-11T14:25:49.000-0700",
+        "legacy_id": "3ju7sbi0Co",
+        "legacy_ui_id": "0212-4560-3721-8000794",
+        "legacy_table_name": "CLIENT_T",
+        "legacy_table_description": "Client"
+      },
+      "related_person_last_name": "Bloschke",
+      "related_person_relationship": "Son"
+    },
+    {
+      "related_person_first_name": "Patricia",
+      "indexed_person_relationship": "Sister",
+      "relationship_context": "",
+      "related_person_legacy_id": "C3IquYc0Co",
+      "legacy_descriptor": {
+        "legacy_last_updated": "1998-12-30T11:25:38.000-0800",
+        "legacy_id": "C3IquYc0Co",
+        "legacy_ui_id": "0684-6298-1001-8000794",
+        "legacy_table_name": "CLIENT_T",
+        "legacy_table_description": "Client"
+      },
+      "related_person_last_name": "Bigglestone",
+      "related_person_relationship": "Sister"
+    },
+    {
+      "related_person_first_name": "Robert",
+      "indexed_person_relationship": "Spouse",
+      "relationship_context": "",
+      "related_person_legacy_id": "Nqfm5X00D8",
+      "legacy_descriptor": {
+        "legacy_last_updated": "1998-12-31T09:17:30.000-0800",
+        "legacy_id": "Nqfm5X00D8",
+        "legacy_ui_id": "1354-6616-1648-2000814",
+        "legacy_table_name": "CLIENT_T",
+        "legacy_table_description": "Client"
+      },
+      "related_person_last_name": "Tissell",
+      "related_person_relationship": "Spouse"
+    }
+  ],
+  "referrals": [
+    {
+      "legacy_referral_id": "AMOMkwE0Co",
+      "end_date": "1998-12-30",
+      "legacy_last_updated": "1998-12-30T14:26:47.510-0800",
+      "legacy_descriptor": {
+        "legacy_last_updated": "1998-12-30T14:26:47.510-0800",
+        "legacy_id": "AMOMkwE0Co",
+        "legacy_ui_id": "0588-5173-3385-8000794",
+        "legacy_table_name": "REFERL_T",
+        "legacy_table_description": "Referral"
+      },
+      "reporter": {
+        "legacy_reporter_id": "AMOMkwE0Co",
+        "legacy_descriptor": {
+          "legacy_last_updated": "1998-12-29T15:39:02.238-0800",
+          "legacy_id": "AMOMkwE0Co",
+          "legacy_ui_id": "0588-5173-3385-8000794",
+          "legacy_table_name": "REPTR_T",
+          "legacy_table_description": "Reporter"
+        },
+        "last_name": "Johnson",
+        "id": "AMOMkwE0Co",
+        "first_name": "Carl"
+      },
+      "county_name": "Imperial",
+      "response_time_id": "1520",
+      "county_id": "1080",
+      "allegations": [
+        {
+          "legacy_allegation_id": "5zNPv980Co",
+          "perpetrator_legacy_client_id": "C3IquYc0Co",
+          "perpetrator": {
+            "legacy_descriptor": {
+              "legacy_last_updated": "1998-12-30T11:25:38.020-0800",
+              "legacy_id": "C3IquYc0Co",
+              "legacy_ui_id": "0684-6298-1001-8000794",
+              "legacy_table_name": "CLIENT_T",
+              "legacy_table_description": "Client"
+            },
+            "last_name": "Bigglestone",
+            "id": "C3IquYc0Co",
+            "first_name": "Patricia",
+            "sensitivity_indicator": "N"
+          },
+          "victim_last_name": "Bloschke",
+          "legacy_descriptor": {
+            "legacy_last_updated": "1998-12-29T15:39:02.238-0800",
+            "legacy_id": "5zNPv980Co",
+            "legacy_ui_id": "0340-2313-1427-4000794",
+            "legacy_table_name": "ALLGTN_T",
+            "legacy_table_description": "Allegation"
+          },
+          "victim_id": "3ju7sbi0Co",
+          "perpetrator_id": "C3IquYc0Co",
+          "victim_first_name": "Lawrence",
+          "perpetrator_last_name": "Bigglestone",
+          "perpetrator_first_name": "Patricia",
+          "victim_legacy_client_id": "3ju7sbi0Co",
+          "disposition_description": "Substantiated",
+          "victim": {
+            "legacy_descriptor": {
+              "legacy_last_updated": "1999-10-11T14:25:49.254-0700",
+              "legacy_id": "3ju7sbi0Co",
+              "legacy_ui_id": "0212-4560-3721-8000794",
+              "legacy_table_name": "CLIENT_T",
+              "legacy_table_description": "Client"
+            },
+            "last_name": "Bloschke",
+            "id": "3ju7sbi0Co",
+            "first_name": "Lawrence",
+            "sensitivity_indicator": "N"
+          },
+          "id": "5zNPv980Co",
+          "allegation_description": "Caretaker Absence/Incapacity",
+          "disposition_id": "45"
+        }
+      ],
+      "assigned_social_worker": {
+        "legacy_descriptor": {
+          "legacy_last_updated": "2000-08-29T13:51:39.247-0700",
+          "legacy_id": "0D8",
+          "legacy_ui_id": "0D8",
+          "legacy_table_name": "STFPERST",
+          "legacy_table_description": "Staff"
+        },
+        "last_name": "SCR1",
+        "id": "0D8",
+        "legacy_assigned_social_worker_id": "0D8",
+        "first_name": "South Screener 1"
+      },
+      "access_limitation": {
+        "limited_access_government_entity_id": "0",
+        "limited_access_code": "N"
+      },
+      "response_time": "Immediate",
+      "id": "AMOMkwE0Co",
+      "start_date": "1998-12-22"
+    },
+    {
+      "legacy_referral_id": "DW7thiM0D2",
+      "legacy_last_updated": "2000-08-07T17:43:48.182-0700",
+      "legacy_descriptor": {
+        "legacy_last_updated": "2000-08-07T17:43:48.182-0700",
+        "legacy_id": "DW7thiM0D2",
+        "legacy_ui_id": "0767-8360-2365-0000808",
+        "legacy_table_name": "REFERL_T",
+        "legacy_table_description": "Referral"
+      },
+      "reporter": {
+        "legacy_descriptor": {}
+      },
+      "county_name": "Imperial",
+      "response_time_id": "0",
+      "county_id": "1080",
+      "allegations": [
+        {
+          "legacy_allegation_id": "96U17GE0D2",
+          "perpetrator_legacy_client_id": "C3IquYc0Co",
+          "perpetrator": {
+            "legacy_descriptor": {
+              "legacy_last_updated": "1998-12-30T11:25:38.020-0800",
+              "legacy_id": "C3IquYc0Co",
+              "legacy_ui_id": "0684-6298-1001-8000794",
+              "legacy_table_name": "CLIENT_T",
+              "legacy_table_description": "Client"
+            },
+            "last_name": "Bigglestone",
+            "id": "C3IquYc0Co",
+            "first_name": "Patricia",
+            "sensitivity_indicator": "N"
+          },
+          "victim_last_name": "Bloschke",
+          "legacy_descriptor": {
+            "legacy_last_updated": "1998-12-30T11:36:15.167-0800",
+            "legacy_id": "96U17GE0D2",
+            "legacy_ui_id": "0517-1424-7357-0000808",
+            "legacy_table_name": "ALLGTN_T",
+            "legacy_table_description": "Allegation"
+          },
+          "victim_id": "3ju7sbi0Co",
+          "perpetrator_id": "C3IquYc0Co",
+          "victim_first_name": "Lawrence",
+          "perpetrator_last_name": "Bigglestone",
+          "perpetrator_first_name": "Patricia",
+          "victim_legacy_client_id": "3ju7sbi0Co",
+          "disposition_description": "",
+          "victim": {
+            "legacy_descriptor": {
+              "legacy_last_updated": "1999-10-11T14:25:49.254-0700",
+              "legacy_id": "3ju7sbi0Co",
+              "legacy_ui_id": "0212-4560-3721-8000794",
+              "legacy_table_name": "CLIENT_T",
+              "legacy_table_description": "Client"
+            },
+            "last_name": "Bloschke",
+            "id": "3ju7sbi0Co",
+            "first_name": "Lawrence",
+            "sensitivity_indicator": "N"
+          },
+          "id": "96U17GE0D2",
+          "allegation_description": "Caretaker Absence/Incapacity",
+          "disposition_id": "0"
+        }
+      ],
+      "assigned_social_worker": {
+        "legacy_descriptor": {
+          "legacy_last_updated": "2000-10-19T13:42:08.629-0700",
+          "legacy_id": "0Fj",
+          "legacy_ui_id": "0Fj",
+          "legacy_table_name": "STFPERST",
+          "legacy_table_description": "Staff"
+        },
+        "last_name": "ERSUP",
+        "id": "0Fj",
+        "legacy_assigned_social_worker_id": "0Fj",
+        "first_name": "South ER Supervisor"
+      },
+      "access_limitation": {
+        "limited_access_government_entity_id": "0",
+        "limited_access_code": "N"
+      },
+      "response_time": "",
+      "id": "DW7thiM0D2",
+      "start_date": "1998-12-23"
+    }
+  ]
+}
