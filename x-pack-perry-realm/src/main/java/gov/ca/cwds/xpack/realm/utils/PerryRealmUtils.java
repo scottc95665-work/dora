@@ -11,7 +11,6 @@ import static gov.ca.cwds.xpack.realm.utils.Constants.STATE_OF_CALIFORNIA;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -90,14 +89,14 @@ public final class PerryRealmUtils {
   }
 
   public static JsonTokenInfoHolder parsePerryTokenFromJSON(String json)
-      throws IOException {
+      throws IllegalArgumentException {
 
     JsonTokenInfoHolder holder = new JsonTokenInfoHolder();
     List<String> privileges = new LinkedList<>();
 
     try (JsonParser parser = jsonFactory.createParser(json)) {
 
-      while (parser.nextToken() != JsonToken.END_OBJECT) {
+      while (parser.nextToken() != null) {
         String fieldName = parser.getCurrentName();
         if (COUNTY_CODE.equals(fieldName)) {
           parser.nextToken(); // current token is "county_code", move to its value
@@ -121,6 +120,8 @@ public final class PerryRealmUtils {
               checkThatCountyIsStateOfCalifornia(parser.getValueAsString()));
         }
       }
+    } catch (Exception e) {
+      throw new IllegalArgumentException("JSON token is not valid");
     }
 
     holder.setPrivileges(privileges);
