@@ -12,13 +12,37 @@ import org.junit.rules.ExpectedException;
 public class PerryRealmUtilsTest {
 
   private static final String INVALID_JSON = "test";
+  private static final String EMPTY_JSON = "";
+  private static final String CORRUPT_JSON = "{][sdfd{}";
 
   @Rule
-  public ExpectedException thrown = ExpectedException.none();
+  public ExpectedException exception = ExpectedException.none();
 
   @Test
-  public void testInvalidParsePerryTokenFromJSON() throws Exception {
-    thrown.expect(IllegalArgumentException.class);
+  public void testParseInvalidJSON() throws Exception {
+    exception.expect(IllegalArgumentException.class);
+    exception.expectMessage("JSON token is not valid");
     parsePerryTokenFromJSON(INVALID_JSON);
+  }
+
+  @Test
+  public void testParseEmptyJSON() throws Exception {
+    exception.expect(IllegalArgumentException.class);
+    exception.expectMessage("JSON token is empty");
+    parsePerryTokenFromJSON(EMPTY_JSON);
+  }
+
+  @Test
+  public void testParseCorruptJSON() throws Exception {
+    exception.expect(IllegalArgumentException.class);
+    exception.expectMessage("JSON token is not valid");
+    parsePerryTokenFromJSON(CORRUPT_JSON);
+  }
+
+  @Test
+  public void testParseNull() throws Exception {
+    exception.expect(IllegalArgumentException.class);
+    exception.expectMessage("JSON token is null");
+    parsePerryTokenFromJSON(null);
   }
 }

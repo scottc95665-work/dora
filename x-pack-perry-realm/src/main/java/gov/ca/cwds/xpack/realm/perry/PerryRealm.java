@@ -153,7 +153,7 @@ public class PerryRealm extends Realm {
     } catch (PerryTokenValidationException e) {
       logger.warn("invalid Perry Token: " + e.getMessage());
       listener.onResponse(null);
-    } catch (JsonProcessingException e) {
+    } catch (JsonProcessingException | IllegalArgumentException e) {
       logger.warn("failed to parse Json Token: " + e.getMessage());
       listener.onResponse(null);
     } catch (IOException e) {
