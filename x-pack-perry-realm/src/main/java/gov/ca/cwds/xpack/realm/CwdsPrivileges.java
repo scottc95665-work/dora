@@ -44,10 +44,10 @@ public final class CwdsPrivileges {
    *
    * @param json the Json Token
    * @return instance of CwdsPrivileges
-   * @throws IOException if can't parse the token
+   * @throws IllegalArgumentException if can't parse the token
    */
   @SuppressWarnings("squid:S3776") // this method pretty straightforward
-  public static CwdsPrivileges fromJson(String json) throws IOException {
+  public static CwdsPrivileges fromJson(String json) throws IllegalArgumentException {
     CwdsPrivileges cwdsPrivileges = new CwdsPrivileges();
 
     JsonTokenInfoHolder holder = parsePerryTokenFromJSON(json);

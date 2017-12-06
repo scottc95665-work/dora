@@ -90,6 +90,13 @@ public final class PerryRealmUtils {
 
   public static JsonTokenInfoHolder parsePerryTokenFromJSON(String json)
       throws IllegalArgumentException {
+    if (null == json) {
+      throw new IllegalArgumentException("JSON token is null");
+    }
+
+    if (json.isEmpty()) {
+      throw new IllegalArgumentException("JSON token is empty");
+    }
 
     JsonTokenInfoHolder holder = new JsonTokenInfoHolder();
     List<String> privileges = new LinkedList<>();
