@@ -128,7 +128,7 @@ public final class PerryRealmUtils {
         }
       }
     } catch (Exception e) {
-      throw new IllegalArgumentException("JSON token is not valid");
+      throw new IllegalArgumentException("JSON token is not valid", e);
     }
 
     holder.setPrivileges(privileges);
