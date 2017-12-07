@@ -39,13 +39,13 @@ server:
       - type: console
 
 logging:
-  level: ${LOGLEVEL:-WARN}
+  level: ${LOGLEVEL:-INFO}
   loggers:
     "gov.ca.cwds":
-      level: DEBUG
+      level: INFO
   appenders:
     - type: console
-      threshold: WARN
+      threshold: INFO
       timeZone: UTC
       target: stdout
       logFormat: '[%X{UNIQUE_ID}] %X{remoteAddress} [%date{ISO8601}] %level "[%X{REQUEST_ID}]" %logger: "%message%n"'

@@ -63,14 +63,14 @@ public class IndexQueryService {
     }
     String index = req.getIndex();
     String documentType = req.getType();
-    LOGGER.debug("User is searching for '{}' in Elasticsearch index '{}'", documentType, index);
+    LOGGER.info("User is searching for '{}' in Elasticsearch index '{}'", documentType, index);
 
     String esResponse = searchIndexByQuery(index, documentType, query);
     Map<String, Object> esResponseJsonMap = stringToJsonMap(esResponse);
 
-    LOGGER.debug("Elastic Search took {} milliseconds to execute the search",
+    LOGGER.info("Elastic Search took {} milliseconds to execute the search",
         getElasticSearchSearchTime(esResponseJsonMap));
-    LOGGER.debug("Elastic Search has {} results in total",
+    LOGGER.info("Elastic Search has {} results in total",
         getElasticSearchSearchResultCount(esResponseJsonMap));
 
     String filteredResponse;
@@ -113,7 +113,7 @@ public class IndexQueryService {
     final String targetURL = String.format("http://%s:%s/%s/%s/_search",
         esConfig.getHost().trim(), esConfig.getPort().trim(), index.trim(), type.trim());
 
-    LOGGER.debug("User searched {} in ElasticSearch", targetURL);
+    LOGGER.info("User searched {} in ElasticSearch", targetURL);
     return invokeElasticsearch(targetURL, query);
   }
 
