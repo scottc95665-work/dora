@@ -94,6 +94,7 @@ task dockerCopyScripts(type: Copy) {
     into dockerContextDir
     include 'entrypoint.sh'
     include 'elasticsearch.yml'
+    include 'jvm.options'
     filter(FixCrLfFilter.class, eol:FixCrLfFilter.CrLf.newInstance("lf"))
 }
 
