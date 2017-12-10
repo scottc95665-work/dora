@@ -8,6 +8,7 @@ import com.google.inject.Module;
 import gov.ca.cwds.dora.DoraUtils;
 import gov.ca.cwds.dora.health.BasicDoraHealthCheck;
 import gov.ca.cwds.dora.health.ElasticsearchHealthCheck;
+import gov.ca.cwds.dora.health.ElasticsearchIndexHealthCheck;
 import gov.ca.cwds.dora.health.ElasticsearchPluginHealthCheck;
 import gov.ca.cwds.inject.ApplicationModule;
 import gov.ca.cwds.rest.filters.RequestResponseLoggingFilter;
@@ -44,6 +45,10 @@ public final class DoraApplication extends BaseApiApplication<DoraConfiguration>
 
   private static final String PHONETIC_SEARCH_PLUGIN_NAME = "analysis-phonetic";
   private static final String X_PACK_PLUGIN_NAME = "x-pack";
+  private static final String PEOPLE_INDEX = "people";
+  private static final String FACILITIES_INDEX = "facilities";
+  private static final String PEOPLE_SUMMARY_INDEX = "people_sammary";
+  private static final String SCREENING_INDEX = "screening";
 
 
   /**
@@ -138,6 +143,15 @@ public final class DoraApplication extends BaseApiApplication<DoraConfiguration>
             new ElasticsearchPluginHealthCheck(configuration.getElasticsearchConfiguration(), PHONETIC_SEARCH_PLUGIN_NAME));
     environment.healthChecks().register("elasticsearch-plugin-" + X_PACK_PLUGIN_NAME,
             new ElasticsearchPluginHealthCheck(configuration.getElasticsearchConfiguration(), X_PACK_PLUGIN_NAME));
+    environment.healthChecks().register("elasticsearch-index-" + PEOPLE_INDEX,
+        new ElasticsearchIndexHealthCheck(configuration.getElasticsearchConfiguration(), PEOPLE_INDEX));
+    environment.healthChecks().register("elasticsearch-index-" + PEOPLE_SUMMARY_INDEX,
+        new ElasticsearchIndexHealthCheck(configuration.getElasticsearchConfiguration(), PEOPLE_SUMMARY_INDEX));
+    environment.healthChecks().register("elasticsearch-index-" + SCREENING_INDEX,
+        new ElasticsearchIndexHealthCheck(configuration.getElasticsearchConfiguration(), SCREENING_INDEX));
+    environment.healthChecks().register("elasticsearch-index-" + FACILITIES_INDEX,
+        new ElasticsearchIndexHealthCheck(configuration.getElasticsearchConfiguration(), FACILITIES_INDEX));
+
   }
 
   private void runHealthChecks(Environment environment) {

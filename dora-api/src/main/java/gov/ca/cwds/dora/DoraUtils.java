@@ -62,6 +62,12 @@ public final class DoraUtils {
   }
 
   @SuppressWarnings("unchecked")
+  public static List<Object> responseToList(Response response) throws IOException {
+    ObjectMapper mapper = new ObjectMapper();
+    return mapper.readValue(response.getEntity().getContent(), List.class);
+  }
+
+  @SuppressWarnings("unchecked")
   public static Map<String, Object> responseToJsonMap(Response response) throws IOException {
     ObjectMapper mapper = new ObjectMapper();
     return mapper.readValue(response.getEntity().getContent(), Map.class);
@@ -75,7 +81,7 @@ public final class DoraUtils {
 
   @SuppressWarnings("unchecked")
   public static Integer getElasticSearchSearchResultCount(Map<String, Object> jsonMap) {
-    return (Integer) ((Map<String, Object>)jsonMap.get("hits")).get("total");
+    return (Integer) ((Map<String, Object>) jsonMap.get("hits")).get("total");
   }
 
   @SuppressWarnings("unchecked")
@@ -101,6 +107,15 @@ public final class DoraUtils {
           plugin -> ((Map<String, Object>) plugin).get("name").equals(pluginName)
       );
     }).map(Entry::getKey);
+  }
+
+  @SuppressWarnings("unchecked")
+  public static boolean isIndexExist(List<Object> jsonMap,
+      String indexName) {
+
+    return jsonMap.stream().anyMatch(
+        index -> ((Map<String, Object>) index).get("index").equals(indexName)
+    );
   }
 
   private static Properties getSystemInformationProperties() {
