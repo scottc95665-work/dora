@@ -110,10 +110,10 @@ public final class DoraUtils {
   }
 
   @SuppressWarnings("unchecked")
-  public static boolean isIndexExist(List<Object> jsonMap,
+  public static boolean isIndexExist(List<Object> jsonList,
       String indexName) {
 
-    return jsonMap.stream().anyMatch(
+    return jsonList.stream().anyMatch(
         index -> ((Map<String, Object>) index).get("index").equals(indexName)
     );
   }

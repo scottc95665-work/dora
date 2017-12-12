@@ -3,27 +3,27 @@ package gov.ca.cwds.dora.health;
 import com.google.inject.Inject;
 import gov.ca.cwds.dora.DoraUtils;
 import gov.ca.cwds.rest.ElasticsearchConfiguration;
-import java.io.IOException;
-import java.util.List;
-
 import org.elasticsearch.client.RestClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
+import java.util.Map;
+
 /**
  * @author CWDS TPT-2
  */
-public class ElasticsearchIndexHealthCheck extends ElasticsearchHealthCheck {
+public class ElasticsearchRolesHealthCheck extends ElasticsearchHealthCheck {
 
   private static final Logger LOGGER = LoggerFactory
-      .getLogger(ElasticsearchIndexHealthCheck.class);
+      .getLogger(ElasticsearchRolesHealthCheck.class);
 
-  private static final String ES_INDEXES_ENDPOINT = "/_cat/indices?format=json&pretty";
+  private static final String ES_ROLES_ENDPOINT = "/_xpack/security/role?pretty";
 
-  private static final String HEALTHY_ES_INDEX_MSG = "[%s] index exist on the server.";
-  private static final String UNHEALTHY_ES_INDEX_MSG = "[%s] index does not exist on the server.";
+  private static final String HEALTHY_ES_ROLES_MSG = "[%s] role exist on the server.";
+  private static final String UNHEALTHY_ES_ROLES_MSG = "[%s] role does not exist on the server.";
 
-  private String indexName;
+  private String roleName;
 
   /**
    * Constructor
@@ -31,9 +31,9 @@ public class ElasticsearchIndexHealthCheck extends ElasticsearchHealthCheck {
    * @param esConfig instance of ElasticsearchConfiguration
    */
   @Inject
-  public ElasticsearchIndexHealthCheck(ElasticsearchConfiguration esConfig, String indexName) {
+  public ElasticsearchRolesHealthCheck(ElasticsearchConfiguration esConfig, String roleName) {
     super(esConfig);
-    this.indexName = indexName;
+    this.roleName = roleName;
   }
 
   @Override
@@ -44,15 +44,15 @@ public class ElasticsearchIndexHealthCheck extends ElasticsearchHealthCheck {
     }
 
     try (RestClient esRestClient = DoraUtils.createElasticsearchClient(esConfig)) {
-      List<Object> jsonList = performRequestList(esRestClient, "GET", ES_INDEXES_ENDPOINT);
+      Map<String, Object> jsonMap = performRequest(esRestClient, "GET", ES_ROLES_ENDPOINT);
 
-      if (!DoraUtils.isIndexExist(jsonList, indexName)) {
+      if (jsonMap.get(roleName) == null) {
         String unhealthyMsg = String
-            .format(UNHEALTHY_ES_INDEX_MSG, indexName);
+            .format(UNHEALTHY_ES_ROLES_MSG, roleName);
         LOGGER.error(unhealthyMsg);
         return Result.unhealthy(unhealthyMsg);
       } else {
-        String healthyMsg = String.format(HEALTHY_ES_INDEX_MSG, indexName);
+        String healthyMsg = String.format(HEALTHY_ES_ROLES_MSG, roleName);
         LOGGER.info(healthyMsg);
         return Result.healthy(healthyMsg);
       }

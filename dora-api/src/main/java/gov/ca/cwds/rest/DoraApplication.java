@@ -6,10 +6,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 import gov.ca.cwds.dora.DoraUtils;
-import gov.ca.cwds.dora.health.BasicDoraHealthCheck;
-import gov.ca.cwds.dora.health.ElasticsearchHealthCheck;
-import gov.ca.cwds.dora.health.ElasticsearchIndexHealthCheck;
-import gov.ca.cwds.dora.health.ElasticsearchPluginHealthCheck;
+import gov.ca.cwds.dora.health.*;
 import gov.ca.cwds.inject.ApplicationModule;
 import gov.ca.cwds.rest.filters.RequestResponseLoggingFilter;
 import gov.ca.cwds.rest.resources.SwaggerResource;
@@ -45,10 +42,17 @@ public final class DoraApplication extends BaseApiApplication<DoraConfiguration>
 
   private static final String PHONETIC_SEARCH_PLUGIN_NAME = "analysis-phonetic";
   private static final String X_PACK_PLUGIN_NAME = "x-pack";
+
   private static final String PEOPLE_INDEX = "people";
   private static final String FACILITIES_INDEX = "facilities";
   private static final String PEOPLE_SUMMARY_INDEX = "people_sammary";
   private static final String SCREENING_INDEX = "screening";
+  private static final String WORKER_ROLE = "worker";
+  private static final String PEOPLE_WORKER_ROLE = "people_worker";
+  private static final String PEOPLE_SENSITIVE_ROLE = "people_sensitive";
+  private static final String PEOPLE_SENSITIVE_NO_COUNTY_ROLE = "people_sensitive_no_county";
+  private static final String PEOPLE_SEALED_ROLE = "people_sealed";
+  private static final String PEOPLE_SEALED_NO_COUNTY_ROLE = "people_sealed_no_county";
 
 
   /**
@@ -151,7 +155,18 @@ public final class DoraApplication extends BaseApiApplication<DoraConfiguration>
         new ElasticsearchIndexHealthCheck(configuration.getElasticsearchConfiguration(), SCREENING_INDEX));
     environment.healthChecks().register("elasticsearch-index-" + FACILITIES_INDEX,
         new ElasticsearchIndexHealthCheck(configuration.getElasticsearchConfiguration(), FACILITIES_INDEX));
-
+    environment.healthChecks().register("elasticsearch-role-" + WORKER_ROLE,
+            new ElasticsearchRolesHealthCheck(configuration.getElasticsearchConfiguration(), WORKER_ROLE));
+    environment.healthChecks().register("elasticsearch-role-" + PEOPLE_WORKER_ROLE,
+            new ElasticsearchRolesHealthCheck(configuration.getElasticsearchConfiguration(), PEOPLE_WORKER_ROLE));
+    environment.healthChecks().register("elasticsearch-role-" + PEOPLE_SENSITIVE_ROLE,
+            new ElasticsearchRolesHealthCheck(configuration.getElasticsearchConfiguration(), PEOPLE_SENSITIVE_ROLE));
+    environment.healthChecks().register("elasticsearch-role-" + PEOPLE_SENSITIVE_NO_COUNTY_ROLE,
+            new ElasticsearchRolesHealthCheck(configuration.getElasticsearchConfiguration(), PEOPLE_SENSITIVE_NO_COUNTY_ROLE));
+    environment.healthChecks().register("elasticsearch-role-" + PEOPLE_SEALED_ROLE,
+            new ElasticsearchRolesHealthCheck(configuration.getElasticsearchConfiguration(), PEOPLE_SEALED_ROLE));
+    environment.healthChecks().register("elasticsearch-role-" + PEOPLE_SEALED_NO_COUNTY_ROLE,
+            new ElasticsearchRolesHealthCheck(configuration.getElasticsearchConfiguration(), PEOPLE_SEALED_NO_COUNTY_ROLE));
   }
 
   private void runHealthChecks(Environment environment) {
