@@ -72,6 +72,8 @@ public class SystemInformationResourceTest extends BaseDoraApplicationTest {
     assertHealthCheckResult(healthCheckResults.get("elasticsearch-plugin-x-pack"), false);
     assertHealthCheckResult(healthCheckResults.get("elasticsearch-plugin-analysis-phonetic"),
         false);
+    assertHealthCheckResult(healthCheckResults.get("elasticsearch-index-people"),
+        false);
   }
 
   private void assertHealthCheckResult(HealthCheckResultDTO healthCheckResultDTO,

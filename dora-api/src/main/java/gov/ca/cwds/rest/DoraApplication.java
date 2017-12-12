@@ -47,8 +47,8 @@ public final class DoraApplication extends BaseApiApplication<DoraConfiguration>
   private static final String X_PACK_PLUGIN_NAME = "x-pack";
   private static final String PEOPLE_INDEX = "people";
   private static final String FACILITIES_INDEX = "facilities";
-  private static final String PEOPLE_SUMMARY_INDEX = "people_sammary";
-  private static final String SCREENING_INDEX = "screening";
+  private static final String PEOPLE_SUMMARY_INDEX = "people_summary";
+  private static final String SCREENING_INDEX = "screenings";
 
 
   /**
