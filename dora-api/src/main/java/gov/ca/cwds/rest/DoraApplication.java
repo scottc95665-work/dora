@@ -148,29 +148,37 @@ public final class DoraApplication extends BaseApiApplication<DoraConfiguration>
             new ElasticsearchPluginHealthCheck(configuration.getElasticsearchConfiguration(), PHONETIC_SEARCH_PLUGIN_NAME));
     environment.healthChecks().register("elasticsearch-plugin-" + X_PACK_PLUGIN_NAME,
             new ElasticsearchPluginHealthCheck(configuration.getElasticsearchConfiguration(), X_PACK_PLUGIN_NAME));
-    environment.healthChecks().register("elasticsearch-index-" + PEOPLE_INDEX,
-        new ElasticsearchIndexHealthCheck(configuration.getElasticsearchConfiguration(), PEOPLE_INDEX));
-    environment.healthChecks().register("elasticsearch-index-" + PEOPLE_SUMMARY_INDEX,
-        new ElasticsearchIndexHealthCheck(configuration.getElasticsearchConfiguration(), PEOPLE_SUMMARY_INDEX));
-    environment.healthChecks().register("elasticsearch-index-" + SCREENING_INDEX,
-        new ElasticsearchIndexHealthCheck(configuration.getElasticsearchConfiguration(), SCREENING_INDEX));
-    environment.healthChecks().register("elasticsearch-index-" + FACILITIES_INDEX,
-        new ElasticsearchIndexHealthCheck(configuration.getElasticsearchConfiguration(), FACILITIES_INDEX));
-    environment.healthChecks().register("elasticsearch-role-" + WORKER_ROLE,
-            new ElasticsearchRolesHealthCheck(configuration.getElasticsearchConfiguration(), WORKER_ROLE));
-    environment.healthChecks().register("elasticsearch-role-" + PEOPLE_WORKER_ROLE,
-            new ElasticsearchRolesHealthCheck(configuration.getElasticsearchConfiguration(), PEOPLE_WORKER_ROLE));
-    environment.healthChecks().register("elasticsearch-role-" + PEOPLE_SENSITIVE_ROLE,
-            new ElasticsearchRolesHealthCheck(configuration.getElasticsearchConfiguration(), PEOPLE_SENSITIVE_ROLE));
-    environment.healthChecks().register("elasticsearch-role-" + PEOPLE_SENSITIVE_NO_COUNTY_ROLE,
-            new ElasticsearchRolesHealthCheck(configuration.getElasticsearchConfiguration(), PEOPLE_SENSITIVE_NO_COUNTY_ROLE));
-    environment.healthChecks().register("elasticsearch-role-" + PEOPLE_SEALED_ROLE,
-            new ElasticsearchRolesHealthCheck(configuration.getElasticsearchConfiguration(), PEOPLE_SEALED_ROLE));
-    environment.healthChecks().register("elasticsearch-role-" + PEOPLE_SEALED_NO_COUNTY_ROLE,
-            new ElasticsearchRolesHealthCheck(configuration.getElasticsearchConfiguration(), PEOPLE_SEALED_NO_COUNTY_ROLE));
+    registerIndexHealthChecks(configuration, environment);
+    registerRolesHealthChecks(configuration, environment);
   }
 
-  private void runHealthChecks(Environment environment) {
+    private void registerRolesHealthChecks(DoraConfiguration configuration, Environment environment) {
+        environment.healthChecks().register("elasticsearch-role-" + WORKER_ROLE,
+                new ElasticsearchRolesHealthCheck(configuration.getElasticsearchConfiguration(), WORKER_ROLE));
+        environment.healthChecks().register("elasticsearch-role-" + PEOPLE_WORKER_ROLE,
+                new ElasticsearchRolesHealthCheck(configuration.getElasticsearchConfiguration(), PEOPLE_WORKER_ROLE));
+        environment.healthChecks().register("elasticsearch-role-" + PEOPLE_SENSITIVE_ROLE,
+                new ElasticsearchRolesHealthCheck(configuration.getElasticsearchConfiguration(), PEOPLE_SENSITIVE_ROLE));
+        environment.healthChecks().register("elasticsearch-role-" + PEOPLE_SENSITIVE_NO_COUNTY_ROLE,
+                new ElasticsearchRolesHealthCheck(configuration.getElasticsearchConfiguration(), PEOPLE_SENSITIVE_NO_COUNTY_ROLE));
+        environment.healthChecks().register("elasticsearch-role-" + PEOPLE_SEALED_ROLE,
+                new ElasticsearchRolesHealthCheck(configuration.getElasticsearchConfiguration(), PEOPLE_SEALED_ROLE));
+        environment.healthChecks().register("elasticsearch-role-" + PEOPLE_SEALED_NO_COUNTY_ROLE,
+                new ElasticsearchRolesHealthCheck(configuration.getElasticsearchConfiguration(), PEOPLE_SEALED_NO_COUNTY_ROLE));
+    }
+
+    private void registerIndexHealthChecks(DoraConfiguration configuration, Environment environment) {
+        environment.healthChecks().register("elasticsearch-index-" + PEOPLE_INDEX,
+            new ElasticsearchIndexHealthCheck(configuration.getElasticsearchConfiguration(), PEOPLE_INDEX));
+        environment.healthChecks().register("elasticsearch-index-" + PEOPLE_SUMMARY_INDEX,
+            new ElasticsearchIndexHealthCheck(configuration.getElasticsearchConfiguration(), PEOPLE_SUMMARY_INDEX));
+        environment.healthChecks().register("elasticsearch-index-" + SCREENING_INDEX,
+            new ElasticsearchIndexHealthCheck(configuration.getElasticsearchConfiguration(), SCREENING_INDEX));
+        environment.healthChecks().register("elasticsearch-index-" + FACILITIES_INDEX,
+            new ElasticsearchIndexHealthCheck(configuration.getElasticsearchConfiguration(), FACILITIES_INDEX));
+    }
+
+    private void runHealthChecks(Environment environment) {
     for (Map.Entry<String, HealthCheck.Result> entry :
             environment.healthChecks().runHealthChecks().entrySet()) {
       if (!entry.getValue().isHealthy()) {
