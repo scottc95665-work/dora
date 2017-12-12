@@ -13,8 +13,8 @@ swagger:
   loginUrl: ${PERRY_URL:-http://localhost:8090/authn/login}
   spId: ${SP_ID:-} # service provider ID for Identity Mapping (defines security attributes for specific application)
   showSwagger: ${SHOW_SWAGGER:-false}
-  jsonUrl: ${SWAGGER_JSON_URL:-http://localhost:8080/swagger.json}
-  callbackUrl: ${SWAGGER_CALLBACK_URL:-http://localhost:8080/swagger}
+  jsonUrl: ${SWAGGER_JSON_URL:-http://localhost:9080/swagger.json}
+  callbackUrl: ${SWAGGER_CALLBACK_URL:-http://localhost:9080/swagger}
 
 elasticsearch:
   host: ${ES_HOST:-dora.dev.cwds.io}
@@ -29,10 +29,10 @@ elasticsearch:
 server:
   applicationConnectors:
   - type: http 
-    port: ${APP_STD_PORT:-8080}
+    port: ${APP_STD_PORT:-9080}
   adminConnectors:
   - type: http
-    port: ${APP_ADMIN_PORT:-8081}
+    port: ${APP_ADMIN_PORT:-9081}
     
   requestLog:
     appenders:

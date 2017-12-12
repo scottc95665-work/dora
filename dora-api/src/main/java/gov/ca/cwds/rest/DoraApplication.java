@@ -45,8 +45,9 @@ public final class DoraApplication extends BaseApiApplication<DoraConfiguration>
 
   private static final String PEOPLE_INDEX = "people";
   private static final String FACILITIES_INDEX = "facilities";
-  private static final String PEOPLE_SUMMARY_INDEX = "people_sammary";
-  private static final String SCREENING_INDEX = "screening";
+  private static final String PEOPLE_SUMMARY_INDEX = "people_summary";
+  private static final String SCREENING_INDEX = "screenings";
+
   private static final String WORKER_ROLE = "worker";
   private static final String PEOPLE_WORKER_ROLE = "people_worker";
   private static final String PEOPLE_SENSITIVE_ROLE = "people_sensitive";

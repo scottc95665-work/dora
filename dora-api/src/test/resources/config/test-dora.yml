@@ -24,10 +24,10 @@ elasticsearch:
 server:
   applicationConnectors:
   - type: http
-    port: ${APP_STD_PORT:-8080}
+    port: ${APP_STD_PORT:-9080}
   adminConnectors:
   - type: http
-    port: ${APP_ADMIN_PORT:-8081}
+    port: ${APP_ADMIN_PORT:-9081}
 
   requestLog:
     appenders:
