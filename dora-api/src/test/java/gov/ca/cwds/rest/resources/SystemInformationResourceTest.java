@@ -45,7 +45,7 @@ public class SystemInformationResourceTest extends BaseDoraApplicationTest {
   }
 
   @Test
-  public void testSystemInformationGet() throws Exception {
+  public void testSystemInformationGet() {
     SystemInformationDTO systemInformationDTO = clientTestRule.target(SYSTEM_INFORMATION)
         .request(MediaType.APPLICATION_JSON).get(SystemInformationDTO.class);
 
@@ -54,7 +54,7 @@ public class SystemInformationResourceTest extends BaseDoraApplicationTest {
   }
 
   @Test
-  public void testHealthChecksResults() throws Exception {
+  public void testHealthChecksResults() {
     SystemInformationDTO systemInformationDTO = clientTestRule.target(SYSTEM_INFORMATION)
         .request(MediaType.APPLICATION_JSON).get(SystemInformationDTO.class);
 
