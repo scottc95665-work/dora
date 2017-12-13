@@ -2,9 +2,7 @@ package gov.ca.cwds.rest.resources;
 
 import static gov.ca.cwds.rest.DoraConstants.SYSTEM_INFORMATION;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.*;
 
 import com.squarespace.jersey2.guice.JerseyGuiceUtils;
 import gov.ca.cwds.dora.dto.HealthCheckResultDTO;
@@ -14,6 +12,7 @@ import java.util.SortedMap;
 import javax.ws.rs.core.MediaType;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -21,6 +20,8 @@ import org.junit.Test;
  */
 @SuppressWarnings("javadoc")
 public class SystemInformationResourceTest extends BaseDoraApplicationTest {
+
+  private static final String BUILD_NUMBER = "1";
 
   @After
   public void ensureServiceLocatorPopulated() {
@@ -45,7 +46,7 @@ public class SystemInformationResourceTest extends BaseDoraApplicationTest {
   }
 
   @Test
-  public void testSystemInformationGet() throws Exception {
+  public void testSystemInformationGet() {
     SystemInformationDTO systemInformationDTO = clientTestRule.target(SYSTEM_INFORMATION)
         .request(MediaType.APPLICATION_JSON).get(SystemInformationDTO.class);
 
@@ -54,7 +55,7 @@ public class SystemInformationResourceTest extends BaseDoraApplicationTest {
   }
 
   @Test
-  public void testHealthChecksResults() throws Exception {
+  public void testHealthChecksResults() {
     SystemInformationDTO systemInformationDTO = clientTestRule.target(SYSTEM_INFORMATION)
         .request(MediaType.APPLICATION_JSON).get(SystemInformationDTO.class);
 
@@ -62,7 +63,7 @@ public class SystemInformationResourceTest extends BaseDoraApplicationTest {
         .getHealthCheckResults();
 
     assertThat(healthCheckResults, is(notNullValue()));
-    assertThat(healthCheckResults.values().size(), is(equalTo(5)));
+    assertThat(healthCheckResults.values().size(), is(equalTo(15)));
 
     assertHealthCheckResult(healthCheckResults.get("deadlocks"), true);
     assertHealthCheckResult(healthCheckResults.get("dora-es-config"), true);
@@ -72,11 +73,19 @@ public class SystemInformationResourceTest extends BaseDoraApplicationTest {
     assertHealthCheckResult(healthCheckResults.get("elasticsearch-plugin-x-pack"), false);
     assertHealthCheckResult(healthCheckResults.get("elasticsearch-plugin-analysis-phonetic"),
         false);
+    assertHealthCheckResult(healthCheckResults.get("elasticsearch-index-people"),
+        false);
   }
 
   private void assertHealthCheckResult(HealthCheckResultDTO healthCheckResultDTO,
       boolean isHealthy) {
     assertThat(healthCheckResultDTO, is(notNullValue()));
     assertThat(healthCheckResultDTO.isHealthy(), is(isHealthy));
+  }
+
+  @Test
+  public void applicationGetReturnsCorrectBuildNumber() {
+    assertThat(clientTestRule.target("SYSTEM_INFORMATION").request().get().readEntity(String.class),
+            containsString(BUILD_NUMBER));
   }
 }

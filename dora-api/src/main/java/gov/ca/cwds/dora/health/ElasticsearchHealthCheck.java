@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import gov.ca.cwds.dora.DoraUtils;
 import gov.ca.cwds.rest.ElasticsearchConfiguration;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import org.elasticsearch.client.RestClient;
 import org.slf4j.Logger;
@@ -54,5 +55,9 @@ public class ElasticsearchHealthCheck extends BasicDoraHealthCheck {
 
   Map<String, Object> performRequest(RestClient esRestClient, String method, String endpoint) throws IOException {
     return DoraUtils.responseToJsonMap(esRestClient.performRequest(method, endpoint));
+  }
+
+  List<Object> performRequestList(RestClient esRestClient, String method, String endpoint) throws IOException {
+    return DoraUtils.responseToList(esRestClient.performRequest(method, endpoint));
   }
 }

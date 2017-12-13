@@ -62,6 +62,12 @@ public final class DoraUtils {
   }
 
   @SuppressWarnings("unchecked")
+  public static List<Object> responseToList(Response response) throws IOException {
+    ObjectMapper mapper = new ObjectMapper();
+    return mapper.readValue(response.getEntity().getContent(), List.class);
+  }
+
+  @SuppressWarnings("unchecked")
   public static Map<String, Object> responseToJsonMap(Response response) throws IOException {
     ObjectMapper mapper = new ObjectMapper();
     return mapper.readValue(response.getEntity().getContent(), Map.class);
@@ -75,7 +81,7 @@ public final class DoraUtils {
 
   @SuppressWarnings("unchecked")
   public static Integer getElasticSearchSearchResultCount(Map<String, Object> jsonMap) {
-    return (Integer) ((Map<String, Object>)jsonMap.get("hits")).get("total");
+    return (Integer) ((Map<String, Object>) jsonMap.get("hits")).get("total");
   }
 
   @SuppressWarnings("unchecked")
@@ -103,12 +109,23 @@ public final class DoraUtils {
     }).map(Entry::getKey);
   }
 
+  @SuppressWarnings("unchecked")
+  public static boolean isIndexExist(List<Object> jsonList,
+      String indexName) {
+
+    return jsonList.stream().anyMatch(
+        index -> ((Map<String, Object>) index).get("index").equals(indexName)
+    );
+  }
+
   private static Properties getSystemInformationProperties() {
     Properties versionProperties = new Properties();
     try {
       InputStream is = ClassLoader.getSystemResourceAsStream(SYS_INFO_PROPERTIES_FILE);
-      versionProperties.load(is);
-    } catch (IOException e) {
+      if (is != null) {
+        versionProperties.load(is);
+      }
+    } catch (Exception e) {
       throw new DoraException("Can't read " + SYS_INFO_PROPERTIES_FILE, e);
     }
     return versionProperties;
