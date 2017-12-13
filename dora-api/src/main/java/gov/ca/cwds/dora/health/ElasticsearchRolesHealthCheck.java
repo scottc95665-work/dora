@@ -18,10 +18,10 @@ public class ElasticsearchRolesHealthCheck extends ElasticsearchHealthCheck {
   private static final Logger LOGGER = LoggerFactory
       .getLogger(ElasticsearchRolesHealthCheck.class);
 
-  private static final String ES_ROLES_ENDPOINT = "/_xpack/security/role?pretty";
+  static final String ES_ROLES_ENDPOINT = "/_xpack/security/role?pretty";
 
-  private static final String HEALTHY_ES_ROLES_MSG = "[%s] role exist on the server.";
-  private static final String UNHEALTHY_ES_ROLES_MSG = "[%s] role does not exist on the server.";
+  static final String HEALTHY_ES_ROLES_MSG = "[%s] role exist on the server.";
+  static final String UNHEALTHY_ES_ROLES_MSG = "[%s] role does not exist on the server.";
 
   private String roleName;
 

@@ -1,0 +1,392 @@
+{
+  "watcher_admin" : {
+    "cluster" : [
+      "manage_watcher"
+    ],
+    "indices" : [
+      {
+        "names" : [
+          ".watches",
+          ".triggered_watches",
+          ".watcher-history-*"
+        ],
+        "privileges" : [
+          "read"
+        ]
+      }
+    ],
+    "run_as" : [ ],
+    "metadata" : {
+      "_reserved" : true
+    },
+    "transient_metadata" : {
+      "enabled" : true
+    }
+  },
+  "logstash_system" : {
+    "cluster" : [
+      "monitor",
+      "cluster:admin/xpack/monitoring/bulk"
+    ],
+    "indices" : [ ],
+    "run_as" : [ ],
+    "metadata" : {
+      "_reserved" : true
+    },
+    "transient_metadata" : {
+      "enabled" : true
+    }
+  },
+  "kibana_user" : {
+    "cluster" : [ ],
+    "indices" : [
+      {
+        "names" : [
+          ".kibana*"
+        ],
+        "privileges" : [
+          "manage",
+          "read",
+          "index",
+          "delete"
+        ]
+      }
+    ],
+    "run_as" : [ ],
+    "metadata" : {
+      "_reserved" : true
+    },
+    "transient_metadata" : {
+      "enabled" : true
+    }
+  },
+  "machine_learning_user" : {
+    "cluster" : [
+      "monitor_ml"
+    ],
+    "indices" : [
+      {
+        "names" : [
+          ".ml-anomalies*",
+          ".ml-notifications"
+        ],
+        "privileges" : [
+          "view_index_metadata",
+          "read"
+        ]
+      }
+    ],
+    "run_as" : [ ],
+    "metadata" : {
+      "_reserved" : true
+    },
+    "transient_metadata" : {
+      "enabled" : true
+    }
+  },
+  "remote_monitoring_agent" : {
+    "cluster" : [
+      "manage_index_templates",
+      "manage_ingest_pipelines",
+      "monitor",
+      "cluster:monitor/xpack/watcher/watch/get",
+      "cluster:admin/xpack/watcher/watch/put",
+      "cluster:admin/xpack/watcher/watch/delete"
+    ],
+    "indices" : [
+      {
+        "names" : [
+          ".marvel-es-*",
+          ".monitoring-*"
+        ],
+        "privileges" : [
+          "all"
+        ]
+      }
+    ],
+    "run_as" : [ ],
+    "metadata" : {
+      "_reserved" : true
+    },
+    "transient_metadata" : {
+      "enabled" : true
+    }
+  },
+  "machine_learning_admin" : {
+    "cluster" : [
+      "manage_ml"
+    ],
+    "indices" : [
+      {
+        "names" : [
+          ".ml-*"
+        ],
+        "privileges" : [
+          "view_index_metadata",
+          "read"
+        ]
+      }
+    ],
+    "run_as" : [ ],
+    "metadata" : {
+      "_reserved" : true
+    },
+    "transient_metadata" : {
+      "enabled" : true
+    }
+  },
+  "watcher_user" : {
+    "cluster" : [
+      "monitor_watcher"
+    ],
+    "indices" : [
+      {
+        "names" : [
+          ".watches",
+          ".watcher-history-*"
+        ],
+        "privileges" : [
+          "read"
+        ]
+      }
+    ],
+    "run_as" : [ ],
+    "metadata" : {
+      "_reserved" : true
+    },
+    "transient_metadata" : {
+      "enabled" : true
+    }
+  },
+  "monitoring_user" : {
+    "cluster" : [ ],
+    "indices" : [
+      {
+        "names" : [
+          ".marvel-es-*",
+          ".monitoring-*"
+        ],
+        "privileges" : [
+          "read"
+        ]
+      }
+    ],
+    "run_as" : [ ],
+    "metadata" : {
+      "_reserved" : true
+    },
+    "transient_metadata" : {
+      "enabled" : true
+    }
+  },
+  "reporting_user" : {
+    "cluster" : [ ],
+    "indices" : [
+      {
+        "names" : [
+          ".reporting-*"
+        ],
+        "privileges" : [
+          "read"
+        ]
+      }
+    ],
+    "run_as" : [ ],
+    "metadata" : {
+      "_reserved" : true
+    },
+    "transient_metadata" : {
+      "enabled" : true
+    }
+  },
+  "kibana_system" : {
+    "cluster" : [
+      "monitor",
+      "cluster:admin/xpack/monitoring/bulk"
+    ],
+    "indices" : [
+      {
+        "names" : [
+          ".kibana*",
+          ".reporting-*"
+        ],
+        "privileges" : [
+          "all"
+        ]
+      }
+    ],
+    "run_as" : [ ],
+    "metadata" : {
+      "_reserved" : true
+    },
+    "transient_metadata" : {
+      "enabled" : true
+    }
+  },
+  "transport_client" : {
+    "cluster" : [
+      "transport_client"
+    ],
+    "indices" : [ ],
+    "run_as" : [ ],
+    "metadata" : {
+      "_reserved" : true
+    },
+    "transient_metadata" : {
+      "enabled" : true
+    }
+  },
+  "superuser" : {
+    "cluster" : [
+      "all"
+    ],
+    "indices" : [
+      {
+        "names" : [
+          "*"
+        ],
+        "privileges" : [
+          "all"
+        ]
+      }
+    ],
+    "run_as" : [
+      "*"
+    ],
+    "metadata" : {
+      "_reserved" : true
+    },
+    "transient_metadata" : {
+      "enabled" : true
+    }
+  },
+  "ingest_admin" : {
+    "cluster" : [
+      "manage_index_templates",
+      "manage_pipeline"
+    ],
+    "indices" : [ ],
+    "run_as" : [ ],
+    "metadata" : {
+      "_reserved" : true
+    },
+    "transient_metadata" : {
+      "enabled" : true
+    }
+  },
+  "worker" : {
+    "cluster" : [ ],
+    "indices" : [
+      {
+        "names" : [
+          "screen*",
+          "rfa1a*",
+          "facilit*"
+        ],
+        "privileges" : [
+          "read"
+        ]
+      }
+    ],
+    "run_as" : [ ],
+    "metadata" : { },
+    "transient_metadata" : {
+      "enabled" : true
+    }
+  },
+  "people_worker" : {
+    "cluster" : [ ],
+    "indices" : [
+      {
+        "names" : [
+          "peop*"
+        ],
+        "privileges" : [
+          "read"
+        ],
+        "query" : "{ \"match\": { \"sensitivity_indicator\": \"N\" } }"
+      }
+    ],
+    "run_as" : [ ],
+    "metadata" : { },
+    "transient_metadata" : {
+      "enabled" : true
+    }
+  },
+  "people_sensitive" : {
+    "cluster" : [ ],
+    "indices" : [
+      {
+        "names" : [
+          "peop*"
+        ],
+        "privileges" : [
+          "read"
+        ],
+        "query" : "{\"template\":{\"inline\":{\"bool\":{\"must\":[{\"match\":{\"sensitivity_indicator\":\"S\"}},{\"match\":{\"client_county.id\":\"{{_user.metadata.county_id}}\"}}]}}}}"
+      }
+    ],
+    "run_as" : [ ],
+    "metadata" : { },
+    "transient_metadata" : {
+      "enabled" : true
+    }
+  },
+  "people_sensitive_no_county" : {
+    "cluster" : [ ],
+    "indices" : [
+      {
+        "names" : [
+          "peop*"
+        ],
+        "privileges" : [
+          "read"
+        ],
+        "query" : "{\"template\":{\"inline\":{\"bool\":{\"must_not\":{\"exists\":{\"field\":\"client_county\"}},\"must\":[{\"match\":{\"sensitivity_indicator\":\"S\"}}]}}}}"
+      }
+    ],
+    "run_as" : [ ],
+    "metadata" : { },
+    "transient_metadata" : {
+      "enabled" : true
+    }
+  },
+  "people_sealed" : {
+    "cluster" : [ ],
+    "indices" : [
+      {
+        "names" : [
+          "peop*"
+        ],
+        "privileges" : [
+          "read"
+        ],
+        "query" : "{\"template\":{\"inline\":{\"bool\":{\"must\":[{\"match\":{\"sensitivity_indicator\":\"R\"}},{\"match\":{\"client_county.id\":\"{{_user.metadata.county_id}}\"}}]}}}}"
+      }
+    ],
+    "run_as" : [ ],
+    "metadata" : { },
+    "transient_metadata" : {
+      "enabled" : true
+    }
+  },
+  "people_sealed_no_county" : {
+    "cluster" : [ ],
+    "indices" : [
+      {
+        "names" : [
+          "peop*"
+        ],
+        "privileges" : [
+          "read"
+        ],
+        "query" : "{\"template\":{\"inline\":{\"bool\":{\"must_not\":{\"exists\":{\"field\":\"client_county\"}},\"must\":[{\"match\":{\"sensitivity_indicator\":\"R\"}}]}}}}"
+      }
+    ],
+    "run_as" : [ ],
+    "metadata" : { },
+    "transient_metadata" : {
+      "enabled" : true
+    }
+  }
+}

@@ -18,10 +18,10 @@ public class ElasticsearchIndexHealthCheck extends ElasticsearchHealthCheck {
   private static final Logger LOGGER = LoggerFactory
       .getLogger(ElasticsearchIndexHealthCheck.class);
 
-  private static final String ES_INDEXES_ENDPOINT = "/_cat/indices?format=json&pretty";
+  static final String ES_INDEXES_ENDPOINT = "/_cat/indices?format=json&pretty";
 
-  private static final String HEALTHY_ES_INDEX_MSG = "[%s] index exist on the server.";
-  private static final String UNHEALTHY_ES_INDEX_MSG = "[%s] index does not exist on the server.";
+  static final String HEALTHY_ES_INDEX_MSG = "[%s] index exist on the server.";
+  static final String UNHEALTHY_ES_INDEX_MSG = "[%s] index does not exist on the server.";
 
   private String indexName;
 
