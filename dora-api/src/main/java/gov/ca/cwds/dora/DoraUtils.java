@@ -122,8 +122,10 @@ public final class DoraUtils {
     Properties versionProperties = new Properties();
     try {
       InputStream is = ClassLoader.getSystemResourceAsStream(SYS_INFO_PROPERTIES_FILE);
-      versionProperties.load(is);
-    } catch (IOException e) {
+      if (is != null) {
+        versionProperties.load(is);
+      }
+    } catch (Exception e) {
       throw new DoraException("Can't read " + SYS_INFO_PROPERTIES_FILE, e);
     }
     return versionProperties;

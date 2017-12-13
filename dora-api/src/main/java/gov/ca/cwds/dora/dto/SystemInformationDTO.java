@@ -14,6 +14,7 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 public class SystemInformationDTO {
   private String applicationName;
   private String version;
+  private String buildNumber;
   private SortedMap<String, HealthCheckResultDTO> healthCheckResults;
 
   public String getApplicationName() {
@@ -30,6 +31,14 @@ public class SystemInformationDTO {
 
   public void setVersion(String version) {
     this.version = version;
+  }
+
+  public String getBuildNumber() {
+    return buildNumber;
+  }
+
+  public void setBuildNumber(String buildNumber) {
+    this.buildNumber = buildNumber;
   }
 
   public SortedMap<String, HealthCheckResultDTO> getHealthCheckResults() {
