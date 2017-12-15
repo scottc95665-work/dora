@@ -150,6 +150,8 @@ task dockerPopulateTestPeople {
     doFirst {
         // create people index
         esExecute("PUT", "/people", "{}")
+        // create people-summary index
+        esExecute("PUT", "/people-summary", "{}")
     }
     doLast {
         // populate test people data
@@ -159,6 +161,12 @@ task dockerPopulateTestPeople {
             esExecute("PUT", esUrl, content)
         }
         // verify with URL like: http://192.168.99.100:9200/people/person/_search?pretty
+        ["R", "S", "N"].each {
+            String esUrl = "/people-summary/person-summary/person_summary_$it"
+            String content = readFile("$projectDir/test_data/people-summary/person_summary_${it}.json")
+            esExecute("PUT", esUrl, content)
+        }
+        // verify with URL like: http://192.168.99.100:9200/people-summary/person-summary/_search?pretty
     }
 }
 
