@@ -1,7 +1,7 @@
 package gov.ca.cwds.auth;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import gov.ca.cwds.security.shiro.realms.PerryAccount;
+import gov.ca.cwds.security.realm.PerryAccount;
 
 /**
  * @author CWDS CALS API Team
