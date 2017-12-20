@@ -41,6 +41,8 @@ node('dora-slave') {
     parameters([
         booleanParam(defaultValue: true, description: '', name: 'USE_NEWRELIC'),
         string(defaultValue: 'latest', description: '', name: 'APP_VERSION'),
+        string(defaultValue: 'development', description: '', name: 'branch'),
+        booleanParam(defaultValue: false, description: '', name: 'RELEASE_DOCKER'),
         string(defaultValue: 'inventories/tpt2dev/hosts.yml', description: '', name: 'inventory')
     ]), pipelineTriggers([githubPush()])])
     def errorcode = null;
@@ -49,7 +51,7 @@ node('dora-slave') {
     try {
         stage('Preparation') {
             cleanWs()
-            checkout([$class: 'GitSCM', branches: [[name: '*/development']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '433ac100-b3c2-4519-b4d6-207c029a103b', url: 'git@github.com:ca-cwds/dora.git']]])
+            checkout([$class: 'GitSCM', branches: [[name: '*/$branch']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '433ac100-b3c2-4519-b4d6-207c029a103b', url: 'git@github.com:ca-cwds/dora.git']]])
             rtGradle.tool = "Gradle_35"
             rtGradle.resolver repo: 'repo', server: serverArti
         }
@@ -79,7 +81,7 @@ node('dora-slave') {
                 buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: 'printConfig'
                 buildInfo = rtGradle.run buildFile: './docker-dora/build.gradle', tasks: 'dockerCreateImage'
                 withDockerRegistry([credentialsId: '6ba8d05c-ca13-4818-8329-15d41a089ec0']) {
-                    buildInfo = rtGradle.run buildFile: './docker-dora/build.gradle', tasks: 'dockerDoraPublish'
+                    buildInfo = rtGradle.run buildFile: './docker-dora/build.gradle', tasks: 'dockerDoraPublish -DReleaseDocker=$RELEASE_DOCKER -DBuildNumber=$BUILD_NUMBER'
                 }
             }
         }
@@ -96,7 +98,7 @@ node('dora-slave') {
             cleanWs()
         }
         stage('Smoke Tests') {
-            git branch: 'development', url: 'https://github.com/ca-cwds/dora.git'
+            git branch: '$branch', url: 'https://github.com/ca-cwds/dora.git'
             sleep 30
             sh "curl http://dora.dev.cwds.io:8083/system-information"
             buildInfo = rtGradle.run buildFile: './dora-api/build.gradle', tasks: 'smokeTest --stacktrace'
