@@ -56,7 +56,7 @@ node('dora-slave') {
             rtGradle.resolver repo: 'repo', server: serverArti
         }
         stage('Build') {
-            buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: 'jar'
+            buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: 'jar -DReleaseDocker=$RELEASE_DOCKER -DBuildNumber=$BUILD_NUMBER'
         }
         stage('Unit Tests') {
             buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: 'test jacocoTestReport'
@@ -73,13 +73,13 @@ node('dora-slave') {
             rtGradle.deployer repo: 'libs-snapshot', server: serverArti
             //rtGradle.deployer repo:'libs-release', server: serverArti
             rtGradle.deployer.deployArtifacts = true
-            buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: 'publish'
+            buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: 'publish -DReleaseDocker=$RELEASE_DOCKER -DBuildNumber=$BUILD_NUMBER'
             rtGradle.deployer.deployArtifacts = false
         }
         stage('Build Docker') {
             withEnv(['ELASTIC_HOST=127.0.0.1']) {
                 buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: 'printConfig'
-                buildInfo = rtGradle.run buildFile: './docker-dora/build.gradle', tasks: 'dockerCreateImage'
+                buildInfo = rtGradle.run buildFile: './docker-dora/build.gradle', tasks: 'dockerCreateImage -DReleaseDocker=$RELEASE_DOCKER -DBuildNumber=$BUILD_NUMBER'
                 withDockerRegistry([credentialsId: '6ba8d05c-ca13-4818-8329-15d41a089ec0']) {
                     buildInfo = rtGradle.run buildFile: './docker-dora/build.gradle', tasks: 'dockerDoraPublish -DReleaseDocker=$RELEASE_DOCKER -DBuildNumber=$BUILD_NUMBER'
                 }
