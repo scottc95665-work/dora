@@ -1,0 +1,13 @@
+{
+  "user": "RACFID",
+  "staffId": "0X5",
+  "roles": [
+    "SocialWorker"
+  ],
+  "county_code": "99",
+  "county_name": "State of California",
+  "privileges": [
+    "CWS Case Management System",
+    "Sealed"
+  ]
+}

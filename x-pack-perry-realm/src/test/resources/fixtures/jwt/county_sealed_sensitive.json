@@ -1,0 +1,14 @@
+{
+  "user": "RACFID",
+  "staffId": "0X5",
+  "roles": [
+    "SocialWorker", "Supervisor"
+  ],
+  "county_code": "19",
+  "county_name": "Los Angeles",
+  "privileges": [
+    "CWS Case Management System",
+    "Sensitive Persons",
+    "Sealed"
+  ]
+}

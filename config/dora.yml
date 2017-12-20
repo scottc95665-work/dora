@@ -10,14 +10,14 @@ swagger:
   title: CWDS Dora
   description: RESTful search services for the CWS New System.
   logo: images/CWDS-API-Logo-Horizontal.png
-  loginUrl: ${PERRY_URL:-http://localhost:8090/authn/login}
+  loginUrl: ${PERRY_URL:-http://localhost:8080/perry/authn/login}
   spId: ${SP_ID:-} # service provider ID for Identity Mapping (defines security attributes for specific application)
-  showSwagger: ${SHOW_SWAGGER:-false}
-  jsonUrl: ${SWAGGER_JSON_URL:-http://localhost:8080/swagger.json}
-  callbackUrl: ${SWAGGER_CALLBACK_URL:-http://localhost:8080/swagger}
+  showSwagger: ${SHOW_SWAGGER:-true}
+  jsonUrl: ${SWAGGER_JSON_URL:-http://localhost:7080/swagger.json}
+  callbackUrl: ${SWAGGER_CALLBACK_URL:-http://localhost:7080/swagger}
 
 elasticsearch:
-  host: ${ES_HOST:-dora.dev.cwds.io}
+  host: ${ES_HOST:-localhost}
   port: ${ES_PORT:-9200}
   responseFieldFilters:
     person: 'config/filters/person_filter.groovy'
@@ -29,10 +29,10 @@ elasticsearch:
 server:
   applicationConnectors:
   - type: http 
-    port: ${APP_STD_PORT:-8080}
+    port: ${APP_STD_PORT:-7080}
   adminConnectors:
   - type: http
-    port: ${APP_ADMIN_PORT:-8081}
+    port: ${APP_ADMIN_PORT:-7081}
     
   requestLog:
     appenders:
