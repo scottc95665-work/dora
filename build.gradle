@@ -19,7 +19,7 @@ project.logging.setLevelInternal(INFO)
 
 project.ext {
     projectGroup = 'gov.ca.cwds.services'
-    projectMajorVersion '0.5.3'
+    projectMajorVersion = '0.5.3'
     projectVersion = projectMajorVersion + '-SNAPSHOT'
     elasticsearchVersion = '5.5.2'
 
