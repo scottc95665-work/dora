@@ -19,7 +19,8 @@ project.logging.setLevelInternal(INFO)
 
 project.ext {
     projectGroup = 'gov.ca.cwds.services'
-    projectVersion = '0.5.2-SNAPSHOT'
+    projectMajorVersion '0.5.3'
+    projectVersion = projectMajorVersion + '-SNAPSHOT'
     elasticsearchVersion = '5.5.2'
 
     mainclass = "gov.ca.cwds.rest.DoraApplication"
