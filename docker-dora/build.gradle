@@ -2,7 +2,7 @@ import org.apache.tools.ant.filters.FixCrLfFilter
 
 def targetDockerHubRepository = rootProject.name
 def dockerImageName = targetDockerHubOrganization + '/' + targetDockerHubRepository // like 'cwds/elasticsearch_xpack_data'
-def dockerTag = projectVersion
+def dockerTag = (releaseDocker == 'true' && buildNumber != null  ? projectMajorVersion + '_' + buildNumber + '-RC' : projectVersion )
 
 def doraDistFileName = "dora-${projectVersion}-dist.jar" // as shadowJar makes it
 def dockerContextDir = "$project.parent.buildDir/$project.name"
