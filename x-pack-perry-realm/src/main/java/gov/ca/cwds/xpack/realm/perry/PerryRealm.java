@@ -43,6 +43,10 @@ public class PerryRealm extends Realm {
   private static final String PEOPLE_SEALED = "people_sealed";
   private static final String PEOPLE_SEALED_NO_COUNTY = "people_sealed_no_county";
 
+  private static final String PEOPLE_SUMMARY_WORKER = "people_summary_worker";
+  private static final String ADDING_ROLE = "adding {} role";
+
+
   private String tokenValidationUrl;
 
   /**
@@ -113,32 +117,29 @@ public class PerryRealm extends Realm {
 
       ArrayList<String> rolesList = new ArrayList<>();
       rolesList.add(WORKER);
-      logger.debug("adding {} role", WORKER);
+      logger.debug(ADDING_ROLE, WORKER);
 
       if (cwdsPrivileges.isSocialWorkerOnly()) {
-        rolesList.add(PEOPLE_WORKER);
-        logger.debug("adding {} role", PEOPLE_WORKER);
+        setSocialWorkerOnlyRoles(rolesList);
       }
 
       if (cwdsPrivileges.isCountySensitive() || cwdsPrivileges.isStateSensitive()) {
-        rolesList.add(PEOPLE_WORKER);
-        logger.debug("adding {} role", PEOPLE_WORKER);
+        setSocialWorkerOnlyRoles(rolesList);
         rolesList.add(PEOPLE_SENSITIVE);
-        logger.debug("adding {} role", PEOPLE_SENSITIVE);
+        logger.debug(ADDING_ROLE, PEOPLE_SENSITIVE);
       }
 
       if (cwdsPrivileges.isCountySensitive()) {
         rolesList.add(PEOPLE_SENSITIVE_NO_COUNTY);
-        logger.debug("adding {} role", PEOPLE_SENSITIVE_NO_COUNTY);
+        logger.debug(ADDING_ROLE, PEOPLE_SENSITIVE_NO_COUNTY);
       }
 
       if (cwdsPrivileges.isCountySealed() || cwdsPrivileges.isStateSealed()) {
-        rolesList.add(PEOPLE_WORKER);
-        logger.debug("adding {} role", PEOPLE_WORKER);
+        setSocialWorkerOnlyRoles(rolesList);
         rolesList.add(PEOPLE_SEALED);
-        logger.debug("adding {} role", PEOPLE_SEALED);
+        logger.debug(ADDING_ROLE, PEOPLE_SEALED);
         rolesList.add(PEOPLE_SEALED_NO_COUNTY);
-        logger.debug("adding {} role", PEOPLE_SEALED_NO_COUNTY);
+        logger.debug(ADDING_ROLE, PEOPLE_SEALED_NO_COUNTY);
       }
 
       String[] roles = rolesList.toArray(new String[rolesList.size()]);
@@ -159,6 +160,13 @@ public class PerryRealm extends Realm {
     } catch (IOException e) {
       listener.onFailure(e);
     }
+  }
+
+  private void setSocialWorkerOnlyRoles(ArrayList<String> rolesList) {
+    rolesList.add(PEOPLE_WORKER);
+    logger.debug(ADDING_ROLE, PEOPLE_WORKER);
+    rolesList.add(PEOPLE_SUMMARY_WORKER);
+    logger.debug(ADDING_ROLE, PEOPLE_SUMMARY_WORKER);
   }
 
   /**

@@ -24,12 +24,48 @@
       "indices": [
         {
           "names": [
-            "peop*"
+            "people"
           ],
           "privileges": [
             "read"
           ],
           "query": "{ \"match\": { \"sensitivity_indicator\": \"N\" } }"
+        }
+      ]
+    }
+  },
+  {
+    "action": "POST /_xpack/security/role/people_summary_worker",
+    "content": {
+      "cluster": [],
+      "indices": [
+        {
+          "names": [
+            "people-summary"
+          ],
+          "privileges": [
+            "read"
+          ],
+          "query": {
+            "template": {
+              "inline": {
+                "bool": {
+                  "should": [
+                    {
+                      "match": {
+                        "sensitivity_indicator": "N"
+                      }
+                    },
+                    {
+                      "match": {
+                        "sensitivity_indicator": "S"
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
         }
       ]
     }
@@ -41,18 +77,28 @@
       "indices": [
         {
           "names": [
-            "peop*"
+            "people"
           ],
           "privileges": [
             "read"
           ],
           "query": {
-            "template" : {
-              "inline" : {
-                "bool": { "must": [
-                  { "match": { "sensitivity_indicator": "S" }},
-                  { "match": { "client_county.id": "{{_user.metadata.county_id}}" }}
-                ]}
+            "template": {
+              "inline": {
+                "bool": {
+                  "must": [
+                    {
+                      "match": {
+                        "sensitivity_indicator": "S"
+                      }
+                    },
+                    {
+                      "match": {
+                        "client_county.id": "{{_user.metadata.county_id}}"
+                      }
+                    }
+                  ]
+                }
               }
             }
           }
@@ -67,22 +113,27 @@
       "indices": [
         {
           "names": [
-            "peop*"
+            "people"
           ],
           "privileges": [
             "read"
           ],
           "query": {
-            "template" : {
-              "inline" : {
-                "bool": { "must": [
-                  { "match": { "sensitivity_indicator": "S" }}
-                ],
-                  "must_not": {
-                    "exists": {
-                      "field": "client_county"
+            "template": {
+              "inline": {
+                "bool": {
+                  "must": [
+                    {
+                      "match": {
+                        "sensitivity_indicator": "S"
+                      }
+                    },
+                    {
+                      "match": {
+                        "client_county.id": "0"
+                      }
                     }
-                  }
+                  ]
                 }
               }
             }
@@ -104,12 +155,22 @@
             "read"
           ],
           "query": {
-            "template" : {
-              "inline" : {
-                "bool": { "must": [
-                  { "match": { "sensitivity_indicator": "R" }},
-                  { "match": { "client_county.id": "{{_user.metadata.county_id}}" }}
-                ]}
+            "template": {
+              "inline": {
+                "bool": {
+                  "must": [
+                    {
+                      "match": {
+                        "sensitivity_indicator": "R"
+                      }
+                    },
+                    {
+                      "match": {
+                        "client_county.id": "{{_user.metadata.county_id}}"
+                      }
+                    }
+                  ]
+                }
               }
             }
           }
@@ -118,34 +179,39 @@
     }
   },
   {
-  "action": "POST /_xpack/security/role/people_sealed_no_county",
-  "content": {
-    "cluster": [],
-    "indices": [
-      {
-        "names": [
-          "peop*"
-        ],
-        "privileges": [
-          "read"
-        ],
-        "query": {
-          "template" : {
-            "inline" : {
-              "bool": { "must": [
-                { "match": { "sensitivity_indicator": "R" }}
-              ],
-                "must_not": {
-                  "exists": {
-                    "field": "client_county"
-                  }
+    "action": "POST /_xpack/security/role/people_sealed_no_county",
+    "content": {
+      "cluster": [],
+      "indices": [
+        {
+          "names": [
+            "peop*"
+          ],
+          "privileges": [
+            "read"
+          ],
+          "query": {
+            "template": {
+              "inline": {
+                "bool": {
+                  "must": [
+                    {
+                      "match": {
+                        "sensitivity_indicator": "R"
+                      }
+                    },
+                    {
+                      "match": {
+                        "client_county.id": "0"
+                      }
+                    }
+                  ]
                 }
               }
             }
           }
         }
-      }
-    ]
+      ]
+    }
   }
-}
 ]

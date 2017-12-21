@@ -1,0 +1,80 @@
+{
+  "href": null,
+  "id": "2b7SA3I04Y",
+  "type": {
+    "id": "793",
+    "value": "Relative/NREFM Home"
+  },
+  "name": "Cool Dude",
+  "licensee_name": "",
+  "license_type": null,
+  "assigned_worker": null,
+  "district_office": null,
+  "license_number": null,
+  "status": null,
+  "capacity": 0,
+  "license_effective_date": null,
+  "original_application_recieved_date": null,
+  "last_visit_date": null,
+  "last_deferred_visit_date": null,
+  "email_address": null,
+  "last_visit_reason": null,
+  "last_deferred_visit_reason": null,
+  "county": {
+    "id": "38",
+    "value": "San Francisco",
+    "lis_code": null
+  },
+  "phones": [],
+  "addresses": [],
+  "visits": null,
+  "annual_visit_year": null,
+  "prelicensing_visit_date": null,
+  "children": [
+    {
+      "id": "AJpMiKy04Y",
+      "facilityId": null,
+      "person": {
+        "id": null,
+        "gender": "F",
+        "age": 24,
+        "ssn": null,
+        "ethnicityId": null,
+        "first_name": "Jane",
+        "last_name": "Doe",
+        "date_of_birth": {
+          "year": 1993,
+          "month": "MARCH",
+          "era": "CE",
+          "dayOfMonth": 2,
+          "dayOfWeek": "TUESDAY",
+          "dayOfYear": 61,
+          "leapYear": false,
+          "monthValue": 3,
+          "chronology": {
+            "calendarType": "iso8601",
+            "id": "ISO"
+          }
+        }
+      },
+      "date_of_placement": {
+        "year": 2000,
+        "month": "MARCH",
+        "era": "CE",
+        "dayOfMonth": 3,
+        "dayOfWeek": "FRIDAY",
+        "dayOfYear": 63,
+        "leapYear": true,
+        "monthValue": 3,
+        "chronology": {
+          "calendarType": "iso8601",
+          "id": "ISO"
+        }
+      },
+      "assigned_worker": null,
+      "county_of_origin": "San Francisco"
+    }
+  ],
+  "inspections": [],
+  "complaints": []
+}
