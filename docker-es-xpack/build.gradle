@@ -5,7 +5,7 @@ import java.nio.file.Paths
 import org.apache.tools.ant.filters.FixCrLfFilter
 
 project.ext {
-    elasticHost = project.buildEnv == 'WIN_DEV' ? project.devDockerHost : (System.env.ELASTIC_HOST ?: '192.168.99.100')
+    elasticHost = project.buildEnv == 'WIN_DEV' ? project.devDockerHost : (System.env.ELASTIC_HOST ?: 'localhost')
     elasticPort = System.env.ELASTIC_PORT ?: '9200'
     elasticUser = System.env.XPACK_USER ?: 'elastic'
     elasticPassword = System.env.XPACK_PASSWORD ?: 'changeme'
@@ -150,6 +150,12 @@ task dockerPopulateTestPeople {
     doFirst {
         // create people index
         esExecute("PUT", "/people", "{}")
+        // create people-summary index
+        esExecute("PUT", "/people-summary", "{}")
+        // create facilities index
+        esExecute("PUT", "/facilities", "{}")
+        // create screenings index
+        esExecute("PUT", "/screenings", "{}")
     }
     doLast {
         // populate test people data
@@ -159,6 +165,20 @@ task dockerPopulateTestPeople {
             esExecute("PUT", esUrl, content)
         }
         // verify with URL like: http://192.168.99.100:9200/people/person/_search?pretty
+        ["R", "S", "N"].each {
+            String esUrl = "/people-summary/person-summary/person_summary_$it"
+            String content = readFile("$projectDir/test_data/people-summary/person_summary_${it}.json")
+            esExecute("PUT", esUrl, content)
+        }
+        // verify with URL like: http://192.168.99.100:9200/people-summary/person-summary/_search?pretty
+
+        String esFacilitiesUrl = "/facilities/facility/facility1"
+        String facilityContent = readFile("$projectDir/test_data/facilities/facility.json")
+        esExecute("PUT", esFacilitiesUrl, facilityContent)
+
+        String esScreeningsUrl = "/screenings/screening/screening1"
+        String screeningContent = readFile("$projectDir/test_data/screenings/screening.json")
+        esExecute("PUT", esScreeningsUrl, screeningContent)
     }
 }
 
