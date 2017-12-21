@@ -123,7 +123,7 @@ task dockerCreateImage(type: Exec, dependsOn: [project.parent.checkDockerService
 task dockerStartContainer(type: Exec, dependsOn: [project.parent.checkDockerService, dockerCreateImage]) {
     environment << project.dockerEnvVars
     doFirst {
-        commandLine 'docker', 'run', '-d', "--name=$dockerContainerName", '-p', "$project.elasticPort:9200", '-e', "http.host=0.0.0.0", '-e', "transport.host=127.0.0.1", dockerImageName
+        commandLine 'docker', 'run', '-d', "--name=$dockerContainerName", '-p', "$project.elasticPort:9200", '-e', "TOKEN_VALIDATION_URL=https://web.dev.cwds.io/perry/authn/validate?token=" '-e', "http.host=0.0.0.0", '-e', "transport.host=127.0.0.1", dockerImageName
     }
     doLast {
         esConnect(project.elasticBaseUrl)
