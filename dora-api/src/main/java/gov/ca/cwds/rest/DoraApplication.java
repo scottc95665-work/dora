@@ -54,7 +54,7 @@ public final class DoraApplication extends BaseApiApplication<DoraConfiguration>
   private static final String PEOPLE_SENSITIVE_NO_COUNTY_ROLE = "people_sensitive_no_county";
   private static final String PEOPLE_SEALED_ROLE = "people_sealed";
   private static final String PEOPLE_SEALED_NO_COUNTY_ROLE = "people_sealed_no_county";
-
+  private static final String PEOPLE_SUMMARY_WORKER_ROLE = "people_summary_worker";
 
   /**
    * Start the CWDS RESTful API application.
@@ -165,6 +165,8 @@ public final class DoraApplication extends BaseApiApplication<DoraConfiguration>
                 new ElasticsearchRolesHealthCheck(configuration.getElasticsearchConfiguration(), PEOPLE_SEALED_ROLE));
         environment.healthChecks().register("elasticsearch-role-" + PEOPLE_SEALED_NO_COUNTY_ROLE,
                 new ElasticsearchRolesHealthCheck(configuration.getElasticsearchConfiguration(), PEOPLE_SEALED_NO_COUNTY_ROLE));
+      environment.healthChecks().register("elasticsearch-role-" + PEOPLE_SUMMARY_WORKER_ROLE,
+              new ElasticsearchRolesHealthCheck(configuration.getElasticsearchConfiguration(), PEOPLE_SUMMARY_WORKER_ROLE));
     }
 
     private void registerIndexHealthChecks(DoraConfiguration configuration, Environment environment) {
