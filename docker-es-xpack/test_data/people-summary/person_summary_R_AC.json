@@ -1,0 +1,59 @@
+{
+  "index_update_time": "2017-12-13T11:58:32.388-0800",
+  "first_name": "Victim1",
+  "middle_name": "",
+  "last_name": "Pendergrast",
+  "date_of_birth": "1990-04-08",
+  "gender": "male",
+  "ssn": "383008625",
+  "type": "gov.ca.cwds.data.persistence.cms.rep.ReplicatedClient",
+  "sensitivity_indicator": "R",
+  "client_county": {
+    "id" : "1126",
+    "description" : "State of California"
+  },
+  "race_ethnicity": {
+    "race_codes": [
+      {
+        "id": "839",
+        "description": "White*"
+      }
+    ],
+    "hispanic_codes": [],
+    "unable_to_determine_code": "",
+    "hispanic_origin_code": "U",
+    "hispanic_unable_to_determine_code": ""
+  },
+  "source": "{\n  \"adjudicatedDelinquentIndicator\" : \"\",\n  \"adoptionStatusCode\" : \"N\",\n  \"akas\" : { },\n  \"alienRegistrationNumber\" : \"\",\n  \"birthCity\" : \"\",\n  \"birthCountryCodeType\" : 0,\n  \"birthDate\" : \"1990-04-08\",\n  \"birthFacilityName\" : \"\",\n  \"birthStateCodeType\" : 0,\n  \"birthplaceVerifiedIndicator\" : \"N\",\n  \"childClientIndicatorVar\" : \"Y\",\n  \"clientAddresses\" : [ ],\n  \"clientCounty\" : 1071,\n  \"clientIndexNumber\" : \"\",\n  \"clientRaces\" : [ 0 ],\n  \"clientSafetyAlerts\" : [ ],\n  \"commentDescription\" : \"\",\n  \"commonFirstName\" : \"Victim1\",\n  \"commonLastName\" : \"Pendergrast\",\n  \"commonMiddleName\" : \"\",\n  \"confidentialityInEffectIndicator\" : \"N\",\n  \"creationDate\" : \"1998-04-08\",\n  \"currCaChildrenServIndicator\" : \"N\",\n  \"currentlyOtherDescription\" : \"\",\n  \"currentlyRegionalCenterIndicator\" : \"N\",\n  \"deathDateVerifiedIndicator\" : \"N\",\n  \"deathPlace\" : \"\",\n  \"deathReasonText\" : \"\",\n  \"driverLicenseNumber\" : \"\",\n  \"driverLicenseStateCodeType\" : 0,\n  \"emailAddress\" : \"\",\n  \"estimatedDobCode\" : \"N\",\n  \"ethUnableToDetReasonCode\" : \"\",\n  \"genderCode\" : \"M\",\n  \"healthSummaryText\" : \"\",\n  \"hispUnableToDetReasonCode\" : \"\",\n  \"hispanicOriginCode\" : \"U\",\n  \"id\" : \"02X5Sx005Y\",\n  \"immigrationCountryCodeType\" : 0,\n  \"immigrationStatusType\" : 0,\n  \"incapacitatedParentCode\" : \"U\",\n  \"individualHealthCarePlanIndicator\" : \"N\",\n  \"lastUpdatedTime\" : \"1998-04-09\",\n  \"legacyDescriptor\" : {\n    \"legacy_id\" : \"02X5Sx005Y\",\n    \"legacy_ui_id\" : \"0002-3211-8768-2000344\",\n    \"legacy_last_updated\" : \"1998-04-09T17:05:17.001-0700\",\n    \"legacy_table_name\" : \"CLIENT_T\",\n    \"legacy_table_description\" : \"Client\"\n  },\n  \"legacyId\" : \"02X5Sx005Y\",\n  \"limitationOnScpHealthIndicator\" : \"N\",\n  \"limitedAccessCode\" : \"N\",\n  \"literateCode\" : \"U\",\n  \"maritalCohabitatnHstryIndicatorVar\" : \"N\",\n  \"maritalStatusType\" : 0,\n  \"militaryStatusCode\" : \"U\",\n  \"namePrefixDescription\" : \"\",\n  \"nameType\" : 1313,\n  \"otherClientNames\" : [ ],\n  \"outstandingWarrantIndicator\" : \"N\",\n  \"prevCaChildrenServIndicator\" : \"N\",\n  \"prevOtherDescription\" : \"\",\n  \"prevRegionalCenterIndicator\" : \"N\",\n  \"primaryEthnicityType\" : 839,\n  \"primaryKey\" : \"02X5Sx005Y\",\n  \"primaryLanguageType\" : 1253,\n  \"raceAndEthnicity\" : {\n    \"race_codes\" : [ {\n      \"id\" : \"839\",\n      \"description\" : \"White*\"\n    } ],\n    \"hispanic_codes\" : [ ],\n    \"unable_to_determine_code\" : \"\",\n    \"hispanic_origin_code\" : \"U\",\n    \"hispanic_unable_to_determine_code\" : \"\"\n  },\n  \"religionType\" : 0,\n  \"replicatedEntity\" : {\n    \"replicationOperation\" : \"I\",\n    \"replicationDate\" : \"1998-04-09\"\n  },\n  \"replicationDate\" : \"1998-04-09\",\n  \"replicationOperation\" : \"I\",\n  \"safetyAlerts\" : { },\n  \"secondaryLanguageType\" : 0,\n  \"sensitiveHlthInfoOnFileIndicator\" : \"N\",\n  \"sensitivityIndicator\" : \"N\",\n  \"soc158PlacementCode\" : \"N\",\n  \"soc158SealedClientIndicator\" : \"N\",\n  \"socialSecurityNumChangedCode\" : \"N\",\n  \"socialSecurityNumber\" : \"383008625\",\n  \"suffixTitleDescription\" : \"\",\n  \"tribalAncestryClientIndicatorVar\" : \"N\",\n  \"tribalMembrshpVerifctnIndicatorVar\" : \"N\",\n  \"unemployedParentCode\" : \"U\",\n  \"zippyCreatedIndicator\" : \"N\"\n}",
+  "legacy_descriptor": {
+    "legacy_id": "02X5Sx005Y",
+    "legacy_ui_id": "0002-3211-8768-2000344",
+    "legacy_last_updated": "1998-04-09T17:05:17.001-0700",
+    "legacy_table_name": "CLIENT_T",
+    "legacy_table_description": "Client"
+  },
+  "legacy_id": "02X5Sx005Y",
+  "addresses": [],
+  "phone_numbers": [],
+  "languages": [
+    {
+      "id": "1253",
+      "name": "English",
+      "primary": true
+    }
+  ],
+  "id": "02X5Sx005Y",
+  "searchable_date_of_birth": [
+    "04081990",
+    "041990",
+    "1990",
+    "0408",
+    "481990",
+    "41990",
+    "48"
+  ],
+  "searchable_name": [
+    "Victim1",
+    "Pendergrast"
+  ]
+}

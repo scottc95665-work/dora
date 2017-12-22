@@ -1,0 +1,342 @@
+{
+  "first_name": "Sealed",
+  "middle_name": "",
+  "last_name": "Betty",
+  "date_of_birth": "1985-10-28",
+  "gender": "female",
+  "ssn": "",
+  "type": "gov.ca.cwds.data.persistence.cms.rep.ReplicatedClient",
+  "sensitivity_indicator": "N",
+  "client_county": {
+    "id": "1086",
+    "description": "Los Angeles"
+  },
+  "race_ethnicity": {
+    "race_codes": [],
+    "hispanic_codes": [],
+    "unable_to_determine_code": "",
+    "hispanic_origin_code": "U",
+    "hispanic_unable_to_determine_code": ""
+  },
+  "source": "{\n  \"adjudicatedDelinquentIndicator\" : \"\",\n  \"adoptionStatusCode\" : \"N\",\n  \"alienRegistrationNumber\" : \"\",\n  \"birthCity\" : \"\",\n  \"birthCountryCodeType\" : 0,\n  \"birthDate\" : \"1985-10-28\",\n  \"birthFacilityName\" : \"\",\n  \"birthStateCodeType\" : 0,\n  \"birthplaceVerifiedIndicator\" : \"N\",\n  \"childClientIndicatorVar\" : \"N\",\n  \"clientAddresses\" : [ ],\n  \"clientCounty\" : 1094,\n  \"clientIndexNumber\" : \"\",\n  \"clientRaces\" : [ 0 ],\n  \"commentDescription\" : \"\",\n  \"commonFirstName\" : \"Sealed\",\n  \"commonLastName\" : \"Betty\",\n  \"commonMiddleName\" : \"\",\n  \"confidentialityInEffectIndicator\" : \"N\",\n  \"creationDate\" : \"1997-10-28\",\n  \"currCaChildrenServIndicator\" : \"N\",\n  \"currentlyOtherDescription\" : \"\",\n  \"currentlyRegionalCenterIndicator\" : \"N\",\n  \"deathDateVerifiedIndicator\" : \"N\",\n  \"deathPlace\" : \"\",\n  \"deathReasonText\" : \"\",\n  \"driverLicenseNumber\" : \"\",\n  \"driverLicenseStateCodeType\" : 0,\n  \"emailAddress\" : \"\",\n  \"estimatedDobCode\" : \"Y\",\n  \"ethUnableToDetReasonCode\" : \"\",\n  \"genderCode\" : \"F\",\n  \"healthSummaryText\" : \"\",\n  \"hispUnableToDetReasonCode\" : \"\",\n  \"hispanicOriginCode\" : \"U\",\n  \"id\" : \"NVD09lh00I\",\n  \"immigrationCountryCodeType\" : 0,\n  \"immigrationStatusType\" : 0,\n  \"incapacitatedParentCode\" : \"U\",\n  \"individualHealthCarePlanIndicator\" : \"N\",\n  \"lastUpdatedTime\" : \"2006-08-28\",\n  \"legacyDescriptor\" : {\n    \"legacy_id\" : \"NVD09lh00I\",\n    \"legacy_ui_id\" : \"1334-9976-6614-5000018\",\n    \"legacy_last_updated\" : \"2006-08-28T13:22:04.428-0700\",\n    \"legacy_table_name\" : \"CLIENT_T\",\n    \"legacy_table_description\" : \"Client\"\n  },\n  \"legacyId\" : \"NVD09lh00I\",\n  \"limitationOnScpHealthIndicator\" : \"N\",\n  \"limitedAccessCode\" : \"N\",\n  \"literateCode\" : \"U\",\n  \"maritalCohabitatnHstryIndicatorVar\" : \"N\",\n  \"maritalStatusType\" : 0,\n  \"militaryStatusCode\" : \"U\",\n  \"namePrefixDescription\" : \"\",\n  \"nameType\" : 1313,\n  \"outstandingWarrantIndicator\" : \"N\",\n  \"prevCaChildrenServIndicator\" : \"N\",\n  \"prevOtherDescription\" : \"\",\n  \"prevRegionalCenterIndicator\" : \"N\",\n  \"primaryEthnicityType\" : 0,\n  \"primaryKey\" : \"NVD09lh00I\",\n  \"primaryLanguageType\" : 0,\n  \"raceAndEthnicity\" : {\n    \"race_codes\" : [ ],\n    \"hispanic_codes\" : [ ],\n    \"unable_to_determine_code\" : \"\",\n    \"hispanic_origin_code\" : \"U\",\n    \"hispanic_unable_to_determine_code\" : \"\"\n  },\n  \"religionType\" : 0,\n  \"replicatedEntity\" : {\n    \"replicationOperation\" : \"I\",\n    \"replicationDate\" : \"2017-10-12\"\n  },\n  \"replicationDate\" : \"2017-10-12\",\n  \"replicationOperation\" : \"I\",\n  \"secondaryLanguageType\" : 0,\n  \"sensitiveHlthInfoOnFileIndicator\" : \"N\",\n  \"sensitivityIndicator\" : \"N\",\n  \"soc158PlacementCode\" : \"N\",\n  \"soc158SealedClientIndicator\" : \"N\",\n  \"socialSecurityNumChangedCode\" : \"N\",\n  \"socialSecurityNumber\" : \"\",\n  \"suffixTitleDescription\" : \"\",\n  \"tribalAncestryClientIndicatorVar\" : \"N\",\n  \"tribalMembrshpVerifctnIndicatorVar\" : \"N\",\n  \"unemployedParentCode\" : \"U\",\n  \"zippyCreatedIndicator\" : \"N\"\n}",
+  "legacy_descriptor": {
+    "legacy_id": "NVD09lh00I",
+    "legacy_ui_id": "1334-9976-6614-5000018",
+    "legacy_last_updated": "2006-08-28T13:22:04.428-0700",
+    "legacy_table_name": "CLIENT_T",
+    "legacy_table_description": "Client"
+  },
+  "legacy_id": "NVD09lh00I",
+  "addresses": [],
+  "phone_numbers": [],
+  "languages": [],
+  "id": "NVD09lh00I",
+  "searchable_date_of_birth": [
+    "10281985",
+    "101985",
+    "1985",
+    "1028"
+  ],
+  "searchable_name": [
+    "Sealed",
+    "Betty"
+  ],
+  "referrals": [
+    {
+      "legacy_referral_id": "3Z1ww770X5",
+      "legacy_last_updated": "2017-09-29T14:22:15.723-0700",
+      "legacy_descriptor": {
+        "legacy_last_updated": "2017-09-29T14:22:15.723-0700",
+        "legacy_id": "3Z1ww770X5",
+        "legacy_ui_id": "0202-4941-7862-5002051",
+        "legacy_table_name": "REFERL_T",
+        "legacy_table_description": "Referral"
+      },
+      "reporter": {
+        "legacy_reporter_id": "3Z1ww770X5",
+        "legacy_descriptor": {
+          "legacy_last_updated": "2017-09-18T10:35:35.128-0700",
+          "legacy_id": "3Z1ww770X5",
+          "legacy_ui_id": "0202-4941-7862-5002051",
+          "legacy_table_name": "REPTR_T",
+          "legacy_table_description": "Reporter"
+        },
+        "last_name": "Price",
+        "id": "3Z1ww770X5",
+        "first_name": "Bennie"
+      },
+      "county_name": "San Diego",
+      "response_time_id": "1516",
+      "county_id": "1104",
+      "allegations": [
+        {
+          "legacy_allegation_id": "RNRhXcU0X5",
+          "perpetrator_legacy_client_id": "KkB5oiz0X5",
+          "perpetrator": {
+            "legacy_descriptor": {
+              "legacy_last_updated": "2017-09-18T10:35:35.128-0700",
+              "legacy_id": "KkB5oiz0X5",
+              "legacy_ui_id": "1178-3107-4827-7002051",
+              "legacy_table_name": "CLIENT_T",
+              "legacy_table_description": "Client"
+            },
+            "last_name": "Murray",
+            "id": "KkB5oiz0X5",
+            "first_name": "Steve",
+            "sensitivity_indicator": "R"
+          },
+          "victim_last_name": "Roberts",
+          "legacy_descriptor": {
+            "legacy_last_updated": "2017-09-18T10:35:35.128-0700",
+            "legacy_id": "RNRhXcU0X5",
+            "legacy_ui_id": "1555-0867-5431-8002051",
+            "legacy_table_name": "ALLGTN_T",
+            "legacy_table_description": "Allegation"
+          },
+          "victim_id": "S2POAbj0X5",
+          "perpetrator_id": "KkB5oiz0X5",
+          "victim_first_name": "Rene",
+          "perpetrator_last_name": "Murray",
+          "perpetrator_first_name": "Steve",
+          "victim_legacy_client_id": "S2POAbj0X5",
+          "disposition_description": "",
+          "victim": {
+            "legacy_descriptor": {
+              "legacy_last_updated": "2017-09-18T10:35:35.128-0700",
+              "legacy_id": "S2POAbj0X5",
+              "legacy_ui_id": "1592-6140-3106-7002051",
+              "legacy_table_name": "CLIENT_T",
+              "legacy_table_description": "Client"
+            },
+            "last_name": "Roberts",
+            "id": "S2POAbj0X5",
+            "first_name": "Rene",
+            "sensitivity_indicator": "R"
+          },
+          "id": "RNRhXcU0X5",
+          "allegation_description": "General Neglect",
+          "disposition_id": "0"
+        },
+        {
+          "legacy_allegation_id": "TrDWNbP0X5",
+          "perpetrator_legacy_client_id": "KkB5oiz0X5",
+          "perpetrator": {
+            "legacy_descriptor": {
+              "legacy_last_updated": "2017-09-18T10:35:35.128-0700",
+              "legacy_id": "KkB5oiz0X5",
+              "legacy_ui_id": "1178-3107-4827-7002051",
+              "legacy_table_name": "CLIENT_T",
+              "legacy_table_description": "Client"
+            },
+            "last_name": "Murray",
+            "id": "KkB5oiz0X5",
+            "first_name": "Steve",
+            "sensitivity_indicator": "R"
+          },
+          "victim_last_name": "Roberts",
+          "legacy_descriptor": {
+            "legacy_last_updated": "2017-09-18T10:35:35.128-0700",
+            "legacy_id": "TrDWNbP0X5",
+            "legacy_ui_id": "1695-9616-8162-7002051",
+            "legacy_table_name": "ALLGTN_T",
+            "legacy_table_description": "Allegation"
+          },
+          "victim_id": "S2POAbj0X5",
+          "perpetrator_id": "KkB5oiz0X5",
+          "victim_first_name": "Rene",
+          "perpetrator_last_name": "Murray",
+          "perpetrator_first_name": "Steve",
+          "victim_legacy_client_id": "S2POAbj0X5",
+          "disposition_description": "",
+          "victim": {
+            "legacy_descriptor": {
+              "legacy_last_updated": "2017-09-18T10:35:35.128-0700",
+              "legacy_id": "S2POAbj0X5",
+              "legacy_ui_id": "1592-6140-3106-7002051",
+              "legacy_table_name": "CLIENT_T",
+              "legacy_table_description": "Client"
+            },
+            "last_name": "Roberts",
+            "id": "S2POAbj0X5",
+            "first_name": "Rene",
+            "sensitivity_indicator": "R"
+          },
+          "id": "TrDWNbP0X5",
+          "allegation_description": "Severe Neglect",
+          "disposition_id": "0"
+        }
+      ],
+      "assigned_social_worker": {
+        "legacy_descriptor": {
+          "legacy_last_updated": "2017-09-28T15:31:59.214-0700",
+          "legacy_id": "aaz",
+          "legacy_ui_id": "aaz",
+          "legacy_table_name": "STFPERST",
+          "legacy_table_description": "Staff"
+        },
+        "last_name": "Rubble",
+        "id": "aaz",
+        "legacy_assigned_social_worker_id": "aaz",
+        "first_name": "Betty"
+      },
+      "access_limitation": {
+        "limited_access_date": "2017-09-18",
+        "limited_access_description": "Screening is marked as sealed for testing",
+        "limited_access_government_entity_id": "20",
+        "limited_access_code": "R",
+        "limited_access_government_entity_name": "Chest"
+      },
+      "response_time": "3 Day",
+      "id": "3Z1ww770X5",
+      "start_date": "2017-07-14"
+    },
+    {
+      "legacy_referral_id": "3hDsMGZ0X5",
+      "legacy_last_updated": "2017-09-29T14:22:15.723-0700",
+      "legacy_descriptor": {
+        "legacy_last_updated": "2017-09-29T14:22:15.723-0700",
+        "legacy_id": "3hDsMGZ0X5",
+        "legacy_ui_id": "0209-9994-6620-3002051",
+        "legacy_table_name": "REFERL_T",
+        "legacy_table_description": "Referral"
+      },
+      "reporter": {
+        "legacy_reporter_id": "3hDsMGZ0X5",
+        "legacy_descriptor": {
+          "legacy_last_updated": "2017-09-18T10:58:06.702-0700",
+          "legacy_id": "3hDsMGZ0X5",
+          "legacy_ui_id": "0209-9994-6620-3002051",
+          "legacy_table_name": "REPTR_T",
+          "legacy_table_description": "Reporter"
+        },
+        "last_name": "Doyle",
+        "id": "3hDsMGZ0X5",
+        "first_name": "Stefanie"
+      },
+      "county_name": "Monterey",
+      "response_time_id": "1516",
+      "county_id": "1094",
+      "allegations": [
+        {
+          "legacy_allegation_id": "9bU685r0X5",
+          "perpetrator_legacy_client_id": "3a0yh4z0X5",
+          "perpetrator": {
+            "legacy_descriptor": {
+              "legacy_last_updated": "2017-09-18T10:58:06.702-0700",
+              "legacy_id": "3a0yh4z0X5",
+              "legacy_ui_id": "0203-3959-5398-5002051",
+              "legacy_table_name": "CLIENT_T",
+              "legacy_table_description": "Client"
+            },
+            "last_name": "Willms",
+            "id": "3a0yh4z0X5",
+            "first_name": "Lu",
+            "sensitivity_indicator": "S"
+          },
+          "victim_last_name": "Ullrich",
+          "legacy_descriptor": {
+            "legacy_last_updated": "2017-09-18T10:58:06.702-0700",
+            "legacy_id": "9bU685r0X5",
+            "legacy_ui_id": "0545-5437-8620-3002051",
+            "legacy_table_name": "ALLGTN_T",
+            "legacy_table_description": "Allegation"
+          },
+          "victim_id": "E8BgB7T0X5",
+          "perpetrator_id": "3a0yh4z0X5",
+          "victim_first_name": "Shandi",
+          "perpetrator_last_name": "Willms",
+          "perpetrator_first_name": "Lu",
+          "victim_legacy_client_id": "E8BgB7T0X5",
+          "disposition_description": "",
+          "victim": {
+            "legacy_descriptor": {
+              "legacy_last_updated": "2017-09-18T10:58:06.702-0700",
+              "legacy_id": "E8BgB7T0X5",
+              "legacy_ui_id": "0802-7049-5305-1002051",
+              "legacy_table_name": "CLIENT_T",
+              "legacy_table_description": "Client"
+            },
+            "last_name": "Ullrich",
+            "id": "E8BgB7T0X5",
+            "first_name": "Shandi",
+            "sensitivity_indicator": "S"
+          },
+          "id": "9bU685r0X5",
+          "allegation_description": "General Neglect",
+          "disposition_id": "0"
+        },
+        {
+          "legacy_allegation_id": "DmGorEc0X5",
+          "perpetrator_legacy_client_id": "3a0yh4z0X5",
+          "perpetrator": {
+            "legacy_descriptor": {
+              "legacy_last_updated": "2017-09-18T10:58:06.702-0700",
+              "legacy_id": "3a0yh4z0X5",
+              "legacy_ui_id": "0203-3959-5398-5002051",
+              "legacy_table_name": "CLIENT_T",
+              "legacy_table_description": "Client"
+            },
+            "last_name": "Willms",
+            "id": "3a0yh4z0X5",
+            "first_name": "Lu",
+            "sensitivity_indicator": "S"
+          },
+          "victim_last_name": "Ullrich",
+          "legacy_descriptor": {
+            "legacy_last_updated": "2017-09-18T10:58:06.702-0700",
+            "legacy_id": "DmGorEc0X5",
+            "legacy_ui_id": "0782-6259-8094-2002051",
+            "legacy_table_name": "ALLGTN_T",
+            "legacy_table_description": "Allegation"
+          },
+          "victim_id": "E8BgB7T0X5",
+          "perpetrator_id": "3a0yh4z0X5",
+          "victim_first_name": "Shandi",
+          "perpetrator_last_name": "Willms",
+          "perpetrator_first_name": "Lu",
+          "victim_legacy_client_id": "E8BgB7T0X5",
+          "disposition_description": "",
+          "victim": {
+            "legacy_descriptor": {
+              "legacy_last_updated": "2017-09-18T10:58:06.702-0700",
+              "legacy_id": "E8BgB7T0X5",
+              "legacy_ui_id": "0802-7049-5305-1002051",
+              "legacy_table_name": "CLIENT_T",
+              "legacy_table_description": "Client"
+            },
+            "last_name": "Ullrich",
+            "id": "E8BgB7T0X5",
+            "first_name": "Shandi",
+            "sensitivity_indicator": "S"
+          },
+          "id": "DmGorEc0X5",
+          "allegation_description": "Severe Neglect",
+          "disposition_id": "0"
+        }
+      ],
+      "assigned_social_worker": {
+        "legacy_descriptor": {
+          "legacy_last_updated": "2017-09-28T15:31:59.214-0700",
+          "legacy_id": "aaz",
+          "legacy_ui_id": "aaz",
+          "legacy_table_name": "STFPERST",
+          "legacy_table_description": "Staff"
+        },
+        "last_name": "Rubble",
+        "id": "aaz",
+        "legacy_assigned_social_worker_id": "aaz",
+        "first_name": "Betty"
+      },
+      "access_limitation": {
+        "limited_access_date": "2017-09-18",
+        "limited_access_description": "Screening is marked as sensitive for testing",
+        "limited_access_government_entity_id": "20",
+        "limited_access_code": "S",
+        "limited_access_government_entity_name": "Chest"
+      },
+      "response_time": "3 Day",
+      "id": "3hDsMGZ0X5",
+      "start_date": "2017-09-18"
+    }
+  ]
+}

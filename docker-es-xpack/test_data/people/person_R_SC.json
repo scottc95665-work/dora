@@ -1,0 +1,1298 @@
+{
+  "first_name" : "Crystal",
+  "middle_name" : "",
+  "last_name" : "Ales",
+  "date_of_birth" : "1991-04-04",
+  "gender" : "female",
+  "ssn" : "996007118",
+  "type" : "gov.ca.cwds.data.persistence.cms.rep.ReplicatedClient",
+  "sensitivity_indicator" : "R",
+  "client_county": {
+    "id": "1086",
+    "description": "Los Angeles"
+  },
+  "race_ethnicity" : {
+    "race_codes" : [
+      {
+        "id" : "839",
+        "description" : "White*"
+      }
+    ],
+    "hispanic_codes" : [
+      {
+        "id" : "830",
+        "description" : "Hispanic"
+      }
+    ],
+    "unable_to_determine_code" : "",
+    "hispanic_origin_code" : "U",
+    "hispanic_unable_to_determine_code" : ""
+  },
+  "source" : "{\n  \"adjudicatedDelinquentIndicator\" : \"\",\n  \"adoptionStatusCode\" : \"N\",\n  \"alienRegistrationNumber\" : \"\",\n  \"birthCity\" : \"\",\n  \"birthCountryCodeType\" : 0,\n  \"birthDate\" : \"1991-04-04\",\n  \"birthFacilityName\" : \"\",\n  \"birthStateCodeType\" : 0,\n  \"birthplaceVerifiedIndicator\" : \"N\",\n  \"childClientIndicatorVar\" : \"Y\",\n  \"clientAddresses\" : [ ],\n  \"clientCounty\" : 1126,\n  \"clientIndexNumber\" : \"\",\n  \"clientRaces\" : [ 839 ],\n  \"commentDescription\" : \"\",\n  \"commonFirstName\" : \"Crystal\",\n  \"commonLastName\" : \"Ales\",\n  \"commonMiddleName\" : \"\",\n  \"confidentialityInEffectIndicator\" : \"N\",\n  \"creationDate\" : \"2000-10-24\",\n  \"currCaChildrenServIndicator\" : \"N\",\n  \"currentlyOtherDescription\" : \"\",\n  \"currentlyRegionalCenterIndicator\" : \"N\",\n  \"deathDateVerifiedIndicator\" : \"N\",\n  \"deathPlace\" : \"\",\n  \"deathReasonText\" : \"\",\n  \"driverLicenseNumber\" : \"\",\n  \"driverLicenseStateCodeType\" : 0,\n  \"emailAddress\" : \"\",\n  \"estimatedDobCode\" : \"N\",\n  \"ethUnableToDetReasonCode\" : \"\",\n  \"genderCode\" : \"F\",\n  \"healthSummaryText\" : \"\",\n  \"hispUnableToDetReasonCode\" : \"\",\n  \"hispanicOriginCode\" : \"U\",\n  \"id\" : \"FsaJrvQ0Ib\",\n  \"immigrationCountryCodeType\" : 0,\n  \"immigrationStatusType\" : 0,\n  \"incapacitatedParentCode\" : \"U\",\n  \"individualHealthCarePlanIndicator\" : \"N\",\n  \"lastUpdatedTime\" : \"2000-10-24\",\n  \"legacyDescriptor\" : {\n    \"legacy_id\" : \"FsaJrvQ0Ib\",\n    \"legacy_ui_id\" : \"0902-0113-9030-8001153\",\n    \"legacy_last_updated\" : \"2000-10-24T09:03:52.639-0700\",\n    \"legacy_table_name\" : \"CLIENT_T\",\n    \"legacy_table_description\" : \"Client\"\n  },\n  \"legacyId\" : \"FsaJrvQ0Ib\",\n  \"limitationOnScpHealthIndicator\" : \"N\",\n  \"limitedAccessCode\" : \"N\",\n  \"literateCode\" : \"Y\",\n  \"maritalCohabitatnHstryIndicatorVar\" : \"N\",\n  \"maritalStatusType\" : 0,\n  \"militaryStatusCode\" : \"U\",\n  \"namePrefixDescription\" : \"\",\n  \"nameType\" : 1313,\n  \"outstandingWarrantIndicator\" : \"N\",\n  \"prevCaChildrenServIndicator\" : \"N\",\n  \"prevOtherDescription\" : \"\",\n  \"prevRegionalCenterIndicator\" : \"N\",\n  \"primaryEthnicityType\" : 830,\n  \"primaryKey\" : \"FsaJrvQ0Ib\",\n  \"primaryLanguageType\" : 1274,\n  \"raceAndEthnicity\" : {\n    \"race_codes\" : [ {\n      \"id\" : \"839\",\n      \"description\" : \"White*\"\n    } ],\n    \"hispanic_codes\" : [ {\n      \"id\" : \"830\",\n      \"description\" : \"Hispanic\"\n    } ],\n    \"unable_to_determine_code\" : \"\",\n    \"hispanic_origin_code\" : \"U\",\n    \"hispanic_unable_to_determine_code\" : \"\"\n  },\n  \"religionType\" : 0,\n  \"replicatedEntity\" : {\n    \"replicationOperation\" : \"I\",\n    \"replicationDate\" : \"2000-10-24\"\n  },\n  \"replicationDate\" : \"2000-10-24\",\n  \"replicationOperation\" : \"I\",\n  \"secondaryLanguageType\" : 0,\n  \"sensitiveHlthInfoOnFileIndicator\" : \"N\",\n  \"sensitivityIndicator\" : \"N\",\n  \"soc158PlacementCode\" : \"N\",\n  \"soc158SealedClientIndicator\" : \"N\",\n  \"socialSecurityNumChangedCode\" : \"N\",\n  \"socialSecurityNumber\" : \"996007118\",\n  \"suffixTitleDescription\" : \"\",\n  \"tribalAncestryClientIndicatorVar\" : \"N\",\n  \"tribalMembrshpVerifctnIndicatorVar\" : \"N\",\n  \"unemployedParentCode\" : \"U\",\n  \"zippyCreatedIndicator\" : \"N\"\n}",
+  "legacy_descriptor" : {
+    "legacy_id" : "FsaJrvQ0Ib",
+    "legacy_ui_id" : "0902-0113-9030-8001153",
+    "legacy_last_updated" : "2000-10-24T09:03:52.639-0700",
+    "legacy_table_name" : "CLIENT_T",
+    "legacy_table_description" : "Client"
+  },
+  "legacy_id" : "FsaJrvQ0Ib",
+  "addresses" : [ ],
+  "phone_numbers" : [ ],
+  "languages" : [
+    {
+      "id" : "1274",
+      "name" : "Spanish",
+      "primary" : true
+    }
+  ],
+  "id" : "FsaJrvQ0Ib",
+  "searchable_date_of_birth" : [
+    "04041991",
+    "041991",
+    "1991",
+    "0404",
+    "441991",
+    "41991",
+    "44"
+  ],
+  "searchable_name" : [
+    "Crystal",
+    "Ales"
+  ],
+  "referrals" : [
+    {
+      "legacy_referral_id" : "BPx5DXA0Ib",
+      "legacy_last_updated" : "2000-10-24T08:11:37.469-0700",
+      "legacy_descriptor" : {
+        "legacy_last_updated" : "2000-10-24T08:11:37.469-0700",
+        "legacy_id" : "BPx5DXA0Ib",
+        "legacy_ui_id" : "0648-5789-5971-6001153",
+        "legacy_table_name" : "REFERL_T",
+        "legacy_table_description" : "Referral"
+      },
+      "reporter" : {
+        "legacy_reporter_id" : "BPx5DXA0Ib",
+        "legacy_descriptor" : {
+          "legacy_last_updated" : "2000-10-24T08:11:37.469-0700",
+          "legacy_id" : "BPx5DXA0Ib",
+          "legacy_ui_id" : "0648-5789-5971-6001153",
+          "legacy_table_name" : "REPTR_T",
+          "legacy_table_description" : "Reporter"
+        },
+        "last_name" : "Smith",
+        "id" : "BPx5DXA0Ib",
+        "first_name" : "Sadie"
+      },
+      "county_name" : "State of California",
+      "response_time_id" : "0",
+      "county_id" : "1126",
+      "allegations" : [
+        {
+          "legacy_allegation_id" : "1w6xERQ0Ib",
+          "perpetrator_legacy_client_id" : "7VtWtPg0FX",
+          "perpetrator" : {
+            "legacy_descriptor" : {
+              "legacy_last_updated" : "2000-05-24T11:56:39.642-0700",
+              "legacy_id" : "7VtWtPg0FX",
+              "legacy_ui_id" : "0426-8223-0486-8000963",
+              "legacy_table_name" : "CLIENT_T",
+              "legacy_table_description" : "Client"
+            },
+            "last_name" : "Gustus",
+            "id" : "7VtWtPg0FX",
+            "first_name" : "Juanita",
+            "sensitivity_indicator" : "N"
+          },
+          "victim_last_name" : "Mingame",
+          "legacy_descriptor" : {
+            "legacy_last_updated" : "2000-10-24T09:03:52.639-0700",
+            "legacy_id" : "1w6xERQ0Ib",
+            "legacy_ui_id" : "0110-0387-1472-4001153",
+            "legacy_table_name" : "ALLGTN_T",
+            "legacy_table_description" : "Allegation"
+          },
+          "victim_id" : "7kJvIJQ0Ib",
+          "perpetrator_id" : "7VtWtPg0FX",
+          "victim_first_name" : "Martha",
+          "perpetrator_last_name" : "Gustus",
+          "perpetrator_first_name" : "Juanita",
+          "victim_legacy_client_id" : "7kJvIJQ0Ib",
+          "disposition_description" : "",
+          "victim" : {
+            "legacy_descriptor" : {
+              "legacy_last_updated" : "2000-10-24T09:03:52.639-0700",
+              "legacy_id" : "7kJvIJQ0Ib",
+              "legacy_ui_id" : "0440-0381-6483-6001153",
+              "legacy_table_name" : "CLIENT_T",
+              "legacy_table_description" : "Client"
+            },
+            "last_name" : "Mingame",
+            "id" : "7kJvIJQ0Ib",
+            "first_name" : "Martha",
+            "sensitivity_indicator" : "N"
+          },
+          "id" : "1w6xERQ0Ib",
+          "allegation_description" : "Severe Neglect",
+          "disposition_id" : "0"
+        },
+        {
+          "legacy_allegation_id" : "6jW1xyO0Ib",
+          "perpetrator_legacy_client_id" : "7VtWtPg0FX",
+          "perpetrator" : {
+            "legacy_descriptor" : {
+              "legacy_last_updated" : "2000-05-24T11:56:39.642-0700",
+              "legacy_id" : "7VtWtPg0FX",
+              "legacy_ui_id" : "0426-8223-0486-8000963",
+              "legacy_table_name" : "CLIENT_T",
+              "legacy_table_description" : "Client"
+            },
+            "last_name" : "Gustus",
+            "id" : "7VtWtPg0FX",
+            "first_name" : "Juanita",
+            "sensitivity_indicator" : "N"
+          },
+          "victim_last_name" : "Mingame",
+          "legacy_descriptor" : {
+            "legacy_last_updated" : "2000-10-24T09:03:52.639-0700",
+            "legacy_id" : "6jW1xyO0Ib",
+            "legacy_ui_id" : "0382-5007-0256-4001153",
+            "legacy_table_name" : "ALLGTN_T",
+            "legacy_table_description" : "Allegation"
+          },
+          "victim_id" : "7kJvIJQ0Ib",
+          "perpetrator_id" : "7VtWtPg0FX",
+          "victim_first_name" : "Martha",
+          "perpetrator_last_name" : "Gustus",
+          "perpetrator_first_name" : "Juanita",
+          "victim_legacy_client_id" : "7kJvIJQ0Ib",
+          "disposition_description" : "",
+          "victim" : {
+            "legacy_descriptor" : {
+              "legacy_last_updated" : "2000-10-24T09:03:52.639-0700",
+              "legacy_id" : "7kJvIJQ0Ib",
+              "legacy_ui_id" : "0440-0381-6483-6001153",
+              "legacy_table_name" : "CLIENT_T",
+              "legacy_table_description" : "Client"
+            },
+            "last_name" : "Mingame",
+            "id" : "7kJvIJQ0Ib",
+            "first_name" : "Martha",
+            "sensitivity_indicator" : "N"
+          },
+          "id" : "6jW1xyO0Ib",
+          "allegation_description" : "Physical Abuse",
+          "disposition_id" : "0"
+        },
+        {
+          "legacy_allegation_id" : "1Ty6xsq0Ib",
+          "perpetrator_legacy_client_id" : "7VtWtPg0FX",
+          "perpetrator" : {
+            "legacy_descriptor" : {
+              "legacy_last_updated" : "2000-05-24T11:56:39.642-0700",
+              "legacy_id" : "7VtWtPg0FX",
+              "legacy_ui_id" : "0426-8223-0486-8000963",
+              "legacy_table_name" : "CLIENT_T",
+              "legacy_table_description" : "Client"
+            },
+            "last_name" : "Gustus",
+            "id" : "7VtWtPg0FX",
+            "first_name" : "Juanita",
+            "sensitivity_indicator" : "N"
+          },
+          "victim_last_name" : "Plumm",
+          "legacy_descriptor" : {
+            "legacy_last_updated" : "2000-10-24T09:03:52.639-0700",
+            "legacy_id" : "1Ty6xsq0Ib",
+            "legacy_ui_id" : "0084-2563-2803-6001153",
+            "legacy_table_name" : "ALLGTN_T",
+            "legacy_table_description" : "Allegation"
+          },
+          "victim_id" : "U3tMqqS0Ib",
+          "perpetrator_id" : "7VtWtPg0FX",
+          "victim_first_name" : "Monica",
+          "perpetrator_last_name" : "Gustus",
+          "perpetrator_first_name" : "Juanita",
+          "victim_legacy_client_id" : "U3tMqqS0Ib",
+          "disposition_description" : "",
+          "victim" : {
+            "legacy_descriptor" : {
+              "legacy_last_updated" : "2000-10-24T09:03:52.639-0700",
+              "legacy_id" : "U3tMqqS0Ib",
+              "legacy_ui_id" : "1707-5736-1085-2001153",
+              "legacy_table_name" : "CLIENT_T",
+              "legacy_table_description" : "Client"
+            },
+            "last_name" : "Plumm",
+            "id" : "U3tMqqS0Ib",
+            "first_name" : "Monica",
+            "sensitivity_indicator" : "N"
+          },
+          "id" : "1Ty6xsq0Ib",
+          "allegation_description" : "General Neglect",
+          "disposition_id" : "0"
+        },
+        {
+          "legacy_allegation_id" : "Mc0sdRk0Ib",
+          "perpetrator_legacy_client_id" : "7VtWtPg0FX",
+          "perpetrator" : {
+            "legacy_descriptor" : {
+              "legacy_last_updated" : "2000-05-24T11:56:39.642-0700",
+              "legacy_id" : "7VtWtPg0FX",
+              "legacy_ui_id" : "0426-8223-0486-8000963",
+              "legacy_table_name" : "CLIENT_T",
+              "legacy_table_description" : "Client"
+            },
+            "last_name" : "Gustus",
+            "id" : "7VtWtPg0FX",
+            "first_name" : "Juanita",
+            "sensitivity_indicator" : "N"
+          },
+          "victim_last_name" : "Plumm",
+          "legacy_descriptor" : {
+            "legacy_last_updated" : "2000-10-24T09:03:52.639-0700",
+            "legacy_id" : "Mc0sdRk0Ib",
+            "legacy_ui_id" : "1284-4312-5181-2001153",
+            "legacy_table_name" : "ALLGTN_T",
+            "legacy_table_description" : "Allegation"
+          },
+          "victim_id" : "U3tMqqS0Ib",
+          "perpetrator_id" : "7VtWtPg0FX",
+          "victim_first_name" : "Monica",
+          "perpetrator_last_name" : "Gustus",
+          "perpetrator_first_name" : "Juanita",
+          "victim_legacy_client_id" : "U3tMqqS0Ib",
+          "disposition_description" : "",
+          "victim" : {
+            "legacy_descriptor" : {
+              "legacy_last_updated" : "2000-10-24T09:03:52.639-0700",
+              "legacy_id" : "U3tMqqS0Ib",
+              "legacy_ui_id" : "1707-5736-1085-2001153",
+              "legacy_table_name" : "CLIENT_T",
+              "legacy_table_description" : "Client"
+            },
+            "last_name" : "Plumm",
+            "id" : "U3tMqqS0Ib",
+            "first_name" : "Monica",
+            "sensitivity_indicator" : "N"
+          },
+          "id" : "Mc0sdRk0Ib",
+          "allegation_description" : "Physical Abuse",
+          "disposition_id" : "0"
+        },
+        {
+          "legacy_allegation_id" : "EwSoBeO0Ib",
+          "perpetrator_legacy_client_id" : "7VtWtPg0FX",
+          "perpetrator" : {
+            "legacy_descriptor" : {
+              "legacy_last_updated" : "2000-05-24T11:56:39.642-0700",
+              "legacy_id" : "7VtWtPg0FX",
+              "legacy_ui_id" : "0426-8223-0486-8000963",
+              "legacy_table_name" : "CLIENT_T",
+              "legacy_table_description" : "Client"
+            },
+            "last_name" : "Gustus",
+            "id" : "7VtWtPg0FX",
+            "first_name" : "Juanita",
+            "sensitivity_indicator" : "N"
+          },
+          "victim_last_name" : "Devereu",
+          "legacy_descriptor" : {
+            "legacy_last_updated" : "2000-10-24T09:03:52.639-0700",
+            "legacy_id" : "EwSoBeO0Ib",
+            "legacy_ui_id" : "0848-7647-0102-8001153",
+            "legacy_table_name" : "ALLGTN_T",
+            "legacy_table_description" : "Allegation"
+          },
+          "victim_id" : "QMl6UxY0Ib",
+          "perpetrator_id" : "7VtWtPg0FX",
+          "victim_first_name" : "Marlene",
+          "perpetrator_last_name" : "Gustus",
+          "perpetrator_first_name" : "Juanita",
+          "victim_legacy_client_id" : "QMl6UxY0Ib",
+          "disposition_description" : "",
+          "victim" : {
+            "legacy_descriptor" : {
+              "legacy_last_updated" : "2000-10-24T09:03:52.639-0700",
+              "legacy_id" : "QMl6UxY0Ib",
+              "legacy_ui_id" : "1497-6570-8426-0001153",
+              "legacy_table_name" : "CLIENT_T",
+              "legacy_table_description" : "Client"
+            },
+            "last_name" : "Devereu",
+            "id" : "QMl6UxY0Ib",
+            "first_name" : "Marlene",
+            "sensitivity_indicator" : "N"
+          },
+          "id" : "EwSoBeO0Ib",
+          "allegation_description" : "General Neglect",
+          "disposition_id" : "0"
+        },
+        {
+          "legacy_allegation_id" : "KKmsE5c0Ib",
+          "perpetrator_legacy_client_id" : "7VtWtPg0FX",
+          "perpetrator" : {
+            "legacy_descriptor" : {
+              "legacy_last_updated" : "2000-05-24T11:56:39.642-0700",
+              "legacy_id" : "7VtWtPg0FX",
+              "legacy_ui_id" : "0426-8223-0486-8000963",
+              "legacy_table_name" : "CLIENT_T",
+              "legacy_table_description" : "Client"
+            },
+            "last_name" : "Gustus",
+            "id" : "7VtWtPg0FX",
+            "first_name" : "Juanita",
+            "sensitivity_indicator" : "N"
+          },
+          "victim_last_name" : "Devereu",
+          "legacy_descriptor" : {
+            "legacy_last_updated" : "2000-10-24T09:03:52.639-0700",
+            "legacy_id" : "KKmsE5c0Ib",
+            "legacy_ui_id" : "1155-0495-5632-4001153",
+            "legacy_table_name" : "ALLGTN_T",
+            "legacy_table_description" : "Allegation"
+          },
+          "victim_id" : "QMl6UxY0Ib",
+          "perpetrator_id" : "7VtWtPg0FX",
+          "victim_first_name" : "Marlene",
+          "perpetrator_last_name" : "Gustus",
+          "perpetrator_first_name" : "Juanita",
+          "victim_legacy_client_id" : "QMl6UxY0Ib",
+          "disposition_description" : "",
+          "victim" : {
+            "legacy_descriptor" : {
+              "legacy_last_updated" : "2000-10-24T09:03:52.639-0700",
+              "legacy_id" : "QMl6UxY0Ib",
+              "legacy_ui_id" : "1497-6570-8426-0001153",
+              "legacy_table_name" : "CLIENT_T",
+              "legacy_table_description" : "Client"
+            },
+            "last_name" : "Devereu",
+            "id" : "QMl6UxY0Ib",
+            "first_name" : "Marlene",
+            "sensitivity_indicator" : "N"
+          },
+          "id" : "KKmsE5c0Ib",
+          "allegation_description" : "Physical Abuse",
+          "disposition_id" : "0"
+        },
+        {
+          "legacy_allegation_id" : "HNeTk2u0Ib",
+          "perpetrator_legacy_client_id" : "7VtWtPg0FX",
+          "perpetrator" : {
+            "legacy_descriptor" : {
+              "legacy_last_updated" : "2000-05-24T11:56:39.642-0700",
+              "legacy_id" : "7VtWtPg0FX",
+              "legacy_ui_id" : "0426-8223-0486-8000963",
+              "legacy_table_name" : "CLIENT_T",
+              "legacy_table_description" : "Client"
+            },
+            "last_name" : "Gustus",
+            "id" : "7VtWtPg0FX",
+            "first_name" : "Juanita",
+            "sensitivity_indicator" : "N"
+          },
+          "victim_last_name" : "Silveston",
+          "legacy_descriptor" : {
+            "legacy_last_updated" : "2000-10-24T09:03:52.639-0700",
+            "legacy_id" : "HNeTk2u0Ib",
+            "legacy_ui_id" : "0987-2732-0202-0001153",
+            "legacy_table_name" : "ALLGTN_T",
+            "legacy_table_description" : "Allegation"
+          },
+          "victim_id" : "QEqK3400Ib",
+          "perpetrator_id" : "7VtWtPg0FX",
+          "victim_first_name" : "Maria",
+          "perpetrator_last_name" : "Gustus",
+          "perpetrator_first_name" : "Juanita",
+          "victim_legacy_client_id" : "QEqK3400Ib",
+          "disposition_description" : "",
+          "victim" : {
+            "legacy_descriptor" : {
+              "legacy_last_updated" : "2000-10-24T09:03:52.639-0700",
+              "legacy_id" : "QEqK3400Ib",
+              "legacy_ui_id" : "1490-4051-3264-4001153",
+              "legacy_table_name" : "CLIENT_T",
+              "legacy_table_description" : "Client"
+            },
+            "last_name" : "Silveston",
+            "id" : "QEqK3400Ib",
+            "first_name" : "Maria",
+            "sensitivity_indicator" : "N"
+          },
+          "id" : "HNeTk2u0Ib",
+          "allegation_description" : "General Neglect",
+          "disposition_id" : "0"
+        },
+        {
+          "legacy_allegation_id" : "KMpkvES0Ib",
+          "perpetrator_legacy_client_id" : "7VtWtPg0FX",
+          "perpetrator" : {
+            "legacy_descriptor" : {
+              "legacy_last_updated" : "2000-05-24T11:56:39.642-0700",
+              "legacy_id" : "7VtWtPg0FX",
+              "legacy_ui_id" : "0426-8223-0486-8000963",
+              "legacy_table_name" : "CLIENT_T",
+              "legacy_table_description" : "Client"
+            },
+            "last_name" : "Gustus",
+            "id" : "7VtWtPg0FX",
+            "first_name" : "Juanita",
+            "sensitivity_indicator" : "N"
+          },
+          "victim_last_name" : "Silveston",
+          "legacy_descriptor" : {
+            "legacy_last_updated" : "2000-10-24T09:03:52.639-0700",
+            "legacy_id" : "KMpkvES0Ib",
+            "legacy_ui_id" : "1156-9244-1021-2001153",
+            "legacy_table_name" : "ALLGTN_T",
+            "legacy_table_description" : "Allegation"
+          },
+          "victim_id" : "QEqK3400Ib",
+          "perpetrator_id" : "7VtWtPg0FX",
+          "victim_first_name" : "Maria",
+          "perpetrator_last_name" : "Gustus",
+          "perpetrator_first_name" : "Juanita",
+          "victim_legacy_client_id" : "QEqK3400Ib",
+          "disposition_description" : "",
+          "victim" : {
+            "legacy_descriptor" : {
+              "legacy_last_updated" : "2000-10-24T09:03:52.639-0700",
+              "legacy_id" : "QEqK3400Ib",
+              "legacy_ui_id" : "1490-4051-3264-4001153",
+              "legacy_table_name" : "CLIENT_T",
+              "legacy_table_description" : "Client"
+            },
+            "last_name" : "Silveston",
+            "id" : "QEqK3400Ib",
+            "first_name" : "Maria",
+            "sensitivity_indicator" : "N"
+          },
+          "id" : "KMpkvES0Ib",
+          "allegation_description" : "Physical Abuse",
+          "disposition_id" : "0"
+        },
+        {
+          "legacy_allegation_id" : "Js3yu0q0Ib",
+          "perpetrator_legacy_client_id" : "7VtWtPg0FX",
+          "perpetrator" : {
+            "legacy_descriptor" : {
+              "legacy_last_updated" : "2000-05-24T11:56:39.642-0700",
+              "legacy_id" : "7VtWtPg0FX",
+              "legacy_ui_id" : "0426-8223-0486-8000963",
+              "legacy_table_name" : "CLIENT_T",
+              "legacy_table_description" : "Client"
+            },
+            "last_name" : "Gustus",
+            "id" : "7VtWtPg0FX",
+            "first_name" : "Juanita",
+            "sensitivity_indicator" : "N"
+          },
+          "victim_last_name" : "O Lenechan",
+          "legacy_descriptor" : {
+            "legacy_last_updated" : "2000-10-24T09:03:52.639-0700",
+            "legacy_id" : "Js3yu0q0Ib",
+            "legacy_ui_id" : "1128-7344-9302-8001153",
+            "legacy_table_name" : "ALLGTN_T",
+            "legacy_table_description" : "Allegation"
+          },
+          "victim_id" : "JkFRcyi0Ib",
+          "perpetrator_id" : "7VtWtPg0FX",
+          "victim_first_name" : "Michelle",
+          "perpetrator_last_name" : "Gustus",
+          "perpetrator_first_name" : "Juanita",
+          "victim_legacy_client_id" : "JkFRcyi0Ib",
+          "disposition_description" : "",
+          "victim" : {
+            "legacy_descriptor" : {
+              "legacy_last_updated" : "2000-10-24T09:03:52.639-0700",
+              "legacy_id" : "JkFRcyi0Ib",
+              "legacy_ui_id" : "1121-5748-1610-0001153",
+              "legacy_table_name" : "CLIENT_T",
+              "legacy_table_description" : "Client"
+            },
+            "last_name" : "O Lenechan",
+            "id" : "JkFRcyi0Ib",
+            "first_name" : "Michelle",
+            "sensitivity_indicator" : "N"
+          },
+          "id" : "Js3yu0q0Ib",
+          "allegation_description" : "Physical Abuse",
+          "disposition_id" : "0"
+        },
+        {
+          "legacy_allegation_id" : "KD9yVO80Ib",
+          "perpetrator_legacy_client_id" : "7VtWtPg0FX",
+          "perpetrator" : {
+            "legacy_descriptor" : {
+              "legacy_last_updated" : "2000-05-24T11:56:39.642-0700",
+              "legacy_id" : "7VtWtPg0FX",
+              "legacy_ui_id" : "0426-8223-0486-8000963",
+              "legacy_table_name" : "CLIENT_T",
+              "legacy_table_description" : "Client"
+            },
+            "last_name" : "Gustus",
+            "id" : "7VtWtPg0FX",
+            "first_name" : "Juanita",
+            "sensitivity_indicator" : "N"
+          },
+          "victim_last_name" : "O Lenechan",
+          "legacy_descriptor" : {
+            "legacy_last_updated" : "2000-10-24T09:03:52.639-0700",
+            "legacy_id" : "KD9yVO80Ib",
+            "legacy_ui_id" : "1148-0618-4586-0001153",
+            "legacy_table_name" : "ALLGTN_T",
+            "legacy_table_description" : "Allegation"
+          },
+          "victim_id" : "JkFRcyi0Ib",
+          "perpetrator_id" : "7VtWtPg0FX",
+          "victim_first_name" : "Michelle",
+          "perpetrator_last_name" : "Gustus",
+          "perpetrator_first_name" : "Juanita",
+          "victim_legacy_client_id" : "JkFRcyi0Ib",
+          "disposition_description" : "",
+          "victim" : {
+            "legacy_descriptor" : {
+              "legacy_last_updated" : "2000-10-24T09:03:52.639-0700",
+              "legacy_id" : "JkFRcyi0Ib",
+              "legacy_ui_id" : "1121-5748-1610-0001153",
+              "legacy_table_name" : "CLIENT_T",
+              "legacy_table_description" : "Client"
+            },
+            "last_name" : "O Lenechan",
+            "id" : "JkFRcyi0Ib",
+            "first_name" : "Michelle",
+            "sensitivity_indicator" : "N"
+          },
+          "id" : "KD9yVO80Ib",
+          "allegation_description" : "General Neglect",
+          "disposition_id" : "0"
+        },
+        {
+          "legacy_allegation_id" : "Fmck8ZQ0Ib",
+          "perpetrator_legacy_client_id" : "7VtWtPg0FX",
+          "perpetrator" : {
+            "legacy_descriptor" : {
+              "legacy_last_updated" : "2000-05-24T11:56:39.642-0700",
+              "legacy_id" : "7VtWtPg0FX",
+              "legacy_ui_id" : "0426-8223-0486-8000963",
+              "legacy_table_name" : "CLIENT_T",
+              "legacy_table_description" : "Client"
+            },
+            "last_name" : "Gustus",
+            "id" : "7VtWtPg0FX",
+            "first_name" : "Juanita",
+            "sensitivity_indicator" : "N"
+          },
+          "victim_last_name" : "Fyrth",
+          "legacy_descriptor" : {
+            "legacy_last_updated" : "2000-10-24T09:03:52.639-0700",
+            "legacy_id" : "Fmck8ZQ0Ib",
+            "legacy_ui_id" : "0896-5504-0650-0001153",
+            "legacy_table_name" : "ALLGTN_T",
+            "legacy_table_description" : "Allegation"
+          },
+          "victim_id" : "Hp0DP6K0Ib",
+          "perpetrator_id" : "7VtWtPg0FX",
+          "victim_first_name" : "Carmen",
+          "perpetrator_last_name" : "Gustus",
+          "perpetrator_first_name" : "Juanita",
+          "victim_legacy_client_id" : "Hp0DP6K0Ib",
+          "disposition_description" : "",
+          "victim" : {
+            "legacy_descriptor" : {
+              "legacy_last_updated" : "2000-10-24T09:03:52.639-0700",
+              "legacy_id" : "Hp0DP6K0Ib",
+              "legacy_ui_id" : "1012-3299-7411-6001153",
+              "legacy_table_name" : "CLIENT_T",
+              "legacy_table_description" : "Client"
+            },
+            "last_name" : "Fyrth",
+            "id" : "Hp0DP6K0Ib",
+            "first_name" : "Carmen",
+            "sensitivity_indicator" : "N"
+          },
+          "id" : "Fmck8ZQ0Ib",
+          "allegation_description" : "Physical Abuse",
+          "disposition_id" : "0"
+        },
+        {
+          "legacy_allegation_id" : "FELFmaK0Ib",
+          "perpetrator_legacy_client_id" : "7VtWtPg0FX",
+          "perpetrator" : {
+            "legacy_descriptor" : {
+              "legacy_last_updated" : "2000-05-24T11:56:39.642-0700",
+              "legacy_id" : "7VtWtPg0FX",
+              "legacy_ui_id" : "0426-8223-0486-8000963",
+              "legacy_table_name" : "CLIENT_T",
+              "legacy_table_description" : "Client"
+            },
+            "last_name" : "Gustus",
+            "id" : "7VtWtPg0FX",
+            "first_name" : "Juanita",
+            "sensitivity_indicator" : "N"
+          },
+          "victim_last_name" : "Fyrth",
+          "legacy_descriptor" : {
+            "legacy_last_updated" : "2000-10-24T09:03:52.639-0700",
+            "legacy_id" : "FELFmaK0Ib",
+            "legacy_ui_id" : "0865-1434-5814-8001153",
+            "legacy_table_name" : "ALLGTN_T",
+            "legacy_table_description" : "Allegation"
+          },
+          "victim_id" : "Hp0DP6K0Ib",
+          "perpetrator_id" : "7VtWtPg0FX",
+          "victim_first_name" : "Carmen",
+          "perpetrator_last_name" : "Gustus",
+          "perpetrator_first_name" : "Juanita",
+          "victim_legacy_client_id" : "Hp0DP6K0Ib",
+          "disposition_description" : "",
+          "victim" : {
+            "legacy_descriptor" : {
+              "legacy_last_updated" : "2000-10-24T09:03:52.639-0700",
+              "legacy_id" : "Hp0DP6K0Ib",
+              "legacy_ui_id" : "1012-3299-7411-6001153",
+              "legacy_table_name" : "CLIENT_T",
+              "legacy_table_description" : "Client"
+            },
+            "last_name" : "Fyrth",
+            "id" : "Hp0DP6K0Ib",
+            "first_name" : "Carmen",
+            "sensitivity_indicator" : "N"
+          },
+          "id" : "FELFmaK0Ib",
+          "allegation_description" : "General Neglect",
+          "disposition_id" : "0"
+        },
+        {
+          "legacy_allegation_id" : "1fmASLE0Ib",
+          "perpetrator_legacy_client_id" : "7VtWtPg0FX",
+          "perpetrator" : {
+            "legacy_descriptor" : {
+              "legacy_last_updated" : "2000-05-24T11:56:39.642-0700",
+              "legacy_id" : "7VtWtPg0FX",
+              "legacy_ui_id" : "0426-8223-0486-8000963",
+              "legacy_table_name" : "CLIENT_T",
+              "legacy_table_description" : "Client"
+            },
+            "last_name" : "Gustus",
+            "id" : "7VtWtPg0FX",
+            "first_name" : "Juanita",
+            "sensitivity_indicator" : "N"
+          },
+          "victim_last_name" : "Aimable",
+          "legacy_descriptor" : {
+            "legacy_last_updated" : "2000-10-24T08:11:37.469-0700",
+            "legacy_id" : "1fmASLE0Ib",
+            "legacy_ui_id" : "0095-0734-3805-2001153",
+            "legacy_table_name" : "ALLGTN_T",
+            "legacy_table_description" : "Allegation"
+          },
+          "victim_id" : "GPfRJpc0Ib",
+          "perpetrator_id" : "7VtWtPg0FX",
+          "victim_first_name" : "Michael",
+          "perpetrator_last_name" : "Gustus",
+          "perpetrator_first_name" : "Juanita",
+          "victim_legacy_client_id" : "GPfRJpc0Ib",
+          "disposition_description" : "",
+          "victim" : {
+            "legacy_descriptor" : {
+              "legacy_last_updated" : "2000-10-24T08:11:37.469-0700",
+              "legacy_id" : "GPfRJpc0Ib",
+              "legacy_ui_id" : "0932-3194-3101-2001153",
+              "legacy_table_name" : "CLIENT_T",
+              "legacy_table_description" : "Client"
+            },
+            "last_name" : "Aimable",
+            "id" : "GPfRJpc0Ib",
+            "first_name" : "Michael",
+            "sensitivity_indicator" : "N"
+          },
+          "id" : "1fmASLE0Ib",
+          "allegation_description" : "Exploitation",
+          "disposition_id" : "0"
+        },
+        {
+          "legacy_allegation_id" : "P0HjhzA0Ib",
+          "perpetrator_legacy_client_id" : "7VtWtPg0FX",
+          "perpetrator" : {
+            "legacy_descriptor" : {
+              "legacy_last_updated" : "2000-05-24T11:56:39.642-0700",
+              "legacy_id" : "7VtWtPg0FX",
+              "legacy_ui_id" : "0426-8223-0486-8000963",
+              "legacy_table_name" : "CLIENT_T",
+              "legacy_table_description" : "Client"
+            },
+            "last_name" : "Gustus",
+            "id" : "7VtWtPg0FX",
+            "first_name" : "Juanita",
+            "sensitivity_indicator" : "N"
+          },
+          "victim_last_name" : "Ales",
+          "legacy_descriptor" : {
+            "legacy_last_updated" : "2000-10-24T09:03:52.639-0700",
+            "legacy_id" : "P0HjhzA0Ib",
+            "legacy_ui_id" : "1420-2679-8115-6001153",
+            "legacy_table_name" : "ALLGTN_T",
+            "legacy_table_description" : "Allegation"
+          },
+          "victim_id" : "FsaJrvQ0Ib",
+          "perpetrator_id" : "7VtWtPg0FX",
+          "victim_first_name" : "Crystal",
+          "perpetrator_last_name" : "Gustus",
+          "perpetrator_first_name" : "Juanita",
+          "victim_legacy_client_id" : "FsaJrvQ0Ib",
+          "disposition_description" : "",
+          "victim" : {
+            "legacy_descriptor" : {
+              "legacy_last_updated" : "2000-10-24T09:03:52.639-0700",
+              "legacy_id" : "FsaJrvQ0Ib",
+              "legacy_ui_id" : "0902-0113-9030-8001153",
+              "legacy_table_name" : "CLIENT_T",
+              "legacy_table_description" : "Client"
+            },
+            "last_name" : "Ales",
+            "id" : "FsaJrvQ0Ib",
+            "first_name" : "Crystal",
+            "sensitivity_indicator" : "N"
+          },
+          "id" : "P0HjhzA0Ib",
+          "allegation_description" : "Physical Abuse",
+          "disposition_id" : "0"
+        },
+        {
+          "legacy_allegation_id" : "Dr4mO6m0Ib",
+          "perpetrator_legacy_client_id" : "7VtWtPg0FX",
+          "perpetrator" : {
+            "legacy_descriptor" : {
+              "legacy_last_updated" : "2000-05-24T11:56:39.642-0700",
+              "legacy_id" : "7VtWtPg0FX",
+              "legacy_ui_id" : "0426-8223-0486-8000963",
+              "legacy_table_name" : "CLIENT_T",
+              "legacy_table_description" : "Client"
+            },
+            "last_name" : "Gustus",
+            "id" : "7VtWtPg0FX",
+            "first_name" : "Juanita",
+            "sensitivity_indicator" : "N"
+          },
+          "victim_last_name" : "Ales",
+          "legacy_descriptor" : {
+            "legacy_last_updated" : "2000-10-24T09:03:52.639-0700",
+            "legacy_id" : "Dr4mO6m0Ib",
+            "legacy_ui_id" : "0787-0287-4045-2001153",
+            "legacy_table_name" : "ALLGTN_T",
+            "legacy_table_description" : "Allegation"
+          },
+          "victim_id" : "FsaJrvQ0Ib",
+          "perpetrator_id" : "7VtWtPg0FX",
+          "victim_first_name" : "Crystal",
+          "perpetrator_last_name" : "Gustus",
+          "perpetrator_first_name" : "Juanita",
+          "victim_legacy_client_id" : "FsaJrvQ0Ib",
+          "disposition_description" : "",
+          "victim" : {
+            "legacy_descriptor" : {
+              "legacy_last_updated" : "2000-10-24T09:03:52.639-0700",
+              "legacy_id" : "FsaJrvQ0Ib",
+              "legacy_ui_id" : "0902-0113-9030-8001153",
+              "legacy_table_name" : "CLIENT_T",
+              "legacy_table_description" : "Client"
+            },
+            "last_name" : "Ales",
+            "id" : "FsaJrvQ0Ib",
+            "first_name" : "Crystal",
+            "sensitivity_indicator" : "N"
+          },
+          "id" : "Dr4mO6m0Ib",
+          "allegation_description" : "General Neglect",
+          "disposition_id" : "0"
+        },
+        {
+          "legacy_allegation_id" : "RAluZsK0Ib",
+          "perpetrator_legacy_client_id" : "7VtWtPg0FX",
+          "perpetrator" : {
+            "legacy_descriptor" : {
+              "legacy_last_updated" : "2000-05-24T11:56:39.642-0700",
+              "legacy_id" : "7VtWtPg0FX",
+              "legacy_ui_id" : "0426-8223-0486-8000963",
+              "legacy_table_name" : "CLIENT_T",
+              "legacy_table_description" : "Client"
+            },
+            "last_name" : "Gustus",
+            "id" : "7VtWtPg0FX",
+            "first_name" : "Juanita",
+            "sensitivity_indicator" : "N"
+          },
+          "victim_last_name" : "Medcraft",
+          "legacy_descriptor" : {
+            "legacy_last_updated" : "2000-10-24T09:03:52.639-0700",
+            "legacy_id" : "RAluZsK0Ib",
+            "legacy_ui_id" : "1543-4756-6115-6001153",
+            "legacy_table_name" : "ALLGTN_T",
+            "legacy_table_description" : "Allegation"
+          },
+          "victim_id" : "BplA3kq0Ib",
+          "perpetrator_id" : "7VtWtPg0FX",
+          "victim_first_name" : "Juan",
+          "perpetrator_last_name" : "Gustus",
+          "perpetrator_first_name" : "Juanita",
+          "victim_legacy_client_id" : "BplA3kq0Ib",
+          "disposition_description" : "",
+          "victim" : {
+            "legacy_descriptor" : {
+              "legacy_last_updated" : "2000-10-24T09:03:52.639-0700",
+              "legacy_id" : "BplA3kq0Ib",
+              "legacy_ui_id" : "0672-2222-5136-4001153",
+              "legacy_table_name" : "CLIENT_T",
+              "legacy_table_description" : "Client"
+            },
+            "last_name" : "Medcraft",
+            "id" : "BplA3kq0Ib",
+            "first_name" : "Juan",
+            "sensitivity_indicator" : "N"
+          },
+          "id" : "RAluZsK0Ib",
+          "allegation_description" : "General Neglect",
+          "disposition_id" : "0"
+        },
+        {
+          "legacy_allegation_id" : "BPICyns0Ib",
+          "perpetrator_legacy_client_id" : "7VtWtPg0FX",
+          "perpetrator" : {
+            "legacy_descriptor" : {
+              "legacy_last_updated" : "2000-05-24T11:56:39.642-0700",
+              "legacy_id" : "7VtWtPg0FX",
+              "legacy_ui_id" : "0426-8223-0486-8000963",
+              "legacy_table_name" : "CLIENT_T",
+              "legacy_table_description" : "Client"
+            },
+            "last_name" : "Gustus",
+            "id" : "7VtWtPg0FX",
+            "first_name" : "Juanita",
+            "sensitivity_indicator" : "N"
+          },
+          "victim_last_name" : "Medcraft",
+          "legacy_descriptor" : {
+            "legacy_last_updated" : "2000-10-24T09:03:52.639-0700",
+            "legacy_id" : "BPICyns0Ib",
+            "legacy_ui_id" : "0647-9749-7994-0001153",
+            "legacy_table_name" : "ALLGTN_T",
+            "legacy_table_description" : "Allegation"
+          },
+          "victim_id" : "BplA3kq0Ib",
+          "perpetrator_id" : "7VtWtPg0FX",
+          "victim_first_name" : "Juan",
+          "perpetrator_last_name" : "Gustus",
+          "perpetrator_first_name" : "Juanita",
+          "victim_legacy_client_id" : "BplA3kq0Ib",
+          "disposition_description" : "",
+          "victim" : {
+            "legacy_descriptor" : {
+              "legacy_last_updated" : "2000-10-24T09:03:52.639-0700",
+              "legacy_id" : "BplA3kq0Ib",
+              "legacy_ui_id" : "0672-2222-5136-4001153",
+              "legacy_table_name" : "CLIENT_T",
+              "legacy_table_description" : "Client"
+            },
+            "last_name" : "Medcraft",
+            "id" : "BplA3kq0Ib",
+            "first_name" : "Juan",
+            "sensitivity_indicator" : "N"
+          },
+          "id" : "BPICyns0Ib",
+          "allegation_description" : "Physical Abuse",
+          "disposition_id" : "0"
+        },
+        {
+          "legacy_allegation_id" : "6s0rTO80Ib",
+          "perpetrator_legacy_client_id" : "JkFRcyi0Ib",
+          "perpetrator" : {
+            "legacy_descriptor" : {
+              "legacy_last_updated" : "2000-10-24T09:03:52.639-0700",
+              "legacy_id" : "JkFRcyi0Ib",
+              "legacy_ui_id" : "1121-5748-1610-0001153",
+              "legacy_table_name" : "CLIENT_T",
+              "legacy_table_description" : "Client"
+            },
+            "last_name" : "O Lenechan",
+            "id" : "JkFRcyi0Ib",
+            "first_name" : "Michelle",
+            "sensitivity_indicator" : "N"
+          },
+          "victim_last_name" : "Hadigate",
+          "legacy_descriptor" : {
+            "legacy_last_updated" : "2000-10-24T09:03:52.639-0700",
+            "legacy_id" : "6s0rTO80Ib",
+            "legacy_ui_id" : "0390-2853-3078-8001153",
+            "legacy_table_name" : "ALLGTN_T",
+            "legacy_table_description" : "Allegation"
+          },
+          "victim_id" : "LZfc5P20Ib",
+          "perpetrator_id" : "JkFRcyi0Ib",
+          "victim_first_name" : "Leticia",
+          "perpetrator_last_name" : "O Lenechan",
+          "perpetrator_first_name" : "Michelle",
+          "victim_legacy_client_id" : "LZfc5P20Ib",
+          "disposition_description" : "",
+          "victim" : {
+            "legacy_descriptor" : {
+              "legacy_last_updated" : "2000-10-24T09:03:52.639-0700",
+              "legacy_id" : "LZfc5P20Ib",
+              "legacy_ui_id" : "1225-4845-0339-6001153",
+              "legacy_table_name" : "CLIENT_T",
+              "legacy_table_description" : "Client"
+            },
+            "last_name" : "Hadigate",
+            "id" : "LZfc5P20Ib",
+            "first_name" : "Leticia",
+            "sensitivity_indicator" : "N"
+          },
+          "id" : "6s0rTO80Ib",
+          "allegation_description" : "Severe Neglect",
+          "disposition_id" : "0"
+        },
+        {
+          "legacy_allegation_id" : "OrUAfzA0Ib",
+          "perpetrator_legacy_client_id" : "JkFRcyi0Ib",
+          "perpetrator" : {
+            "legacy_descriptor" : {
+              "legacy_last_updated" : "2000-10-24T09:03:52.639-0700",
+              "legacy_id" : "JkFRcyi0Ib",
+              "legacy_ui_id" : "1121-5748-1610-0001153",
+              "legacy_table_name" : "CLIENT_T",
+              "legacy_table_description" : "Client"
+            },
+            "last_name" : "O Lenechan",
+            "id" : "JkFRcyi0Ib",
+            "first_name" : "Michelle",
+            "sensitivity_indicator" : "N"
+          },
+          "victim_last_name" : "Silveston",
+          "legacy_descriptor" : {
+            "legacy_last_updated" : "2000-10-24T09:03:52.639-0700",
+            "legacy_id" : "OrUAfzA0Ib",
+            "legacy_ui_id" : "1412-2065-2886-8001153",
+            "legacy_table_name" : "ALLGTN_T",
+            "legacy_table_description" : "Allegation"
+          },
+          "victim_id" : "QEqK3400Ib",
+          "perpetrator_id" : "JkFRcyi0Ib",
+          "victim_first_name" : "Maria",
+          "perpetrator_last_name" : "O Lenechan",
+          "perpetrator_first_name" : "Michelle",
+          "victim_legacy_client_id" : "QEqK3400Ib",
+          "disposition_description" : "",
+          "victim" : {
+            "legacy_descriptor" : {
+              "legacy_last_updated" : "2000-10-24T09:03:52.639-0700",
+              "legacy_id" : "QEqK3400Ib",
+              "legacy_ui_id" : "1490-4051-3264-4001153",
+              "legacy_table_name" : "CLIENT_T",
+              "legacy_table_description" : "Client"
+            },
+            "last_name" : "Silveston",
+            "id" : "QEqK3400Ib",
+            "first_name" : "Maria",
+            "sensitivity_indicator" : "N"
+          },
+          "id" : "OrUAfzA0Ib",
+          "allegation_description" : "Physical Abuse",
+          "disposition_id" : "0"
+        }
+      ],
+      "assigned_social_worker" : {
+        "legacy_descriptor" : {
+          "legacy_last_updated" : "2014-02-28T14:20:56.361-0800",
+          "legacy_id" : "0Ib",
+          "legacy_ui_id" : "0Ib",
+          "legacy_table_name" : "STFPERST",
+          "legacy_table_description" : "Staff"
+        },
+        "last_name" : "ALLST8",
+        "id" : "0Ib",
+        "legacy_assigned_social_worker_id" : "0Ib",
+        "first_name" : "V"
+      },
+      "access_limitation" : {
+        "limited_access_government_entity_id" : "0",
+        "limited_access_code" : "N"
+      },
+      "response_time" : "",
+      "id" : "BPx5DXA0Ib",
+      "start_date" : "2000-10-24"
+    }
+  ],
+  "relationships" : [
+    {
+      "related_person_first_name" : "Carmen",
+      "indexed_person_relationship" : "Sister",
+      "relationship_context" : "Half",
+      "related_person_legacy_id" : "Hp0DP6K0Ib",
+      "legacy_descriptor" : {
+        "legacy_last_updated" : "2000-10-24T09:03:52.000-0700",
+        "legacy_id" : "Hp0DP6K0Ib",
+        "legacy_ui_id" : "1012-3299-7411-6001153",
+        "legacy_table_name" : "CLIENT_T",
+        "legacy_table_description" : "Client"
+      },
+      "related_person_last_name" : "Robertsen",
+      "related_person_relationship" : "Sister"
+    },
+    {
+      "related_person_first_name" : "Charlie",
+      "indexed_person_relationship" : "No Relation",
+      "relationship_context" : "",
+      "related_person_legacy_id" : "7oiQDBM0Ib",
+      "legacy_descriptor" : {
+        "legacy_last_updated" : "2000-10-24T09:03:52.000-0700",
+        "legacy_id" : "7oiQDBM0Ib",
+        "legacy_ui_id" : "0444-0646-9667-6001153",
+        "legacy_table_name" : "CLIENT_T",
+        "legacy_table_description" : "Client"
+      },
+      "related_person_last_name" : "Looker",
+      "related_person_relationship" : "No Relation"
+    },
+    {
+      "related_person_first_name" : "David",
+      "indexed_person_relationship" : "Daughter",
+      "relationship_context" : "Birth",
+      "related_person_legacy_id" : "HlCcL8m0Ib",
+      "legacy_descriptor" : {
+        "legacy_last_updated" : "2000-10-24T09:03:52.000-0700",
+        "legacy_id" : "HlCcL8m0Ib",
+        "legacy_ui_id" : "1008-8487-0179-6001153",
+        "legacy_table_name" : "CLIENT_T",
+        "legacy_table_description" : "Client"
+      },
+      "related_person_last_name" : "Braybrookes",
+      "related_person_relationship" : "Father"
+    },
+    {
+      "related_person_first_name" : "John",
+      "indexed_person_relationship" : "No Relation",
+      "relationship_context" : "",
+      "related_person_legacy_id" : "Jpobr9A0Ib",
+      "legacy_descriptor" : {
+        "legacy_last_updated" : "2000-10-24T09:03:52.000-0700",
+        "legacy_id" : "Jpobr9A0Ib",
+        "legacy_ui_id" : "1126-6750-8976-4001153",
+        "legacy_table_name" : "CLIENT_T",
+        "legacy_table_description" : "Client"
+      },
+      "related_person_last_name" : "Bellison",
+      "related_person_relationship" : "No Relation"
+    },
+    {
+      "related_person_first_name" : "Jorge",
+      "indexed_person_relationship" : "No Relation",
+      "relationship_context" : "",
+      "related_person_legacy_id" : "7dryU2W0Ib",
+      "legacy_descriptor" : {
+        "legacy_last_updated" : "2000-10-24T09:03:52.000-0700",
+        "legacy_id" : "7dryU2W0Ib",
+        "legacy_ui_id" : "0434-1283-9050-0001153",
+        "legacy_table_name" : "CLIENT_T",
+        "legacy_table_description" : "Client"
+      },
+      "related_person_last_name" : "Gellately",
+      "related_person_relationship" : "No Relation"
+    },
+    {
+      "related_person_first_name" : "Juan",
+      "indexed_person_relationship" : "Sister",
+      "relationship_context" : "Half",
+      "related_person_legacy_id" : "BplA3kq0Ib",
+      "legacy_descriptor" : {
+        "legacy_last_updated" : "2000-10-24T09:03:52.000-0700",
+        "legacy_id" : "BplA3kq0Ib",
+        "legacy_ui_id" : "0672-2222-5136-4001153",
+        "legacy_table_name" : "CLIENT_T",
+        "legacy_table_description" : "Client"
+      },
+      "related_person_last_name" : "Beavors",
+      "related_person_relationship" : "Brother"
+    },
+    {
+      "related_person_first_name" : "Juan",
+      "indexed_person_relationship" : "No Relation",
+      "relationship_context" : "",
+      "related_person_legacy_id" : "Nig6WHM0Ib",
+      "legacy_descriptor" : {
+        "legacy_last_updated" : "2000-10-24T09:03:52.000-0700",
+        "legacy_id" : "Nig6WHM0Ib",
+        "legacy_ui_id" : "1347-3374-2320-4001153",
+        "legacy_table_name" : "CLIENT_T",
+        "legacy_table_description" : "Client"
+      },
+      "related_person_last_name" : "Schrieves",
+      "related_person_relationship" : "No Relation"
+    },
+    {
+      "related_person_first_name" : "Juanita",
+      "indexed_person_relationship" : "Daughter",
+      "relationship_context" : "Adoptive",
+      "related_person_legacy_id" : "7VtWtPg0FX",
+      "legacy_descriptor" : {
+        "legacy_last_updated" : "2000-05-24T11:56:39.000-0700",
+        "legacy_id" : "7VtWtPg0FX",
+        "legacy_ui_id" : "0426-8223-0486-8000963",
+        "legacy_table_name" : "CLIENT_T",
+        "legacy_table_description" : "Client"
+      },
+      "related_person_last_name" : "Raithmill",
+      "related_person_relationship" : "Mother"
+    },
+    {
+      "related_person_first_name" : "Leticia",
+      "indexed_person_relationship" : "Aunt",
+      "relationship_context" : "Maternal",
+      "related_person_legacy_id" : "LZfc5P20Ib",
+      "legacy_descriptor" : {
+        "legacy_last_updated" : "2000-10-24T09:03:52.000-0700",
+        "legacy_id" : "LZfc5P20Ib",
+        "legacy_ui_id" : "1225-4845-0339-6001153",
+        "legacy_table_name" : "CLIENT_T",
+        "legacy_table_description" : "Client"
+      },
+      "related_person_last_name" : "Brian",
+      "related_person_relationship" : "Niece"
+    },
+    {
+      "related_person_first_name" : "Maria",
+      "indexed_person_relationship" : "Sister",
+      "relationship_context" : "Half",
+      "related_person_legacy_id" : "QEqK3400Ib",
+      "legacy_descriptor" : {
+        "legacy_last_updated" : "2000-10-24T09:03:52.000-0700",
+        "legacy_id" : "QEqK3400Ib",
+        "legacy_ui_id" : "1490-4051-3264-4001153",
+        "legacy_table_name" : "CLIENT_T",
+        "legacy_table_description" : "Client"
+      },
+      "related_person_last_name" : "Wetherill",
+      "related_person_relationship" : "Sister"
+    },
+    {
+      "related_person_first_name" : "Marlene",
+      "indexed_person_relationship" : "Sister",
+      "relationship_context" : "Half",
+      "related_person_legacy_id" : "QMl6UxY0Ib",
+      "legacy_descriptor" : {
+        "legacy_last_updated" : "2000-10-24T09:03:52.000-0700",
+        "legacy_id" : "QMl6UxY0Ib",
+        "legacy_ui_id" : "1497-6570-8426-0001153",
+        "legacy_table_name" : "CLIENT_T",
+        "legacy_table_description" : "Client"
+      },
+      "related_person_last_name" : "Warland",
+      "related_person_relationship" : "Sister"
+    },
+    {
+      "related_person_first_name" : "Martha",
+      "indexed_person_relationship" : "Sister",
+      "relationship_context" : "Half",
+      "related_person_legacy_id" : "7kJvIJQ0Ib",
+      "legacy_descriptor" : {
+        "legacy_last_updated" : "2000-10-24T09:03:52.000-0700",
+        "legacy_id" : "7kJvIJQ0Ib",
+        "legacy_ui_id" : "0440-0381-6483-6001153",
+        "legacy_table_name" : "CLIENT_T",
+        "legacy_table_description" : "Client"
+      },
+      "related_person_last_name" : "Boobyer",
+      "related_person_relationship" : "Sister"
+    },
+    {
+      "related_person_first_name" : "Michael",
+      "indexed_person_relationship" : "Sister",
+      "relationship_context" : "Half",
+      "related_person_legacy_id" : "GPfRJpc0Ib",
+      "legacy_descriptor" : {
+        "legacy_last_updated" : "2000-10-24T08:11:37.000-0700",
+        "legacy_id" : "GPfRJpc0Ib",
+        "legacy_ui_id" : "0932-3194-3101-2001153",
+        "legacy_table_name" : "CLIENT_T",
+        "legacy_table_description" : "Client"
+      },
+      "related_person_last_name" : "MacDougall",
+      "related_person_relationship" : "Brother"
+    },
+    {
+      "related_person_first_name" : "Michael",
+      "indexed_person_relationship" : "No Relation",
+      "relationship_context" : "",
+      "related_person_legacy_id" : "AGCpIA80Ib",
+      "legacy_descriptor" : {
+        "legacy_last_updated" : "2000-10-24T09:03:52.000-0700",
+        "legacy_id" : "AGCpIA80Ib",
+        "legacy_ui_id" : "0582-8500-2173-2001153",
+        "legacy_table_name" : "CLIENT_T",
+        "legacy_table_description" : "Client"
+      },
+      "related_person_last_name" : "Rodriguez",
+      "related_person_relationship" : "No Relation"
+    },
+    {
+      "related_person_first_name" : "Michelle",
+      "indexed_person_relationship" : "No Relation",
+      "relationship_context" : "",
+      "related_person_legacy_id" : "JkFRcyi0Ib",
+      "legacy_descriptor" : {
+        "legacy_last_updated" : "2000-10-24T09:03:52.000-0700",
+        "legacy_id" : "JkFRcyi0Ib",
+        "legacy_ui_id" : "1121-5748-1610-0001153",
+        "legacy_table_name" : "CLIENT_T",
+        "legacy_table_description" : "Client"
+      },
+      "related_person_last_name" : "Foulsham",
+      "related_person_relationship" : "No Relation"
+    },
+    {
+      "related_person_first_name" : "Monica",
+      "indexed_person_relationship" : "Sister",
+      "relationship_context" : "Half",
+      "related_person_legacy_id" : "U3tMqqS0Ib",
+      "legacy_descriptor" : {
+        "legacy_last_updated" : "2000-10-24T09:03:52.000-0700",
+        "legacy_id" : "U3tMqqS0Ib",
+        "legacy_ui_id" : "1707-5736-1085-2001153",
+        "legacy_table_name" : "CLIENT_T",
+        "legacy_table_description" : "Client"
+      },
+      "related_person_last_name" : "Bazek",
+      "related_person_relationship" : "Sister"
+    },
+    {
+      "related_person_first_name" : "Richard",
+      "indexed_person_relationship" : "No Relation",
+      "relationship_context" : "",
+      "related_person_legacy_id" : "F27eOQ80Ib",
+      "legacy_descriptor" : {
+        "legacy_last_updated" : "2000-10-24T09:03:52.000-0700",
+        "legacy_id" : "F27eOQ80Ib",
+        "legacy_ui_id" : "0853-9488-6077-2001153",
+        "legacy_table_name" : "CLIENT_T",
+        "legacy_table_description" : "Client"
+      },
+      "related_person_last_name" : "Quilleash",
+      "related_person_relationship" : "No Relation"
+    },
+    {
+      "related_person_first_name" : "Roberto",
+      "indexed_person_relationship" : "No Relation",
+      "relationship_context" : "",
+      "related_person_legacy_id" : "AHeEw8S0Ib",
+      "legacy_descriptor" : {
+        "legacy_last_updated" : "2000-10-24T09:03:52.000-0700",
+        "legacy_id" : "AHeEw8S0Ib",
+        "legacy_ui_id" : "0584-1712-2749-2001153",
+        "legacy_table_name" : "CLIENT_T",
+        "legacy_table_description" : "Client"
+      },
+      "related_person_last_name" : "Gallaher",
+      "related_person_relationship" : "No Relation"
+    }
+  ]
+}
