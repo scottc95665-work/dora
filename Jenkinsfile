@@ -42,7 +42,8 @@ node('dora-slave') {
         booleanParam(defaultValue: true, description: '', name: 'USE_NEWRELIC'),
         string(defaultValue: 'latest', description: '', name: 'APP_VERSION'),
         string(defaultValue: 'development', description: '', name: 'branch'),
-        booleanParam(defaultValue: false, description: '', name: 'RELEASE_DOCKER'),
+        booleanParam(defaultValue: false, description: 'Default release version template is: <majorVersion>_<buildNumber>-RC', name: 'RELEASE'),
+        string(description: 'Fill this field if need to specify custom version ', name: 'OVERRIDE_VERSION'),
         string(defaultValue: 'inventories/tpt2dev/hosts.yml', description: '', name: 'inventory')
     ]), pipelineTriggers([githubPush()])])
     def errorcode = null;
@@ -56,7 +57,7 @@ node('dora-slave') {
             rtGradle.resolver repo: 'repo', server: serverArti
         }
         stage('Build') {
-            buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: 'jar -DReleaseDocker=$RELEASE_DOCKER -DBuildNumber=$BUILD_NUMBER'
+            buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: 'jar -DRelease=$RELEASE -DBuildNumber=$BUILD_NUMBER -DCustomVersion=$OVERRIDE_VERSION'
         }
         stage('Unit Tests') {
             buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: 'test jacocoTestReport'
@@ -70,18 +71,16 @@ node('dora-slave') {
             }
         }
         stage('Push to Artifactory') {
-            rtGradle.deployer repo: 'libs-snapshot', server: serverArti
-            //rtGradle.deployer repo:'libs-release', server: serverArti
             rtGradle.deployer.deployArtifacts = true
-            buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: 'publish -DReleaseDocker=$RELEASE_DOCKER -DBuildNumber=$BUILD_NUMBER'
+            buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: 'publish -DRelease=$RELEASE -DBuildNumber=$BUILD_NUMBER -DCustomVersion=$OVERRIDE_VERSION'
             rtGradle.deployer.deployArtifacts = false
         }
         stage('Build Docker') {
             withEnv(['ELASTIC_HOST=127.0.0.1']) {
                 buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: 'printConfig'
-                buildInfo = rtGradle.run buildFile: './docker-dora/build.gradle', tasks: 'dockerCreateImage -DReleaseDocker=$RELEASE_DOCKER -DBuildNumber=$BUILD_NUMBER'
+                buildInfo = rtGradle.run buildFile: './docker-dora/build.gradle', tasks: 'dockerCreateImage -DRelease=$RELEASE -DBuildNumber=$BUILD_NUMBER -DCustomVersion=$OVERRIDE_VERSION'
                 withDockerRegistry([credentialsId: '6ba8d05c-ca13-4818-8329-15d41a089ec0']) {
-                    buildInfo = rtGradle.run buildFile: './docker-dora/build.gradle', tasks: 'dockerDoraPublish -DReleaseDocker=$RELEASE_DOCKER -DBuildNumber=$BUILD_NUMBER'
+                    buildInfo = rtGradle.run buildFile: './docker-dora/build.gradle', tasks: 'dockerDoraPublish -DRelease=$RELEASE -DBuildNumber=$BUILD_NUMBER -DCustomVersion=$OVERRIDE_VERSION'
                 }
             }
         }
