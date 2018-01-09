@@ -1,0 +1,9 @@
+FROM cwds/javajdk
+RUN mkdir /opt/dora-tests
+ADD dora-tests.jar /opt/dora-tests/dora-tests.jar
+ADD resources /opt/dora-tests/resources
+ADD config /opt/dora-tests/config
+ADD entrypoint.sh /opt/dora-tests/
+RUN chmod +x /opt/dora-tests/entrypoint.sh
+WORKDIR /opt/dora-tests
+CMD ["/opt/dora-tests/entrypoint.sh"]
