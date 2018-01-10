@@ -6,10 +6,6 @@ buildscript {
             url "http://sonar.dev.cwds.io:8081/artifactory/repo"
         }
     }
-//    dependencies {
-//        classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.4'
-//        classpath 'se.transmode.gradle:gradle-docker:1.2'
-//    }
 }
 
 plugins {
@@ -54,13 +50,6 @@ repositories {
     maven { url "http://sonar.dev.cwds.io:8081/artifactory/repo" }
 }
 
-//apply plugin: "jacoco"
-//apply plugin: 'java'
-//apply plugin: 'application'
-//apply plugin: 'docker'
-//apply plugin: 'com.github.johnrengelman.shadow'
-//apply plugin: 'maven-publish'
-
 sonarqube {
     properties {
         property "sonar.projectName", "${name}"
@@ -70,13 +59,6 @@ sonarqube {
         property "sonar.exclusions", "src/main/java/gov/ca/cwds/xpack/realm/perry/*.*"
     }
 }
-
-//dependencies {
-//    compile project (':dora-api')
-//    testCompile project (':dora-api')
-//}
-//
-//mainClassName = mainclass
 
 task printConfig {
     doLast {
