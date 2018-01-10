@@ -4,7 +4,7 @@ import org.apache.tools.ant.filters.FixCrLfFilter
 def dockerImageName = targetDockerHubOrganization + '/dora-tests' // like 'cwds/dora-tests'
 def dockerContextDir = "build/docker-context"
 
-task dockerTestsCleanUpLatest(type: Exec, dependsOn: project.parent.checkDockerService) {
+task dockerTestsCleanUpLatest(type: Exec, dependsOn: project.rootProject.checkDockerService) {
     ignoreExitValue true
     environment << project.dockerEnvVars
     doFirst {
@@ -12,7 +12,7 @@ task dockerTestsCleanUpLatest(type: Exec, dependsOn: project.parent.checkDockerS
     }
 }
 
-task dockerTestsCleanUpTagged(type: Exec, dependsOn: project.parent.checkDockerService) {
+task dockerTestsCleanUpTagged(type: Exec, dependsOn: project.rootProject.checkDockerService) {
     ignoreExitValue true
     environment << project.dockerEnvVars
     doFirst {
@@ -28,8 +28,8 @@ task testsJar(type: ShadowJar, dependsOn: [project.parent.compileJava, project.p
     version ''
     classifier 'tests'
     
-    from '../dora-api/build/classes/main'
-    from '../dora-api/build/classes/test'
+    from '../build/classes/main'
+    from '../build/classes/test'
     // the following will expand all dependencies from jar files
     from project.parent.configurations.compile
     from project.parent.configurations.testCompile
@@ -45,14 +45,14 @@ task testsJar(type: ShadowJar, dependsOn: [project.parent.compileJava, project.p
 }
 
 task dockerTestsCopyResources(type: Copy) {
-    from '../dora-api/src/main/resources'
-    from '../dora-api/src/test/resources'
+    from '../src/main/resources'
+    from '../src/test/resources'
     into "$dockerContextDir/resources"
 }
 
 task dockerTestsCopyConfig(type: Copy) {
     from '../config'
-    from '../dora-api/src/test/resources/config'
+    from '../src/test/resources/config'
     into "$dockerContextDir/config"
 }
 
@@ -64,37 +64,37 @@ task dockerTestsCopyScripts(type: Copy) {
     filter(FixCrLfFilter.class, eol:FixCrLfFilter.CrLf.newInstance("lf"))
 }
 
-task dockerTestsCreateImage(type:Exec, dependsOn: [project.parent.checkDockerService, dockerTestsCleanUp, testsJar, dockerTestsCopyResources, dockerTestsCopyConfig, dockerTestsCopyScripts]) {
+task dockerTestsCreateImage(type:Exec, dependsOn: [project.rootProject.checkDockerService, dockerTestsCleanUp, testsJar, dockerTestsCopyResources, dockerTestsCopyConfig, dockerTestsCopyScripts]) {
     environment << project.dockerEnvVars
     doFirst {
         commandLine 'docker', 'build', '-t', dockerImageName, '-f', "$dockerContextDir/Dockerfile-tests", dockerContextDir
     }
-    dockerTestsCleanUp.mustRunAfter(project.parent.checkDockerService)
+    dockerTestsCleanUp.mustRunAfter(project.rootProject.checkDockerService)
 }
 
-task dockerTestsTagImage(type: Exec, dependsOn: project.parent.checkDockerService) {
+task dockerTestsTagImage(type: Exec, dependsOn: project.rootProject.checkDockerService) {
     environment << project.dockerEnvVars
     doFirst {
         commandLine 'docker', 'tag', dockerImageName, "$dockerImageName:$dockerTag"
     }
 }
 
-task dockerTestsPushTaggedVersion(type: Exec, dependsOn: [project.parent.checkDockerService, dockerTestsTagImage]) {
+task dockerTestsPushTaggedVersion(type: Exec, dependsOn: [project.rootProject.checkDockerService, dockerTestsTagImage]) {
     environment << project.dockerEnvVars
     doFirst {
         commandLine 'docker', 'push', "$dockerImageName:$dockerTag"
     }
-    dockerTestsTagImage.mustRunAfter(project.parent.checkDockerService)
+    dockerTestsTagImage.mustRunAfter(project.rootProject.checkDockerService)
 }
 
-task dockerTestsPushLatestVersion(type: Exec, dependsOn: project.parent.checkDockerService) {
+task dockerTestsPushLatestVersion(type: Exec, dependsOn: project.rootProject.checkDockerService) {
     environment << project.dockerEnvVars
     doFirst {
         commandLine 'docker', 'push', "$dockerImageName:latest"
     }
 }
 
-task dockerTestsPublish(dependsOn: [dockerTestsCreateImage, dockerTestsPushTaggedVersion, dockerTestsPushLatestVersion]) {
+task dockerTestsPublish(dependsOn: [dockerTestsPushTaggedVersion, dockerTestsPushLatestVersion]) {
     doLast {
         println "\nDocker Image with Dora Tests $projectVersion is published"
     }
