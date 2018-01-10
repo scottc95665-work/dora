@@ -54,12 +54,12 @@ repositories {
     maven { url "http://sonar.dev.cwds.io:8081/artifactory/repo" }
 }
 
-apply plugin: "jacoco"
-apply plugin: 'java'
-apply plugin: 'application'
-apply plugin: 'docker'
-apply plugin: 'com.github.johnrengelman.shadow'
-apply plugin: 'maven-publish'
+//apply plugin: "jacoco"
+//apply plugin: 'java'
+//apply plugin: 'application'
+//apply plugin: 'docker'
+//apply plugin: 'com.github.johnrengelman.shadow'
+//apply plugin: 'maven-publish'
 
 sonarqube {
     properties {
