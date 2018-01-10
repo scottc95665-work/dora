@@ -84,6 +84,11 @@ node('dora-slave') {
                 }
             }
         }
+        stage ('Build Tests Docker'){
+           withDockerRegistry([credentialsId: '6ba8d05c-ca13-4818-8329-15d41a089ec0']) {
+                buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: ':docker-tests:dockerTestsPublish -DRelease=$RELEASE_PROJECT -DBuildNumber=$BUILD_NUMBER -DCustomVersion=$OVERRIDE_VERSION'
+           }
+        }
         stage('Archive Artifacts') {
             archiveArtifacts artifacts: '**/dora*.jar,readme.txt', fingerprint: true
             cleanWs()
