@@ -71,10 +71,10 @@ sonarqube {
     }
 }
 
-dependencies {
-    compile project (':dora-api')
-    testCompile project (':dora-api')
-}
+//dependencies {
+//    compile project (':dora-api')
+//    testCompile project (':dora-api')
+//}
 
 mainClassName = mainclass
 
