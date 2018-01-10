@@ -28,8 +28,8 @@ task testsJar(type: ShadowJar, dependsOn: [project.parent.compileJava, project.p
     version ''
     classifier 'tests'
     
-    from '../build/classes/main'
-    from '../build/classes/test'
+    from '../dora-api/build/classes/main'
+    from '../dora-api/build/classes/test'
     // the following will expand all dependencies from jar files
     from project.parent.configurations.compile
     from project.parent.configurations.testCompile
@@ -52,6 +52,7 @@ task dockerTestsCopyResources(type: Copy) {
 
 task dockerTestsCopyConfig(type: Copy) {
     from '../config'
+    from '../dora-api/src/test/resources/config'
     into "$dockerContextDir/config"
 }
 

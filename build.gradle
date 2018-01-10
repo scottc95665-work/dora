@@ -71,6 +71,13 @@ sonarqube {
     }
 }
 
+dependencies {
+    compile project (':dora-api')
+    testCompile project (':dora-api')
+}
+
+mainClassName = mainclass
+
 task printConfig {
     doLast {
         project.ext.properties

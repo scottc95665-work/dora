@@ -20,4 +20,4 @@ else
   exit 1
 fi
 
-java ${JAVA_OPT} -Dcals.api.url="${DORA_URL}" -cp /opt/dora-tests/resources:dora-tests.jar org.junit.runner.JUnitCore ${TEST_CLASS}
+java ${JAVA_OPT} -Ddora.url="${DORA_URL}" -cp /opt/dora-tests/resources:dora-tests.jar org.junit.runner.JUnitCore ${TEST_CLASS}
