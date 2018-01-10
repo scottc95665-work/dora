@@ -94,7 +94,7 @@ task dockerTestsPushLatestVersion(type: Exec, dependsOn: project.rootProject.che
     }
 }
 
-task dockerTestsPublish(dependsOn: [dockerTestsCreateImage, dockerTestsPushTaggedVersion, dockerTestsPushLatestVersion]) {
+task dockerTestsPublish(dependsOn: [dockerTestsPushTaggedVersion, dockerTestsPushLatestVersion]) {
     doLast {
         println "\nDocker Image with Dora Tests $projectVersion is published"
     }
