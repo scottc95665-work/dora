@@ -30,9 +30,7 @@ jacocoTestReport {
 sourceCompatibility = 1.8
 
 project.ext {
-    coreApiVersion = "0.5.3_TPT2-658_3"
-    apiSecurityVersion = "0.5.3_304-RC"
-
+    coreApiVersion = "1.5.7_333-RC"
     dropwizardVersion = "1.1.0"
     metricsVersion = "3.1.0"
     dropwizardSwaggerVersion = "1.0.0-1"
@@ -70,8 +68,6 @@ dependencies {
         exclude group: 'org.elasticsearch', module: 'elasticsearch'
         exclude group: 'org.elasticsearch.client', module: 'transport'
     }
-
-    compile (group: 'gov.ca.cwds.api', name: 'api-security', version: apiSecurityVersion)
 
     compile group: 'org.elasticsearch', name: 'elasticsearch', version: project.elasticsearchVersion
     compile group: 'org.elasticsearch.client', name: 'transport', version: project.elasticsearchVersion
