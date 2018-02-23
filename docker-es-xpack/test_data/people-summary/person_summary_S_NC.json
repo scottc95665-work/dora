@@ -1,0 +1,97 @@
+{
+  "index_update_time": "2017-12-13T11:58:32.304-0800",
+  "first_name": "Mitzi",
+  "middle_name": "",
+  "last_name": "Cogman",
+  "date_of_birth": "1973-02-28",
+  "gender": "female",
+  "ssn": "754004492",
+  "type": "gov.ca.cwds.data.persistence.cms.rep.ReplicatedClient",
+  "sensitivity_indicator": "S",
+  "client_county": {
+    "id": "0",
+    "description": ""
+  },
+  "race_ethnicity": {
+    "race_codes": [
+      {
+        "id": "839",
+        "description": "White*"
+      }
+    ],
+    "hispanic_codes": [],
+    "unable_to_determine_code": "",
+    "hispanic_origin_code": "U",
+    "hispanic_unable_to_determine_code": ""
+  },
+  "source": "{\n  \"adjudicatedDelinquentIndicator\" : \"\",\n  \"adoptionStatusCode\" : \"N\",\n  \"akas\" : { },\n  \"alienRegistrationNumber\" : \"\",\n  \"birthCity\" : \"\",\n  \"birthCountryCodeType\" : 0,\n  \"birthDate\" : \"1973-02-28\",\n  \"birthFacilityName\" : \"\",\n  \"birthStateCodeType\" : 0,\n  \"birthplaceVerifiedIndicator\" : \"N\",\n  \"childClientIndicatorVar\" : \"N\",\n  \"clientAddresses\" : [ {\n    \"addressType\" : 32,\n    \"addresses\" : [ {\n      \"addressDescription\" : \"cul-de-sac\",\n      \"apiAdrUnitNumber\" : \"\",\n      \"apiAdrUnitType\" : 0,\n      \"city\" : \"Blythe\",\n      \"emergencyExtension\" : 0,\n      \"emergencyNumber\" : 0,\n      \"frgAdrtB\" : \"N\",\n      \"governmentEntityCd\" : 1080,\n      \"headerAddress\" : \"\",\n      \"id\" : \"ANUiky50LL\",\n      \"lastUpdatedId\" : \"q48\",\n      \"lastUpdatedTime\" : \"2005-12-09\",\n      \"legacyDescriptor\" : {\n        \"legacy_id\" : \"ANUiky50LL\",\n        \"legacy_ui_id\" : \"0589-5273-6803-7001323\",\n        \"legacy_last_updated\" : \"2005-12-09T16:20:43.320-0800\",\n        \"legacy_table_name\" : \"ADDRS_T\",\n        \"legacy_table_description\" : \"Address\"\n      },\n      \"legacyId\" : \"ANUiky50LL\",\n      \"messageExtension\" : 0,\n      \"messageNumber\" : 0,\n      \"phones\" : [ {\n        \"phoneNumber\" : \"9710002293\",\n        \"phoneNumberExtension\" : \"0\"\n      } ],\n      \"postDirCd\" : \"\",\n      \"preDirCd\" : \"\",\n      \"primaryExtension\" : 0,\n      \"primaryKey\" : \"ANUiky50LL\",\n      \"primaryNumber\" : 9710002293,\n      \"replicatedEntity\" : {\n        \"replicationOperation\" : \"I\",\n        \"replicationDate\" : \"2001-02-28\"\n      },\n      \"replicationDate\" : \"2001-02-28\",\n      \"replicationOperation\" : \"I\",\n      \"stateCd\" : 1828,\n      \"streetAddress\" : \"5602 Marcy Street\",\n      \"streetName\" : \"Marcy Street\",\n      \"streetNumber\" : \"5602\",\n      \"streetSuffixCd\" : 0,\n      \"unitDesignationCd\" : 0,\n      \"unitNumber\" : \"\",\n      \"zip\" : \"92225\",\n      \"zip4\" : 0\n    } ],\n    \"bkInmtId\" : \"\",\n    \"effEndDt\" : \"2005-12-09\",\n    \"effStartDt\" : \"2001-02-28\",\n    \"fkAddress\" : \"ANUiky50LL\",\n    \"fkClient\" : \"01oldLh0LL\",\n    \"fkReferral\" : \"9ABuVWv0LL\",\n    \"homelessInd\" : \"N\",\n    \"id\" : \"3uPVxo50LL\",\n    \"lastUpdatedId\" : \"q48\",\n    \"lastUpdatedTime\" : \"2005-12-09\",\n    \"legacyId\" : \"3uPVxo50LL\",\n    \"primaryKey\" : \"3uPVxo50LL\",\n    \"replicatedEntity\" : {\n      \"replicationOperation\" : \"I\",\n      \"replicationDate\" : \"2005-12-09\"\n    },\n    \"replicationDate\" : \"2005-12-09\",\n    \"replicationOperation\" : \"I\"\n  }, {\n    \"addressType\" : 32,\n    \"addresses\" : [ {\n      \"addressDescription\" : \"\",\n      \"apiAdrUnitNumber\" : \"\",\n      \"apiAdrUnitType\" : 0,\n      \"city\" : \"Blythe\",\n      \"emergencyExtension\" : 0,\n      \"emergencyNumber\" : 0,\n      \"frgAdrtB\" : \"N\",\n      \"governmentEntityCd\" : 1080,\n      \"headerAddress\" : \"\",\n      \"id\" : \"KUuTOPV0LL\",\n      \"lastUpdatedId\" : \"q48\",\n      \"lastUpdatedTime\" : \"2005-12-09\",\n      \"legacyDescriptor\" : {\n        \"legacy_id\" : \"KUuTOPV0LL\",\n        \"legacy_ui_id\" : \"1164-3231-7680-5001323\",\n        \"legacy_last_updated\" : \"2005-12-09T16:20:43.320-0800\",\n        \"legacy_table_name\" : \"ADDRS_T\",\n        \"legacy_table_description\" : \"Address\"\n      },\n      \"legacyId\" : \"KUuTOPV0LL\",\n      \"messageExtension\" : 0,\n      \"messageNumber\" : 0,\n      \"phones\" : [ {\n        \"phoneNumber\" : \"8770004401\",\n        \"phoneNumberExtension\" : \"0\"\n      } ],\n      \"postDirCd\" : \"\",\n      \"preDirCd\" : \"\",\n      \"primaryExtension\" : 0,\n      \"primaryKey\" : \"KUuTOPV0LL\",\n      \"primaryNumber\" : 8770004401,\n      \"replicatedEntity\" : {\n        \"replicationOperation\" : \"I\",\n        \"replicationDate\" : \"2001-02-28\"\n      },\n      \"replicationDate\" : \"2001-02-28\",\n      \"replicationOperation\" : \"I\",\n      \"stateCd\" : 1828,\n      \"streetAddress\" : \"5602 Sage Pass\",\n      \"streetName\" : \"Sage Pass\",\n      \"streetNumber\" : \"5602\",\n      \"streetSuffixCd\" : 0,\n      \"unitDesignationCd\" : 0,\n      \"unitNumber\" : \"\",\n      \"zip\" : \"0\",\n      \"zip4\" : 0\n    } ],\n    \"bkInmtId\" : \"\",\n    \"effStartDt\" : \"2001-02-28\",\n    \"fkAddress\" : \"KUuTOPV0LL\",\n    \"fkClient\" : \"01oldLh0LL\",\n    \"fkReferral\" : \"CKacvOX0LL\",\n    \"homelessInd\" : \"N\",\n    \"id\" : \"C0Nz6Np0LL\",\n    \"lastUpdatedId\" : \"q48\",\n    \"lastUpdatedTime\" : \"2005-12-09\",\n    \"legacyId\" : \"C0Nz6Np0LL\",\n    \"primaryKey\" : \"C0Nz6Np0LL\",\n    \"replicatedEntity\" : {\n      \"replicationOperation\" : \"I\",\n      \"replicationDate\" : \"2005-12-09\"\n    },\n    \"replicationDate\" : \"2005-12-09\",\n    \"replicationOperation\" : \"I\"\n  } ],\n  \"clientCounty\" : 1080,\n  \"clientIndexNumber\" : \"\",\n  \"clientRaces\" : [ 0 ],\n  \"clientSafetyAlerts\" : [ ],\n  \"commentDescription\" : \"\",\n  \"commonFirstName\" : \"Mitzi\",\n  \"commonLastName\" : \"Cogman\",\n  \"commonMiddleName\" : \"\",\n  \"confidentialityInEffectIndicator\" : \"N\",\n  \"creationDate\" : \"2001-02-28\",\n  \"currCaChildrenServIndicator\" : \"N\",\n  \"currentlyOtherDescription\" : \"\",\n  \"currentlyRegionalCenterIndicator\" : \"N\",\n  \"deathDateVerifiedIndicator\" : \"N\",\n  \"deathPlace\" : \"\",\n  \"deathReasonText\" : \"\",\n  \"driverLicenseNumber\" : \"\",\n  \"driverLicenseStateCodeType\" : 0,\n  \"emailAddress\" : \"\",\n  \"estimatedDobCode\" : \"Y\",\n  \"ethUnableToDetReasonCode\" : \"\",\n  \"genderCode\" : \"F\",\n  \"healthSummaryText\" : \"\",\n  \"hispUnableToDetReasonCode\" : \"\",\n  \"hispanicOriginCode\" : \"U\",\n  \"id\" : \"01oldLh0LL\",\n  \"immigrationCountryCodeType\" : 0,\n  \"immigrationStatusType\" : 0,\n  \"incapacitatedParentCode\" : \"U\",\n  \"individualHealthCarePlanIndicator\" : \"N\",\n  \"lastUpdatedTime\" : \"2001-02-28\",\n  \"legacyDescriptor\" : {\n    \"legacy_id\" : \"01oldLh0LL\",\n    \"legacy_ui_id\" : \"0001-6663-0230-9001323\",\n    \"legacy_last_updated\" : \"2001-02-28T08:25:08.470-0800\",\n    \"legacy_table_name\" : \"CLIENT_T\",\n    \"legacy_table_description\" : \"Client\"\n  },\n  \"legacyId\" : \"01oldLh0LL\",\n  \"limitationOnScpHealthIndicator\" : \"N\",\n  \"limitedAccessCode\" : \"N\",\n  \"literateCode\" : \"U\",\n  \"maritalCohabitatnHstryIndicatorVar\" : \"N\",\n  \"maritalStatusType\" : 1308,\n  \"militaryStatusCode\" : \"U\",\n  \"namePrefixDescription\" : \"Mrs.\",\n  \"nameType\" : 1313,\n  \"otherClientNames\" : [ ],\n  \"outstandingWarrantIndicator\" : \"N\",\n  \"prevCaChildrenServIndicator\" : \"N\",\n  \"prevOtherDescription\" : \"\",\n  \"prevRegionalCenterIndicator\" : \"N\",\n  \"primaryEthnicityType\" : 839,\n  \"primaryKey\" : \"01oldLh0LL\",\n  \"primaryLanguageType\" : 1253,\n  \"raceAndEthnicity\" : {\n    \"race_codes\" : [ {\n      \"id\" : \"839\",\n      \"description\" : \"White*\"\n    } ],\n    \"hispanic_codes\" : [ ],\n    \"unable_to_determine_code\" : \"\",\n    \"hispanic_origin_code\" : \"U\",\n    \"hispanic_unable_to_determine_code\" : \"\"\n  },\n  \"religionType\" : 0,\n  \"replicatedEntity\" : {\n    \"replicationOperation\" : \"I\",\n    \"replicationDate\" : \"2001-02-28\"\n  },\n  \"replicationDate\" : \"2001-02-28\",\n  \"replicationOperation\" : \"I\",\n  \"safetyAlerts\" : { },\n  \"secondaryLanguageType\" : 0,\n  \"sensitiveHlthInfoOnFileIndicator\" : \"N\",\n  \"sensitivityIndicator\" : \"N\",\n  \"soc158PlacementCode\" : \"N\",\n  \"soc158SealedClientIndicator\" : \"N\",\n  \"socialSecurityNumChangedCode\" : \"N\",\n  \"socialSecurityNumber\" : \"754004492\",\n  \"suffixTitleDescription\" : \"\",\n  \"tribalAncestryClientIndicatorVar\" : \"N\",\n  \"tribalMembrshpVerifctnIndicatorVar\" : \"N\",\n  \"unemployedParentCode\" : \"U\",\n  \"zippyCreatedIndicator\" : \"N\"\n}",
+  "legacy_descriptor": {
+    "legacy_id": "01oldLh0LL",
+    "legacy_ui_id": "0001-6663-0230-9001323",
+    "legacy_last_updated": "2001-02-28T08:25:08.470-0800",
+    "legacy_table_name": "CLIENT_T",
+    "legacy_table_description": "Client"
+  },
+  "legacy_id": "01oldLh0LL",
+  "addresses": [
+    {
+      "id": "KUuTOPV0LL",
+      "city": "Blythe",
+      "state": {
+        "id": "1828",
+        "description": "California"
+      },
+      "state_code": "CA",
+      "state_name": "California",
+      "county": {
+        "id": "1080",
+        "description": "Imperial"
+      },
+      "zip": "0",
+      "type": {
+        "id": "32",
+        "description": "Residence"
+      },
+      "street_number": "5602",
+      "street_name": "Sage Pass",
+      "effective_start_date": "2001-02-28",
+      "active": "true",
+      "legacy_descriptor": {
+        "legacy_id": "KUuTOPV0LL",
+        "legacy_ui_id": "1164-3231-7680-5001323",
+        "legacy_last_updated": "2005-12-09T16:20:43.320-0800",
+        "legacy_table_name": "ADDRS_T",
+        "legacy_table_description": "Address"
+      }
+    }
+  ],
+  "phone_numbers": [
+    {
+      "number": "9710002293"
+    },
+    {
+      "number": "8770004401"
+    }
+  ],
+  "languages": [
+    {
+      "id": "1253",
+      "name": "English",
+      "primary": true
+    }
+  ],
+  "id": "01oldLh0LL",
+  "searchable_date_of_birth": [
+    "02281973",
+    "021973",
+    "1973",
+    "0228",
+    "2281973",
+    "21973",
+    "228"
+  ],
+  "searchable_name": [
+    "Mitzi",
+    "Cogman"
+  ]
+}

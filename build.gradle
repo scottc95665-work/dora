@@ -1,6 +1,4 @@
-import org.apache.tools.ant.taskdefs.condition.Os
-
-import static org.gradle.api.logging.LogLevel.*
+import static org.gradle.api.logging.LogLevel.INFO
 
 buildscript {
     repositories {
@@ -19,10 +17,16 @@ project.logging.setLevelInternal(INFO)
 
 project.ext {
     projectGroup = 'gov.ca.cwds.services'
-    projectMajorVersion = '0.5.3'
-    releaseDocker = System.getProperty("ReleaseDocker")
+    projectMajorVersion = '0.5.5'
+
+    isRelease = System.getProperty("Release") == "true"
     buildNumber = System.getProperty('BuildNumber')
-    projectVersion = (releaseDocker == 'true' && buildNumber != null  ? projectMajorVersion + '_' + buildNumber + '-RC' : projectMajorVersion + '-SNAPSHOT' )
+    customVersion = System.getProperty('CustomVersion')
+
+    projectSnapshotVersion = projectMajorVersion + "-SNAPSHOT"
+    projectReleaseVersion = (customVersion == null || customVersion == "" || customVersion.startsWith('$') ? projectMajorVersion + '_' + buildNumber + '-RC' : customVersion )
+    projectVersion = (isRelease ? projectReleaseVersion : projectSnapshotVersion )
+    dockerTag = projectVersion
 
     elasticsearchVersion = '5.5.2'
 
@@ -32,9 +36,14 @@ project.ext {
     targetDockerHubOrganization = System.env.DOCKERHUB_ORG ?: 'cwds'
 
     // assume that Windows users use the Docker Toolbox
-    buildEnv = System.env.BUILD_ENV ?: (Os.isFamily(Os.FAMILY_WINDOWS) ? 'WIN_DEV' : 'JENKINS')
-    devDockerHost = System.env.DEV_DOCKER_HOST ?: '192.168.99.100'
+    buildEnv = 'JENKINS'
+    devDockerHost = 'localhost'
     devDockerPort = 2376
+
+    // Publishing configuration
+    snapshotMavenRepo = "http://sonar.dev.cwds.io:8081/artifactory/repo"
+    releaseMavenRepo = "http://sonar.dev.cwds.io:8081/artifactory/libs-release"
+    artifactoryRepo = (isRelease ? releaseMavenRepo : snapshotMavenRepo)
 }
 
 repositories {

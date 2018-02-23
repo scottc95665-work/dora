@@ -1,0 +1,14 @@
+{
+  "user": "RACFID",
+  "staffId": "0X5",
+  "roles": [
+  ],
+  "county_code": "19",
+  "county_name": "Los Angeles",
+  "privileges": [
+    "Countywide Read/Write",
+    "Statewide Read",
+    "Resource Management",
+    "Closed Case/Referral Update"
+  ]
+}

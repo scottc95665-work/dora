@@ -7,7 +7,10 @@
   "ssn" : "996007118",
   "type" : "gov.ca.cwds.data.persistence.cms.rep.ReplicatedClient",
   "sensitivity_indicator" : "R",
-  "client_county" : null,
+  "client_county": {
+    "id": "1071",
+    "description": "Butte"
+  },
   "race_ethnicity" : {
     "race_codes" : [
       {

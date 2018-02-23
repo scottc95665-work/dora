@@ -5,7 +5,7 @@ import java.nio.file.Paths
 import org.apache.tools.ant.filters.FixCrLfFilter
 
 project.ext {
-    elasticHost = project.buildEnv == 'WIN_DEV' ? project.devDockerHost : (System.env.ELASTIC_HOST ?: '192.168.99.100')
+    elasticHost = project.buildEnv == 'WIN_DEV' ? project.devDockerHost : (System.env.ELASTIC_HOST ?: 'localhost')
     elasticPort = System.env.ELASTIC_PORT ?: '9200'
     elasticUser = System.env.XPACK_USER ?: 'elastic'
     elasticPassword = System.env.XPACK_PASSWORD ?: 'changeme'
@@ -123,7 +123,7 @@ task dockerCreateImage(type: Exec, dependsOn: [project.parent.checkDockerService
 task dockerStartContainer(type: Exec, dependsOn: [project.parent.checkDockerService, dockerCreateImage]) {
     environment << project.dockerEnvVars
     doFirst {
-        commandLine 'docker', 'run', '-d', "--name=$dockerContainerName", '-p', "$project.elasticPort:9200", '-e', "http.host=0.0.0.0", '-e', "transport.host=127.0.0.1", dockerImageName
+        commandLine 'docker', 'run', '-d', "--name=$dockerContainerName", '-p', "$project.elasticPort:9200", '-e', "TOKEN_VALIDATION_URL=http://10.110.12.162:8080/perry/authn/validate?token=", '-e', "http.host=0.0.0.0", '-e', "transport.host=127.0.0.1", dockerImageName
     }
     doLast {
         esConnect(project.elasticBaseUrl)
@@ -150,15 +150,35 @@ task dockerPopulateTestPeople {
     doFirst {
         // create people index
         esExecute("PUT", "/people", "{}")
+        // create people-summary index
+        esExecute("PUT", "/people-summary", "{}")
+        // create facilities index
+        esExecute("PUT", "/facilities", "{}")
+        // create screenings index
+        esExecute("PUT", "/screenings", "{}")
     }
     doLast {
         // populate test people data
-        ["R", "S", "N", "NR", "NS", "R_county_n", "int", "cases"].each {
+        ["R_DC", "R_NC", "R_SC", "R_AC", "S_DC", "S_NC", "S_SC", "S_AC", "N_DC", "N_NC", "N_SC", "N_AC", "N_AC_RS", "cases"].each {
             String esUrl = "/people/person/person_$it"
             String content = readFile("$projectDir/test_data/people/person_${it}.json")
             esExecute("PUT", esUrl, content)
         }
         // verify with URL like: http://192.168.99.100:9200/people/person/_search?pretty
+        ["R_DC", "R_NC", "R_SC", "R_AC", "S_DC", "S_NC", "S_SC", "S_AC", "N_DC", "N_NC", "N_SC", "N_AC"].each {
+            String esUrl = "/people-summary/person-summary/person_summary_$it"
+            String content = readFile("$projectDir/test_data/people-summary/person_summary_${it}.json")
+            esExecute("PUT", esUrl, content)
+        }
+        // verify with URL like: http://192.168.99.100:9200/people-summary/person-summary/_search?pretty
+
+        String esFacilitiesUrl = "/facilities/facility/facility1"
+        String facilityContent = readFile("$projectDir/test_data/facilities/facility.json")
+        esExecute("PUT", esFacilitiesUrl, facilityContent)
+
+        String esScreeningsUrl = "/screenings/screening/screening1"
+        String screeningContent = readFile("$projectDir/test_data/screenings/screening.json")
+        esExecute("PUT", esScreeningsUrl, screeningContent)
     }
 }
 

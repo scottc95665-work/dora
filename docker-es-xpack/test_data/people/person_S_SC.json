@@ -1,0 +1,193 @@
+{
+  "first_name" : "Nathan",
+  "middle_name" : "",
+  "last_name" : "O Hingerty",
+  "date_of_birth" : "1988-04-12",
+  "gender" : "male",
+  "ssn" : "895009307",
+  "type" : "gov.ca.cwds.data.persistence.cms.rep.ReplicatedClient",
+  "sensitivity_indicator" : "S",
+  "client_county": {
+    "id": "1086",
+    "description": "Los Angeles"
+  },
+  "race_ethnicity" : {
+    "race_codes" : [
+      {
+        "id" : "836",
+        "description" : "Polynesian*"
+      },
+      {
+        "id" : "5923",
+        "description" : "Other Pacific Islander*"
+      }
+    ],
+    "hispanic_codes" : [ ],
+    "unable_to_determine_code" : "",
+    "hispanic_origin_code" : "U",
+    "hispanic_unable_to_determine_code" : ""
+  },
+  "source" : "{\n  \"adjudicatedDelinquentIndicator\" : \"\",\n  \"adoptionStatusCode\" : \"N\",\n  \"alienRegistrationNumber\" : \"\",\n  \"birthCity\" : \"\",\n  \"birthCountryCodeType\" : 0,\n  \"birthDate\" : \"1988-04-12\",\n  \"birthFacilityName\" : \"\",\n  \"birthStateCodeType\" : 0,\n  \"birthplaceVerifiedIndicator\" : \"N\",\n  \"childClientIndicatorVar\" : \"Y\",\n  \"clientAddresses\" : [ {\n    \"addressType\" : 32,\n    \"addresses\" : [ {\n      \"addressDescription\" : \"Down main street second house past the store on right\",\n      \"apiAdrUnitNumber\" : \"\",\n      \"apiAdrUnitType\" : 0,\n      \"city\" : \"Lake Elsinore\",\n      \"emergencyExtension\" : 0,\n      \"emergencyNumber\" : 0,\n      \"frgAdrtB\" : \"N\",\n      \"governmentEntityCd\" : 1095,\n      \"headerAddress\" : \"\",\n      \"id\" : \"10rOdnS0Ki\",\n      \"lastUpdatedId\" : \"q48\",\n      \"lastUpdatedTime\" : \"2005-12-09\",\n      \"legacyDescriptor\" : {\n        \"legacy_id\" : \"10rOdnS0Ki\",\n        \"legacy_ui_id\" : \"0057-5892-5424-6001284\",\n        \"legacy_last_updated\" : \"2005-12-09T16:20:43.320-0800\",\n        \"legacy_table_name\" : \"ADDRS_T\",\n        \"legacy_table_description\" : \"Address\"\n      },\n      \"legacyId\" : \"10rOdnS0Ki\",\n      \"messageExtension\" : 0,\n      \"messageNumber\" : 0,\n      \"phones\" : [ {\n        \"phoneNumber\" : \"9010006653\",\n        \"phoneNumberExtension\" : \"0\"\n      } ],\n      \"postDirCd\" : \"\",\n      \"preDirCd\" : \"\",\n      \"primaryExtension\" : 0,\n      \"primaryKey\" : \"10rOdnS0Ki\",\n      \"primaryNumber\" : 9010006653,\n      \"replicatedEntity\" : {\n        \"replicationOperation\" : \"I\",\n        \"replicationDate\" : \"2002-09-04\"\n      },\n      \"replicationDate\" : \"2002-09-04\",\n      \"replicationOperation\" : \"I\",\n      \"stateCd\" : 1828,\n      \"streetAddress\" : \"3566 Memorial Circle\",\n      \"streetName\" : \"Memorial Circle\",\n      \"streetNumber\" : \"3566\",\n      \"streetSuffixCd\" : 0,\n      \"unitDesignationCd\" : 0,\n      \"unitNumber\" : \"\",\n      \"zip\" : \"92234\",\n      \"zip4\" : 0\n    } ],\n    \"bkInmtId\" : \"          \",\n    \"effStartDt\" : \"2002-09-04\",\n    \"fkAddress\" : \"10rOdnS0Ki\",\n    \"fkClient\" : \"FwBjUD00Ki\",\n    \"fkReferral\" : \"69MSyhi0Ki\",\n    \"homelessInd\" : \"N\",\n    \"id\" : \"8PiXbLa0Ki\",\n    \"lastUpdatedId\" : \"q48\",\n    \"lastUpdatedTime\" : \"2005-12-09\",\n    \"legacyId\" : \"8PiXbLa0Ki\",\n    \"primaryKey\" : \"8PiXbLa0Ki\",\n    \"replicatedEntity\" : {\n      \"replicationOperation\" : \"I\",\n      \"replicationDate\" : \"2005-12-09\"\n    },\n    \"replicationDate\" : \"2005-12-09\",\n    \"replicationOperation\" : \"I\"\n  } ],\n  \"clientCounty\" : 1101,\n  \"clientIndexNumber\" : \"\",\n  \"clientRaces\" : [ 5923 ],\n  \"commentDescription\" : \"\",\n  \"commonFirstName\" : \"Nathan\",\n  \"commonLastName\" : \"O Hingerty\",\n  \"commonMiddleName\" : \"\",\n  \"confidentialityInEffectIndicator\" : \"N\",\n  \"creationDate\" : \"2002-09-04\",\n  \"currCaChildrenServIndicator\" : \"N\",\n  \"currentlyOtherDescription\" : \"\",\n  \"currentlyRegionalCenterIndicator\" : \"N\",\n  \"deathDateVerifiedIndicator\" : \"N\",\n  \"deathPlace\" : \"\",\n  \"deathReasonText\" : \"\",\n  \"driverLicenseNumber\" : \"\",\n  \"driverLicenseStateCodeType\" : 0,\n  \"emailAddress\" : \"\",\n  \"estimatedDobCode\" : \"N\",\n  \"ethUnableToDetReasonCode\" : \"\",\n  \"genderCode\" : \"M\",\n  \"healthSummaryText\" : \"\",\n  \"hispUnableToDetReasonCode\" : \"\",\n  \"hispanicOriginCode\" : \"U\",\n  \"id\" : \"FwBjUD00Ki\",\n  \"immigrationCountryCodeType\" : 0,\n  \"immigrationStatusType\" : 0,\n  \"incapacitatedParentCode\" : \"U\",\n  \"individualHealthCarePlanIndicator\" : \"N\",\n  \"lastUpdatedTime\" : \"2002-09-04\",\n  \"legacyDescriptor\" : {\n    \"legacy_id\" : \"FwBjUD00Ki\",\n    \"legacy_ui_id\" : \"0905-3126-1859-8001284\",\n    \"legacy_last_updated\" : \"2002-09-04T11:37:16.758-0700\",\n    \"legacy_table_name\" : \"CLIENT_T\",\n    \"legacy_table_description\" : \"Client\"\n  },\n  \"legacyId\" : \"FwBjUD00Ki\",\n  \"limitationOnScpHealthIndicator\" : \"N\",\n  \"limitedAccessCode\" : \"N\",\n  \"literateCode\" : \"U\",\n  \"maritalCohabitatnHstryIndicatorVar\" : \"N\",\n  \"maritalStatusType\" : 0,\n  \"militaryStatusCode\" : \"U\",\n  \"namePrefixDescription\" : \"\",\n  \"nameType\" : 1313,\n  \"outstandingWarrantIndicator\" : \"N\",\n  \"prevCaChildrenServIndicator\" : \"N\",\n  \"prevOtherDescription\" : \"\",\n  \"prevRegionalCenterIndicator\" : \"N\",\n  \"primaryEthnicityType\" : 836,\n  \"primaryKey\" : \"FwBjUD00Ki\",\n  \"primaryLanguageType\" : 0,\n  \"raceAndEthnicity\" : {\n    \"race_codes\" : [ {\n      \"id\" : \"836\",\n      \"description\" : \"Polynesian*\"\n    }, {\n      \"id\" : \"5923\",\n      \"description\" : \"Other Pacific Islander*\"\n    } ],\n    \"hispanic_codes\" : [ ],\n    \"unable_to_determine_code\" : \"\",\n    \"hispanic_origin_code\" : \"U\",\n    \"hispanic_unable_to_determine_code\" : \"\"\n  },\n  \"religionType\" : 0,\n  \"replicatedEntity\" : {\n    \"replicationOperation\" : \"I\",\n    \"replicationDate\" : \"2002-09-04\"\n  },\n  \"replicationDate\" : \"2002-09-04\",\n  \"replicationOperation\" : \"I\",\n  \"secondaryLanguageType\" : 0,\n  \"sensitiveHlthInfoOnFileIndicator\" : \"N\",\n  \"sensitivityIndicator\" : \"N\",\n  \"soc158PlacementCode\" : \"N\",\n  \"soc158SealedClientIndicator\" : \"N\",\n  \"socialSecurityNumChangedCode\" : \"N\",\n  \"socialSecurityNumber\" : \"895009307\",\n  \"suffixTitleDescription\" : \"\",\n  \"tribalAncestryClientIndicatorVar\" : \"N\",\n  \"tribalMembrshpVerifctnIndicatorVar\" : \"N\",\n  \"unemployedParentCode\" : \"U\",\n  \"zippyCreatedIndicator\" : \"N\"\n}",
+  "legacy_descriptor" : {
+    "legacy_id" : "FwBjUD00Ki",
+    "legacy_ui_id" : "0905-3126-1859-8001284",
+    "legacy_last_updated" : "2002-09-04T11:37:16.758-0700",
+    "legacy_table_name" : "CLIENT_T",
+    "legacy_table_description" : "Client"
+  },
+  "legacy_id" : "FwBjUD00Ki",
+  "addresses" : [
+    {
+      "id" : "10rOdnS0Ki",
+      "city" : "Lake Elsinore",
+      "state_code" : "CA",
+      "state_name" : "California",
+      "zip" : "92234",
+      "street_number" : "3566",
+      "street_name" : "Memorial Circle",
+      "legacy_descriptor" : {
+        "legacy_id" : "10rOdnS0Ki",
+        "legacy_ui_id" : "0057-5892-5424-6001284",
+        "legacy_last_updated" : "2005-12-09T16:20:43.320-0800",
+        "legacy_table_name" : "ADDRS_T",
+        "legacy_table_description" : "Address"
+      }
+    }
+  ],
+  "phone_numbers" : [
+    {
+      "number" : "9010006653"
+    }
+  ],
+  "languages" : [ ],
+  "id" : "FwBjUD00Ki",
+  "searchable_date_of_birth" : [
+    "04121988",
+    "041988",
+    "1988",
+    "0412",
+    "4121988",
+    "41988",
+    "412"
+  ],
+  "searchable_name" : [
+    "Nathan",
+    "O Hingerty"
+  ],
+  "referrals" : [
+    {
+      "legacy_referral_id" : "69MSyhi0Ki",
+      "legacy_last_updated" : "2002-09-04T11:38:21.289-0700",
+      "legacy_descriptor" : {
+        "legacy_last_updated" : "2002-09-04T11:38:21.289-0700",
+        "legacy_id" : "69MSyhi0Ki",
+        "legacy_ui_id" : "0349-3785-9491-8001284",
+        "legacy_table_name" : "REFERL_T",
+        "legacy_table_description" : "Referral"
+      },
+      "reporter" : {
+        "legacy_reporter_id" : "69MSyhi0Ki",
+        "legacy_descriptor" : {
+          "legacy_last_updated" : "2002-09-04T11:37:16.758-0700",
+          "legacy_id" : "69MSyhi0Ki",
+          "legacy_ui_id" : "0349-3785-9491-8001284",
+          "legacy_table_name" : "REPTR_T",
+          "legacy_table_description" : "Reporter"
+        },
+        "last_name" : "Kelley",
+        "id" : "69MSyhi0Ki",
+        "first_name" : "Donna"
+      },
+      "county_name" : "Sacramento",
+      "response_time_id" : "1518",
+      "county_id" : "1101",
+      "allegations" : [
+        {
+          "legacy_allegation_id" : "NJsD8Sc0Ki",
+          "perpetrator_legacy_client_id" : "2g0JdCw0Ki",
+          "perpetrator" : {
+            "legacy_descriptor" : {
+              "legacy_last_updated" : "2002-09-04T11:37:16.758-0700",
+              "legacy_id" : "2g0JdCw0Ki",
+              "legacy_ui_id" : "0152-0827-2906-2001284",
+              "legacy_table_name" : "CLIENT_T",
+              "legacy_table_description" : "Client"
+            },
+            "last_name" : "Harfleet",
+            "id" : "2g0JdCw0Ki",
+            "first_name" : "Janice",
+            "sensitivity_indicator" : "N"
+          },
+          "victim_last_name" : "O Hingerty",
+          "legacy_descriptor" : {
+            "legacy_last_updated" : "2002-09-04T11:37:16.758-0700",
+            "legacy_id" : "NJsD8Sc0Ki",
+            "legacy_ui_id" : "1324-6129-9517-4001284",
+            "legacy_table_name" : "ALLGTN_T",
+            "legacy_table_description" : "Allegation"
+          },
+          "victim_id" : "FwBjUD00Ki",
+          "perpetrator_id" : "2g0JdCw0Ki",
+          "victim_first_name" : "Nathan",
+          "perpetrator_last_name" : "Harfleet",
+          "perpetrator_first_name" : "Janice",
+          "victim_legacy_client_id" : "FwBjUD00Ki",
+          "disposition_description" : "Inconclusive",
+          "victim" : {
+            "legacy_descriptor" : {
+              "legacy_last_updated" : "2002-09-04T11:37:16.758-0700",
+              "legacy_id" : "FwBjUD00Ki",
+              "legacy_ui_id" : "0905-3126-1859-8001284",
+              "legacy_table_name" : "CLIENT_T",
+              "legacy_table_description" : "Client"
+            },
+            "last_name" : "O Hingerty",
+            "id" : "FwBjUD00Ki",
+            "first_name" : "Nathan",
+            "sensitivity_indicator" : "N"
+          },
+          "id" : "NJsD8Sc0Ki",
+          "allegation_description" : "General Neglect",
+          "disposition_id" : "47"
+        }
+      ],
+      "assigned_social_worker" : {
+        "legacy_descriptor" : {
+          "legacy_last_updated" : "2001-10-15T12:22:54.220-0700",
+          "legacy_id" : "0KP",
+          "legacy_ui_id" : "0KP",
+          "legacy_table_name" : "STFPERST",
+          "legacy_table_description" : "Staff"
+        },
+        "last_name" : "D",
+        "id" : "0KP",
+        "legacy_assigned_social_worker_id" : "0KP",
+        "first_name" : "Dummy"
+      },
+      "access_limitation" : {
+        "limited_access_government_entity_id" : "0",
+        "limited_access_code" : "N"
+      },
+      "response_time" : "10 Day",
+      "id" : "69MSyhi0Ki",
+      "start_date" : "2002-09-04"
+    }
+  ],
+  "relationships" : [
+    {
+      "related_person_first_name" : "Janice",
+      "indexed_person_relationship" : "Son",
+      "relationship_context" : "Birth",
+      "related_person_legacy_id" : "2g0JdCw0Ki",
+      "legacy_descriptor" : {
+        "legacy_last_updated" : "2002-09-04T11:37:16.000-0700",
+        "legacy_id" : "2g0JdCw0Ki",
+        "legacy_ui_id" : "0152-0827-2906-2001284",
+        "legacy_table_name" : "CLIENT_T",
+        "legacy_table_description" : "Client"
+      },
+      "related_person_last_name" : "Belton",
+      "related_person_relationship" : "Mother"
+    }
+  ]
+}

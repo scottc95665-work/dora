@@ -63,7 +63,7 @@ public class SystemInformationResourceTest extends BaseDoraApplicationTest {
         .getHealthCheckResults();
 
     assertThat(healthCheckResults, is(notNullValue()));
-    assertThat(healthCheckResults.values().size(), is(equalTo(15)));
+    assertThat(healthCheckResults.values().size(), is(equalTo(16)));
 
     assertHealthCheckResult(healthCheckResults.get("deadlocks"), true);
     assertHealthCheckResult(healthCheckResults.get("dora-es-config"), true);
