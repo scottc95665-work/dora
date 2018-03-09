@@ -17,7 +17,7 @@ project.logging.setLevelInternal(INFO)
 
 project.ext {
     projectGroup = 'gov.ca.cwds.services'
-    projectMajorVersion = '0.5.5'
+    projectMajorVersion = '1.5.7'
 
     isRelease = System.getProperty("Release") == "true"
     buildNumber = System.getProperty('BuildNumber')
