@@ -42,6 +42,7 @@ public class PerryRealm extends Realm {
   private static final String PEOPLE_SENSITIVE_NO_COUNTY = "people_sensitive_no_county";
   private static final String PEOPLE_SEALED = "people_sealed";
   private static final String PEOPLE_SEALED_NO_COUNTY = "people_sealed_no_county";
+  private static final String FACILITIES_READ = "facilities_read";
 
   private static final String PEOPLE_SUMMARY_WORKER = "people_summary_worker";
   private static final String ADDING_ROLE = "adding {} role";
@@ -140,6 +141,11 @@ public class PerryRealm extends Realm {
         logger.debug(ADDING_ROLE, PEOPLE_SEALED);
         rolesList.add(PEOPLE_SEALED_NO_COUNTY);
         logger.debug(ADDING_ROLE, PEOPLE_SEALED_NO_COUNTY);
+      }
+
+      if(cwdsPrivileges.isFacilitiesRead()) {
+        rolesList.add(FACILITIES_READ);
+        logger.debug(ADDING_ROLE, FACILITIES_READ);
       }
 
       String[] roles = rolesList.toArray(new String[rolesList.size()]);

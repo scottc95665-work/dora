@@ -14,6 +14,7 @@ public interface Constants {
   String CWS_CASE_MANAGEMENT_SYSTEM = "CWS Case Management System";
   String SENSITIVE_PERSONS = "Sensitive Persons";
   String SEALED = "Sealed";
+  String RESOURCE_MANAGEMENT = "Resource Management";
 
   String STATE_OF_CALIFORNIA = "State of California";
 }

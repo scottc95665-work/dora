@@ -7,8 +7,7 @@
         {
           "names": [
             "screen*",
-            "rfa1a*",
-            "facilit*"
+            "rfa1a*"
           ],
           "privileges": [
             "read"
@@ -210,6 +209,22 @@
               }
             }
           }
+        }
+      ]
+    }
+  },
+  {
+    "action": "POST /_xpack/security/role/facilities_read",
+    "content": {
+      "cluster": [],
+      "indices": [
+        {
+          "names": [
+            "facilit*"
+          ],
+          "privileges": [
+            "read"
+          ]
         }
       ]
     }

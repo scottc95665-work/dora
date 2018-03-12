@@ -1,8 +1,6 @@
 package gov.ca.cwds.xpack.realm;
 
-import static gov.ca.cwds.xpack.realm.utils.Constants.CWS_CASE_MANAGEMENT_SYSTEM;
-import static gov.ca.cwds.xpack.realm.utils.Constants.SEALED;
-import static gov.ca.cwds.xpack.realm.utils.Constants.SENSITIVE_PERSONS;
+import static gov.ca.cwds.xpack.realm.utils.Constants.*;
 import static gov.ca.cwds.xpack.realm.utils.PerryRealmUtils.countyCodeToCountyId;
 import static gov.ca.cwds.xpack.realm.utils.PerryRealmUtils.parsePerryTokenFromJSON;
 
@@ -20,6 +18,7 @@ public final class CwdsPrivileges {
   private boolean stateSensitive = false;
   private boolean stateSealed = false;
   private String countyId = "";
+  private boolean facilitiesRead;
 
   private CwdsPrivileges() {
     // no op
@@ -64,7 +63,8 @@ public final class CwdsPrivileges {
         .isCountyIsStateOfCalifornia();
     cwdsPrivileges.stateSealed = holder.getPrivileges().contains(SEALED) && holder
         .isCountyIsStateOfCalifornia();
-
+    cwdsPrivileges.facilitiesRead = holder.getPrivileges().contains(RESOURCE_MANAGEMENT)
+        || holder.getPrivileges().contains(CWS_CASE_MANAGEMENT_SYSTEM);
     return cwdsPrivileges;
   }
 
@@ -92,6 +92,10 @@ public final class CwdsPrivileges {
     return socialWorkerOnly;
   }
 
+  public boolean isFacilitiesRead() {
+    return facilitiesRead;
+  }
+
   @Override
   public String toString() {
     return "CwdsPrivileges{" +
@@ -100,6 +104,7 @@ public final class CwdsPrivileges {
         ", countySealed=" + countySealed +
         ", stateSensitive=" + stateSensitive +
         ", stateSealed=" + stateSealed +
+        ", facilitiesRead=" + facilitiesRead +
         ", countyId='" + countyId + '\'' +
         '}';
   }

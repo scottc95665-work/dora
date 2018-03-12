@@ -1,19 +1,13 @@
 package gov.ca.cwds.xpack.realm.utils;
 
-import static gov.ca.cwds.xpack.realm.utils.Constants.COUNTY_CODE;
-import static gov.ca.cwds.xpack.realm.utils.Constants.COUNTY_NAME;
-import static gov.ca.cwds.xpack.realm.utils.Constants.CWS_CASE_MANAGEMENT_SYSTEM;
-import static gov.ca.cwds.xpack.realm.utils.Constants.PRIVILEGES;
-import static gov.ca.cwds.xpack.realm.utils.Constants.SEALED;
-import static gov.ca.cwds.xpack.realm.utils.Constants.SENSITIVE_PERSONS;
-import static gov.ca.cwds.xpack.realm.utils.Constants.STATE_OF_CALIFORNIA;
-
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+
+import static gov.ca.cwds.xpack.realm.utils.Constants.*;
 
 /**
  * @author CWDS TPT-2
@@ -119,6 +113,8 @@ public final class PerryRealmUtils {
               privileges.add(SENSITIVE_PERSONS);
             } else if (SEALED.equalsIgnoreCase(privilege)) {
               privileges.add(SEALED);
+            } else if(RESOURCE_MANAGEMENT.equalsIgnoreCase(privilege)) {
+              privileges.add(RESOURCE_MANAGEMENT);
             }
           }
         } else if (COUNTY_NAME.equals(fieldName)) {
