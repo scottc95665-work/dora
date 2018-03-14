@@ -92,8 +92,8 @@
                       }
                     },
                     {
-                      "match": {
-                        "client_county.id": "{{_user.metadata.county_id}}"
+                      "term": {
+                        "client_counties.id": "{{_user.metadata.county_id}}"
                       }
                     }
                   ]
@@ -128,8 +128,8 @@
                       }
                     },
                     {
-                      "match": {
-                        "client_county.id": "0"
+                      "term": {
+                        "client_counties.id": "0"
                       }
                     }
                   ]
@@ -164,8 +164,8 @@
                       }
                     },
                     {
-                      "match": {
-                        "client_county.id": "{{_user.metadata.county_id}}"
+                      "term": {
+                        "client_counties.id": "{{_user.metadata.county_id}}"
                       }
                     }
                   ]
@@ -200,8 +200,8 @@
                       }
                     },
                     {
-                      "match": {
-                        "client_county.id": "0"
+                      "term": {
+                        "client_counties.id": "0"
                       }
                     }
                   ]
