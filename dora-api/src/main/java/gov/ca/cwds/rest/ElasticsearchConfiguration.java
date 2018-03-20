@@ -9,12 +9,8 @@ import org.hibernate.validator.constraints.NotEmpty;
  */
 public class ElasticsearchConfiguration {
     @NotEmpty
-    @JsonProperty("host")
-    private String host;
-
-    @NotEmpty
-    @JsonProperty("port")
-    private String port;
+    @JsonProperty("nodes")
+    private String nodes;
 
     @NotEmpty
     @JsonProperty
@@ -24,17 +20,12 @@ public class ElasticsearchConfiguration {
         // no op
     }
 
-    public ElasticsearchConfiguration(String host, String port) {
-        this.host = host;
-        this.port = port;
+    public String getNodes() {
+        return nodes;
     }
 
-    public String getHost() {
-        return host;
-    }
-
-    public String getPort() {
-        return port;
+    public void setNodes(String nodes) {
+        this.nodes = nodes;
     }
 
     public Map<String, String> getResponseFieldFilters() {

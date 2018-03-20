@@ -92,4 +92,5 @@ xpack.security.authc.realms.native.order: 0
 xpack.security.authc.realms.native.type: native
 xpack.security.authc.realms.custom.order: 1
 xpack.security.authc.realms.custom.type: custom
-xpack.security.authc.realms.custom.token_validation_url: ${TOKEN_VALIDATION_URL:-http://192.168.99.100:8080/authn/validate?token=}
+#xpack.security.authc.realms.custom.token_validation_url: ${TOKEN_VALIDATION_URL:-http://172.20.25.1:8080/perry/authn/validate?token=}
+xpack.security.authc.realms.custom.token_validation_url: http://172.20.25.1:8080/perry/authn/validate?token=

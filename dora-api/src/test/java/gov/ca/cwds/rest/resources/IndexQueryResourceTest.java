@@ -48,7 +48,8 @@ public class IndexQueryResourceTest {
 
   @BeforeClass
   public static void setUp() {
-    ElasticsearchConfiguration esConfig = new ElasticsearchConfiguration("localhost", "9200");
+    ElasticsearchConfiguration esConfig = new ElasticsearchConfiguration();
+    esConfig.setNodes("localhost:9200");
     Whitebox.setInternalState(indexQueryService, "esConfig", esConfig);
 
     doReturn(new IndexQueryResponse("fred")).when(indexQueryService).handleRequest(Mockito.any());

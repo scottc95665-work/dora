@@ -16,7 +16,7 @@ swagger:
   callbackUrl: ${SWAGGER_CALLBACK_URL:-http://localhost:8080/swagger}
 
 elasticsearch:
-  host: ${ES_HOST:-dora.dev.cwds.io}
+  host: ${ES_HOST:-localhost}
   port: ${ES_PORT:-9200}
   xpack:
     enabled: false
@@ -36,7 +36,7 @@ server:
       - type: console
 
 logging:
-  level: ${LOGLEVEL:-WARN}
+  level: ${LOGLEVEL:-DEBUG}
   loggers:
     "AUDIT":
       level: ALL

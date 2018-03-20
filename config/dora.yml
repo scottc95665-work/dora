@@ -1,7 +1,7 @@
 applicationName: CWDS Dora
 
 shiro:
-  iniConfigs: ["file:${SHIRO_CONFIG_PATH:-config/shiro.ini}"]
+  iniConfigs: ["file:${SHIRO_CONFIG_PATH:-config/shiro_v2.ini}"]
   
 swagger:
   templateName: swagger.mustache
@@ -10,17 +10,16 @@ swagger:
   title: CWDS Dora
   description: RESTful search services for the CWS New System.
   logo: images/CWDS-API-Logo-Horizontal.png
-  loginUrl: ${PERRY_URL:-http://localhost:8090/authn/login}
-  logoutUrl: ${LOGOUT_URL:-http://localhost:8090/authn/logout}
+  loginUrl: ${PERRY_URL:-http://localhost:8080/perry/authn/login}
+  logoutUrl: ${LOGOUT_URL:-http://localhost:8080/perry/authn/logout}
   spId: ${SP_ID:-} # service provider ID for Identity Mapping (defines security attributes for specific application)
   showSwagger: ${SHOW_SWAGGER:-true}
-  jsonUrl: ${SWAGGER_JSON_URL:-http://localhost:8080/swagger.json}
-  callbackUrl: ${SWAGGER_CALLBACK_URL:-http://localhost:8080/swagger}
-  tokenUrl: ${SWAGGER_TOKEN_URL:-http://localhost:8090/authn/token}
+  jsonUrl: ${SWAGGER_JSON_URL:-http://localhost:8090/swagger.json}
+  callbackUrl: ${SWAGGER_CALLBACK_URL:-http://localhost:8090/swagger}
+  tokenUrl: ${SWAGGER_TOKEN_URL:-http://localhost:8080/perry/authn/token}
 
 elasticsearch:
-  host: ${ES_HOST:-dora.dev.cwds.io}
-  port: ${ES_PORT:-9200}
+  nodes: ${ES_NODES:-localhost:9200,localhost:9210}
   responseFieldFilters:
     person: 'config/filters/person_filter.groovy'
   xpack:
@@ -31,10 +30,10 @@ elasticsearch:
 server:
   applicationConnectors:
   - type: http 
-    port: ${APP_STD_PORT:-8080}
+    port: ${APP_STD_PORT:-18080}
   adminConnectors:
   - type: http
-    port: ${APP_ADMIN_PORT:-8081}
+    port: ${APP_ADMIN_PORT:-18081}
     
   requestLog:
     appenders:

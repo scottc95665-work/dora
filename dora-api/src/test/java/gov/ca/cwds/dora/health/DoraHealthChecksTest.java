@@ -23,11 +23,13 @@ import static org.mockito.Mockito.spy;
 
 import com.codahale.metrics.health.HealthCheck.Result;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import gov.ca.cwds.dora.DoraUtils;
 import gov.ca.cwds.rest.ElasticsearchConfiguration;
 import gov.ca.cwds.rest.ElasticsearchConfiguration.XpackConfiguration;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import org.apache.http.HttpHost;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -36,19 +38,19 @@ import org.mockito.Mockito;
  */
 public class DoraHealthChecksTest {
 
-  private static final ElasticsearchConfiguration ES_CONFIG_OK_NO_XPACK = esConfig("localhost",
-      "9200", false, null, null);
-  private static final ElasticsearchConfiguration ES_CONFIG_OK_XPACK = esConfig("dora.dev.cwds.io", "9200",
-      true, "user", "password");
+  private static final ElasticsearchConfiguration ES_CONFIG_OK_NO_XPACK = esConfig(
+      "localhost:9200", false, null, null);
+  private static final ElasticsearchConfiguration ES_CONFIG_OK_XPACK = esConfig(
+      "dora.dev.cwds.io:9200", true, "user", "password");
 
   @Test
   public void testElasticsearchConfigurations() throws Exception {
-    assertIncorrectElasticsearchConfiguration(new ElasticsearchConfiguration("localhost", null));
-    assertIncorrectElasticsearchConfiguration(new ElasticsearchConfiguration(null, "9200"));
-    assertIncorrectElasticsearchConfiguration(esConfig("localhost", "9200", true, null, null));
-    assertIncorrectElasticsearchConfiguration(esConfig("localhost", "9200", true, "user", null));
-    assertIncorrectElasticsearchConfiguration(
-        esConfig("localhost", "9200", true, null, "password"));
+    new ElasticsearchConfiguration().setNodes("localhost:");
+    assertIncorrectElasticsearchConfiguration(esConfig("localhost:", false, null, null));
+    assertIncorrectElasticsearchConfiguration(esConfig(":9200", false, null, null));
+    assertIncorrectElasticsearchConfiguration(esConfig("localhost:9200", true, null, null));
+    assertIncorrectElasticsearchConfiguration(esConfig("localhost:9200", true, "user", null));
+    assertIncorrectElasticsearchConfiguration(esConfig("localhost:9200", true, null, "password"));
 
     assertCorrectElasticsearchConfiguration(ES_CONFIG_OK_NO_XPACK);
     assertCorrectElasticsearchConfiguration(ES_CONFIG_OK_XPACK);
@@ -56,7 +58,7 @@ public class DoraHealthChecksTest {
 
   @Test
   public void testElasticsearchUnavailable() throws Exception {
-    Result result = new ElasticsearchHealthCheck(esConfig("localhost", "9999", false, null, null))
+    Result result = new ElasticsearchHealthCheck(esConfig("localhost:9999", false, null, null))
         .check();
     assertNotNull(result);
     assertFalse(result.isHealthy());
@@ -183,7 +185,8 @@ public class DoraHealthChecksTest {
     Result result = new BasicDoraHealthCheck(esConfig).check();
     assertNotNull(result);
     assertTrue(result.isHealthy());
-    assertEquals(String.format(HEALTHY_ES_CONFIG_MSG, esConfig.getHost(), esConfig.getPort(),
+    HttpHost[] httpHosts = DoraUtils.parseNodes(esConfig.getNodes());
+    assertEquals(String.format(HEALTHY_ES_CONFIG_MSG, httpHosts[0].getHostName(), httpHosts[0].getPort(),
         esConfig.getXpack().isEnabled() ? "enabled" : "disabled"),
         result.getMessage());
   }
@@ -200,14 +203,15 @@ public class DoraHealthChecksTest {
         .readValue(DoraHealthChecksTest.class.getResourceAsStream(resourceFile), List.class);
   }
 
-  private static ElasticsearchConfiguration esConfig(String host, String port, boolean xPackEnabled,
+  private static ElasticsearchConfiguration esConfig(String nodes, boolean xPackEnabled,
       String user, String password) {
     XpackConfiguration xpackConfig = new XpackConfiguration();
     xpackConfig.setEnabled(xPackEnabled);
     xpackConfig.setUser(user);
     xpackConfig.setPassword(password);
 
-    ElasticsearchConfiguration esConfig = new ElasticsearchConfiguration(host, port);
+    ElasticsearchConfiguration esConfig = new ElasticsearchConfiguration();
+    esConfig.setNodes(nodes);
     esConfig.setXpack(xpackConfig);
 
     return esConfig;

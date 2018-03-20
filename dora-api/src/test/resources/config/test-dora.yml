@@ -14,8 +14,7 @@ swagger:
   showSwagger: ${SHOW_SWAGGER:-true}
 
 elasticsearch:
-  host: ${ES_HOST:-localhost}
-  port: ${ES_PORT:-9200}
+  nodes: ${ES_NODES:-localhost:9200,localhost:9210}
   xpack:
     enabled: ${XPACK_ENABLED:-false}
     user: elastic
@@ -24,10 +23,10 @@ elasticsearch:
 server:
   applicationConnectors:
   - type: http
-    port: ${APP_STD_PORT:-8080}
+    port: ${APP_STD_PORT:-18080}
   adminConnectors:
   - type: http
-    port: ${APP_ADMIN_PORT:-8081}
+    port: ${APP_ADMIN_PORT:-18081}
 
   requestLog:
     appenders:
