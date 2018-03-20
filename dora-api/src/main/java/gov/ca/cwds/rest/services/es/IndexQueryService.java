@@ -130,8 +130,6 @@ public class IndexQueryService {
       StringEntity entity = new StringEntity(query, ContentType.APPLICATION_JSON);
       String endpoint = String.format("/%s/%s/_search", index.trim(), documentType.trim());
       return client.performRequest(HttpMethod.POST, endpoint, Collections.<String, String>emptyMap(), entity);
-    } catch (DoraException e) {
-      throw e;
     } catch (RuntimeException e) {
       throw new DoraException(e.getMessage(), e);
     } finally {
