@@ -120,13 +120,14 @@ public class IndexQueryService {
     checkArgument(!Strings.isNullOrEmpty(index), "index name cannot be Null or empty");
     checkArgument(!Strings.isNullOrEmpty(documentType), "type cannot be Null or empty");
     checkArgument(!Strings.isNullOrEmpty(query), "query cannot be Null or empty");
+
     RestClient client = null;
     HttpHost[] httpHosts = DoraUtils.parseNodes(esConfig.getNodes());
 
-    Header[] headers = new Header[1];
-    headers[0] = new BasicHeader("Authorization", PerrySubject.getToken());
     try {
       if (esConfig.getXpack() != null && esConfig.getXpack().isEnabled()) {
+        Header[] headers = new Header[1];
+        headers[0] = new BasicHeader("Authorization", PerrySubject.getToken());
         client = RestClient.builder(httpHosts).setDefaultHeaders(headers).build();
       } else {
         client = RestClient.builder(httpHosts).build();
