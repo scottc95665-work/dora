@@ -43,8 +43,9 @@ public final class DoraUtils {
     return hosts;
   }
 
+  @SuppressWarnings("fb-contrib:CLI_CONSTANT_LIST_INDEX")
   private static int getPort(String[] hostPortPair) {
-    return hostPortPair.length > 1 && hostPortPair[1] != null ? Integer.valueOf(hostPortPair[1]) : -1;
+    return hostPortPair.length > 1 && hostPortPair[1] != null ? Integer.parseInt(hostPortPair[1]) : -1;
   }
 
   private static String getHost(String[] hostPortPair) {

@@ -1,0 +1,23 @@
+{
+  "took": 100,
+  "timed_out": false,
+  "_shards": {
+    "total": 5,
+    "successful": 5,
+    "failed": 0
+  },
+  "hits": {
+    "total": 6,
+    "max_score": 1,
+    "hits": [
+      {
+        "_index": "people",
+        "_type": "person",
+        "_id": "person_N_AC",
+        "_score": 1,
+        "_source": {
+        }
+      }
+    ]
+  }
+}
