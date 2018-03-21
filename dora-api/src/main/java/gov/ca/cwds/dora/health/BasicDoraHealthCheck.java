@@ -17,7 +17,7 @@ public class BasicDoraHealthCheck extends HealthCheck {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(BasicDoraHealthCheck.class);
 
-  static final String HEALTHY_ES_CONFIG_MSG = "Dora is configured for Elasticsearch on %s:%s with X-pack %s.";
+  static final String HEALTHY_ES_CONFIG_MSG = "Dora is configured for Elasticsearch on nodes %s with X-pack %s.";
   static final String UNHEALTHY_ES_CONFIG_MSG = "Dora is not properly configured for Elasticsearch.";
 
   ElasticsearchConfiguration esConfig;
@@ -34,10 +34,10 @@ public class BasicDoraHealthCheck extends HealthCheck {
 
   @Override
   protected Result check() throws Exception {
-    HttpHost[] httpHosts = DoraUtils.parseNodes(esConfig.getNodes());
-    if (elasticsearchConfigurationIsHealthy(httpHosts)) {
+
+    if (elasticsearchConfigurationIsHealthy(esConfig.getNodes())) {
       String xPackStatus = esConfig.getXpack().isEnabled() ? "enabled" : "disabled";
-      String healthyMsg = String.format(HEALTHY_ES_CONFIG_MSG, httpHosts[0].getHostName(), httpHosts[0].getPort(), xPackStatus);
+      String healthyMsg = String.format(HEALTHY_ES_CONFIG_MSG, esConfig.getNodes(), xPackStatus);
       LOGGER.info(healthyMsg);
       return Result.healthy(healthyMsg);
     } else {
@@ -46,7 +46,8 @@ public class BasicDoraHealthCheck extends HealthCheck {
     }
   }
 
-  private boolean elasticsearchConfigurationIsHealthy(HttpHost[] httpHosts) {
+  private boolean elasticsearchConfigurationIsHealthy(String nodes) {
+    HttpHost[] httpHosts = DoraUtils.parseNodes(nodes);
     if (httpHosts == null) {
       return false;
     }

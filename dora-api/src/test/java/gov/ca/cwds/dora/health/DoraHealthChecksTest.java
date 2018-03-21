@@ -186,7 +186,7 @@ public class DoraHealthChecksTest {
     assertNotNull(result);
     assertTrue(result.isHealthy());
     HttpHost[] httpHosts = DoraUtils.parseNodes(esConfig.getNodes());
-    assertEquals(String.format(HEALTHY_ES_CONFIG_MSG, httpHosts[0].getHostName(), httpHosts[0].getPort(),
+    assertEquals(String.format(HEALTHY_ES_CONFIG_MSG, esConfig.getNodes(),
         esConfig.getXpack().isEnabled() ? "enabled" : "disabled"),
         result.getMessage());
   }
