@@ -30,7 +30,29 @@ public final class DoraUtils {
     // no op
   }
 
+  public static HttpHost[] parseNodes(String nodesValue) {
+    String[] nodes = nodesValue.split(",");
+    HttpHost[] hosts = new HttpHost[nodes.length];
+    for (int i = 0; i < nodes.length; i++) {
+      String node = nodes[i];
+      String[] hostPortPair = node.split(":");
+      String host = getHost(hostPortPair);
+      int port = getPort(hostPortPair);
+      hosts[i] = new HttpHost(host, port);
+    }
+    return hosts;
+  }
+
+  private static int getPort(String[] hostPortPair) {
+    return hostPortPair.length > 1 && hostPortPair[1] != null ? Integer.valueOf(hostPortPair[1]) : -1;
+  }
+
+  private static String getHost(String[] hostPortPair) {
+    return hostPortPair.length > 0 ? hostPortPair[0] : "";
+  }
+
   public static RestClient createElasticsearchClient(ElasticsearchConfiguration esConfig) {
+    HttpHost[] httpHosts = parseNodes(esConfig.getNodes());
     if (esConfig.getXpack().isEnabled()) {
       // build authorized ES REST client
       final CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
@@ -39,7 +61,7 @@ public final class DoraUtils {
               esConfig.getXpack().getPassword()));
 
       return RestClient
-          .builder(new HttpHost(esConfig.getHost(), Integer.parseInt(esConfig.getPort())))
+          .builder(httpHosts)
           .setHttpClientConfigCallback(
               httpClientBuilder -> httpClientBuilder
                   .setDefaultCredentialsProvider(credentialsProvider))
@@ -47,7 +69,7 @@ public final class DoraUtils {
     } else {
       // build anonymous ES REST client
       return RestClient
-          .builder(new HttpHost(esConfig.getHost(), Integer.parseInt(esConfig.getPort()))).build();
+          .builder(httpHosts).build();
     }
   }
 
