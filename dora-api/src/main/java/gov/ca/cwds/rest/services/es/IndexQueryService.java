@@ -5,6 +5,8 @@ import static gov.ca.cwds.dora.DoraUtils.getElasticSearchSearchResultCount;
 import static gov.ca.cwds.dora.DoraUtils.getElasticSearchSearchTime;
 import static gov.ca.cwds.dora.DoraUtils.stringToJsonMap;
 
+
+import com.google.common.base.Strings;
 import com.google.inject.Inject;
 import gov.ca.cwds.dora.DoraUtils;
 import gov.ca.cwds.dora.security.FieldFilterScript;
@@ -115,6 +117,9 @@ public class IndexQueryService {
   }
 
   Response callElasticsearch(String index, String documentType, String query) throws IOException {
+    checkArgument(!Strings.isNullOrEmpty(index), "index name cannot be Null or empty");
+    checkArgument(!Strings.isNullOrEmpty(documentType), "type cannot be Null or empty");
+    checkArgument(!Strings.isNullOrEmpty(query), "query cannot be Null or empty");
     RestClient client = null;
     HttpHost[] httpHosts = DoraUtils.parseNodes(esConfig.getNodes());
 
