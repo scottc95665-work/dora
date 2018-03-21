@@ -36,11 +36,19 @@ public final class DoraUtils {
     for (int i = 0; i < nodes.length; i++) {
       String node = nodes[i];
       String[] hostPortPair = node.split(":");
-      String host = hostPortPair.length > 0 ? hostPortPair[0] : "";
-      int port = hostPortPair.length > 1 && hostPortPair[1] != null ? Integer.valueOf(hostPortPair[1]) : -1;
+      String host = getHost(hostPortPair);
+      int port = getPort(hostPortPair);
       hosts[i] = new HttpHost(host, port);
     }
     return hosts;
+  }
+
+  private static int getPort(String[] hostPortPair) {
+    return hostPortPair.length > 1 && hostPortPair[1] != null ? Integer.valueOf(hostPortPair[1]) : -1;
+  }
+
+  private static String getHost(String[] hostPortPair) {
+    return hostPortPair.length > 0 ? hostPortPair[0] : "";
   }
 
   public static RestClient createElasticsearchClient(ElasticsearchConfiguration esConfig) {
