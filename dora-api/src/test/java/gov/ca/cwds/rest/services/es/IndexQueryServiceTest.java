@@ -1,23 +1,27 @@
 package gov.ca.cwds.rest.services.es;
 
 import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Matchers.anyMap;
+import static org.mockito.Matchers.anyObject;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
+import gov.ca.cwds.dora.security.FieldFilters;
 import gov.ca.cwds.rest.ElasticsearchConfiguration;
 import gov.ca.cwds.rest.api.DoraException;
 import gov.ca.cwds.rest.api.domain.es.IndexQueryRequest;
-import java.lang.reflect.Constructor;
+import io.dropwizard.testing.FixtureHelpers;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import org.apache.http.HttpHost;
-import org.apache.http.HttpResponse;
-import org.apache.http.ProtocolVersion;
-import org.apache.http.RequestLine;
-import org.apache.http.message.BasicHttpResponse;
-import org.apache.http.message.BasicRequestLine;
-import org.apache.http.message.BasicStatusLine;
+import org.apache.http.StatusLine;
+import org.apache.http.entity.BasicHttpEntity;
 import org.elasticsearch.client.Response;
 import org.hamcrest.junit.ExpectedException;
 import org.junit.Before;
@@ -62,14 +66,27 @@ public class IndexQueryServiceTest {
     Map<String, String> test = new HashMap<>();
     test.put("a", "value");
     IndexQueryRequest req = new IndexQueryRequest("people", "person", test);
-
     ElasticsearchConfiguration esConfig = new ElasticsearchConfiguration();
-
     Whitebox.setInternalState(target, "esConfig", esConfig);
-    doReturn(createResponse()).when(target).callElasticsearch(Mockito.anyString(), Mockito.anyString(), Mockito.anyString());
 
-    thrown.expect(DoraException.class);
-    target.handleRequest(req);
+    FieldFilters fieldFilters = mock(FieldFilters.class);
+    doReturn("").when(target).applyFieldFiltering(anyMap(), anyString());
+    Whitebox.setInternalState(target, "fieldFilters", fieldFilters);
+
+    Response response = mock(Response.class);
+    StatusLine statusLine = mock(StatusLine.class);
+
+    BasicHttpEntity entity = new BasicHttpEntity();
+    when(response.getStatusLine()).thenReturn(statusLine);
+    when(statusLine.getStatusCode()).thenReturn(200);
+
+    String fixture = FixtureHelpers.fixture("people-person-meta-data.json");
+    entity.setContent(new ByteArrayInputStream(fixture.getBytes()));
+    when(response.getEntity()).thenReturn(entity);
+
+    doReturn(response).when(target).callElasticsearch(Mockito.anyString(), Mockito.anyString(), Mockito.anyString());
+
+    assertNotNull(target.handleRequest(req));
   }
 
   @Test
@@ -85,12 +102,15 @@ public class IndexQueryServiceTest {
     target.callElasticsearch("http://localhost:8080", "{}", "");
   }
 
-  private Response createResponse() throws NoSuchMethodException, InstantiationException, IllegalAccessException, java.lang.reflect.InvocationTargetException {
-    Constructor<Response> constructor = Response.class.getDeclaredConstructor(RequestLine.class, HttpHost.class, HttpResponse.class);
-    constructor.setAccessible(true);
-    BasicRequestLine requestLine = new BasicRequestLine("", "", new ProtocolVersion("", 0, 0));
-    HttpHost httpHost = new HttpHost("", 0);
-    HttpResponse httpResponse = new BasicHttpResponse(new BasicStatusLine(new ProtocolVersion("", 0, 0), 0, ""));
-    return constructor.newInstance(requestLine, httpHost, httpResponse);
+  @Test
+  public void testCallElasticsearch() throws IOException {
+    ElasticsearchConfiguration esConfig = new ElasticsearchConfiguration();
+    esConfig.setNodes("localhost:1");
+    Whitebox.setInternalState(target, "esConfig", esConfig);
+
+    Response response = mock(Response.class);
+    doReturn(response).when(target).performRequest(anyObject(), anyObject(), anyString());
+
+    assertNotNull(target.callElasticsearch("people", "person", "{}"));
   }
 }

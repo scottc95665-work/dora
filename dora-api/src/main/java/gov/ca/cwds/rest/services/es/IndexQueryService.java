@@ -25,7 +25,6 @@ import java.util.Map;
 import javax.script.ScriptException;
 import javax.ws.rs.HttpMethod;
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.http.Header;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpStatus;
@@ -64,10 +63,6 @@ public class IndexQueryService {
     checkArgument(req != null, "query cannot be Null or empty");
     @SuppressWarnings("unchecked")
     String query = new JSONObject((Map<String, String>) req.getQuery()).toString();
-    if (StringUtils.isBlank(query)) {
-      LOGGER.error("query cannot be null.");
-      throw new DoraException("query cannot be null.");
-    }
     String index = req.getIndex();
     String documentType = req.getType();
     LOGGER.info("User is searching for '{}' in Elasticsearch index '{}'", documentType, index);
@@ -105,7 +100,7 @@ public class IndexQueryService {
     }
   }
 
-  private String applyFieldFiltering(Map<String, Object> esResponseJsonMap, String documentType) {
+  String applyFieldFiltering(Map<String, Object> esResponseJsonMap, String documentType) {
     FieldFilterScript fieldFilterScript = fieldFilters.getFilter(documentType);
     IntakeAccount account = PerrySubject.getPerryAccount();
     try {
@@ -135,7 +130,7 @@ public class IndexQueryService {
 
       StringEntity entity = new StringEntity(query, ContentType.APPLICATION_JSON);
       String endpoint = String.format("/%s/%s/_search", index.trim(), documentType.trim());
-      return client.performRequest(HttpMethod.POST, endpoint, Collections.<String, String>emptyMap(), entity);
+      return performRequest(client, entity, endpoint);
     } catch (RuntimeException e) {
       throw new DoraException(e.getMessage(), e);
     } finally {
@@ -143,5 +138,9 @@ public class IndexQueryService {
         client.close();
       }
     }
+  }
+
+  Response performRequest(RestClient client, StringEntity entity, String endpoint) throws IOException {
+    return client.performRequest(HttpMethod.POST, endpoint, Collections.<String, String>emptyMap(), entity);
   }
 }
