@@ -28,6 +28,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.http.Header;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpStatus;
+import org.apache.http.StatusLine;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.message.BasicHeader;
@@ -69,8 +70,9 @@ public class IndexQueryService {
 
     try {
       Response response = callElasticsearch(index, documentType, query);
-      if (HttpStatus.SC_OK != response.getStatusLine().getStatusCode()) {
-        throw new DoraException(response.getStatusLine().getReasonPhrase());
+      StatusLine statusLine = response.getStatusLine();
+      if (HttpStatus.SC_OK != statusLine.getStatusCode()) {
+        throw new DoraException(statusLine.getReasonPhrase());
       }
 
       InputStream content = response.getEntity().getContent();
