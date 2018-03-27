@@ -6,10 +6,12 @@
   "ssn": "868007881",
   "type": "gov.ca.cwds.data.persistence.cms.rep.ReplicatedClient",
   "sensitivity_indicator": "N",
-  "client_county": {
-    "id": "1080",
-    "description": "Imperial"
-  },
+  "client_counties": [
+    {
+      "id": "1080",
+      "description": "Imperial"
+    }
+  ],
   "race_ethnicity": {
     "race_codes": [],
     "hispanic_codes": [],

@@ -7,10 +7,12 @@
   "ssn" : "996007118",
   "type" : "gov.ca.cwds.data.persistence.cms.rep.ReplicatedClient",
   "sensitivity_indicator" : "R",
-  "client_county": {
-    "id": "0",
-    "description": ""
-  },
+  "client_counties": [
+    {
+      "id": "0",
+      "description": ""
+    }
+  ],
   "race_ethnicity" : {
     "race_codes" : [
       {

@@ -129,7 +129,7 @@ For example: `-e PERRY_URL=http://localhost:8090/authn/login`
 
 ## Building and publishing docker image with Elasticsearch + X-Pack
  
-The following command will build a versioned docker image with Elasticsearch 5.3.2 + X-Pack and publish it to DockerHub as `cwds/elasticsearch_xpack_data` 
+The following command will build a versioned docker image with Elasticsearch 5.5.2 + X-Pack and publish it to DockerHub as `cwds/elasticsearch_xpack_data` 
 
     % ./gradlew :docker-es-xpack:dockerEsXpackPublish
     
@@ -140,7 +140,7 @@ _**It is not recommended to publish the docker image with Elasticsearch + X-Pack
 
 ## Running docker container with Elasticsearch + X-Pack
 
-There is a Docker Image with Elasticsearch 5.3.2 and X-Pack.
+There is a Docker Image with Elasticsearch 5.5.2 and X-Pack.
 
 Pull the Docker image:
 
@@ -148,7 +148,13 @@ Pull the Docker image:
 
 Run the container:
 
-    % docker run -d --name=<container name>  -p 9200:9200 -p 9300:9300 cwds/elasticsearch_xpack_data
+    % docker run -d --name=<container name> -p 9200:9200 -p 9300:9300 -e http.host=0.0.0.0 -e transport.host=127.0.0.1 cwds/elasticsearch_xpack_data
+    
+Consider adding the following environment variable to the container to integrate it with Perry:
+
+TOKEN_VALIDATION_URL=http://10.0.75.1:8080/perry/authn/validate?token=
+
+*Note*: the actual value of the parameter depends on the environment.  
     
 ## Clean Up
 

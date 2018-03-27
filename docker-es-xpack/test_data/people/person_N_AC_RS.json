@@ -1,16 +1,18 @@
 {
   "first_name" : "Crystal",
   "middle_name" : "",
-  "last_name" : "Paur",
+  "last_name" : "Ales",
   "date_of_birth" : "1991-04-04",
   "gender" : "female",
   "ssn" : "997001864",
   "type" : "gov.ca.cwds.data.persistence.cms.rep.ReplicatedClient",
   "sensitivity_indicator" : "N",
-  "client_county" : {
-    "id" : "1126",
-    "description" : "State of California"
-  },
+  "client_counties": [
+    {
+      "id" : "1126",
+      "description" : "State of California"
+    }
+  ],
   "race_ethnicity" : {
     "race_codes" : [
       {

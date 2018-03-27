@@ -1,16 +1,18 @@
 {
-  "first_name": "Sealed",
+  "first_name": "William",
   "middle_name": "",
-  "last_name": "Betty",
+  "last_name": "Wrungel",
   "date_of_birth": "1985-10-28",
-  "gender": "female",
+  "gender": "male",
   "ssn": "",
   "type": "gov.ca.cwds.data.persistence.cms.rep.ReplicatedClient",
   "sensitivity_indicator": "N",
-  "client_county": {
-    "id": "1086",
-    "description": "Los Angeles"
-  },
+  "client_counties": [
+    {
+      "id": "1086",
+      "description": "Los Angeles"
+    }
+  ],
   "race_ethnicity": {
     "race_codes": [],
     "hispanic_codes": [],

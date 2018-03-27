@@ -1,6 +1,7 @@
 FROM docker.elastic.co/elasticsearch/elasticsearch:5.5.2
 ADD elasticsearch.yml /usr/share/elasticsearch/config/
 ADD jvm.options /usr/share/elasticsearch/config/
+ADD names_synonyms.txt /usr/share/elasticsearch/config/
 USER root
 RUN bin/elasticsearch-plugin install analysis-phonetic
 ADD x-pack-perry-realm.zip /usr/share/elasticsearch/

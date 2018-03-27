@@ -93,4 +93,4 @@ xpack.security.authc.realms.native.type: native
 xpack.security.authc.realms.custom.order: 1
 xpack.security.authc.realms.custom.type: custom
 #example of TOKEN_VALIDATION_URL: http://<docker-nat-ip>:8080/<perry-context-path>/authn/validate?token=
-xpack.security.authc.realms.custom.token_validation_url: ${TOKEN_VALIDATION_URL:-http://localhost:8080/authn/validate?token=}
+xpack.security.authc.realms.custom.token_validation_url: ${TOKEN_VALIDATION_URL:-http://localhost:8080/perry/authn/validate?token=}

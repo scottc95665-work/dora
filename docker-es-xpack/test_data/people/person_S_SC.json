@@ -7,10 +7,12 @@
   "ssn" : "895009307",
   "type" : "gov.ca.cwds.data.persistence.cms.rep.ReplicatedClient",
   "sensitivity_indicator" : "S",
-  "client_county": {
-    "id": "1086",
-    "description": "Los Angeles"
-  },
+  "client_counties": [
+    {
+      "id": "1086",
+      "description": "Los Angeles"
+    }
+  ],
   "race_ethnicity" : {
     "race_codes" : [
       {
