@@ -61,6 +61,7 @@ node('dora-slave') {
         }
         stage('Unit Tests') {
             buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: 'test jacocoTestReport'
+            publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'dora-api/build/reports/tests/test/', reportFiles: 'index.html', reportName: 'JUnit Reports', reportTitles: 'JUnit tests summary'])
         }
         stage('License Report') {
             buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: 'downloadLicenses'
