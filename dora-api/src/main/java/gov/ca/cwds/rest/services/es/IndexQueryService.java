@@ -70,9 +70,9 @@ public class IndexQueryService {
 
     try {
       Response response = callElasticsearch(index, documentType, query);
-      StatusLine statusLine = response.getStatusLine();
-      if (HttpStatus.SC_OK != statusLine.getStatusCode()) {
-        throw new DoraException(statusLine.getReasonPhrase());
+      StatusLine responseStatusLine = response.getStatusLine();
+      if (HttpStatus.SC_OK != responseStatusLine.getStatusCode()) {
+        throw new DoraException(responseStatusLine.getReasonPhrase());
       }
 
       InputStream content = response.getEntity().getContent();
