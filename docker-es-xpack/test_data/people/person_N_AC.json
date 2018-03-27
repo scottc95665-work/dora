@@ -6,10 +6,12 @@
   "ssn" : "774003897",
   "type" : "gov.ca.cwds.data.persistence.cms.rep.ReplicatedClient",
   "sensitivity_indicator" : "N",
-  "client_county" : {
-    "id" : "1126",
-    "description" : "State of California"
-  },
+  "client_counties": [
+    {
+      "id" : "1126",
+      "description" : "State of California"
+    }
+  ],
   "race_ethnicity" : {
     "race_codes" : [
       {

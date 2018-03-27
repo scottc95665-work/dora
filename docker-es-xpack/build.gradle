@@ -95,6 +95,7 @@ task dockerCopyScripts(type: Copy) {
     include 'entrypoint.sh'
     include 'elasticsearch.yml'
     include 'jvm.options'
+    include 'names_synonyms.txt'
     filter(FixCrLfFilter.class, eol:FixCrLfFilter.CrLf.newInstance("lf"))
 }
 
@@ -148,8 +149,7 @@ task dockerPopulateXpackPolicies {
 task dockerPopulateTestPeople {
     enabled = (System.getProperty("es.populate.test.people") ?: 'true').equalsIgnoreCase('true')
     doFirst {
-        // create people index
-        esExecute("PUT", "/people", "{}")
+        esExecute("PUT", "/people", readFile("$projectDir/test_data/people.index_config.json"))
         // create people-summary index
         esExecute("PUT", "/people-summary", "{}")
         // create facilities index

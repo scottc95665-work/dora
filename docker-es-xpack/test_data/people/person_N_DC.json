@@ -7,10 +7,12 @@
   "ssn" : "",
   "type" : "gov.ca.cwds.data.persistence.cms.rep.ReplicatedClient",
   "sensitivity_indicator" : "N",
-  "client_county" : {
-    "id" : "1084",
-    "description" : "Lake"
-  },
+  "client_counties": [
+    {
+      "id" : "1084",
+      "description" : "Lake"
+    }
+  ],
   "race_ethnicity" : {
     "race_codes" : [
       {
