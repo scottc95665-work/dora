@@ -56,11 +56,6 @@ public class BasicDoraHealthCheck extends HealthCheck {
         return false;
       }
     }
-    return xpackConfigurationIsHealthy(esConfig.getXpack());
-  }
-
-  private boolean xpackConfigurationIsHealthy(XpackConfiguration xpackConfig) {
-    return xpackConfig != null && (!xpackConfig.isEnabled()
-        || xpackConfig.getUser() != null && xpackConfig.getPassword() != null);
+    return !StringUtils.isAnyBlank(esConfig.getUser(), esConfig.getPassword());
   }
 }

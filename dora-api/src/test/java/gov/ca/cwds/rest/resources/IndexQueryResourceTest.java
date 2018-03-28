@@ -27,7 +27,7 @@ import org.junit.Test;
 
 import com.squarespace.jersey2.guice.JerseyGuiceUtils;
 import org.mockito.Mockito;
-import org.mockito.internal.util.reflection.Whitebox;
+import org.powermock.reflect.Whitebox;
 
 /**
  * @author CWDS API Team
