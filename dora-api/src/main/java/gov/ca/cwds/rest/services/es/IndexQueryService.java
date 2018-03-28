@@ -25,13 +25,10 @@ import java.util.Map;
 import javax.script.ScriptException;
 import javax.ws.rs.HttpMethod;
 import org.apache.commons.io.IOUtils;
-import org.apache.http.Header;
-import org.apache.http.HttpHost;
 import org.apache.http.HttpStatus;
 import org.apache.http.StatusLine;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
-import org.apache.http.message.BasicHeader;
 import org.elasticsearch.client.Response;
 import org.elasticsearch.client.RestClient;
 import org.json.JSONObject;
@@ -113,21 +110,18 @@ public class IndexQueryService {
     }
   }
 
-  Response callElasticsearch(String index, String documentType, String query) throws IOException {
+  Response callElasticsearch(String index, String documentType, String query)
+      throws IOException {
     checkArgument(!Strings.isNullOrEmpty(index), "index name cannot be Null or empty");
     checkArgument(!Strings.isNullOrEmpty(documentType), "type cannot be Null or empty");
     checkArgument(!Strings.isNullOrEmpty(query), "query cannot be Null or empty");
 
     RestClient client = null;
-    HttpHost[] httpHosts = DoraUtils.parseNodes(esConfig.getNodes());
-
     try {
       if (esConfig.getXpack() != null && esConfig.getXpack().isEnabled()) {
-        Header[] headers = new Header[1];
-        headers[0] = new BasicHeader("Authorization", PerrySubject.getToken());
-        client = RestClient.builder(httpHosts).setDefaultHeaders(headers).build();
+        client = DoraUtils.createXpackElasticsearchClient(esConfig);
       } else {
-        client = RestClient.builder(httpHosts).build();
+        client = DoraUtils.createElasticsearchClient(esConfig);
       }
 
       StringEntity entity = new StringEntity(query, ContentType.APPLICATION_JSON);
@@ -142,7 +136,9 @@ public class IndexQueryService {
     }
   }
 
-  Response performRequest(RestClient client, StringEntity entity, String endpoint) throws IOException {
-    return client.performRequest(HttpMethod.POST, endpoint, Collections.<String, String>emptyMap(), entity);
+  Response performRequest(RestClient client, StringEntity entity, String endpoint)
+      throws IOException {
+    return client.performRequest(HttpMethod.POST, endpoint,
+        Collections.<String, String>emptyMap(), entity);
   }
 }

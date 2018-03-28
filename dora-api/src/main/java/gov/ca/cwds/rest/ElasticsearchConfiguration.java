@@ -12,6 +12,12 @@ public class ElasticsearchConfiguration {
     @JsonProperty("nodes")
     private String nodes;
 
+    @JsonProperty
+    private String user;
+
+    @JsonProperty
+    private String password;
+
     @NotEmpty
     @JsonProperty
     private Map<String, String> responseFieldFilters;
@@ -28,40 +34,36 @@ public class ElasticsearchConfiguration {
         this.nodes = nodes;
     }
 
+    public String getUser() {
+        return user;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public Map<String, String> getResponseFieldFilters() {
         return responseFieldFilters;
     }
 
     public static class XpackConfiguration {
+        @JsonProperty
         private boolean enabled;
-        private String user;
-        private String password;
 
         public boolean isEnabled() {
             return enabled;
         }
 
-        @JsonProperty
         public void setEnabled(boolean enabled) {
             this.enabled = enabled;
-        }
-
-        public String getUser() {
-            return user;
-        }
-
-        @JsonProperty
-        public void setUser(String user) {
-            this.user = user;
-        }
-
-        public String getPassword() {
-            return password;
-        }
-
-        @JsonProperty
-        public void setPassword(String password) {
-            this.password = password;
         }
     }
 

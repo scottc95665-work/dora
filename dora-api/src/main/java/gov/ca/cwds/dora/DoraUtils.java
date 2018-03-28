@@ -3,6 +3,7 @@ package gov.ca.cwds.dora;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import gov.ca.cwds.rest.ElasticsearchConfiguration;
 import gov.ca.cwds.rest.api.DoraException;
+import gov.ca.cwds.security.realm.PerrySubject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -10,13 +11,16 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.stream.Stream;
+import org.apache.http.Header;
 import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.CredentialsProvider;
 import org.apache.http.impl.client.BasicCredentialsProvider;
+import org.apache.http.message.BasicHeader;
 import org.elasticsearch.client.Response;
 import org.elasticsearch.client.RestClient;
+import org.elasticsearch.client.RestClientBuilder;
 
 /**
  * @author CWDS TPT-2
@@ -45,33 +49,36 @@ public final class DoraUtils {
 
   @SuppressWarnings("fb-contrib:CLI_CONSTANT_LIST_INDEX")
   private static int getPort(String[] hostPortPair) {
-    return hostPortPair.length > 1 && hostPortPair[1] != null ? Integer.parseInt(hostPortPair[1]) : -1;
+    return hostPortPair.length > 1 && hostPortPair[1] != null ?
+        Integer.parseInt(hostPortPair[1]) : -1;
   }
 
   private static String getHost(String[] hostPortPair) {
     return hostPortPair.length > 0 ? hostPortPair[0] : "";
   }
 
+  public static RestClient createXpackElasticsearchClient(
+      ElasticsearchConfiguration esConfig) {
+    HttpHost[] httpHosts = parseNodes(esConfig.getNodes());
+    Header[] headers = new Header[1];
+    headers[0] = new BasicHeader("Authorization", PerrySubject.getToken());
+    RestClientBuilder restClientBuilder = RestClient.builder(httpHosts).setDefaultHeaders(headers);
+    return restClientBuilder.build();
+  }
+
   public static RestClient createElasticsearchClient(ElasticsearchConfiguration esConfig) {
     HttpHost[] httpHosts = parseNodes(esConfig.getNodes());
-    if (esConfig.getXpack().isEnabled()) {
-      // build authorized ES REST client
-      final CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
-      credentialsProvider.setCredentials(AuthScope.ANY,
-          new UsernamePasswordCredentials(esConfig.getXpack().getUser(),
-              esConfig.getXpack().getPassword()));
+    final CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
+    credentialsProvider.setCredentials(AuthScope.ANY,
+        new UsernamePasswordCredentials(esConfig.getUser(),
+            esConfig.getPassword()));
 
-      return RestClient
-          .builder(httpHosts)
-          .setHttpClientConfigCallback(
-              httpClientBuilder -> httpClientBuilder
-                  .setDefaultCredentialsProvider(credentialsProvider))
-          .build();
-    } else {
-      // build anonymous ES REST client
-      return RestClient
-          .builder(httpHosts).build();
-    }
+    RestClientBuilder restClientBuilder = RestClient
+        .builder(httpHosts)
+        .setHttpClientConfigCallback(
+            httpClientBuilder -> httpClientBuilder
+                .setDefaultCredentialsProvider(credentialsProvider));
+    return restClientBuilder.build();
   }
 
   @SuppressWarnings("unchecked")

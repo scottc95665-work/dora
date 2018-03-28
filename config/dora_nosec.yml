@@ -17,10 +17,10 @@ swagger:
 
 elasticsearch:
   nodes: ${ES_NODES:-dora.dev.cwds.io:9200,localhost:9210}
+  user: ${XPACK_USER:-elastic}
+  password: ${XPACK_PASSWORD:-changeme}
   xpack:
-    enabled: false
-    user: elastic
-    password: changeme
+    enabled: ${XPACK_ENABLED:-true}
 
 server:
   applicationConnectors:

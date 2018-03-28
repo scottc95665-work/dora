@@ -39,7 +39,7 @@ import org.mockito.Mockito;
 public class DoraHealthChecksTest {
 
   private static final ElasticsearchConfiguration ES_CONFIG_OK_NO_XPACK = esConfig(
-      "localhost:9200", false, null, null);
+      "localhost:9200", false, "user", "password");
   private static final ElasticsearchConfiguration ES_CONFIG_OK_XPACK = esConfig(
       "dora.dev.cwds.io:9200", true, "user", "password");
 
@@ -58,7 +58,7 @@ public class DoraHealthChecksTest {
 
   @Test
   public void testElasticsearchUnavailable() throws Exception {
-    Result result = new ElasticsearchHealthCheck(esConfig("localhost:9999", false, null, null))
+    Result result = new ElasticsearchHealthCheck(esConfig("localhost:9999", false, "user", "password"))
         .check();
     assertNotNull(result);
     assertFalse(result.isHealthy());
@@ -207,11 +207,11 @@ public class DoraHealthChecksTest {
       String user, String password) {
     XpackConfiguration xpackConfig = new XpackConfiguration();
     xpackConfig.setEnabled(xPackEnabled);
-    xpackConfig.setUser(user);
-    xpackConfig.setPassword(password);
 
     ElasticsearchConfiguration esConfig = new ElasticsearchConfiguration();
     esConfig.setNodes(nodes);
+    esConfig.setUser(user);
+    esConfig.setPassword(password);
     esConfig.setXpack(xpackConfig);
 
     return esConfig;

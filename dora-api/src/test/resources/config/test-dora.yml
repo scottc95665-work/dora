@@ -11,22 +11,22 @@ swagger:
   description: RESTful search services for the CWS New System.
   logo: images/CWDS-API-Logo-Horizontal.png
   loginUrl: ${PERRY_URL:-http://localhost:8090/authn/login}
-  showSwagger: ${SHOW_SWAGGER:-true}
+  showSwagger: ${SHOW_SWAGGER:-false}
 
 elasticsearch:
   nodes: ${ES_NODES:-dora.dev.cwds.io:9200}
+  user: ${XPACK_USER:-elastic}
+  password: ${XPACK_PASSWORD:-changeme}
   xpack:
-    enabled: ${XPACK_ENABLED:-false}
-    user: elastic
-    password: changeme
+    enabled: ${XPACK_ENABLED:-true}
 
 server:
   applicationConnectors:
   - type: http
-    port: ${APP_STD_PORT:-8080}
+    port: ${APP_STD_PORT:-18080}
   adminConnectors:
   - type: http
-    port: ${APP_ADMIN_PORT:-8081}
+    port: ${APP_ADMIN_PORT:-18081}
 
   requestLog:
     appenders:

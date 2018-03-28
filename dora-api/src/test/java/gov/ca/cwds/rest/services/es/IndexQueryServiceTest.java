@@ -31,7 +31,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
-import org.mockito.internal.util.reflection.Whitebox;
+import org.powermock.reflect.Whitebox;
 
 /**
  * @author CWDS TPT-2
@@ -105,6 +105,8 @@ public class IndexQueryServiceTest {
   @Test
   public void testCallElasticsearch() throws IOException {
     ElasticsearchConfiguration esConfig = new ElasticsearchConfiguration();
+    esConfig.setUser("user");
+    esConfig.setPassword("password");
     esConfig.setNodes("localhost:1");
     Whitebox.setInternalState(target, "esConfig", esConfig);
 
