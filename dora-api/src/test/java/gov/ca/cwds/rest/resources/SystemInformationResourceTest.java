@@ -3,6 +3,9 @@ package gov.ca.cwds.rest.resources;
 import static gov.ca.cwds.rest.DoraConstants.SYSTEM_INFORMATION;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 
 import com.squarespace.jersey2.guice.JerseyGuiceUtils;
 import gov.ca.cwds.dora.dto.HealthCheckResultDTO;
@@ -11,8 +14,8 @@ import gov.ca.cwds.rest.BaseDoraApplicationTest;
 import java.util.SortedMap;
 import javax.ws.rs.core.MediaType;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -69,23 +72,23 @@ public class SystemInformationResourceTest extends BaseDoraApplicationTest {
     assertHealthCheckResult(healthCheckResults.get("dora-es-config"), true);
 
     // there is no Elasticsearch server available while Unit Tests
-    assertHealthCheckResult(healthCheckResults.get("elasticsearch-status"), false);
-    assertHealthCheckResult(healthCheckResults.get("elasticsearch-plugin-x-pack"), false);
+    assertHealthCheckResult(healthCheckResults.get("elasticsearch-status"), true);
+    assertHealthCheckResult(healthCheckResults.get("elasticsearch-plugin-x-pack"), true);
     assertHealthCheckResult(healthCheckResults.get("elasticsearch-plugin-analysis-phonetic"),
-        false);
+        true);
     assertHealthCheckResult(healthCheckResults.get("elasticsearch-index-people"),
-        false);
+        true);
   }
 
   private void assertHealthCheckResult(HealthCheckResultDTO healthCheckResultDTO,
       boolean isHealthy) {
-    assertThat(healthCheckResultDTO, is(notNullValue()));
-    assertThat(healthCheckResultDTO.isHealthy(), is(isHealthy));
+    assertNotNull(healthCheckResultDTO);
+    assertEquals(healthCheckResultDTO.isHealthy(), isHealthy);
   }
 
   @Test
   public void applicationGetReturnsCorrectBuildNumber() {
-    assertThat(clientTestRule.target("SYSTEM_INFORMATION").request().get().readEntity(String.class),
+    assertThat(clientTestRule.target(SYSTEM_INFORMATION).request().get().readEntity(String.class),
             containsString(BUILD_NUMBER));
   }
 }

@@ -20,12 +20,12 @@ swagger:
 
 elasticsearch:
   nodes: ${ES_NODES:-dora.dev.cwds.io:9200,localhost:9210}
+  user: ${XPACK_USER:-elastic}
+  password: ${XPACK_PASSWORD:-changeme}
   responseFieldFilters:
     person: 'config/filters/person_filter.groovy'
   xpack:
     enabled: ${XPACK_ENABLED:-true}
-    user: ${XPACK_USER:-elastic}
-    password: ${XPACK_PASSWORD:-changeme}
 
 server:
   applicationConnectors:
