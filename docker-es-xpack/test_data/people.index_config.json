@@ -4,6 +4,11 @@
     "number_of_replicas": 1,
     "analysis": {
       "filter": {
+        "autocomplete_filter": {
+          "type": "edge_ngram",
+          "min_gram": 1,
+          "max_gram": 20
+        },
         "dbl_metaphone_filter": {
           "type": "phonetic",
           "encoder": "doublemetaphone",
@@ -15,6 +20,14 @@
         }
       },
       "analyzer": {
+        "autocomplete": {
+          "type": "custom",
+          "tokenizer": "standard",
+          "filter": [
+            "lowercase",
+            "autocomplete_filter"
+          ]
+        },
         "dbl_metaphone": {
           "tokenizer": "standard",
           "filter": [
@@ -39,6 +52,9 @@
       "properties": {
         "first_name": {
           "type": "text",
+          "store": true,
+          "analyzer": "autocomplete",
+          "search_analyzer": "standard",
           "fields": {
             "phonetic": {
               "type": "text",
@@ -52,6 +68,9 @@
         },
         "middle_name": {
           "type": "text",
+          "store": true,
+          "analyzer": "autocomplete",
+          "search_analyzer": "standard",
           "fields": {
             "phonetic": {
               "type": "text",
@@ -65,6 +84,9 @@
         },
         "last_name": {
           "type": "text",
+          "store": true,
+          "analyzer": "autocomplete",
+          "search_analyzer": "standard",
           "fields": {
             "phonetic": {
               "type": "text",
