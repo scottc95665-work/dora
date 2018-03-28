@@ -38,7 +38,7 @@ node ('dora-slave'){
     def serverArti = Artifactory.server 'CWDS_DEV'
     def rtGradle = Artifactory.newGradleBuild()
     properties([
-      buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '3')), disableConcurrentBuilds(),
+      buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '5', numToKeepStr: '15')), disableConcurrentBuilds(),
       disableConcurrentBuilds(),
       [$class: 'RebuildSettings', autoRebuild: false, rebuildDisabled: false],
       parameters([
