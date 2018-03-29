@@ -44,7 +44,8 @@ Actual First name: William
 }
 ```
 
-This more complex example will find Nathan (diminutive search by "nate"), Crystal (auto-complete search by "cry"), Alex (phonetic search by "aleks"), and Alexander (not sure why):
+This more complex example will find Nathan (diminutive search by "nate"), Crystal (auto-complete search by "cry"), Alex (phonetic search by "aleks"),
+ and Alexander (phonetic plus auto-complete search):
 ```
 {
   "query": {
