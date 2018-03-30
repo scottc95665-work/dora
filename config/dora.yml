@@ -1,7 +1,7 @@
 applicationName: CWDS Dora
 
 shiro:
-  iniConfigs: ["file:${SHIRO_CONFIG_PATH:-config/shiro_v2.ini}"]
+  iniConfigs: ["file:${SHIRO_CONFIG_PATH:-config/shiro.ini}"]
   
 swagger:
   templateName: swagger.mustache
