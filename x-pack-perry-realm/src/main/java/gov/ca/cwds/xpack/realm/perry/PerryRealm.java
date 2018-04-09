@@ -43,6 +43,7 @@ public class PerryRealm extends Realm {
   private static final String PEOPLE_SEALED = "people_sealed";
   private static final String PEOPLE_SEALED_NO_COUNTY = "people_sealed_no_county";
   private static final String FACILITIES_READ = "facilities_read";
+  private static final String FACILITIES_READ_ADOPTIONS = "facilities_read_adoptions";
 
   private static final String PEOPLE_SUMMARY_WORKER = "people_summary_worker";
   private static final String ADDING_ROLE = "adding {} role";
@@ -147,6 +148,11 @@ public class PerryRealm extends Realm {
         rolesList.add(FACILITIES_READ);
         logger.debug(ADDING_ROLE, FACILITIES_READ);
       }
+      
+      if (cwdsPrivileges.isFacilitiesReadAdoptions()){
+        rolesList.add(FACILITIES_READ_ADOPTIONS);
+        logger.debug(ADDING_ROLE, FACILITIES_READ_ADOPTIONS);
+      }
 
       String[] roles = rolesList.toArray(new String[rolesList.size()]);
       logger.info("roles: " + rolesList);
@@ -158,10 +164,10 @@ public class PerryRealm extends Realm {
       listener.onResponse(user);
 
     } catch (PerryTokenValidationException e) {
-      logger.warn("invalid Perry Token: " + e.getMessage());
+      logger.warn("invalid Perry Token: " + e.getMessage(), e);
       listener.onResponse(null);
     } catch (JsonProcessingException | IllegalArgumentException e) {
-      logger.warn("failed to parse Json Token: " + e.getMessage());
+      logger.warn("failed to parse Json Token: " + e.getMessage(), e);
       listener.onResponse(null);
     } catch (IOException e) {
       listener.onFailure(e);

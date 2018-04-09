@@ -224,6 +224,37 @@
           ],
           "privileges": [
             "read"
+          ],
+          "query": {
+            "template": {
+              "inline": {
+                "bool": {
+                  "must_not": [
+                    {
+                      "match": {
+                        "adoption_home_only_indicator": "Y"
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  {
+    "action": "POST /_xpack/security/role/facilities_adoption_read",
+    "content": {
+      "cluster": [],
+      "indices": [
+        {
+          "names": [
+            "facilit*"
+          ],
+          "privileges": [
+            "read"
           ]
         }
       ]

@@ -1,11 +1,14 @@
 package gov.ca.cwds.xpack.realm;
 
-import static gov.ca.cwds.xpack.realm.utils.Constants.*;
+import static gov.ca.cwds.xpack.realm.utils.Constants.ADOPTIONS;
+import static gov.ca.cwds.xpack.realm.utils.Constants.CWS_CASE_MANAGEMENT_SYSTEM;
+import static gov.ca.cwds.xpack.realm.utils.Constants.RESOURCE_MANAGEMENT;
+import static gov.ca.cwds.xpack.realm.utils.Constants.SEALED;
+import static gov.ca.cwds.xpack.realm.utils.Constants.SENSITIVE_PERSONS;
 import static gov.ca.cwds.xpack.realm.utils.PerryRealmUtils.countyCodeToCountyId;
 import static gov.ca.cwds.xpack.realm.utils.PerryRealmUtils.parsePerryTokenFromJSON;
 
 import gov.ca.cwds.xpack.realm.utils.JsonTokenInfoHolder;
-import java.io.IOException;
 
 /**
  * @author CWDS TPT-2
@@ -18,7 +21,8 @@ public final class CwdsPrivileges {
   private boolean stateSensitive = false;
   private boolean stateSealed = false;
   private String countyId = "";
-  private boolean facilitiesRead;
+  private boolean facilitiesRead = false;
+  private boolean facilitiesReadAdoptions = false;
 
   private CwdsPrivileges() {
     // no op
@@ -46,7 +50,7 @@ public final class CwdsPrivileges {
    * @throws IllegalArgumentException if can't parse the token
    */
   @SuppressWarnings("squid:S3776") // this method pretty straightforward
-  public static CwdsPrivileges fromJson(String json) throws IllegalArgumentException {
+  public static CwdsPrivileges fromJson(String json) {
     CwdsPrivileges cwdsPrivileges = new CwdsPrivileges();
 
     JsonTokenInfoHolder holder = parsePerryTokenFromJSON(json);
@@ -65,6 +69,8 @@ public final class CwdsPrivileges {
         .isCountyIsStateOfCalifornia();
     cwdsPrivileges.facilitiesRead = holder.getPrivileges().contains(RESOURCE_MANAGEMENT)
         || holder.getPrivileges().contains(CWS_CASE_MANAGEMENT_SYSTEM);
+    cwdsPrivileges.facilitiesReadAdoptions =
+        cwdsPrivileges.facilitiesRead && holder.getPrivileges().contains(ADOPTIONS);
     return cwdsPrivileges;
   }
 
@@ -96,6 +102,10 @@ public final class CwdsPrivileges {
     return facilitiesRead;
   }
 
+  public boolean isFacilitiesReadAdoptions() {
+    return facilitiesReadAdoptions;
+  }
+
   @Override
   public String toString() {
     return "CwdsPrivileges{" +
@@ -105,6 +115,7 @@ public final class CwdsPrivileges {
         ", stateSensitive=" + stateSensitive +
         ", stateSealed=" + stateSealed +
         ", facilitiesRead=" + facilitiesRead +
+        ", facilitiesReadAdoptions=" + facilitiesReadAdoptions +
         ", countyId='" + countyId + '\'' +
         '}';
   }
