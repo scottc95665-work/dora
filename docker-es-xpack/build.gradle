@@ -175,6 +175,8 @@ task dockerPopulateTestPeople {
         String esFacilitiesUrl = "/facilities/facility/facility1"
         String facilityContent = readFile("$projectDir/test_data/facilities/facility.json")
         esExecute("PUT", esFacilitiesUrl, facilityContent)
+        String facilityAdoptionsContent = readFile("$projectDir/test_data/facilities/facility_adoptions.json")
+        esExecute("PUT", esFacilitiesUrl, facilityAdoptionsContent)
 
         String esScreeningsUrl = "/screenings/screening/screening1"
         String screeningContent = readFile("$projectDir/test_data/screenings/screening.json")
