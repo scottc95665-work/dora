@@ -144,14 +144,12 @@ public class PerryRealm extends Realm {
         logger.debug(ADDING_ROLE, PEOPLE_SEALED_NO_COUNTY);
       }
 
-      if(cwdsPrivileges.isFacilitiesRead()) {
-        rolesList.add(FACILITIES_READ);
-        logger.debug(ADDING_ROLE, FACILITIES_READ);
-      }
-      
       if (cwdsPrivileges.isFacilitiesReadAdoptions()){
         rolesList.add(FACILITIES_READ_ADOPTIONS);
         logger.debug(ADDING_ROLE, FACILITIES_READ_ADOPTIONS);
+      } else if (cwdsPrivileges.isFacilitiesRead()) {
+        rolesList.add(FACILITIES_READ);
+        logger.debug(ADDING_ROLE, FACILITIES_READ);
       }
 
       String[] roles = rolesList.toArray(new String[rolesList.size()]);
