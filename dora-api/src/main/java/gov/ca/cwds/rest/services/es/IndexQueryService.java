@@ -1,11 +1,12 @@
 package gov.ca.cwds.rest.services.es;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static gov.ca.cwds.dora.DoraUtils.getElasticSearchSearchResultCount;
-import static gov.ca.cwds.dora.DoraUtils.getElasticSearchSearchTime;
-import static gov.ca.cwds.dora.DoraUtils.stringToJsonMap;
-
-
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.util.Collections;
+import java.util.Map;
+import javax.script.ScriptException;
+import javax.ws.rs.HttpMethod;
 import com.google.common.base.Strings;
 import com.google.inject.Inject;
 import gov.ca.cwds.dora.DoraUtils;
@@ -14,26 +15,23 @@ import gov.ca.cwds.dora.security.FieldFilters;
 import gov.ca.cwds.dora.security.intake.IntakeAccount;
 import gov.ca.cwds.rest.ElasticsearchConfiguration;
 import gov.ca.cwds.rest.api.DoraException;
+import gov.ca.cwds.rest.api.ElasticsearchException;
 import gov.ca.cwds.rest.api.domain.es.IndexQueryRequest;
 import gov.ca.cwds.rest.api.domain.es.IndexQueryResponse;
 import gov.ca.cwds.security.realm.PerrySubject;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
-import java.util.Collections;
-import java.util.Map;
-import javax.script.ScriptException;
-import javax.ws.rs.HttpMethod;
 import org.apache.commons.io.IOUtils;
-import org.apache.http.HttpStatus;
-import org.apache.http.StatusLine;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.elasticsearch.client.Response;
+import org.elasticsearch.client.ResponseException;
 import org.elasticsearch.client.RestClient;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+
+import static com.google.common.base.Preconditions.checkArgument;
+import static gov.ca.cwds.dora.DoraUtils.*;
 
 /**
  * Business service for Index Query.
@@ -67,10 +65,6 @@ public class IndexQueryService {
 
     try {
       Response response = callElasticsearch(index, documentType, query);
-      StatusLine responseStatusLine = response.getStatusLine();
-      if (HttpStatus.SC_OK != responseStatusLine.getStatusCode()) {
-        throw new DoraException(responseStatusLine.getReasonPhrase());
-      }
 
       InputStream content = response.getEntity().getContent();
       String esResponse = IOUtils.toString(content, StandardCharsets.UTF_8.toString());
@@ -94,6 +88,8 @@ public class IndexQueryService {
       }
 
       return new IndexQueryResponse(filteredResponse);
+    } catch (ResponseException e) {
+      throw new ElasticsearchException(e);
     } catch (IOException e) {
       throw new DoraException("Failed to call ES", e);
     }
