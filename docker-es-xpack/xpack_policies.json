@@ -232,7 +232,7 @@
                   "must_not": [
                     {
                       "match": {
-                        "adoption_home_only_indicator": "Y"
+                        "adoption_home_only_indicator": true
                       }
                     }
                   ]
