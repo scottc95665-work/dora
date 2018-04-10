@@ -245,7 +245,7 @@
     }
   },
   {
-    "action": "POST /_xpack/security/role/facilities_adoption_read",
+    "action": "POST /_xpack/security/role/facilities_read_adoptions",
     "content": {
       "cluster": [],
       "indices": [
