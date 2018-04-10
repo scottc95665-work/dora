@@ -16,7 +16,6 @@ import com.fasterxml.jackson.core.JsonToken;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import org.elasticsearch.index.mapper.ObjectMapper;
 
 /**
  * @author CWDS TPT-2
