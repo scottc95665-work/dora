@@ -1,0 +1,16 @@
+{
+  "user": "RACFID",
+  "staffId": "34",
+  "roles": ["Supervisor"],
+  "county_code": "99",
+  "county_name": "State of California",
+  "privileges": [
+    "Countywide Read/Write",
+    "Sealed",
+    "Statewide Read",
+    "Sensitive Persons",
+    "Resource Management",
+    "Adoptions"
+  ],
+  "government_entity_type" : "State of California"
+}
