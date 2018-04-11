@@ -60,19 +60,44 @@ public final class CwdsPrivileges {
     // JWT token will contain County Code, but Person documents in ES index and X-Pack roles use County ID
     cwdsPrivileges.countyId = countyCodeToCountyId(holder.getCountyCode());
     cwdsPrivileges.socialWorkerOnly = holder.getPrivileges().contains(CWS_CASE_MANAGEMENT_SYSTEM);
-    cwdsPrivileges.countySensitive = holder.getPrivileges().contains(SENSITIVE_PERSONS) && (!holder
-        .isCountyIsStateOfCalifornia());
-    cwdsPrivileges.countySealed = holder.getPrivileges().contains(SEALED) && (!holder
-        .isCountyIsStateOfCalifornia());
-    cwdsPrivileges.stateSensitive = holder.getPrivileges().contains(SENSITIVE_PERSONS) && holder
-        .isCountyIsStateOfCalifornia();
-    cwdsPrivileges.stateSealed = holder.getPrivileges().contains(SEALED) && holder
-        .isCountyIsStateOfCalifornia();
-    cwdsPrivileges.facilitiesRead = holder.getPrivileges().contains(RESOURCE_MANAGEMENT)
-        || holder.getPrivileges().contains(CWS_CASE_MANAGEMENT_SYSTEM);
-    cwdsPrivileges.facilitiesReadAdoptions =
-        cwdsPrivileges.facilitiesRead && holder.getPrivileges().contains(ADOPTIONS);
+    cwdsPrivileges.countySensitive = isCountySensitive(holder);
+    cwdsPrivileges.countySealed = isCountySealed(holder);
+    cwdsPrivileges.stateSensitive = isStateSensitive(holder);
+    cwdsPrivileges.stateSealed = isStateSealed(holder);
+    cwdsPrivileges.facilitiesRead = isFacilitiesRead(holder);
+    cwdsPrivileges.facilitiesReadAdoptions = isFacilitiesReadAdoptions(holder,
+        cwdsPrivileges.facilitiesRead);
     return cwdsPrivileges;
+  }
+
+  private static boolean isFacilitiesReadAdoptions(JsonTokenInfoHolder holder,
+      boolean isFacilitiesRead) {
+    return isFacilitiesRead && holder.getPrivileges().contains(ADOPTIONS);
+  }
+
+  private static boolean isFacilitiesRead(JsonTokenInfoHolder holder) {
+    return holder.getPrivileges().contains(RESOURCE_MANAGEMENT)
+        || holder.getPrivileges().contains(CWS_CASE_MANAGEMENT_SYSTEM);
+  }
+
+  private static boolean isStateSealed(JsonTokenInfoHolder holder) {
+    return holder.getPrivileges().contains(SEALED) && holder
+        .isCountyIsStateOfCalifornia();
+  }
+
+  private static boolean isStateSensitive(JsonTokenInfoHolder holder) {
+    return holder.getPrivileges().contains(SENSITIVE_PERSONS) && holder
+        .isCountyIsStateOfCalifornia();
+  }
+
+  private static boolean isCountySealed(JsonTokenInfoHolder holder) {
+    return holder.getPrivileges().contains(SEALED) && (!holder
+        .isCountyIsStateOfCalifornia());
+  }
+
+  private static boolean isCountySensitive(JsonTokenInfoHolder holder) {
+    return holder.getPrivileges().contains(SENSITIVE_PERSONS) && (!holder
+        .isCountyIsStateOfCalifornia());
   }
 
   public boolean isCountySensitive() {
