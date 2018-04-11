@@ -51,13 +51,14 @@ public final class CwdsPrivileges {
    */
   @SuppressWarnings("squid:S3776") // this method pretty straightforward
   public static CwdsPrivileges fromJson(String json) {
-    CwdsPrivileges cwdsPrivileges = new CwdsPrivileges();
-
     JsonTokenInfoHolder holder = parsePerryTokenFromJSON(json);
+    return buildPrivileges(holder);
+  }
 
+  private static CwdsPrivileges buildPrivileges(JsonTokenInfoHolder holder) {
+    CwdsPrivileges cwdsPrivileges = new CwdsPrivileges();
     // JWT token will contain County Code, but Person documents in ES index and X-Pack roles use County ID
     cwdsPrivileges.countyId = countyCodeToCountyId(holder.getCountyCode());
-
     cwdsPrivileges.socialWorkerOnly = holder.getPrivileges().contains(CWS_CASE_MANAGEMENT_SYSTEM);
     cwdsPrivileges.countySensitive = holder.getPrivileges().contains(SENSITIVE_PERSONS) && (!holder
         .isCountyIsStateOfCalifornia());
