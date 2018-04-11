@@ -12,6 +12,8 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.Example;
+import io.swagger.annotations.ExampleProperty;
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -69,14 +71,19 @@ public class IndexQueryResource {
   @ApiOperation(value = "Query given ElasticSearch index and type on given search terms", response = JSONObject.class)
   @Consumes(value = MediaType.APPLICATION_JSON)
   public Response searchIndex(
-      @PathParam("index") @ApiParam(required = true, name = "index", value = "The index of the search") String index,
-      @PathParam("type") @ApiParam(required = true, name = "type", value = "The document type") String type,
-      @Valid @ApiParam(required = true) Object req
+      @PathParam("index")
+      @ApiParam(required = true, name = "index", value = "The index of the search", example = "facilities")
+          String index,
+      @PathParam("type")
+      @ApiParam(required = true, name = "type", value = "The document type", example = "facility")
+          String type,
+      @Valid
+      @ApiParam(required = true, examples = @Example(@ExampleProperty(mediaType = MediaType.APPLICATION_JSON, value = "{\"query\":{\"match_all\":{}}}")))
+          Object req
   ) {
     long startTime = System.currentTimeMillis();
 
-    LOGGER.info("index: {}. type: {} query: {}", escapeCRLF(index),
-        escapeCRLF(type), escapeCRLF((null != req) ? req.toString() : null));
+    logRequestParams(index, type, req);
 
     IndexQueryRequest indexQueryRequest = new IndexQueryRequest(index, type, req);
     IndexQueryResponse indexQueryResponse = indexQueryService.handleRequest(indexQueryRequest);
@@ -86,5 +93,12 @@ public class IndexQueryResource {
     return indexQueryResponse == null ? null
         : Response.status(Response.Status.OK).entity(indexQueryResponse.getSearchResults())
             .build();
+  }
+
+  private void logRequestParams(String index, String type, Object req) {
+    String idxStr = escapeCRLF(index);
+    String typeStr = escapeCRLF(type);
+    String regStr = escapeCRLF((null != req) ? req.toString() : null);
+    LOGGER.info("index: {}. type: {} query: {}", idxStr, typeStr, regStr);
   }
 }
