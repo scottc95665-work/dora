@@ -41,7 +41,7 @@ node('dora-slave') {
     parameters([
         booleanParam(defaultValue: true, description: '', name: 'USE_NEWRELIC'),
         string(defaultValue: 'latest', description: '', name: 'APP_VERSION'),
-        string(defaultValue: 'development', description: '', name: 'branch'),
+        string(defaultValue: 'master', description: '', name: 'branch'),
         booleanParam(defaultValue: false, description: 'Default release version template is: <majorVersion>_<buildNumber>-RC', name: 'RELEASE_PROJECT'),
         string(description: 'Fill this field if need to specify custom version ', name: 'OVERRIDE_VERSION'),
         string(defaultValue: 'inventories/tpt2dev/hosts.yml', description: '', name: 'inventory')

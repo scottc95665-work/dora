@@ -42,7 +42,7 @@ node ('dora-slave'){
       disableConcurrentBuilds(),
       [$class: 'RebuildSettings', autoRebuild: false, rebuildDisabled: false],
       parameters([
-        string(defaultValue: 'development', description: '', name: 'branch'),
+        string(defaultValue: 'master', description: '', name: 'branch'),
         booleanParam(defaultValue: true, description: '', name: 'ES_POPULATE_TEST_PEOPLE')
       ])
     ])
