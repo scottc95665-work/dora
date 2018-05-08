@@ -1,0 +1,1011 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic SYSTEM "http://helpserver.labs.intellij.net/help/html-entities.dtd">
+<topic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://helpserver.labs.intellij.net/help/topic.v2.xsd"  id="third-party-libs" title="Third Party Libraries">
+<chunk include-id="third-party-libs-tables">
+<chapter title="Third-party libraries" id="Third-party_libraries">
+<table>
+<tr><td>Project</td><td>Version</td><td>License</td></tr>
+<tr>
+<td><a href='http://www.antlr.org/'>antlr:antlr</a></td>
+<td>2.7.7</td>
+<td><a href='http://www.antlr.org/license.html'>BSD License</a></td>
+</tr>
+<tr>
+<td><a href='http://aopalliance.sourceforge.net'>aopalliance:aopalliance</a></td>
+<td>1.0</td>
+<td>Public Domain</td>
+</tr>
+<tr>
+<td><a href='http://www.qos.ch'>ch.qos.logback:logback-access</a></td>
+<td>1.2.1</td>
+<td>http://www.eclipse.org/legal/epl-v10.html, http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html</td>
+</tr>
+<tr>
+<td><a href='http://www.qos.ch'>ch.qos.logback:logback-classic</a></td>
+<td>1.2.1</td>
+<td>http://www.eclipse.org/legal/epl-v10.html, http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html</td>
+</tr>
+<tr>
+<td><a href='http://www.qos.ch'>ch.qos.logback:logback-core</a></td>
+<td>1.2.1</td>
+<td>http://www.eclipse.org/legal/epl-v10.html, http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html</td>
+</tr>
+<tr>
+<td>com.carrotsearch:hppc</td>
+<td>0.7.1</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.txt'>The Apache Software License, Version 2.0</a></td>
+</tr>
+<tr>
+<td><a href='http://github.com/cowtowncoder/java-classmate'>com.fasterxml:classmate</a></td>
+<td>1.3.1</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.txt'>The Apache Software License, Version 2.0</a></td>
+</tr>
+<tr>
+<td><a href='http://github.com/FasterXML/jackson'>com.fasterxml.jackson.core:jackson-annotations</a></td>
+<td>2.8.0</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.txt'>The Apache Software License, Version 2.0</a></td>
+</tr>
+<tr>
+<td><a href='https://github.com/FasterXML/jackson-core'>com.fasterxml.jackson.core:jackson-core</a></td>
+<td>2.8.7</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.txt'>The Apache Software License, Version 2.0</a></td>
+</tr>
+<tr>
+<td><a href='http://github.com/FasterXML/jackson'>com.fasterxml.jackson.core:jackson-databind</a></td>
+<td>2.8.7</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.txt'>The Apache Software License, Version 2.0</a></td>
+</tr>
+<tr>
+<td><a href='http://github.com/FasterXML/jackson-dataformats-binary'>com.fasterxml.jackson.dataformat:jackson-dataformat-cbor</a></td>
+<td>2.8.6</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.txt'>The Apache Software License, Version 2.0</a></td>
+</tr>
+<tr>
+<td><a href='http://github.com/FasterXML/jackson-dataformats-binary'>com.fasterxml.jackson.dataformat:jackson-dataformat-smile</a></td>
+<td>2.8.6</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.txt'>The Apache Software License, Version 2.0</a></td>
+</tr>
+<tr>
+<td><a href='http://wiki.fasterxml.com/JacksonExtensionXmlDataBinding'>com.fasterxml.jackson.dataformat:jackson-dataformat-xml</a></td>
+<td>2.4.5</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.txt'>The Apache Software License, Version 2.0</a></td>
+</tr>
+<tr>
+<td><a href='https://github.com/FasterXML/jackson'>com.fasterxml.jackson.dataformat:jackson-dataformat-yaml</a></td>
+<td>2.8.7</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.txt'>The Apache Software License, Version 2.0</a></td>
+</tr>
+<tr>
+<td><a href='https://github.com/FasterXML/jackson-datatypes-collections'>com.fasterxml.jackson.datatype:jackson-datatype-guava</a></td>
+<td>2.8.7</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.txt'>The Apache Software License, Version 2.0</a></td>
+</tr>
+<tr>
+<td><a href='https://github.com/FasterXML/jackson-datatype-hibernate'>com.fasterxml.jackson.datatype:jackson-datatype-hibernate5</a></td>
+<td>2.8.7</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.txt'>The Apache Software License, Version 2.0</a></td>
+</tr>
+<tr>
+<td><a href='https://github.com/FasterXML/jackson-modules-java8/jackson-datatype-jdk8'>com.fasterxml.jackson.datatype:jackson-datatype-jdk8</a></td>
+<td>2.8.7</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.txt'>The Apache Software License, Version 2.0</a></td>
+</tr>
+<tr>
+<td><a href='http://wiki.fasterxml.com/JacksonModuleJoda'>com.fasterxml.jackson.datatype:jackson-datatype-joda</a></td>
+<td>2.8.7</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.txt'>The Apache Software License, Version 2.0</a></td>
+</tr>
+<tr>
+<td><a href='https://github.com/FasterXML/jackson-modules-java8/jackson-datatype-jsr310'>com.fasterxml.jackson.datatype:jackson-datatype-jsr310</a></td>
+<td>2.8.7</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.txt'>The Apache Software License, Version 2.0</a></td>
+</tr>
+<tr>
+<td><a href='http://github.com/FasterXML/jackson-jaxrs-providers/jackson-jaxrs-base'>com.fasterxml.jackson.jaxrs:jackson-jaxrs-base</a></td>
+<td>2.8.7</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.txt'>The Apache Software License, Version 2.0</a></td>
+</tr>
+<tr>
+<td><a href='http://github.com/FasterXML/jackson-jaxrs-providers/jackson-jaxrs-json-provider'>com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider</a></td>
+<td>2.8.7</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.txt'>The Apache Software License, Version 2.0</a></td>
+</tr>
+<tr>
+<td><a href='https://github.com/FasterXML/jackson-modules-base'>com.fasterxml.jackson.module:jackson-module-afterburner</a></td>
+<td>2.8.7</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.txt'>The Apache Software License, Version 2.0</a></td>
+</tr>
+<tr>
+<td><a href='http://github.com/FasterXML/jackson-module-jaxb-annotations'>com.fasterxml.jackson.module:jackson-module-jaxb-annotations</a></td>
+<td>2.8.7</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.txt'>The Apache Software License, Version 2.0</a></td>
+</tr>
+<tr>
+<td><a href='https://github.com/FasterXML/jackson-modules-java8/jackson-module-parameter-names'>com.fasterxml.jackson.module:jackson-module-parameter-names</a></td>
+<td>2.8.7</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.txt'>The Apache Software License, Version 2.0</a></td>
+</tr>
+<tr>
+<td><a href='http://github.com/spullara/mustache.java'>com.github.spullara.mustache.java:compiler</a></td>
+<td>0.9.4</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.txt'>The Apache Software License, Version 2.0</a></td>
+</tr>
+<tr>
+<td><a href='http://stephenc.github.com/jcip-annotations'>com.github.stephenc.jcip:jcip-annotations</a></td>
+<td>1.0-1</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.txt'>Apache License, Version 2.0</a></td>
+</tr>
+<tr>
+<td><a href='http://findbugs.sourceforge.net/'>com.google.code.findbugs:annotations</a></td>
+<td>3.0.1</td>
+<td><a href='http://www.gnu.org/licenses/lgpl.html'>GNU Lesser Public License</a></td>
+</tr>
+<tr>
+<td><a href='http://findbugs.sourceforge.net/'>com.google.code.findbugs:jsr305</a></td>
+<td>3.0.1</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.txt'>The Apache Software License, Version 2.0</a></td>
+</tr>
+<tr>
+<td>com.google.errorprone:error_prone_annotations</td>
+<td>2.0.18</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.txt'>Apache 2.0</a></td>
+</tr>
+<tr>
+<td><a href='https://github.com/google/guava/'>com.google.guava:guava</a></td>
+<td>22.0</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.txt'>The Apache Software License, Version 2.0</a></td>
+</tr>
+<tr>
+<td><a href='https://github.com/google/guice'>com.google.inject:guice</a></td>
+<td>4.0</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.txt'>The Apache Software License, Version 2.0</a></td>
+</tr>
+<tr>
+<td><a href='https://github.com/google/guice'>com.google.inject.extensions:guice-multibindings</a></td>
+<td>4.0</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.txt'>The Apache Software License, Version 2.0</a></td>
+</tr>
+<tr>
+<td><a href='https://github.com/google/guice'>com.google.inject.extensions:guice-servlet</a></td>
+<td>4.0</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.txt'>The Apache Software License, Version 2.0</a></td>
+</tr>
+<tr>
+<td><a href='https://github.com/google/j2objc/'>com.google.j2objc:j2objc-annotations</a></td>
+<td>1.1</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.txt'>The Apache Software License, Version 2.0</a></td>
+</tr>
+<tr>
+<td><a href='https://github.com/HubSpot/dropwizard-guice'>com.hubspot.dropwizard:dropwizard-guice</a></td>
+<td>1.0.6.0</td>
+<td>No license information found</td>
+</tr>
+<tr>
+<td><a href='https://bitbucket.org/connect2id/nimbus-jose-jwt'>com.nimbusds:nimbus-jose-jwt</a></td>
+<td>4.39</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.txt'>The Apache Software License, Version 2.0</a></td>
+</tr>
+<tr>
+<td><a href='https://github.com/papertrail/profiler'>com.papertrail:profiler</a></td>
+<td>1.0.2</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.txt'>The Apache License, Version 2.0</a></td>
+</tr>
+<tr>
+<td><a href='https://github.com/Squarespace/jersey2-guice'>com.squarespace.jersey2-guice:0-jersey2-guice-spi</a></td>
+<td>1.0.6</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.txt'>The Apache Software License, Version 2.0</a></td>
+</tr>
+<tr>
+<td><a href='https://github.com/Squarespace/jersey2-guice'>com.squarespace.jersey2-guice:jersey2-guice-impl</a></td>
+<td>1.0.6</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.txt'>The Apache Software License, Version 2.0</a></td>
+</tr>
+<tr>
+<td><a href='https://github.com/tdunning/t-digest'>com.tdunning:t-digest</a></td>
+<td>3.0</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.txt'>The Apache Software License, Version 2.0</a></td>
+</tr>
+<tr>
+<td><a href='https://commons.apache.org/proper/commons-beanutils/'>commons-beanutils:commons-beanutils</a></td>
+<td>1.9.3</td>
+<td><a href='https://www.apache.org/licenses/LICENSE-2.0.txt'>Apache License, Version 2.0</a></td>
+</tr>
+<tr>
+<td><a href='http://commons.apache.org/proper/commons-codec/'>commons-codec:commons-codec</a></td>
+<td>1.10</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.txt'>Apache License, Version 2.0</a></td>
+</tr>
+<tr>
+<td><a href='http://commons.apache.org/collections/'>commons-collections:commons-collections</a></td>
+<td>3.2.2</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.txt'>Apache License, Version 2.0</a></td>
+</tr>
+<tr>
+<td><a href='http://jakarta.apache.org/commons/io/'>commons-io:commons-io</a></td>
+<td>1.3.2</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.txt'>The Apache Software License, Version 2.0</a></td>
+</tr>
+<tr>
+<td><a href='http://commons.apache.org/proper/commons-logging/'>commons-logging:commons-logging</a></td>
+<td>1.2</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.txt'>The Apache Software License, Version 2.0</a></td>
+</tr>
+<tr>
+<td><a href='http://dom4j.org'>dom4j:dom4j</a></td>
+<td>1.6.1</td>
+<td>No license information found</td>
+</tr>
+<tr>
+<td>gov.ca.cwds.api:api-core-common</td>
+<td>1.5.7_333-RC</td>
+<td>No license information found</td>
+</tr>
+<tr>
+<td>gov.ca.cwds.api:api-core-rest</td>
+<td>1.5.7_333-RC</td>
+<td>No license information found</td>
+</tr>
+<tr>
+<td>gov.ca.cwds.api:api-security</td>
+<td>1.5.7</td>
+<td>No license information found</td>
+</tr>
+<tr>
+<td>gov.ca.cwds.api:api-security-common</td>
+<td>1.5.7</td>
+<td>No license information found</td>
+</tr>
+<tr>
+<td>gov.ca.cwds.api:jwt-security</td>
+<td>1.5.7</td>
+<td>No license information found</td>
+</tr>
+<tr>
+<td>io.dropwizard:dropwizard-assets</td>
+<td>1.1.0</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.html'>Apache License 2.0</a></td>
+</tr>
+<tr>
+<td>io.dropwizard:dropwizard-client</td>
+<td>1.1.0</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.html'>Apache License 2.0</a></td>
+</tr>
+<tr>
+<td>io.dropwizard:dropwizard-configuration</td>
+<td>1.1.0</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.html'>Apache License 2.0</a></td>
+</tr>
+<tr>
+<td>io.dropwizard:dropwizard-core</td>
+<td>1.1.0</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.html'>Apache License 2.0</a></td>
+</tr>
+<tr>
+<td>io.dropwizard:dropwizard-db</td>
+<td>1.1.0</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.html'>Apache License 2.0</a></td>
+</tr>
+<tr>
+<td>io.dropwizard:dropwizard-hibernate</td>
+<td>1.1.0</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.html'>Apache License 2.0</a></td>
+</tr>
+<tr>
+<td>io.dropwizard:dropwizard-jackson</td>
+<td>1.1.0</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.html'>Apache License 2.0</a></td>
+</tr>
+<tr>
+<td>io.dropwizard:dropwizard-jersey</td>
+<td>1.1.0</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.html'>Apache License 2.0</a></td>
+</tr>
+<tr>
+<td>io.dropwizard:dropwizard-jetty</td>
+<td>1.1.0</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.html'>Apache License 2.0</a></td>
+</tr>
+<tr>
+<td>io.dropwizard:dropwizard-lifecycle</td>
+<td>1.1.0</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.html'>Apache License 2.0</a></td>
+</tr>
+<tr>
+<td>io.dropwizard:dropwizard-logging</td>
+<td>1.1.0</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.html'>Apache License 2.0</a></td>
+</tr>
+<tr>
+<td>io.dropwizard:dropwizard-metrics</td>
+<td>1.1.0</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.html'>Apache License 2.0</a></td>
+</tr>
+<tr>
+<td>io.dropwizard:dropwizard-request-logging</td>
+<td>1.1.0</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.html'>Apache License 2.0</a></td>
+</tr>
+<tr>
+<td>io.dropwizard:dropwizard-servlets</td>
+<td>1.1.0</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.html'>Apache License 2.0</a></td>
+</tr>
+<tr>
+<td>io.dropwizard:dropwizard-testing</td>
+<td>1.1.0</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.html'>Apache License 2.0</a></td>
+</tr>
+<tr>
+<td>io.dropwizard:dropwizard-util</td>
+<td>1.1.0</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.html'>Apache License 2.0</a></td>
+</tr>
+<tr>
+<td>io.dropwizard:dropwizard-validation</td>
+<td>1.1.0</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.html'>Apache License 2.0</a></td>
+</tr>
+<tr>
+<td>io.dropwizard:dropwizard-views</td>
+<td>1.1.0</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.html'>Apache License 2.0</a></td>
+</tr>
+<tr>
+<td>io.dropwizard:dropwizard-views-mustache</td>
+<td>1.1.0</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.html'>Apache License 2.0</a></td>
+</tr>
+<tr>
+<td>io.dropwizard.metrics:metrics-annotation</td>
+<td>3.2.2</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.html'>Apache License 2.0</a></td>
+</tr>
+<tr>
+<td>io.dropwizard.metrics:metrics-core</td>
+<td>3.2.2</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.html'>Apache License 2.0</a></td>
+</tr>
+<tr>
+<td>io.dropwizard.metrics:metrics-healthchecks</td>
+<td>3.2.2</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.html'>Apache License 2.0</a></td>
+</tr>
+<tr>
+<td>io.dropwizard.metrics:metrics-httpclient</td>
+<td>3.2.2</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.html'>Apache License 2.0</a></td>
+</tr>
+<tr>
+<td>io.dropwizard.metrics:metrics-jersey2</td>
+<td>3.2.2</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.html'>Apache License 2.0</a></td>
+</tr>
+<tr>
+<td>io.dropwizard.metrics:metrics-jetty9</td>
+<td>3.2.2</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.html'>Apache License 2.0</a></td>
+</tr>
+<tr>
+<td>io.dropwizard.metrics:metrics-json</td>
+<td>3.2.2</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.html'>Apache License 2.0</a></td>
+</tr>
+<tr>
+<td>io.dropwizard.metrics:metrics-jvm</td>
+<td>3.2.2</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.html'>Apache License 2.0</a></td>
+</tr>
+<tr>
+<td>io.dropwizard.metrics:metrics-logback</td>
+<td>3.2.2</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.html'>Apache License 2.0</a></td>
+</tr>
+<tr>
+<td>io.dropwizard.metrics:metrics-servlets</td>
+<td>3.2.2</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.html'>Apache License 2.0</a></td>
+</tr>
+<tr>
+<td>io.swagger:swagger-annotations</td>
+<td>1.5.9</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.html'>Apache License 2.0</a></td>
+</tr>
+<tr>
+<td>io.swagger:swagger-core</td>
+<td>1.5.9</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.html'>Apache License 2.0</a></td>
+</tr>
+<tr>
+<td>io.swagger:swagger-jaxrs</td>
+<td>1.5.9</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.html'>Apache License 2.0</a></td>
+</tr>
+<tr>
+<td>io.swagger:swagger-jersey2-jaxrs</td>
+<td>1.5.9</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.html'>Apache License 2.0</a></td>
+</tr>
+<tr>
+<td>io.swagger:swagger-models</td>
+<td>1.5.9</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.html'>Apache License 2.0</a></td>
+</tr>
+<tr>
+<td><a href='https://glassfish.java.net'>javax.annotation:javax.annotation-api</a></td>
+<td>1.2</td>
+<td><a href='http://opensource.org/licenses/CDDL-1.0'>COMMON DEVELOPMENT AND DISTRIBUTION LICENSE (CDDL) Version 1.0</a></td>
+</tr>
+<tr>
+<td><a href='http://uel.java.net'>javax.el:javax.el-api</a></td>
+<td>2.2.4</td>
+<td><a href='http://glassfish.dev.java.net/nonav/public/CDDL+GPL.html'>CDDL + GPLv2 with classpath exception</a></td>
+</tr>
+<tr>
+<td><a href='http://code.google.com/p/atinject/'>javax.inject:javax.inject</a></td>
+<td>1</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.txt'>The Apache Software License, Version 2.0</a></td>
+</tr>
+<tr>
+<td><a href='https://glassfish.dev.java.net'>javax.servlet:javax.servlet-api</a></td>
+<td>3.1.0</td>
+<td><a href='http://opensource.org/licenses/CDDL-1.0'>COMMON DEVELOPMENT AND DISTRIBUTION LICENSE (CDDL) Version 1.0</a></td>
+</tr>
+<tr>
+<td><a href='http://java.sun.com/products/jta'>javax.transaction:jta</a></td>
+<td>1.1</td>
+<td><a href='http://opensource.org/licenses/CDDL-1.0'>COMMON DEVELOPMENT AND DISTRIBUTION LICENSE (CDDL) Version 1.0</a></td>
+</tr>
+<tr>
+<td><a href='http://beanvalidation.org'>javax.validation:validation-api</a></td>
+<td>1.1.0.Final</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.txt'>The Apache Software License, Version 2.0</a></td>
+</tr>
+<tr>
+<td><a href='http://www.oracle.com/'>javax.ws.rs:javax.ws.rs-api</a></td>
+<td>2.0.1</td>
+<td>http://glassfish.java.net/public/CDDL+GPL_1_1.html, http://glassfish.java.net/public/CDDL+GPL_1_1.html</td>
+</tr>
+<tr>
+<td><a href='http://www.joda.org/joda-time/'>joda-time:joda-time</a></td>
+<td>2.9.7</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0'>Apache License, Version 2.0</a></td>
+</tr>
+<tr>
+<td><a href='http://junit.org'>junit:junit</a></td>
+<td>4.12</td>
+<td><a href='http://www.eclipse.org/legal/epl-v10.html'>Eclipse Public License 1.0</a></td>
+</tr>
+<tr>
+<td><a href='http://jcip.net/'>net.jcip:jcip-annotations</a></td>
+<td>1.0</td>
+<td>No license information found</td>
+</tr>
+<tr>
+<td><a href='http://www.minidev.net/'>net.minidev:accessors-smart</a></td>
+<td>1.2</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.txt'>The Apache Software License, Version 2.0</a></td>
+</tr>
+<tr>
+<td><a href='http://www.minidev.net/'>net.minidev:json-smart</a></td>
+<td>2.3</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.txt'>The Apache Software License, Version 2.0</a></td>
+</tr>
+<tr>
+<td><a href='http://pholser.github.io/jopt-simple'>net.sf.jopt-simple:jopt-simple</a></td>
+<td>5.0.2</td>
+<td><a href='http://www.opensource.org/licenses/mit-license.php'>The MIT License</a></td>
+</tr>
+<tr>
+<td><a href='http://argparse4j.github.io'>net.sourceforge.argparse4j:argparse4j</a></td>
+<td>0.7.0</td>
+<td><a href='https://raw.github.com/tatsuhiro-t/argparse4j/master/LICENSE.txt'>MIT</a></td>
+</tr>
+<tr>
+<td><a href='http://commons.apache.org/proper/commons-compress/'>org.apache.commons:commons-compress</a></td>
+<td>1.14</td>
+<td><a href='https://www.apache.org/licenses/LICENSE-2.0.txt'>Apache License, Version 2.0</a></td>
+</tr>
+<tr>
+<td>org.apache.commons:commons-io</td>
+<td>1.3.2</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0'>Apache License, Version 2.0</a></td>
+</tr>
+<tr>
+<td><a href='http://commons.apache.org/proper/commons-lang/'>org.apache.commons:commons-lang3</a></td>
+<td>3.6</td>
+<td><a href='https://www.apache.org/licenses/LICENSE-2.0.txt'>Apache License, Version 2.0</a></td>
+</tr>
+<tr>
+<td><a href='http://commons.apache.org/proper/commons-text/'>org.apache.commons:commons-text</a></td>
+<td>1.1</td>
+<td><a href='https://www.apache.org/licenses/LICENSE-2.0.txt'>Apache License, Version 2.0</a></td>
+</tr>
+<tr>
+<td><a href='http://www.apache.org'>org.apache.geronimo.specs:geronimo-jta_1.1_spec</a></td>
+<td>1.1.1</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.txt'>The Apache Software License, Version 2.0</a></td>
+</tr>
+<tr>
+<td><a href='http://hc.apache.org/httpcomponents-asyncclient'>org.apache.httpcomponents:httpasyncclient</a></td>
+<td>4.1.2</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.txt'>The Apache Software License, Version 2.0</a></td>
+</tr>
+<tr>
+<td><a href='http://hc.apache.org/httpcomponents-client'>org.apache.httpcomponents:httpclient</a></td>
+<td>4.5.3</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.txt'>The Apache Software License, Version 2.0</a></td>
+</tr>
+<tr>
+<td><a href='http://hc.apache.org/httpcomponents-core-ga'>org.apache.httpcomponents:httpcore</a></td>
+<td>4.4.6</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.txt'>The Apache Software License, Version 2.0</a></td>
+</tr>
+<tr>
+<td><a href='http://hc.apache.org/httpcomponents-core-ga'>org.apache.httpcomponents:httpcore-nio</a></td>
+<td>4.4.5</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.txt'>The Apache Software License, Version 2.0</a></td>
+</tr>
+<tr>
+<td><a href='https://www.apache.org/'>org.apache.logging.log4j:log4j-api</a></td>
+<td>2.8.2</td>
+<td><a href='https://www.apache.org/licenses/LICENSE-2.0.txt'>Apache License, Version 2.0</a></td>
+</tr>
+<tr>
+<td>org.apache.lucene:lucene-analyzers-common</td>
+<td>6.6.0</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.txt'>The Apache Software License, Version 2.0</a></td>
+</tr>
+<tr>
+<td>org.apache.lucene:lucene-backward-codecs</td>
+<td>6.6.0</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.txt'>The Apache Software License, Version 2.0</a></td>
+</tr>
+<tr>
+<td>org.apache.lucene:lucene-core</td>
+<td>6.6.0</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.txt'>The Apache Software License, Version 2.0</a></td>
+</tr>
+<tr>
+<td>org.apache.lucene:lucene-grouping</td>
+<td>6.6.0</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.txt'>The Apache Software License, Version 2.0</a></td>
+</tr>
+<tr>
+<td>org.apache.lucene:lucene-highlighter</td>
+<td>6.6.0</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.txt'>The Apache Software License, Version 2.0</a></td>
+</tr>
+<tr>
+<td>org.apache.lucene:lucene-join</td>
+<td>6.6.0</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.txt'>The Apache Software License, Version 2.0</a></td>
+</tr>
+<tr>
+<td>org.apache.lucene:lucene-memory</td>
+<td>6.6.0</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.txt'>The Apache Software License, Version 2.0</a></td>
+</tr>
+<tr>
+<td>org.apache.lucene:lucene-misc</td>
+<td>6.6.0</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.txt'>The Apache Software License, Version 2.0</a></td>
+</tr>
+<tr>
+<td>org.apache.lucene:lucene-queries</td>
+<td>6.6.0</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.txt'>The Apache Software License, Version 2.0</a></td>
+</tr>
+<tr>
+<td>org.apache.lucene:lucene-queryparser</td>
+<td>6.6.0</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.txt'>The Apache Software License, Version 2.0</a></td>
+</tr>
+<tr>
+<td>org.apache.lucene:lucene-sandbox</td>
+<td>6.6.0</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.txt'>The Apache Software License, Version 2.0</a></td>
+</tr>
+<tr>
+<td>org.apache.lucene:lucene-spatial</td>
+<td>6.6.0</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.txt'>The Apache Software License, Version 2.0</a></td>
+</tr>
+<tr>
+<td>org.apache.lucene:lucene-spatial-extras</td>
+<td>6.6.0</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.txt'>The Apache Software License, Version 2.0</a></td>
+</tr>
+<tr>
+<td>org.apache.lucene:lucene-spatial3d</td>
+<td>6.6.0</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.txt'>The Apache Software License, Version 2.0</a></td>
+</tr>
+<tr>
+<td>org.apache.lucene:lucene-suggest</td>
+<td>6.6.0</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.txt'>The Apache Software License, Version 2.0</a></td>
+</tr>
+<tr>
+<td><a href='http://www.apache.org/'>org.apache.shiro:shiro-core</a></td>
+<td>1.2.3</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.txt'>The Apache Software License, Version 2.0</a></td>
+</tr>
+<tr>
+<td><a href='http://www.apache.org/'>org.apache.shiro:shiro-web</a></td>
+<td>1.2.3</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.txt'>The Apache Software License, Version 2.0</a></td>
+</tr>
+<tr>
+<td><a href='http://tomcat.apache.org/'>org.apache.tomcat:tomcat-jdbc</a></td>
+<td>8.5.9</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.txt'>Apache License, Version 2.0</a></td>
+</tr>
+<tr>
+<td><a href='http://tomcat.apache.org/'>org.apache.tomcat:tomcat-juli</a></td>
+<td>8.5.9</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.txt'>Apache License, Version 2.0</a></td>
+</tr>
+<tr>
+<td><a href='joel-costigliola.github.io/assertj/index.html'>org.assertj:assertj-core</a></td>
+<td>3.6.2</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.txt'>Apache License, Version 2.0</a></td>
+</tr>
+<tr>
+<td><a href='http://www.bouncycastle.org/java.html'>org.bouncycastle:bcpkix-jdk15on</a></td>
+<td>1.55</td>
+<td><a href='http://www.bouncycastle.org/licence.html'>Bouncy Castle Licence</a></td>
+</tr>
+<tr>
+<td><a href='http://www.bouncycastle.org/java.html'>org.bouncycastle:bcprov-jdk15on</a></td>
+<td>1.55</td>
+<td><a href='http://www.bouncycastle.org/licence.html'>Bouncy Castle Licence</a></td>
+</tr>
+<tr>
+<td><a href='http://www.bouncycastle.org/java.html'>org.bouncycastle:bcprov-jdk16</a></td>
+<td>1.46</td>
+<td><a href='http://www.bouncycastle.org/licence.html'>Bouncy Castle Licence</a></td>
+</tr>
+<tr>
+<td><a href='http://groovy-lang.org'>org.codehaus.groovy:groovy-all</a></td>
+<td>2.4.11</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.txt'>The Apache Software License, Version 2.0</a></td>
+</tr>
+<tr>
+<td>org.codehaus.mojo:animal-sniffer-annotations</td>
+<td>1.14</td>
+<td><a href='http://www.opensource.org/licenses/mit-license.php'>MIT license</a></td>
+</tr>
+<tr>
+<td><a href='http://wiki.fasterxml.com/WoodstoxStax2'>org.codehaus.woodstox:stax2-api</a></td>
+<td>3.1.4</td>
+<td><a href='http://www.opensource.org/licenses/bsd-license.php'>The BSD License</a></td>
+</tr>
+<tr>
+<td><a href='http://www.eclipse.org/jetty'>org.eclipse.jetty:jetty-continuation</a></td>
+<td>9.4.2.v20170220</td>
+<td>http://www.apache.org/licenses/LICENSE-2.0, http://www.eclipse.org/org/documents/epl-v10.php</td>
+</tr>
+<tr>
+<td><a href='http://www.eclipse.org/jetty'>org.eclipse.jetty:jetty-http</a></td>
+<td>9.4.2.v20170220</td>
+<td>http://www.apache.org/licenses/LICENSE-2.0, http://www.eclipse.org/org/documents/epl-v10.php</td>
+</tr>
+<tr>
+<td><a href='http://www.eclipse.org/jetty'>org.eclipse.jetty:jetty-io</a></td>
+<td>9.4.2.v20170220</td>
+<td>http://www.apache.org/licenses/LICENSE-2.0, http://www.eclipse.org/org/documents/epl-v10.php</td>
+</tr>
+<tr>
+<td><a href='http://www.eclipse.org/jetty'>org.eclipse.jetty:jetty-security</a></td>
+<td>9.4.2.v20170220</td>
+<td>http://www.apache.org/licenses/LICENSE-2.0, http://www.eclipse.org/org/documents/epl-v10.php</td>
+</tr>
+<tr>
+<td><a href='http://www.eclipse.org/jetty'>org.eclipse.jetty:jetty-server</a></td>
+<td>9.4.2.v20170220</td>
+<td>http://www.apache.org/licenses/LICENSE-2.0, http://www.eclipse.org/org/documents/epl-v10.php</td>
+</tr>
+<tr>
+<td><a href='http://www.eclipse.org/jetty'>org.eclipse.jetty:jetty-servlet</a></td>
+<td>9.4.2.v20170220</td>
+<td>http://www.apache.org/licenses/LICENSE-2.0, http://www.eclipse.org/org/documents/epl-v10.php</td>
+</tr>
+<tr>
+<td><a href='http://www.eclipse.org/jetty'>org.eclipse.jetty:jetty-servlets</a></td>
+<td>9.4.2.v20170220</td>
+<td>http://www.apache.org/licenses/LICENSE-2.0, http://www.eclipse.org/org/documents/epl-v10.php</td>
+</tr>
+<tr>
+<td><a href='http://www.eclipse.org/jetty'>org.eclipse.jetty:jetty-util</a></td>
+<td>9.4.2.v20170220</td>
+<td>http://www.apache.org/licenses/LICENSE-2.0, http://www.eclipse.org/org/documents/epl-v10.php</td>
+</tr>
+<tr>
+<td><a href='http://www.eclipse.org/jetty'>org.eclipse.jetty:jetty-webapp</a></td>
+<td>9.4.2.v20170220</td>
+<td>http://www.apache.org/licenses/LICENSE-2.0, http://www.eclipse.org/org/documents/epl-v10.php</td>
+</tr>
+<tr>
+<td><a href='http://www.eclipse.org/jetty'>org.eclipse.jetty:jetty-xml</a></td>
+<td>9.4.2.v20170220</td>
+<td>http://www.apache.org/licenses/LICENSE-2.0, http://www.eclipse.org/org/documents/epl-v10.php</td>
+</tr>
+<tr>
+<td>org.eclipse.jetty.toolchain.setuid:jetty-setuid-java</td>
+<td>1.0.3</td>
+<td><a href='http://www.eclipse.org/org/documents/epl-v10.php'>Eclipse Public License - Version 1.0</a></td>
+</tr>
+<tr>
+<td><a href='https://github.com/elastic/elasticsearch'>org.elasticsearch:elasticsearch</a></td>
+<td>5.5.2</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.txt'>The Apache Software License, Version 2.0</a></td>
+</tr>
+<tr>
+<td><a href='https://github.com/java-native-access/jna'>org.elasticsearch:jna</a></td>
+<td>4.4.0</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.txt'>The Apache Software License, Version 2.0</a></td>
+</tr>
+<tr>
+<td>org.elasticsearch:securesm</td>
+<td>1.1</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.txt'>The Apache Software License, Version 2.0</a></td>
+</tr>
+<tr>
+<td><a href='https://github.com/elastic/elasticsearch'>org.elasticsearch.client:rest</a></td>
+<td>5.5.2</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.txt'>The Apache Software License, Version 2.0</a></td>
+</tr>
+<tr>
+<td><a href='http://glassfish.org'>org.glassfish:javax.el</a></td>
+<td>3.0.0</td>
+<td><a href='http://opensource.org/licenses/CDDL-1.0'>COMMON DEVELOPMENT AND DISTRIBUTION LICENSE (CDDL) Version 1.0</a></td>
+</tr>
+<tr>
+<td><a href='http://www.oracle.com'>org.glassfish.hk2:hk2-api</a></td>
+<td>2.5.0-b32</td>
+<td><a href='https://glassfish.java.net/nonav/public/CDDL+GPL_1_1.html'>CDDL + GPLv2 with classpath exception</a></td>
+</tr>
+<tr>
+<td><a href='http://www.oracle.com'>org.glassfish.hk2:hk2-locator</a></td>
+<td>2.5.0-b32</td>
+<td><a href='https://glassfish.java.net/nonav/public/CDDL+GPL_1_1.html'>CDDL + GPLv2 with classpath exception</a></td>
+</tr>
+<tr>
+<td><a href='http://www.oracle.com'>org.glassfish.hk2:hk2-utils</a></td>
+<td>2.5.0-b32</td>
+<td><a href='https://glassfish.java.net/nonav/public/CDDL+GPL_1_1.html'>CDDL + GPLv2 with classpath exception</a></td>
+</tr>
+<tr>
+<td><a href='https://glassfish.dev.java.net'>org.glassfish.hk2:osgi-resource-locator</a></td>
+<td>1.0.1</td>
+<td><a href='https://glassfish.dev.java.net/nonav/public/CDDL+GPL.html'>CDDL + GPLv2 with classpath exception</a></td>
+</tr>
+<tr>
+<td><a href='http://www.oracle.com'>org.glassfish.hk2.external:aopalliance-repackaged</a></td>
+<td>2.5.0-b32</td>
+<td><a href='https://glassfish.java.net/nonav/public/CDDL+GPL_1_1.html'>CDDL + GPLv2 with classpath exception</a></td>
+</tr>
+<tr>
+<td><a href='http://www.oracle.com'>org.glassfish.hk2.external:javax.inject</a></td>
+<td>2.5.0-b32</td>
+<td><a href='https://glassfish.java.net/nonav/public/CDDL+GPL_1_1.html'>CDDL + GPLv2 with classpath exception</a></td>
+</tr>
+<tr>
+<td><a href='http://www.oracle.com/'>org.glassfish.jersey.bundles.repackaged:jersey-guava</a></td>
+<td>2.25.1</td>
+<td><a href='http://glassfish.java.net/public/CDDL+GPL_1_1.html'>CDDL+GPL License</a></td>
+</tr>
+<tr>
+<td><a href='http://www.oracle.com/'>org.glassfish.jersey.connectors:jersey-apache-connector</a></td>
+<td>2.25.1</td>
+<td><a href='http://glassfish.java.net/public/CDDL+GPL_1_1.html'>CDDL+GPL License</a></td>
+</tr>
+<tr>
+<td><a href='http://www.oracle.com/'>org.glassfish.jersey.containers:jersey-container-servlet</a></td>
+<td>2.25.1</td>
+<td><a href='http://glassfish.java.net/public/CDDL+GPL_1_1.html'>CDDL+GPL License</a></td>
+</tr>
+<tr>
+<td><a href='http://www.oracle.com/'>org.glassfish.jersey.containers:jersey-container-servlet-core</a></td>
+<td>2.25.1</td>
+<td><a href='http://glassfish.java.net/public/CDDL+GPL_1_1.html'>CDDL+GPL License</a></td>
+</tr>
+<tr>
+<td><a href='http://www.oracle.com/'>org.glassfish.jersey.core:jersey-client</a></td>
+<td>2.25.1</td>
+<td><a href='http://glassfish.java.net/public/CDDL+GPL_1_1.html'>CDDL+GPL License</a></td>
+</tr>
+<tr>
+<td><a href='http://www.oracle.com/'>org.glassfish.jersey.core:jersey-common</a></td>
+<td>2.25.1</td>
+<td><a href='http://glassfish.java.net/public/CDDL+GPL_1_1.html'>CDDL+GPL License</a></td>
+</tr>
+<tr>
+<td><a href='http://www.oracle.com/'>org.glassfish.jersey.core:jersey-server</a></td>
+<td>2.25.1</td>
+<td><a href='http://glassfish.java.net/public/CDDL+GPL_1_1.html'>CDDL+GPL License</a></td>
+</tr>
+<tr>
+<td><a href='http://www.oracle.com/'>org.glassfish.jersey.ext:jersey-bean-validation</a></td>
+<td>2.25.1</td>
+<td><a href='http://glassfish.java.net/public/CDDL+GPL_1_1.html'>CDDL+GPL License</a></td>
+</tr>
+<tr>
+<td>org.glassfish.jersey.ext:jersey-declarative-linking</td>
+<td>2.23.2</td>
+<td><a href='http://glassfish.java.net/public/CDDL+GPL_1_1.html'>CDDL+GPL License</a></td>
+</tr>
+<tr>
+<td><a href='http://www.oracle.com/'>org.glassfish.jersey.ext:jersey-metainf-services</a></td>
+<td>2.25.1</td>
+<td><a href='http://glassfish.java.net/public/CDDL+GPL_1_1.html'>CDDL+GPL License</a></td>
+</tr>
+<tr>
+<td>org.glassfish.jersey.ext.rx:jersey-rx-client</td>
+<td>2.25.1</td>
+<td><a href='http://glassfish.java.net/public/CDDL+GPL_1_1.html'>CDDL+GPL License</a></td>
+</tr>
+<tr>
+<td><a href='http://www.oracle.com/'>org.glassfish.jersey.media:jersey-media-jaxb</a></td>
+<td>2.25.1</td>
+<td><a href='http://glassfish.java.net/public/CDDL+GPL_1_1.html'>CDDL+GPL License</a></td>
+</tr>
+<tr>
+<td><a href='http://www.oracle.com/'>org.glassfish.jersey.media:jersey-media-multipart</a></td>
+<td>2.1</td>
+<td><a href='http://glassfish.java.net/public/CDDL+GPL_1_1.html'>CDDL+GPL License</a></td>
+</tr>
+<tr>
+<td>org.glassfish.jersey.test-framework:jersey-test-framework-core</td>
+<td>2.25.1</td>
+<td><a href='http://glassfish.java.net/public/CDDL+GPL_1_1.html'>CDDL+GPL License</a></td>
+</tr>
+<tr>
+<td>org.glassfish.jersey.test-framework.providers:jersey-test-framework-provider-inmemory</td>
+<td>2.25.1</td>
+<td><a href='http://glassfish.java.net/public/CDDL+GPL_1_1.html'>CDDL+GPL License</a></td>
+</tr>
+<tr>
+<td><a href='http://uel.java.net'>org.glassfish.web:javax.el</a></td>
+<td>2.2.4</td>
+<td><a href='http://glassfish.dev.java.net/nonav/public/CDDL+GPL.html'>CDDL + GPLv2 with classpath exception</a></td>
+</tr>
+<tr>
+<td>org.hamcrest:hamcrest-core</td>
+<td>1.3</td>
+<td><a href='http://www.opensource.org/licenses/bsd-license.php'>New BSD License</a></td>
+</tr>
+<tr>
+<td><a href='http://hdrhistogram.github.io/HdrHistogram/'>org.hdrhistogram:HdrHistogram</a></td>
+<td>2.1.9</td>
+<td><a href='http://creativecommons.org/publicdomain/zero/1.0/'>Public Domain, per Creative Commons CC0</a></td>
+</tr>
+<tr>
+<td><a href='http://hibernate.org'>org.hibernate:hibernate-core</a></td>
+<td>5.2.8.Final</td>
+<td><a href='http://www.gnu.org/licenses/lgpl-2.1.html'>GNU Lesser General Public License</a></td>
+</tr>
+<tr>
+<td><a href='http://hibernate.org'>org.hibernate:hibernate-entitymanager</a></td>
+<td>5.2.1.Final</td>
+<td><a href='http://www.gnu.org/licenses/lgpl-2.1.html'>GNU Lesser General Public License</a></td>
+</tr>
+<tr>
+<td>org.hibernate:hibernate-validator</td>
+<td>5.3.4.Final</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.txt'>Apache License, Version 2.0</a></td>
+</tr>
+<tr>
+<td><a href='http://hibernate.org'>org.hibernate.common:hibernate-commons-annotations</a></td>
+<td>5.0.1.Final</td>
+<td><a href='http://www.gnu.org/licenses/lgpl-2.1.html'>GNU Lesser General Public License</a></td>
+</tr>
+<tr>
+<td><a href='http://hibernate.org'>org.hibernate.javax.persistence:hibernate-jpa-2.1-api</a></td>
+<td>1.0.0.Final</td>
+<td><a href='http://www.eclipse.org/legal/epl-v10.html'>Eclipse Public License (EPL), Version 1.0</a></td>
+</tr>
+<tr>
+<td>org.jadira.usertype:usertype.core</td>
+<td>6.0.1.GA</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.txt'>Apache 2</a></td>
+</tr>
+<tr>
+<td>org.jadira.usertype:usertype.spi</td>
+<td>6.0.1.GA</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.txt'>Apache 2</a></td>
+</tr>
+<tr>
+<td><a href='http://www.javassist.org/'>org.javassist:javassist</a></td>
+<td>3.20.0-GA</td>
+<td>http://www.mozilla.org/MPL/MPL-1.1.html, http://www.gnu.org/licenses/lgpl-2.1.html, http://www.apache.org/licenses/</td>
+</tr>
+<tr>
+<td><a href='http://www.jboss.org'>org.jboss:jandex</a></td>
+<td>2.0.3.Final</td>
+<td><a href='http://repository.jboss.org/licenses/cc0-1.0.txt'>Public Domain</a></td>
+</tr>
+<tr>
+<td><a href='http://www.jboss.org'>org.jboss.logging:jboss-logging</a></td>
+<td>3.3.0.Final</td>
+<td><a href='http://repository.jboss.org/licenses/cc0-1.0.txt'>Public Domain</a></td>
+</tr>
+<tr>
+<td><a href='http://www.jboss.org'>org.jboss.spec.javax.transaction:jboss-transaction-api_1.2_spec</a></td>
+<td>1.0.1.Final</td>
+<td>http://repository.jboss.org/licenses/cddl.txt, http://repository.jboss.org/licenses/gpl-2.0-ce.txt</td>
+</tr>
+<tr>
+<td><a href='http://www.json.org/java/index.html'>org.json:json</a></td>
+<td>20090211</td>
+<td><a href='http://www.json.org/license.html'>provided without support or warranty</a></td>
+</tr>
+<tr>
+<td><a href='http://www.oracle.com/'>org.jvnet.mimepull:mimepull</a></td>
+<td>1.8</td>
+<td>https://glassfish.java.net/public/CDDL+GPL_1_1.html, https://glassfish.java.net/public/CDDL+GPL_1_1.html</td>
+</tr>
+<tr>
+<td><a href='http://objenesis.org'>org.objenesis:objenesis</a></td>
+<td>2.5.1</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0'>Apache License, Version 2.0</a></td>
+</tr>
+<tr>
+<td><a href='http://asm.objectweb.org'>org.ow2.asm:asm</a></td>
+<td>5.0.4</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.txt'>The Apache Software License, Version 2.0</a></td>
+</tr>
+<tr>
+<td><a href='http://github.com/ronmamo/reflections'>org.reflections:reflections</a></td>
+<td>0.9.10</td>
+<td><a href='http://www.wtfpl.net/'>WTFPL</a></td>
+</tr>
+<tr>
+<td><a href='https://github.com/silb/dropwizard-shiro'>org.secnod.dropwizard:dropwizard-shiro</a></td>
+<td>0.2.0</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.html'>Apache License 2.0</a></td>
+</tr>
+<tr>
+<td><a href='https://github.com/silb/shiro-jersey'>org.secnod.shiro:shiro-jersey</a></td>
+<td>0.2.0</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.html'>Apache License 2.0</a></td>
+</tr>
+<tr>
+<td><a href='http://www.slf4j.org'>org.slf4j:jcl-over-slf4j</a></td>
+<td>1.7.24</td>
+<td><a href='http://www.opensource.org/licenses/mit-license.php'>MIT License</a></td>
+</tr>
+<tr>
+<td><a href='http://www.slf4j.org'>org.slf4j:jul-to-slf4j</a></td>
+<td>1.7.24</td>
+<td><a href='http://www.opensource.org/licenses/mit-license.php'>MIT License</a></td>
+</tr>
+<tr>
+<td><a href='http://www.slf4j.org'>org.slf4j:log4j-over-slf4j</a></td>
+<td>1.7.24</td>
+<td><a href='http://www.opensource.org/licenses/mit-license.php'>MIT License</a></td>
+</tr>
+<tr>
+<td><a href='http://www.slf4j.org'>org.slf4j:slf4j-api</a></td>
+<td>1.7.25</td>
+<td><a href='http://www.opensource.org/licenses/mit-license.php'>MIT License</a></td>
+</tr>
+<tr>
+<td><a href='http://www.slf4j.org'>org.slf4j:slf4j-ext</a></td>
+<td>1.7.25</td>
+<td><a href='http://www.opensource.org/licenses/mit-license.php'>MIT License</a></td>
+</tr>
+<tr>
+<td><a href='http://www.slf4j.org'>org.slf4j:slf4j-simple</a></td>
+<td>1.7.25</td>
+<td><a href='http://www.opensource.org/licenses/mit-license.php'>MIT License</a></td>
+</tr>
+<tr>
+<td><a href='http://www.snakeyaml.org'>org.yaml:snakeyaml</a></td>
+<td>1.17</td>
+<td><a href='http://www.apache.org/licenses/LICENSE-2.0.txt'>Apache License, Version 2.0</a></td>
+</tr>
+</table>
+</chapter>
+</chunk>
+</topic>

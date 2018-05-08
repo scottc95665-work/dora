@@ -9,7 +9,6 @@ buildscript {
 }
 
 plugins {
-    id "com.github.hierynomus.license" version "0.14.0"
     id "org.sonarqube" version "2.5"
 }
 
@@ -100,3 +99,4 @@ task checkDockerService {
         }
     }
 }
+
