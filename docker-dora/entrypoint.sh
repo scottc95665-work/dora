@@ -10,6 +10,10 @@ else
   DORA_CONFIG="config/dora_nosec.yml"
 fi
 
+if [ -x /paramfolder/parameters.sh ]; then
+    source /paramfolder/parameters.sh
+fi
+
 if [ -f /opt/newrelic/newrelic.yml ]; then
     java -javaagent:/opt/newrelic/newrelic.jar ${JAVA_OPT} -jar dora.jar server ${DORA_CONFIG}
 else
