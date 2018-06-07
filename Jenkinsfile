@@ -199,8 +199,12 @@ def tagRepo(String newTag) {
             throw new Exception("Unable to tag the repository with tag '${newTag}'")
         }
 
-        def pushStatus = sh(
-            script: "${GIT_SSH_COMMAND} git push origin ${newTag}",
+        def configStatus = sh(script: "${GIT_SSH_COMMAND} git config --global user.email cwdsdoeteam@osi.ca.gov; git config --global user.name Jenkins",
+            returnStatus: true)
+        if( configStatus != 0) {
+            throw new Exception("Unable to push the tag '${newTag}'")
+        }
+        def pushStatus = sh(script: "${GIT_SSH_COMMAND} git push origin ${newTag}",
             returnStatus: true)
         if( pushStatus != 0) {
             throw new Exception("Unable to push the tag '${newTag}'")
