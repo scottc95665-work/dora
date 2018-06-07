@@ -1,6 +1,3 @@
-/**
- Comment to check PR
-*/
 def notifyBuild(String buildStatus, Exception e) {
     buildStatus = buildStatus ?: 'SUCCESSFUL'
 
