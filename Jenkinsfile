@@ -211,11 +211,6 @@ node('dora-slave') {
     def serverArti = Artifactory.server 'CWDS_DEV'
     def rtGradle = Artifactory.newGradleBuild()
     newTag = '';
-    properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '3', numToKeepStr: '15')), disableConcurrentBuilds(), [$class: 'RebuildSettings', autoRebuild: false, rebuildDisabled: false],
-    parameters([
-        booleanParam(defaultValue: true, description: '', name: 'USE_NEWRELIC'),
-        string(defaultValue: 'inventories/tpt2dev/hosts.yml', description: '', name: 'inventory')
-    ]), pipelineTriggers([githubPush()])])
     def errorcode = null;
     def buildInfo = '';
 
