@@ -244,6 +244,13 @@ node('dora-slave') {
                     debug("Increment Tag: newTag: ${newTag}")
 
                     updateFiles(newTag)
+                } else {
+                    def tags = getTags()
+                    debug("Increment Tag: tags: ${tags}")
+
+                    newTag = tags
+                    debug("Increment Tag: No label going with old version: ${newTag}")
+
                 }
             }
             catch(Exception ex) {
