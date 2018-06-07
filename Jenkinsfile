@@ -239,6 +239,8 @@ node('dora-slave') {
                     debug("Increment Tag: newTag: ${newTag}")
 
                     updateFiles(newTag)
+                    tagRepo(newTag)
+
                 } else {
                     def tags = getTags()
                     debug("Increment Tag: tags: ${tags}")
