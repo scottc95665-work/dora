@@ -214,7 +214,6 @@ node('dora-slave') {
     properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '3', numToKeepStr: '15')), disableConcurrentBuilds(), [$class: 'RebuildSettings', autoRebuild: false, rebuildDisabled: false],
     parameters([
         booleanParam(defaultValue: true, description: '', name: 'USE_NEWRELIC'),
-        string(defaultValue: 'master', description: '', name: 'branch'),
         string(defaultValue: 'inventories/tpt2dev/hosts.yml', description: '', name: 'inventory')
     ]), pipelineTriggers([githubPush()])])
     def errorcode = null;
@@ -223,7 +222,7 @@ node('dora-slave') {
     try {
         stage('Preparation') {
             cleanWs()
-            git branch: '$branch', url: 'https://github.com/ca-cwds/dora.git'
+            git branch: '$pull_request_event_base_ref', url: 'https://github.com/ca-cwds/dora.git'
             rtGradle.tool = "Gradle_35"
             rtGradle.resolver repo: 'repo', server: serverArti
         }
@@ -299,7 +298,7 @@ node('dora-slave') {
             cleanWs()
         }
         stage('Smoke Tests') {
-            git branch: '$branch', url: 'https://github.com/ca-cwds/dora.git'
+            git branch: '$pull_request_event_base_ref', url: 'https://github.com/ca-cwds/dora.git'
             sleep 30
             sh "curl http://dora.dev.cwds.io:8083/system-information"
             buildInfo = rtGradle.run buildFile: './dora-api/build.gradle', tasks: 'smokeTest --stacktrace'
