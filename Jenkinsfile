@@ -192,17 +192,19 @@ def updateFiles(newTag) {
 
 def tagRepo(String newTag) {
     debug("tagRepo( newTag: ${newTag} )")
+    sshagent (credentials: ['433ac100-b3c2-4519-b4d6-207c029a103b']) {
 
-    def tagStatus = sh(script: "git tag ${newTag}", returnStatus: true)
-    if( tagStatus != 0) {
-        throw new Exception("Unable to tag the repository with tag '${newTag}'")
-    }
+        def tagStatus = sh(script: "git tag ${newTag}", returnStatus: true)
+        if( tagStatus != 0) {
+            throw new Exception("Unable to tag the repository with tag '${newTag}'")
+        }
 
-    def pushStatus = sh(
-        script: "${GIT_SSH_COMMAND} git push origin ${newTag}",
-        returnStatus: true)
-    if( pushStatus != 0) {
-        throw new Exception("Unable to push the tag '${newTag}'")
+        def pushStatus = sh(
+            script: "${GIT_SSH_COMMAND} git push origin ${newTag}",
+            returnStatus: true)
+        if( pushStatus != 0) {
+            throw new Exception("Unable to push the tag '${newTag}'")
+        }
     }
 }
 
@@ -239,6 +241,7 @@ node('dora-slave') {
                     debug("Increment Tag: newTag: ${newTag}")
 
                     updateFiles(newTag)
+
                     tagRepo(newTag)
 
                 } else {
