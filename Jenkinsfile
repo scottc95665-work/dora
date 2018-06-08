@@ -206,7 +206,7 @@ node('dora-slave') {
     try {
         stage('Preparation') {
             cleanWs()
-            git branch: '$pull_request_event_base_ref', url: 'https://github.com/ca-cwds/dora.git'
+            git branch: '$pull_request_event_base_ref', url: 'git@github.com:ca-cwds/dora.git'
             rtGradle.tool = "Gradle_35"
             rtGradle.resolver repo: 'repo', server: serverArti
         }
