@@ -164,30 +164,13 @@ def getNewTag(List tags, VersionIncrement increment) {
     return newTag
 }
 
-// Updates any build files that contain a version tag
-def updateFiles(String newTag) {
-    debug("updateFiles( newTag: ${newTag} )")
-
-    // TODO - Implement for updating a file
-    debug("updateFiles: TODO Implement")
-}
-
-def copyAndReplaceText(source, dest, Closure replaceText){
-    dest.write(replaceText(source.text))
-}
-
 def updateFiles(newTag) {
     debug("updateFiles( newTag: ${newTag} )")
-
-    def source = new File('build.gradle.old')
-    def dest = new File('build.gradle')
-    source << dest.text
-
-    copyAndReplaceText(source, dest) {
-        it.replaceAll('projectVersion = (isRelease ? projectReleaseVersion : projectSnapshotVersion )', 'projectVersion = '+newTag)
-    }
-
+	def source = readFile file: 'build.gradle'
+	source = source.replace('projectVersion = (isRelease ? projectReleaseVersion : projectSnapshotVersion )', 'projectVersion = \''+newTag+'\'')
+	writeFile file:'build.gradle', text: "$source"
 }
+
 // Tags the repo
 
 def tagRepo(String newTag) {
