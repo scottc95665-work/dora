@@ -1,7 +1,3 @@
-/**
-Check autoincrement functionality
-*/
-
 def notifyBuild(String buildStatus, Exception e) {
     buildStatus = buildStatus ?: 'SUCCESSFUL'
 
