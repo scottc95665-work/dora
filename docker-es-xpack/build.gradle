@@ -125,6 +125,8 @@ task dockerStartContainer(type: Exec, dependsOn: [project.parent.checkDockerServ
     environment << project.dockerEnvVars
     doFirst {
         commandLine 'docker', 'run', '-d', "--name=$dockerContainerName", '-p', "$project.elasticPort:9200", '-e', "TOKEN_VALIDATION_URL=http://10.110.12.162:8080/perry/authn/validate?token=", '-e', "http.host=0.0.0.0", '-e', "transport.host=127.0.0.1", dockerImageName
+        //commandLine 'docker', 'run', '-d', "--name=$dockerContainerName", '-p', "$project.elasticPort:9200", '-e', "TOKEN_VALIDATION_URL=http://localhost:18080/perry/authn/validate?token=", '-e', "http.host=0.0.0.0", '-e', "transport.host=127.0.0.1", dockerImageName
+
     }
     doLast {
         esConnect(project.elasticBaseUrl)
@@ -156,6 +158,8 @@ task dockerPopulateTestPeople {
         esExecute("PUT", "/facilities", "{}")
         // create screenings index
         esExecute("PUT", "/screenings", "{}")
+        // create users index
+        esExecute("PUT", "/users", "{}")
     }
     doLast {
         // populate test people data
@@ -183,6 +187,14 @@ task dockerPopulateTestPeople {
         String esScreeningsUrl = "/screenings/screening/screening1"
         String screeningContent = readFile("$projectDir/test_data/screenings/screening.json")
         esExecute("PUT", esScreeningsUrl, screeningContent)
+
+        // populate test users data
+        ["A", "B", "C", "D"].each {
+            String esUrl = "/users/user/user_$it"
+            String content = readFile("$projectDir/test_data/users/user_${it}.json")
+            esExecute("PUT", esUrl, content)
+        }
+        // verify with URL like: http://192.168.99.100:9200/users/user/_search?pretty
     }
 }
 
