@@ -121,6 +121,9 @@ public class PerryRealm extends Realm {
       rolesList.add(WORKER);
       logger.debug(ADDING_ROLE, WORKER);
 
+      rolesList.add("CWS-admin");
+      logger.debug(ADDING_ROLE, "CWS-admin");
+
       if (cwdsPrivileges.isSocialWorkerOnly()) {
         setSocialWorkerOnlyRoles(rolesList);
       }
