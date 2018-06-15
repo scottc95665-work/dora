@@ -1,9 +1,14 @@
 package gov.ca.cwds.xpack.realm;
 
+import static gov.ca.cwds.xpack.realm.utils.PerryRealmUtils.parsePerryTokenFromJSON;
 import static io.dropwizard.testing.FixtureHelpers.fixture;
 import static org.junit.Assert.assertTrue;
 
+import gov.ca.cwds.xpack.realm.utils.JsonTokenInfoHolder;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 import org.junit.Test;
 
 /**
@@ -21,12 +26,15 @@ public class CwdsPrivilegesTest {
     assertTrue(isCwdsPrivilegesEqualsToJson("fixtures/jwtToken-test5.json", true,true, false, false, false, true, false,"1123"));
     assertTrue(isCwdsPrivilegesEqualsToJson("fixtures/jwtToken-test6.json", false,false, false, true, true, false, false,"1126"));
     assertTrue(isCwdsPrivilegesEqualsToJson("fixtures/jwtToken-test7.json", false,false, false, true, true, true, true,"1126"));
+    assertTrue(isCwdsPrivilegesEqualsToJson("fixtures/jwtToken-test8.json", true,true, true, false, false, true, true,"1087", "CWS-admin"));
   }
 
   private boolean isCwdsPrivilegesEqualsToJson(String jsonFile, boolean isSocialWorkerOnly, boolean isCountySealed,
-      boolean isCountySensitive, boolean isStateSealed, boolean isStateSensitive, boolean facilitiesRead, boolean facilitiesReadAdoptions, String countyId) {
-    CwdsPrivileges cwdsPrivileges = CwdsPrivileges.fromJson(fixture(jsonFile));
-    boolean result = true;
+      boolean isCountySensitive, boolean isStateSealed, boolean isStateSensitive, boolean facilitiesRead, boolean facilitiesReadAdoptions, String countyId, String... expectedRoles) {
+    JsonTokenInfoHolder holder = parsePerryTokenFromJSON(fixture(jsonFile));
+    Set<String> roles =  holder.getRoles();
+    CwdsPrivileges cwdsPrivileges = CwdsPrivileges.buildPrivileges(holder);
+    boolean result;
 
     result = isSocialWorkerOnly == cwdsPrivileges.isSocialWorkerOnly();
     result &= isCountySealed == cwdsPrivileges.isCountySealed();
@@ -36,6 +44,7 @@ public class CwdsPrivilegesTest {
     result &= countyId.equals(cwdsPrivileges.getCountyId());
     result &= facilitiesRead == cwdsPrivileges.isFacilitiesRead();
     result &= facilitiesReadAdoptions == cwdsPrivileges.isFacilitiesReadAdoptions();
+    result &= roles.equals(new HashSet<>(Arrays.asList(expectedRoles)));
 
     return result;
   }

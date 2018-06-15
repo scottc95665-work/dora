@@ -16,8 +16,10 @@ import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author CWDS TPT-2
@@ -105,7 +107,7 @@ public final class PerryRealmUtils {
 
     JsonTokenInfoHolder holder = new JsonTokenInfoHolder();
     List<String> privileges = new LinkedList<>();
-    List<String> roles = new LinkedList<>();
+    Set<String> roles = new HashSet<>();
 
     try (JsonParser parser = jsonFactory.createParser(json)) {
       while (parser.nextToken() != null) {
@@ -135,7 +137,7 @@ public final class PerryRealmUtils {
           // roles is array, loop until token equal to "]"
           while (parser.nextToken() != JsonToken.END_ARRAY) {
             String role = parser.getValueAsString().trim();
-            if (CWS_ADMIN.equalsIgnoreCase(role)) {
+            if (CWS_ADMIN.equals(role)) {
               roles.add(CWS_ADMIN);
             }
           }
