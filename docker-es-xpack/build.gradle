@@ -125,8 +125,6 @@ task dockerStartContainer(type: Exec, dependsOn: [project.parent.checkDockerServ
     environment << project.dockerEnvVars
     doFirst {
         commandLine 'docker', 'run', '-d', "--name=$dockerContainerName", '-p', "$project.elasticPort:9200", '-e', "TOKEN_VALIDATION_URL=http://10.110.12.162:8080/perry/authn/validate?token=", '-e', "http.host=0.0.0.0", '-e', "transport.host=127.0.0.1", dockerImageName
-        //commandLine 'docker', 'run', '-d', "--name=$dockerContainerName", '-p', "$project.elasticPort:9200", '-e', "TOKEN_VALIDATION_URL=http://localhost:18080/perry/authn/validate?token=", '-e', "http.host=0.0.0.0", '-e', "transport.host=127.0.0.1", dockerImageName
-
     }
     doLast {
         esConnect(project.elasticBaseUrl)
