@@ -23,4 +23,4 @@ DB_NS_JDBC_URL=jdbc:postgresql://postgresql_data:${DB_POSTGRES_PORT}/postgres_da
 
 #elasticsearch
 ELASTICSEARCH_XPACK_DATA_VERSION=latest
-TOKEN_VALIDATION_URL = http://perry:8080/perry/authn/validate?token=
+TOKEN_VALIDATION_URL = http://localhost:8080/perry/authn/validate?token=
