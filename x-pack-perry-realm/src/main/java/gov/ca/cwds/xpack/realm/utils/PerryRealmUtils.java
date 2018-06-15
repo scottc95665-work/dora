@@ -3,9 +3,11 @@ package gov.ca.cwds.xpack.realm.utils;
 import static gov.ca.cwds.xpack.realm.utils.Constants.ADOPTIONS;
 import static gov.ca.cwds.xpack.realm.utils.Constants.COUNTY_CODE;
 import static gov.ca.cwds.xpack.realm.utils.Constants.COUNTY_NAME;
+import static gov.ca.cwds.xpack.realm.utils.Constants.CWS_ADMIN;
 import static gov.ca.cwds.xpack.realm.utils.Constants.CWS_CASE_MANAGEMENT_SYSTEM;
 import static gov.ca.cwds.xpack.realm.utils.Constants.PRIVILEGES;
 import static gov.ca.cwds.xpack.realm.utils.Constants.RESOURCE_MANAGEMENT;
+import static gov.ca.cwds.xpack.realm.utils.Constants.ROLES;
 import static gov.ca.cwds.xpack.realm.utils.Constants.SEALED;
 import static gov.ca.cwds.xpack.realm.utils.Constants.SENSITIVE_PERSONS;
 import static gov.ca.cwds.xpack.realm.utils.Constants.STATE_OF_CALIFORNIA;
@@ -21,6 +23,8 @@ import java.util.List;
  * @author CWDS TPT-2
  */
 public final class PerryRealmUtils {
+
+  private PerryRealmUtils(){}
 
   private static JsonFactory jsonFactory;
 
@@ -101,6 +105,7 @@ public final class PerryRealmUtils {
 
     JsonTokenInfoHolder holder = new JsonTokenInfoHolder();
     List<String> privileges = new LinkedList<>();
+    List<String> roles = new LinkedList<>();
 
     try (JsonParser parser = jsonFactory.createParser(json)) {
       while (parser.nextToken() != null) {
@@ -125,6 +130,15 @@ public final class PerryRealmUtils {
               privileges.add(ADOPTIONS);
             }
           }
+        } else if (ROLES.equals(fieldName)) {
+          parser.nextToken(); // current token is "[", move next
+          // roles is array, loop until token equal to "]"
+          while (parser.nextToken() != JsonToken.END_ARRAY) {
+            String role = parser.getValueAsString().trim();
+            if (CWS_ADMIN.equalsIgnoreCase(role)) {
+              roles.add(CWS_ADMIN);
+            }
+          }
         } else if (COUNTY_NAME.equals(fieldName)) {
           parser.nextToken();
           holder.setCountyIsStateOfCalifornia(
@@ -136,6 +150,7 @@ public final class PerryRealmUtils {
     }
 
     holder.setPrivileges(privileges);
+    holder.setRoles(roles);
     return holder;
   }
 
