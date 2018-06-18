@@ -2,6 +2,10 @@ applicationName: CWDS Dora
 
 shiro:
   iniConfigs: ["file:${SHIRO_CONFIG_PATH:-config/shiro.ini}"]
+  ini:
+    main:
+      perryRealm.validationUri: ${PERRY_VALIDATION_URL:-http://localhost:8080/perry/authn/validate}
+
   
 swagger:
   templateName: swagger.mustache
