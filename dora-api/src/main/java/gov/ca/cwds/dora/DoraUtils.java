@@ -23,6 +23,8 @@ import org.elasticsearch.client.Response;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestClientBuilder;
 import org.jadira.usertype.spi.utils.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author CWDS TPT-2
@@ -31,6 +33,7 @@ public final class DoraUtils {
 
   private static final String SYS_INFO_PROPERTIES_FILE = "system-information.properties";
   private static final String BUILD_VERSION = "build.version";
+  private static final Logger LOGGER = LoggerFactory.getLogger(DoraUtils.class);
 
   private DoraUtils() {
     // no op
@@ -46,6 +49,8 @@ public final class DoraUtils {
       int port = getPort(hostPortPair);
       if (StringUtils.isNotEmpty(host)) {
         nodesList.add(new HttpHost(host, port));
+      } else {
+        LOGGER.warn("There is an empty host for port {}", port);
       }
     }
     return nodesList.toArray(new HttpHost[0]);
