@@ -1,0 +1,16 @@
+{
+  "id": "f1bfa6a7-9a00-401d-bf9c-6ae7c84b80e4",
+  "first_name": "Don",
+  "last_name": "Manzano",
+  "county_name": "Madera",
+  "start_date": "2017-07-13",
+  "office": "CWDS Testing",
+  "phone_number": "5599994321",
+  "phone_extension_number": "0",
+  "email": "donzano123+user1@gmail.com",
+  "user_create_date": "2018-06-05",
+  "user_last_modified_date": "2018-06-08",
+  "enabled": true,
+  "status": "CONFIRMED",
+  "RACFID": "CWDS8"
+}

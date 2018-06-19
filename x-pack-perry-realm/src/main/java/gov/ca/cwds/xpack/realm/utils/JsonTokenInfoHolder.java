@@ -1,6 +1,7 @@
 package gov.ca.cwds.xpack.realm.utils;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author CWDS TPT-2
@@ -8,6 +9,7 @@ import java.util.List;
 public final class JsonTokenInfoHolder {
 
   private List<String> privileges;
+  private Set<String> roles;
   private String countyCode;
   private boolean countyIsStateOfCalifornia;
 
@@ -17,6 +19,14 @@ public final class JsonTokenInfoHolder {
 
   public void setPrivileges(List<String> privileges) {
     this.privileges = privileges;
+  }
+
+  public Set<String> getRoles() {
+    return roles;
+  }
+
+  public void setRoles(Set<String> roles) {
+    this.roles = roles;
   }
 
   public String getCountyCode() {
@@ -49,12 +59,14 @@ public final class JsonTokenInfoHolder {
 
     return countyIsStateOfCalifornia == holder.countyIsStateOfCalifornia
         && (privileges != null ? privileges.equals(holder.privileges) : holder.privileges == null)
+        && (roles != null ? roles.equals(holder.roles) : holder.roles == null)
         && (countyCode != null ? countyCode.equals(holder.countyCode) : holder.countyCode == null);
   }
 
   @Override
   public int hashCode() {
     int result = privileges != null ? privileges.hashCode() : 0;
+    result = 31 * result + (roles != null ? roles.hashCode() : 0);
     result = 31 * result + (countyCode != null ? countyCode.hashCode() : 0);
     result = 31 * result + (countyIsStateOfCalifornia ? 1 : 0);
     return result;

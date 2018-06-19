@@ -31,9 +31,9 @@ jacocoTestReport {
 sourceCompatibility = 1.8
 
 project.ext {
-    mainclass = "gov.ca.cwds.rest.DoraApplication"
+    mainclass = "gov.ca.cwds.rest.DoraAppliation"
 
-    coreApiVersion = "1.5.7_333-RC"
+    coreApiVersion = "1.7.3_814-RC"
     dropwizardVersion = "1.1.0"
     metricsVersion = "3.1.0"
     dropwizardSwaggerVersion = "1.0.0-1"
@@ -72,6 +72,8 @@ dependencies {
         exclude group: 'org.elasticsearch', module: 'elasticsearch'
         exclude group: 'org.elasticsearch.client', module: 'transport'
     }
+
+    compile group: 'gov.ca.cwds.api', name: 'api-security', version: '3.0.3_768-RC'
 
     compile group: 'org.elasticsearch', name: 'elasticsearch', version: project.elasticsearchVersion
     compile group: 'org.elasticsearch.client', name: 'rest', version: project.elasticsearchVersion

@@ -55,7 +55,7 @@ public final class CwdsPrivileges {
     return buildPrivileges(holder);
   }
 
-  private static CwdsPrivileges buildPrivileges(JsonTokenInfoHolder holder) {
+  public static CwdsPrivileges buildPrivileges(JsonTokenInfoHolder holder) {
     CwdsPrivileges cwdsPrivileges = new CwdsPrivileges();
     // JWT token will contain County Code, but Person documents in ES index and X-Pack roles use County ID
     cwdsPrivileges.countyId = countyCodeToCountyId(holder.getCountyCode());

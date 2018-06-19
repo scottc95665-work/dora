@@ -6,6 +6,7 @@ import gov.ca.cwds.rest.api.DoraException;
 import gov.ca.cwds.security.realm.PerrySubject;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -21,6 +22,9 @@ import org.apache.http.message.BasicHeader;
 import org.elasticsearch.client.Response;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestClientBuilder;
+import org.jadira.usertype.spi.utils.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author CWDS TPT-2
@@ -29,22 +33,27 @@ public final class DoraUtils {
 
   private static final String SYS_INFO_PROPERTIES_FILE = "system-information.properties";
   private static final String BUILD_VERSION = "build.version";
+  private static final Logger LOGGER = LoggerFactory.getLogger(DoraUtils.class);
 
   private DoraUtils() {
     // no op
   }
 
   public static HttpHost[] parseNodes(String nodesValue) {
+    List<HttpHost> nodesList = new ArrayList<>();
     String[] nodes = nodesValue.split(",");
-    HttpHost[] hosts = new HttpHost[nodes.length];
-    for (int i = 0; i < nodes.length; i++) {
-      String node = nodes[i];
+
+    for (String node : nodes) {
       String[] hostPortPair = node.split(":");
       String host = getHost(hostPortPair);
       int port = getPort(hostPortPair);
-      hosts[i] = new HttpHost(host, port);
+      if (StringUtils.isNotEmpty(host)) {
+        nodesList.add(new HttpHost(host, port));
+      } else {
+        LOGGER.warn("There is an empty host for port {}", port);
+      }
     }
-    return hosts;
+    return nodesList.toArray(new HttpHost[0]);
   }
 
   @SuppressWarnings("fb-contrib:CLI_CONSTANT_LIST_INDEX")

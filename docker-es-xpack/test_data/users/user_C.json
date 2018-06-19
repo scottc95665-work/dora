@@ -1,0 +1,14 @@
+{
+  "id": "77e6bd92-79e1-4a6b-bef2-178fcfb487ff",
+  "first_name": "User",
+  "last_name": "Nine",
+  "county_name": "Madera",
+  "email": "captester123+user9@gmail.com",
+  "user_create_date": "2018-06-07",
+  "user_last_modified_date": "2018-06-07",
+  "enabled": true,
+  "status": "FORCE_CHANGE_PASSWORD",
+  "permissions": [
+    "Hotline-rollout"
+  ]
+}

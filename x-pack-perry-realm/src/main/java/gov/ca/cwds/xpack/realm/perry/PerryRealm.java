@@ -1,9 +1,12 @@
 package gov.ca.cwds.xpack.realm.perry;
 
+import static gov.ca.cwds.xpack.realm.utils.Constants.CWS_ADMIN;
+import static gov.ca.cwds.xpack.realm.utils.PerryRealmUtils.parsePerryTokenFromJSON;
 import static java.net.HttpURLConnection.HTTP_OK;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import gov.ca.cwds.xpack.realm.CwdsPrivileges;
+import gov.ca.cwds.xpack.realm.utils.JsonTokenInfoHolder;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -47,7 +50,6 @@ public class PerryRealm extends Realm {
 
   private static final String PEOPLE_SUMMARY_WORKER = "people_summary_worker";
   private static final String ADDING_ROLE = "adding {} role";
-
 
   private String tokenValidationUrl;
 
@@ -113,13 +115,19 @@ public class PerryRealm extends Realm {
   @Override
   public void authenticate(AuthenticationToken authenticationToken, ActionListener<User> listener) {
     try {
-      CwdsPrivileges cwdsPrivileges = CwdsPrivileges
-          .fromJson(validatePerryToken(authenticationToken.principal()));
+      String jsonToken = validatePerryToken(authenticationToken.principal());
+      JsonTokenInfoHolder jsonTokenInfoHolder = parsePerryTokenFromJSON(jsonToken);
+      CwdsPrivileges cwdsPrivileges = CwdsPrivileges.buildPrivileges(jsonTokenInfoHolder);
       logger.info(cwdsPrivileges);
 
       ArrayList<String> rolesList = new ArrayList<>();
       rolesList.add(WORKER);
       logger.debug(ADDING_ROLE, WORKER);
+
+      if (jsonTokenInfoHolder.getRoles().contains(CWS_ADMIN)) {
+        rolesList.add(CWS_ADMIN);
+        logger.debug(ADDING_ROLE, CWS_ADMIN);
+      }
 
       if (cwdsPrivileges.isSocialWorkerOnly()) {
         setSocialWorkerOnlyRoles(rolesList);

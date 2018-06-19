@@ -259,5 +259,21 @@
         }
       ]
     }
+  },
+  {
+    "action": "POST /_xpack/security/role/CWS-admin",
+    "content": {
+      "cluster": [],
+      "indices": [
+        {
+          "names": [
+            "users"
+          ],
+          "privileges": [
+            "read"
+          ]
+        }
+      ]
+    }
   }
 ]
