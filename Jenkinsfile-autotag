@@ -235,9 +235,8 @@ node('dora-slave') {
                     def tags = getTags()
                     debug("Increment Tag: tags: ${tags}")
 
-                    newTag = tags
+                    newTag = getNewTag(tags, VersionIncrement.PATCH)
                     debug("Increment Tag: No label going with old version: ${newTag}")
-
                 }
             }
             catch(Exception ex) {
