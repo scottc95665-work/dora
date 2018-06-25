@@ -31,7 +31,7 @@ jacocoTestReport {
 sourceCompatibility = 1.8
 
 project.ext {
-    mainclass = "gov.ca.cwds.rest.DoraAppliation"
+    mainclass = "gov.ca.cwds.rest.DoraApplication"
 
     coreApiVersion = "1.7.3_814-RC"
     dropwizardVersion = "1.1.0"
