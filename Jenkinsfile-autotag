@@ -245,11 +245,6 @@ node('dora-slave') {
                 buildInfo = rtGradle.run buildFile: 'build.gradle', switches: '--info', tasks: 'sonarqube'
             }
         }
-        stage('Push to Artifactory') {
-            rtGradle.deployer.deployArtifacts = true
-            buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: 'publish'
-            rtGradle.deployer.deployArtifacts = false
-        }
         stage('Build Docker') {
             withEnv(['ELASTIC_HOST=127.0.0.1']) {
                 buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: 'printConfig'
@@ -264,9 +259,6 @@ node('dora-slave') {
            withDockerRegistry([credentialsId: '6ba8d05c-ca13-4818-8329-15d41a089ec0']) {
                 buildInfo = rtGradle.run buildFile: './dora-api/docker-tests/build.gradle', switches: '--stacktrace',  tasks: 'dockerTestsPublish'
            }
-        }
-        stage('Archive Artifacts') {
-            archiveArtifacts artifacts: '**/dora*.jar,readme.txt', fingerprint: true
         }
         stage('Deploy Application') {
  	        withDockerRegistry([credentialsId: '6ba8d05c-ca13-4818-8329-15d41a089ec0']) {
@@ -283,6 +275,14 @@ node('dora-slave') {
             sh "curl http://dora.dev.cwds.io:8083/system-information"
             buildInfo = rtGradle.run buildFile: './dora-api/build.gradle', tasks: 'smokeTest --stacktrace'
             tagRepo(newTag)
+        }
+        stage('Push to Artifactory') {
+            rtGradle.deployer.deployArtifacts = true
+            buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: 'publish'
+            rtGradle.deployer.deployArtifacts = false
+        }
+        stage('Archive Artifacts') {
+            archiveArtifacts artifacts: '**/dora*.jar,readme.txt', fingerprint: true
         }
         stage('Clean WorkSpace') {
           buildInfo = rtGradle.run buildFile: './docker-dora/build.gradle', tasks: 'dockerCleanUpTagged'
