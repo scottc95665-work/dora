@@ -260,13 +260,19 @@ node('dora-slave') {
                 buildInfo = rtGradle.run buildFile: './dora-api/docker-tests/build.gradle', switches: '--stacktrace',  tasks: 'dockerTestsPublish'
            }
         }
+        stage('Push to Artifactory') {
+            tagRepo(newTag)
+            rtGradle.deployer.deployArtifacts = true
+            buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: 'publish'
+            rtGradle.deployer.deployArtifacts = false
+        }
         stage('Deploy Application') {
  	        withDockerRegistry([credentialsId: '6ba8d05c-ca13-4818-8329-15d41a089ec0']) {
 	           sh "cd localenv; docker-compose pull ; docker-compose up -d"
 	           sh "sudo mkdir /var/log/elasticsearch/"
 	        }
             git changelog: false, credentialsId: '433ac100-b3c2-4519-b4d6-207c029a103b', poll: false, url: 'git@github.com:ca-cwds/de-ansible.git'
-            sh 'ansible-playbook -e NEW_RELIC_AGENT=$USE_NEWRELIC -e DORA_API_VERSION=$newTag -i $inventory deploy-dora.yml --vault-password-file ~/.ssh/vault.txt -vv'
+            sh 'ansible-playbook -e NEW_RELIC_AGENT=$USE_NEWRELIC -e DORA_API_VERSION=${newTag} -i $inventory deploy-dora.yml --vault-password-file ~/.ssh/vault.txt -vv'
             cleanWs()
         }
         stage('Smoke Tests') {
@@ -274,12 +280,6 @@ node('dora-slave') {
             sleep 30
             sh "curl http://dora.dev.cwds.io:8083/system-information"
             buildInfo = rtGradle.run buildFile: './dora-api/build.gradle', tasks: 'smokeTest --stacktrace'
-            tagRepo(newTag)
-        }
-        stage('Push to Artifactory') {
-            rtGradle.deployer.deployArtifacts = true
-            buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: 'publish'
-            rtGradle.deployer.deployArtifacts = false
         }
         stage('Archive Artifacts') {
             archiveArtifacts artifacts: '**/dora*.jar,readme.txt', fingerprint: true
