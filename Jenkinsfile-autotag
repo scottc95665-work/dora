@@ -267,7 +267,6 @@ node('dora-slave') {
         }
         stage('Archive Artifacts') {
             archiveArtifacts artifacts: '**/dora*.jar,readme.txt', fingerprint: true
-            cleanWs()
         }
         stage('Deploy Application') {
  	        withDockerRegistry([credentialsId: '6ba8d05c-ca13-4818-8329-15d41a089ec0']) {
