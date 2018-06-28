@@ -155,6 +155,7 @@ def updateFiles(newTag) {
     debug("updateFiles( newTag: ${newTag} )")
 	def source = readFile file: 'build.gradle'
 	source = source.replace('projectVersion = (isRelease ? projectReleaseVersion : projectSnapshotVersion )', 'projectVersion = \''+newTag+'\'')
+	source = source.replace('isRelease = System.getProperty("Release") == "true"', 'isRelease = "true"')
 	writeFile file:'build.gradle', text: "$source"
 }
 
