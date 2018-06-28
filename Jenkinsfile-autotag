@@ -227,9 +227,6 @@ node('dora-slave') {
                     newTag = getNewTag(tags, increment)
                     debug("Increment Tag: newTag: ${newTag}")
 
-                    updateFiles(newTag)
-
-                    tagRepo(newTag)
 
                 } else {
                     def tags = getTags()
@@ -238,6 +235,8 @@ node('dora-slave') {
                     newTag = getNewTag(tags, VersionIncrement.PATCH)
                     debug("Increment Tag: No label going with old version: ${newTag}")
                 }
+                updateFiles(newTag)
+                //tagRepo(newTag)
             }
             catch(Exception ex) {
                 error "[ERROR] ${ex}"
