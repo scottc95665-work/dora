@@ -5,8 +5,8 @@ services:
     hostname: perry
     restart: on-failure
     ports:
-       - ${PERRY_PORT}:8080
-       - ${PERRY_ADMIN_PORT}:8092
+      - ${PERRY_PORT}:8080
+      - ${PERRY_ADMIN_PORT}:8092
     env_file: .env
 
   dora:
