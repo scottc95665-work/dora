@@ -195,6 +195,7 @@ node('dora-slave') {
         stage('Preparation') {
             cleanWs()
             git branch: '$pull_request_event_base_ref', credentialsId: '433ac100-b3c2-4519-b4d6-207c029a103b', url: 'git@github.com:ca-cwds/dora.git'
+            checkout changelog: false, poll: false, scm: [$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'ansible']], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '433ac100-b3c2-4519-b4d6-207c029a103b', url: 'git@github.com:ca-cwds/de-ansible.git']]]
             rtGradle.tool = "Gradle_35"
             rtGradle.resolver repo: 'repo', server: serverArti
         }
@@ -271,8 +272,7 @@ node('dora-slave') {
 	           sh "cd localenv; docker-compose pull ; docker-compose up -d"
 	           sh 'if [ ! -d "/var/log/elasticsearch/" ]; then sudo mkdir /var/log/elasticsearch/ ; fi'
 	        }
-            git changelog: false, credentialsId: '433ac100-b3c2-4519-b4d6-207c029a103b', poll: false, url: 'git@github.com:ca-cwds/de-ansible.git'
-            sh "ansible-playbook -e NEW_RELIC_AGENT=$USE_NEWRELIC -e DORA_API_VERSION=${newTag} -i $inventory deploy-dora.yml --vault-password-file ~/.ssh/vault.txt -vv"
+            sh "cd ansible ; ansible-playbook -e NEW_RELIC_AGENT=$USE_NEWRELIC -e DORA_API_VERSION=${newTag} -i $inventory deploy-dora.yml --vault-password-file ~/.ssh/vault.txt -vv"
         }
         stage('Smoke Tests') {
             sleep 30
