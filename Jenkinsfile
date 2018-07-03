@@ -93,11 +93,11 @@ node('dora-slave') {
         }
         stage('Archive Artifacts') {
             archiveArtifacts artifacts: '**/dora*.jar,readme.txt', fingerprint: true
-            cleanWs()
         }
         stage('Deploy Application') {
  	        withDockerRegistry([credentialsId: '6ba8d05c-ca13-4818-8329-15d41a089ec0']) {
-	           sh "cd /opt/dora-es; docker-compose pull ; docker-compose up -d"
+	           sh "cd localenv; docker-compose pull ; docker-compose up -d"
+	           sh "sudo mkdir /var/log/elasticsearch/"
 	        }
             git changelog: false, credentialsId: '433ac100-b3c2-4519-b4d6-207c029a103b', poll: false, url: 'git@github.com:ca-cwds/de-ansible.git'
             sh 'ansible-playbook -e NEW_RELIC_AGENT=$USE_NEWRELIC -e DORA_API_VERSION=$APP_VERSION -i $inventory deploy-dora.yml --vault-password-file ~/.ssh/vault.txt -vv'
@@ -105,7 +105,6 @@ node('dora-slave') {
         }
         stage('Smoke Tests') {
             git branch: '$branch', url: 'https://github.com/ca-cwds/dora.git'
-            sleep 30
             sh "curl http://dora.dev.cwds.io:8083/system-information"
             buildInfo = rtGradle.run buildFile: './dora-api/build.gradle', tasks: 'smokeTest --stacktrace'
 
@@ -120,8 +119,10 @@ node('dora-slave') {
         throw e;
 
     } finally {
+        sh "cd localenv; docker-compose down -v"
         publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'build/reports/license/', reportFiles: 'license-dependency.html', reportName: 'License Report', reportTitles: 'License summary'])
         publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'dora-api/build/reports/tests/test/', reportFiles: 'index.html', reportName: 'JUnit Reports', reportTitles: 'JUnit tests summary'])
         publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'dora-api/build/reports/tests/smokeTest', reportFiles: 'index.html', reportName: 'Smoke Tests Reports', reportTitles: 'Smoke tests summary'])
+
     }
 }

@@ -1,9 +1,3 @@
-/*
-It's hard to test this script without constantly open/closing PRs.
-Set to true to test with triggering only a build and using mock values.
-*/
-TEST_MODE = false
-
 // Used to avoid known_hosts addition, which would require each machine to have GitHub added in advance (maybe should do?)
 GIT_SSH_COMMAND = 'GIT_SSH_COMMAND="ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"'
 
@@ -17,14 +11,7 @@ def debug(String str) {
 // Returns Map of Maps containing the parsed JSON from the pull request event
 def getPullRequestEvent() {
     def prEvents = null
-
-    if(TEST_MODE) {
-        prEvents = readJSON file: "${env.WORKSPACE}/pull_request_event.json"
-        prEvents = prEvents.pull_request // Jenkins is configured to just grab the $.pull_request section -- this models that
-    }
-    else
-        prEvents = readJSON text: env.pull_request_event
-
+    prEvents = readJSON text: env.pull_request_event
     return prEvents
 }
 
@@ -168,6 +155,7 @@ def updateFiles(newTag) {
     debug("updateFiles( newTag: ${newTag} )")
 	def source = readFile file: 'build.gradle'
 	source = source.replace('projectVersion = (isRelease ? projectReleaseVersion : projectSnapshotVersion )', 'projectVersion = \''+newTag+'\'')
+	source = source.replace('isRelease = System.getProperty("Release") == "true"', 'isRelease = "true"')
 	writeFile file:'build.gradle', text: "$source"
 }
 
@@ -206,7 +194,8 @@ node('dora-slave') {
     try {
         stage('Preparation') {
             cleanWs()
-            git branch: '$pull_request_event_base_ref', url: 'git@github.com:ca-cwds/dora.git'
+            git branch: '$pull_request_event_base_ref', credentialsId: '433ac100-b3c2-4519-b4d6-207c029a103b', url: 'git@github.com:ca-cwds/dora.git'
+            checkout changelog: false, poll: false, scm: [$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'ansible']], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '433ac100-b3c2-4519-b4d6-207c029a103b', url: 'git@github.com:ca-cwds/de-ansible.git']]]
             rtGradle.tool = "Gradle_35"
             rtGradle.resolver repo: 'repo', server: serverArti
         }
@@ -227,9 +216,6 @@ node('dora-slave') {
                     newTag = getNewTag(tags, increment)
                     debug("Increment Tag: newTag: ${newTag}")
 
-                    updateFiles(newTag)
-
-                    tagRepo(newTag)
 
                 } else {
                     def tags = getTags()
@@ -238,6 +224,8 @@ node('dora-slave') {
                     newTag = getNewTag(tags, VersionIncrement.PATCH)
                     debug("Increment Tag: No label going with old version: ${newTag}")
                 }
+                updateFiles(newTag)
+                //tagRepo(newTag)
             }
             catch(Exception ex) {
                 error "[ERROR] ${ex}"
@@ -258,11 +246,6 @@ node('dora-slave') {
                 buildInfo = rtGradle.run buildFile: 'build.gradle', switches: '--info', tasks: 'sonarqube'
             }
         }
-        stage('Push to Artifactory') {
-            rtGradle.deployer.deployArtifacts = true
-            buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: 'publish'
-            rtGradle.deployer.deployArtifacts = false
-        }
         stage('Build Docker') {
             withEnv(['ELASTIC_HOST=127.0.0.1']) {
                 buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: 'printConfig'
@@ -278,24 +261,26 @@ node('dora-slave') {
                 buildInfo = rtGradle.run buildFile: './dora-api/docker-tests/build.gradle', switches: '--stacktrace',  tasks: 'dockerTestsPublish'
            }
         }
-        stage('Archive Artifacts') {
-            archiveArtifacts artifacts: '**/dora*.jar,readme.txt', fingerprint: true
-            cleanWs()
+        stage('Push to Artifactory') {
+            tagRepo(newTag)
+            rtGradle.deployer.deployArtifacts = true
+            buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: 'publish'
+            rtGradle.deployer.deployArtifacts = false
         }
         stage('Deploy Application') {
  	        withDockerRegistry([credentialsId: '6ba8d05c-ca13-4818-8329-15d41a089ec0']) {
-	           sh "cd /opt/dora-es; docker-compose pull ; docker-compose up -d"
+	           sh "cd localenv; docker-compose pull ; docker-compose up -d"
+	           sh 'if [ ! -d "/var/log/elasticsearch/" ]; then sudo mkdir /var/log/elasticsearch/ ; fi'
 	        }
-            git changelog: false, credentialsId: '433ac100-b3c2-4519-b4d6-207c029a103b', poll: false, url: 'git@github.com:ca-cwds/de-ansible.git'
-            sh 'ansible-playbook -e NEW_RELIC_AGENT=$USE_NEWRELIC -e DORA_API_VERSION=$newTag -i $inventory deploy-dora.yml --vault-password-file ~/.ssh/vault.txt -vv'
-            cleanWs()
+            sh "cd ansible ; ansible-playbook -e NEW_RELIC_AGENT=$USE_NEWRELIC -e DORA_API_VERSION=${newTag} -i $inventory deploy-dora.yml --vault-password-file ~/.ssh/vault.txt -vv"
         }
         stage('Smoke Tests') {
-            git branch: '$pull_request_event_base_ref', url: 'https://github.com/ca-cwds/dora.git'
             sleep 30
             sh "curl http://dora.dev.cwds.io:8083/system-information"
             buildInfo = rtGradle.run buildFile: './dora-api/build.gradle', tasks: 'smokeTest --stacktrace'
-            tagRepo(newTag)
+        }
+        stage('Archive Artifacts') {
+            archiveArtifacts artifacts: '**/dora*.jar,readme.txt', fingerprint: true
         }
         stage('Clean WorkSpace') {
           buildInfo = rtGradle.run buildFile: './docker-dora/build.gradle', tasks: 'dockerCleanUpTagged'
@@ -307,6 +292,7 @@ node('dora-slave') {
         throw e;
 
     } finally {
+        sh "cd localenv; docker-compose down -v"
         publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'build/reports/license/', reportFiles: 'license-dependency.html', reportName: 'License Report', reportTitles: 'License summary'])
         publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'dora-api/build/reports/tests/test/', reportFiles: 'index.html', reportName: 'JUnit Reports', reportTitles: 'JUnit tests summary'])
         publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'dora-api/build/reports/tests/smokeTest', reportFiles: 'index.html', reportName: 'Smoke Tests Reports', reportTitles: 'Smoke tests summary'])

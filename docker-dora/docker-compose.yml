@@ -1,30 +1,37 @@
-version: '2.1'
+version: '3.3'
 services:
   perry:
-    image: cwds/perry:1.6.1_376-RC
+    image: cwds/perry:3.0.3_786-RC
     hostname: perry
+    restart: on-failure
     ports:
       - ${PERRY_PORT}:8080
       - ${PERRY_ADMIN_PORT}:8092
     env_file: .env
 
-  cals_db2_data:
-    image: cwds/cals_db2_data
-    hostname: cals_db2_data
+  dora:
+    image: cwds/dora:latest
+    command: bash -c "./entrypoint.sh 2>&1 | tee 'log.file'"
+    depends_on:
+      - perry
+      - elasticsearch
     ports:
-      - ${DB_CMS_DB2_PORT}:${DB_CMS_DB2_PORT}
+      - ${DORA_PORT}:8080
+    restart: on-failure
+    expose:
+      - 8080
     env_file: .env
-
-  postgresql_data:
-    image: cwds/postgresql_data
-    hostname: postgresql_data
-    ports:
-      - ${DB_POSTGRES_PORT}:${DB_POSTGRES_PORT}
-    env_file: .env
+    healthcheck:
+      test: head -n 500 log.file | grep "Started @"
+      interval: 5s
+      timeout: 10s
+      retries: 80
 
   elasticsearch:
     image: cwds/elasticsearch_xpack_data:${ELASTICSEARCH_XPACK_DATA_VERSION}
-    ports:
-      - 9200:9200
-      - 9300:9300
+    depends_on:
+      - perry
+    expose:
+      - 9200
+      - 9300
     env_file: .env
