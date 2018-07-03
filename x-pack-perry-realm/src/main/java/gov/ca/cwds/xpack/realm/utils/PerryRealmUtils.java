@@ -143,8 +143,10 @@ public final class PerryRealmUtils {
           }
         } else if (COUNTY_NAME.equals(fieldName)) {
           parser.nextToken();
+          String countyName = parser.getValueAsString();
+          holder.setCountyName(countyName);
           holder.setCountyIsStateOfCalifornia(
-              checkThatCountyIsStateOfCalifornia(parser.getValueAsString()));
+              checkThatCountyIsStateOfCalifornia(countyName));
         }
       }
     } catch (Exception e) {

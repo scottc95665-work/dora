@@ -17,20 +17,20 @@ import org.junit.Test;
 public class CwdsPrivilegesTest {
 
   @Test
-  public void testCwdsPrivileges() throws IOException {
+  public void testCwdsPrivileges() {
 
-    assertTrue(isCwdsPrivilegesEqualsToJson("fixtures/jwtToken-test1.json", false, false, false, false, false, false, false, "1086"));
-    assertTrue(isCwdsPrivilegesEqualsToJson("fixtures/jwtToken-test2.json", false,false, true, false, false, false, false,"1086"));
-    assertTrue(isCwdsPrivilegesEqualsToJson("fixtures/jwtToken-test3.json", false,true, false, false, false, false, false,"1086"));
-    assertTrue(isCwdsPrivilegesEqualsToJson("fixtures/jwtToken-test4.json", false,false, true, false, false, false, false,"1123"));
-    assertTrue(isCwdsPrivilegesEqualsToJson("fixtures/jwtToken-test5.json", true,true, false, false, false, true, false,"1123"));
-    assertTrue(isCwdsPrivilegesEqualsToJson("fixtures/jwtToken-test6.json", false,false, false, true, true, false, false,"1126"));
-    assertTrue(isCwdsPrivilegesEqualsToJson("fixtures/jwtToken-test7.json", false,false, false, true, true, true, true,"1126"));
-    assertTrue(isCwdsPrivilegesEqualsToJson("fixtures/jwtToken-test8.json", true,true, true, false, false, true, true,"1087", "CWS-admin"));
+    assertTrue(isCwdsPrivilegesEqualsToJson("fixtures/jwtToken-test1.json", false, false, false, false, false, false, false, "1086", "Los Angeles"));
+    assertTrue(isCwdsPrivilegesEqualsToJson("fixtures/jwtToken-test2.json", false,false, true, false, false, false, false,  "1086", "Los Angeles"));
+    assertTrue(isCwdsPrivilegesEqualsToJson("fixtures/jwtToken-test3.json", false,true, false, false, false, false, false,"1086", "Los Angeles"));
+    assertTrue(isCwdsPrivilegesEqualsToJson("fixtures/jwtToken-test4.json", false,false, true, false, false, false, false,"1123", "Ventura"));
+    assertTrue(isCwdsPrivilegesEqualsToJson("fixtures/jwtToken-test5.json", true,true, false, false, false, true, false,"1123", "Ventura"));
+    assertTrue(isCwdsPrivilegesEqualsToJson("fixtures/jwtToken-test6.json", false,false, false, true, true, false, false,"1126", "State of California"));
+    assertTrue(isCwdsPrivilegesEqualsToJson("fixtures/jwtToken-test7.json", false,false, false, true, true, true, true,"1126", "State of California"));
+    assertTrue(isCwdsPrivilegesEqualsToJson("fixtures/jwtToken-test8.json", true,true, true, false, false, true, true,"1087", "Madera", "CWS-admin"));
   }
 
   private boolean isCwdsPrivilegesEqualsToJson(String jsonFile, boolean isSocialWorkerOnly, boolean isCountySealed,
-      boolean isCountySensitive, boolean isStateSealed, boolean isStateSensitive, boolean facilitiesRead, boolean facilitiesReadAdoptions, String countyId, String... expectedRoles) {
+      boolean isCountySensitive, boolean isStateSealed, boolean isStateSensitive, boolean facilitiesRead, boolean facilitiesReadAdoptions, String countyId, String countyName, String... expectedRoles) {
     JsonTokenInfoHolder holder = parsePerryTokenFromJSON(fixture(jsonFile));
     Set<String> roles =  holder.getRoles();
     CwdsPrivileges cwdsPrivileges = CwdsPrivileges.buildPrivileges(holder);
@@ -42,6 +42,7 @@ public class CwdsPrivilegesTest {
     result &= isStateSealed == cwdsPrivileges.isStateSealed();
     result &= isStateSensitive == cwdsPrivileges.isStateSensitive();
     result &= countyId.equals(cwdsPrivileges.getCountyId());
+    result &= countyName.equals(cwdsPrivileges.getCountyName());
     result &= facilitiesRead == cwdsPrivileges.isFacilitiesRead();
     result &= facilitiesReadAdoptions == cwdsPrivileges.isFacilitiesReadAdoptions();
     result &= roles.equals(new HashSet<>(Arrays.asList(expectedRoles)));

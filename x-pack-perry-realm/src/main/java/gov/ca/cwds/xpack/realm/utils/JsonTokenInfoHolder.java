@@ -11,6 +11,7 @@ public final class JsonTokenInfoHolder {
   private List<String> privileges;
   private Set<String> roles;
   private String countyCode;
+  private String countyName;
   private boolean countyIsStateOfCalifornia;
 
   public List<String> getPrivileges() {
@@ -37,6 +38,14 @@ public final class JsonTokenInfoHolder {
     this.countyCode = countyCode;
   }
 
+  public String getCountyName() {
+    return countyName;
+  }
+
+  public void setCountyName(String countyName) {
+    this.countyName = countyName;
+  }
+
   public boolean isCountyIsStateOfCalifornia() {
     return countyIsStateOfCalifornia;
   }
@@ -60,7 +69,8 @@ public final class JsonTokenInfoHolder {
     return countyIsStateOfCalifornia == holder.countyIsStateOfCalifornia
         && (privileges != null ? privileges.equals(holder.privileges) : holder.privileges == null)
         && (roles != null ? roles.equals(holder.roles) : holder.roles == null)
-        && (countyCode != null ? countyCode.equals(holder.countyCode) : holder.countyCode == null);
+        && (countyCode != null ? countyCode.equals(holder.countyCode) : holder.countyCode == null)
+        && (countyName != null ? countyName.equals(holder.countyName) : holder.countyName == null);
   }
 
   @Override
@@ -68,6 +78,7 @@ public final class JsonTokenInfoHolder {
     int result = privileges != null ? privileges.hashCode() : 0;
     result = 31 * result + (roles != null ? roles.hashCode() : 0);
     result = 31 * result + (countyCode != null ? countyCode.hashCode() : 0);
+    result = 31 * result + (countyName != null ? countyName.hashCode() : 0);
     result = 31 * result + (countyIsStateOfCalifornia ? 1 : 0);
     return result;
   }

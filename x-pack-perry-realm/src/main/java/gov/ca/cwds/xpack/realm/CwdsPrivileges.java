@@ -21,6 +21,7 @@ public final class CwdsPrivileges {
   private boolean stateSensitive = false;
   private boolean stateSealed = false;
   private String countyId = "";
+  private String countyName = "";
   private boolean facilitiesRead = false;
   private boolean facilitiesReadAdoptions = false;
 
@@ -59,6 +60,7 @@ public final class CwdsPrivileges {
     CwdsPrivileges cwdsPrivileges = new CwdsPrivileges();
     // JWT token will contain County Code, but Person documents in ES index and X-Pack roles use County ID
     cwdsPrivileges.countyId = countyCodeToCountyId(holder.getCountyCode());
+    cwdsPrivileges.countyName = holder.getCountyName();
     cwdsPrivileges.socialWorkerOnly = holder.getPrivileges().contains(CWS_CASE_MANAGEMENT_SYSTEM);
     cwdsPrivileges.countySensitive = isCountySensitive(holder);
     cwdsPrivileges.countySealed = isCountySealed(holder);
@@ -120,6 +122,10 @@ public final class CwdsPrivileges {
     return countyId;
   }
 
+  public String getCountyName() {
+    return countyName;
+  }
+
   public boolean isSocialWorkerOnly() {
     return socialWorkerOnly;
   }
@@ -143,6 +149,7 @@ public final class CwdsPrivileges {
         ", facilitiesRead=" + facilitiesRead +
         ", facilitiesReadAdoptions=" + facilitiesReadAdoptions +
         ", countyId='" + countyId + '\'' +
+        ", countyName='" + countyName + '\'' +
         '}';
   }
 }
