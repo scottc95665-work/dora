@@ -275,8 +275,14 @@
           "query": {
             "template": {
               "inline": {
-                "term": {
-                  "county_name": "{{_user.metadata.county_name}}"
+                "bool": {
+                  "must": [
+                    {
+                      "term": {
+                        "county_name": "{{_user.metadata.county_name}}"
+                      }
+                    }
+                  ]
                 }
               }
             }
