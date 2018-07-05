@@ -271,7 +271,16 @@
           ],
           "privileges": [
             "read"
-          ]
+          ],
+          "query": {
+            "template": {
+              "inline": {
+                "term": {
+                  "county_name": "{{_user.metadata.county_name}}"
+                }
+              }
+            }
+          }
         }
       ]
     }
