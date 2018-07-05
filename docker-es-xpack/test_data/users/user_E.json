@@ -1,0 +1,19 @@
+{
+  "id": "128e120c-d643-44ac-ad9b-4a3fc767f04d",
+  "first_name": "Fritz",
+  "last_name": "Schmidt",
+  "county_name": "Yolo",
+  "start_date": "2017-12-12",
+  "office": "Yolo Central",
+  "phone_number": "0123456789",
+  "phone_extension_number": "0",
+  "email": "fritz.schmidt@osi.ca.gov",
+  "user_create_date": "2017-11-11",
+  "user_last_modified_date": "2018-06-06",
+  "enabled": true,
+  "status": "FORCE_CHANGE_PASSWORD",
+  "permissions": [
+    "Facility-search-rollout",
+    "Hotline-rollout"
+  ]
+}
