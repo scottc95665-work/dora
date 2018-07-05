@@ -279,7 +279,7 @@
                   "must": [
                     {
                       "term": {
-                        "county_name": "{{_user.metadata.county_name}}"
+                        "county_name": "Madera"
                       }
                     }
                   ]
