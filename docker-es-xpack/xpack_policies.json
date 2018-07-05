@@ -273,8 +273,10 @@
             "read"
           ],
           "query": {
-            "match": {
-              "county_name": "Madera"
+            "inline": {
+              "match": {
+                "county_name": "Madera"
+              }
             }
           }
         }
