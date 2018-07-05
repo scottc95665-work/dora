@@ -272,7 +272,11 @@
           "privileges": [
             "read"
           ],
-          "query": "{ \"term\": { \"county_name\": \"Madera\" } }"
+          "query": {
+            "match": {
+              "county_name": "Madera"
+            }
+          }
         }
       ]
     }
