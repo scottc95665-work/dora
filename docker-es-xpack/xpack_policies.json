@@ -278,7 +278,7 @@
                 "bool": {
                   "must": [
                     {
-                      "term": {
+                      "match": {
                         "county_name": "Madera"
                       }
                     }
