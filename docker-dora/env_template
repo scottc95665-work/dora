@@ -10,16 +10,16 @@ ES_NODES=elasticsearch:9200
 PERRY_URL=http://localhost:${PERRY_PORT}/perry/authn/login
 XPACK_ENABLED=true
 SHOW_SWAGGER=true
-PERRY_VALIDATION_URL=http://perry:${PERRY_PORT}/perry/authn/validate
+PERRY_VALIDATION_URL=http://perry:8080/perry/authn/validate
 LOGIN_URL=http://localhost:${PERRY_PORT}/perry/authn/login
 LOGOUT_URL=http://localhost:${PERRY_PORT}/perry/authn/logout
-SWAGGER_TOKEN_URL=http://perry:${PERRY_PORT}/perry/authn/token
+SWAGGER_TOKEN_URL=http://perry:8080/perry/authn/token
 SWAGGER_JSON_URL=http://localhost:${DORA_PORT}/swagger.json
 SWAGGER_CALLBACK_URL=http://localhost:${DORA_PORT}/swagger
 
 
 #elasticsearch
-TOKEN_VALIDATION_URL=http://perry:${PERRY_PORT}/perry/authn/validate?token=
+TOKEN_VALIDATION_URL=http://perry:8080/perry/authn/validate?token=
 ELASTICSEARCH_XPACK_DATA_VERSION=latest
 
 
