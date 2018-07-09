@@ -165,6 +165,7 @@ public class PerryRealm extends Realm {
 
       Map<String, Object> metadata = new HashMap<>();
       metadata.put("county_id", cwdsPrivileges.getCountyId());
+      metadata.put("county_name", cwdsPrivileges.getCountyName());
 
       User user = new User("perry", roles, "full name", "email@a.net", metadata, true);
       listener.onResponse(user);
