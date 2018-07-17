@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Map;
 import javax.script.ScriptException;
 import javax.ws.rs.HttpMethod;
@@ -56,6 +57,8 @@ public class IndexQueryService {
   }
 
   public IndexQueryResponse handleRequest(IndexQueryRequest req) {
+    long timeBeforeHandleRequest = new Date().getTime();
+
     checkArgument(req != null, "query cannot be Null or empty");
     @SuppressWarnings("unchecked")
     String query = new JSONObject((Map<String, String>) req.getQuery()).toString();
@@ -64,7 +67,10 @@ public class IndexQueryService {
     LOGGER.info("User is searching for '{}' in Elasticsearch index '{}'", documentType, index);
 
     try {
+      long timeBeforeCallES = new Date().getTime();
       Response response = callElasticsearch(index, documentType, query);
+      LOGGER.info("Dora took {} milliseconds to call Elasticsearch",
+          new Date().getTime() - timeBeforeCallES);
 
       InputStream content = response.getEntity().getContent();
       String esResponse = IOUtils.toString(content, StandardCharsets.UTF_8.toString());
@@ -87,6 +93,8 @@ public class IndexQueryService {
         filteredResponse = applyFieldFiltering(esResponseJsonMap, documentType);
       }
 
+      LOGGER.info("Dora took {} milliseconds to handle request",
+          new Date().getTime() - timeBeforeHandleRequest);
       return new IndexQueryResponse(filteredResponse);
     } catch (ResponseException e) {
       throw new ElasticsearchException(e);
