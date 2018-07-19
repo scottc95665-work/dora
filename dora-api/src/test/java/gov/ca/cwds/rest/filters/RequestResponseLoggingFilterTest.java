@@ -5,11 +5,12 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.withSettings;
 
-import gov.ca.cwds.logging.LoggingContext;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.shiro.UnavailableSecurityManagerException;
 import org.hamcrest.junit.ExpectedException;
 import org.junit.Before;
@@ -20,6 +21,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
+
+import gov.ca.cwds.logging.LoggingContext;
 
 /**
  * @author CWDS TPT-2
@@ -55,9 +58,9 @@ public class RequestResponseLoggingFilterTest {
   public void testDoFilter() throws Exception {
     String uniqueId = "testUniqueId";
 
-    ServletRequest request = Mockito
-        .mock(ServletRequest.class, withSettings().extraInterfaces(HttpServletRequest.class));
-    ServletResponse response = Mockito.mock(ServletResponse.class);
+    ServletRequest request = Mockito.mock(ServletRequest.class,
+        withSettings().extraInterfaces(HttpServletRequest.class));
+    ServletResponse response = Mockito.mock(HttpServletResponse.class);
     FilterChain chain = Mockito.mock(FilterChain.class);
 
     doReturn(uniqueId).when(loggingContext).initialize();
