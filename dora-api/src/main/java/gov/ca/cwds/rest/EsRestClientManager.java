@@ -18,6 +18,7 @@ public class EsRestClientManager implements Managed {
   public EsRestClientManager() {
     // default constructor
   }
+  
   @Override
   public void start() {
     // no-op

@@ -1,9 +1,10 @@
 package gov.ca.cwds.dora.health;
 
+import static gov.ca.cwds.dora.DoraUtils.createElasticsearchClient;
+
 import com.google.inject.Inject;
 import gov.ca.cwds.dora.DoraUtils;
 import gov.ca.cwds.rest.ElasticsearchConfiguration;
-import gov.ca.cwds.rest.EsRestClientManager;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -20,9 +21,6 @@ public class ElasticsearchHealthCheck extends BasicDoraHealthCheck {
 
   static final String HEALTHY_ELASTICSEARCH_MSG = "Elasticsearch %s in cluster '%s' is up-and-running.";
   static final String UNHEALTHY_ELASTICSEARCH_MSG = "Can't connect to Elasticsearch. Details: ";
-
-  @Inject
-  private EsRestClientManager esRestClientManager;
 
   /**
    * Constructor
@@ -41,21 +39,23 @@ public class ElasticsearchHealthCheck extends BasicDoraHealthCheck {
       return result;
     }
 
-    try {
-      RestClient esRestClient = esRestClientManager.getEsRestClient();
-      Map<String, Object> jsonMap = performRequest(esRestClient, "GET", "/");
-                                                        
-      String version = DoraUtils.extractElasticsearchVersion(jsonMap);
-      String clusterName = DoraUtils.extractElasticsearchClusterName(jsonMap);
-      String healthyMsg = String.format(HEALTHY_ELASTICSEARCH_MSG, version, clusterName);
-
-      LOGGER.info(healthyMsg);
-      return Result.healthy(healthyMsg);
-
+    try (RestClient esRestClient = createElasticsearchClient(esConfig)) {
+      return elasticsearchCheck(esRestClient);
     } catch (IOException e) {
       LOGGER.error("I/O error while hitting Elasticsearch", e);
       return Result.unhealthy(UNHEALTHY_ELASTICSEARCH_MSG + e.getMessage());
     }
+  }
+
+  protected Result elasticsearchCheck(RestClient esRestClient) throws IOException {
+    Map<String, Object> jsonMap = performRequest(esRestClient, "GET", "/");
+
+    String version = DoraUtils.extractElasticsearchVersion(jsonMap);
+    String clusterName = DoraUtils.extractElasticsearchClusterName(jsonMap);
+    String healthyMsg = String.format(HEALTHY_ELASTICSEARCH_MSG, version, clusterName);
+
+    LOGGER.info(healthyMsg);
+    return Result.healthy(healthyMsg);
   }
 
   Map<String, Object> performRequest(RestClient esRestClient, String method, String endpoint) throws IOException {

@@ -1,6 +1,7 @@
 package gov.ca.cwds.dora;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import gov.ca.cwds.rest.ElasticsearchConfiguration;
 import gov.ca.cwds.rest.api.DoraException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,7 +12,13 @@ import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.stream.Stream;
 import org.apache.http.HttpHost;
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.http.client.CredentialsProvider;
+import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.elasticsearch.client.Response;
+import org.elasticsearch.client.RestClient;
+import org.elasticsearch.client.RestClientBuilder;
 import org.jadira.usertype.spi.utils.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,6 +61,21 @@ public final class DoraUtils {
 
   private static String getHost(String[] hostPortPair) {
     return hostPortPair.length > 0 ? hostPortPair[0] : "";
+  }
+
+  public static RestClient createElasticsearchClient(ElasticsearchConfiguration esConfig) {
+    HttpHost[] httpHosts = parseNodes(esConfig.getNodes());
+    final CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
+    credentialsProvider.setCredentials(AuthScope.ANY,
+        new UsernamePasswordCredentials(esConfig.getUser(),
+            esConfig.getPassword()));
+
+    RestClientBuilder restClientBuilder = RestClient
+        .builder(httpHosts)
+        .setHttpClientConfigCallback(
+            httpClientBuilder -> httpClientBuilder
+                .setDefaultCredentialsProvider(credentialsProvider));
+    return restClientBuilder.build();
   }
 
   @SuppressWarnings("unchecked")
