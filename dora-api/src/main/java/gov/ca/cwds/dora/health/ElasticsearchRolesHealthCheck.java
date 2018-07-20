@@ -1,8 +1,8 @@
 package gov.ca.cwds.dora.health;
 
 import com.google.inject.Inject;
-import gov.ca.cwds.dora.DoraUtils;
 import gov.ca.cwds.rest.ElasticsearchConfiguration;
+import gov.ca.cwds.rest.EsRestClientManager;
 import org.elasticsearch.client.RestClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,8 +15,7 @@ import java.util.Map;
  */
 public class ElasticsearchRolesHealthCheck extends ElasticsearchHealthCheck {
 
-  private static final Logger LOGGER = LoggerFactory
-      .getLogger(ElasticsearchRolesHealthCheck.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(ElasticsearchRolesHealthCheck.class);
 
   static final String ES_ROLES_ENDPOINT = "/_xpack/security/role?pretty";
 
@@ -24,6 +23,9 @@ public class ElasticsearchRolesHealthCheck extends ElasticsearchHealthCheck {
   static final String UNHEALTHY_ES_ROLES_MSG = "[%s] role does not exist on the server.";
 
   private String roleName;
+
+  @Inject
+  private EsRestClientManager esRestClientManager;
 
   /**
    * Constructor
@@ -43,7 +45,8 @@ public class ElasticsearchRolesHealthCheck extends ElasticsearchHealthCheck {
       return result;
     }
 
-    try (RestClient esRestClient = DoraUtils.createElasticsearchClient(esConfig)) {
+    try {
+      RestClient esRestClient = esRestClientManager.getEsRestClient();
       Map<String, Object> jsonMap = performRequest(esRestClient, "GET", ES_ROLES_ENDPOINT);
 
       if (jsonMap.get(roleName) == null) {

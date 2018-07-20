@@ -1,5 +1,7 @@
 package gov.ca.cwds.inject;
 
+import static gov.ca.cwds.dora.DoraUtils.parseNodes;
+
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Provides;
@@ -14,6 +16,13 @@ import gov.ca.cwds.rest.resources.SwaggerResource;
 import gov.ca.cwds.rest.resources.SystemInformationResource;
 import gov.ca.cwds.rest.resources.TokenResource;
 import java.io.IOException;
+import org.apache.http.HttpHost;
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.http.client.CredentialsProvider;
+import org.apache.http.impl.client.BasicCredentialsProvider;
+import org.elasticsearch.client.RestClient;
+import org.elasticsearch.client.RestClientBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -78,5 +87,22 @@ public class ResourcesModule extends AbstractModule {
       }
     });
     return fieldFilters;
+  }
+
+  @Provides
+  @Inject
+  public RestClient provideEsRestClient(ElasticsearchConfiguration esConfig) {
+    HttpHost[] httpHosts = parseNodes(esConfig.getNodes());
+    final CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
+    credentialsProvider.setCredentials(AuthScope.ANY,
+        new UsernamePasswordCredentials(esConfig.getUser(),
+            esConfig.getPassword()));
+
+    RestClientBuilder restClientBuilder = RestClient
+        .builder(httpHosts)
+        .setHttpClientConfigCallback(
+            httpClientBuilder -> httpClientBuilder
+                .setDefaultCredentialsProvider(credentialsProvider));
+    return restClientBuilder.build();
   }
 }

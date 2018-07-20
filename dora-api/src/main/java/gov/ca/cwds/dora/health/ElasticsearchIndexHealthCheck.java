@@ -3,6 +3,7 @@ package gov.ca.cwds.dora.health;
 import com.google.inject.Inject;
 import gov.ca.cwds.dora.DoraUtils;
 import gov.ca.cwds.rest.ElasticsearchConfiguration;
+import gov.ca.cwds.rest.EsRestClientManager;
 import java.io.IOException;
 import java.util.List;
 
@@ -15,8 +16,7 @@ import org.slf4j.LoggerFactory;
  */
 public class ElasticsearchIndexHealthCheck extends ElasticsearchHealthCheck {
 
-  private static final Logger LOGGER = LoggerFactory
-      .getLogger(ElasticsearchIndexHealthCheck.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(ElasticsearchIndexHealthCheck.class);
 
   static final String ES_INDEXES_ENDPOINT = "/_cat/indices?format=json&pretty";
 
@@ -24,6 +24,9 @@ public class ElasticsearchIndexHealthCheck extends ElasticsearchHealthCheck {
   static final String UNHEALTHY_ES_INDEX_MSG = "[%s] index does not exist on the server.";
 
   private String indexName;
+
+  @Inject
+  private EsRestClientManager esRestClientManager;
 
   /**
    * Constructor
@@ -43,7 +46,8 @@ public class ElasticsearchIndexHealthCheck extends ElasticsearchHealthCheck {
       return result;
     }
 
-    try (RestClient esRestClient = DoraUtils.createElasticsearchClient(esConfig)) {
+    try {
+      RestClient esRestClient = esRestClientManager.getEsRestClient();
       List<Object> jsonList = performRequestList(esRestClient, "GET", ES_INDEXES_ENDPOINT);
 
       if (!DoraUtils.isIndexExist(jsonList, indexName)) {

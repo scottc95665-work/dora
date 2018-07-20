@@ -1,6 +1,5 @@
 package gov.ca.cwds.dora;
 
-import gov.ca.cwds.rest.ElasticsearchConfiguration;
 import gov.ca.cwds.security.realm.PerrySubject;
 import org.apache.http.HttpHost;
 import org.junit.Test;
@@ -11,8 +10,6 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 
 import static org.junit.Assert.*;
-import static org.powermock.api.mockito.PowerMockito.mockStatic;
-import static org.powermock.api.mockito.PowerMockito.when;
 
 /**
  * CWDS API Team
@@ -32,26 +29,5 @@ public class DoraUtilsTest {
 
     assertEquals("b", httpHosts[1].getHostName());
     assertEquals(-1, httpHosts[1].getPort());
-  }
-
-  @Test
-  public void testCreateElasticsearchClient() {
-    ElasticsearchConfiguration esConfig = new ElasticsearchConfiguration();
-    esConfig.setNodes("localhost:9200");
-    esConfig.setUser("user");
-    esConfig.setPassword("password");
-    assertNotNull(DoraUtils.createElasticsearchClient(esConfig));
-  }
-
-  @Test
-  public void createAuthorizedElasticsearchClient() {
-    mockStatic(PerrySubject.class);
-    when(PerrySubject.getToken()).thenReturn("");
-
-    ElasticsearchConfiguration esConfig = new ElasticsearchConfiguration();
-    esConfig.setNodes("localhost:9200");
-    esConfig.setUser("user");
-    esConfig.setPassword("password");
-    assertNotNull(DoraUtils.createXpackElasticsearchClient(esConfig));
   }
 }

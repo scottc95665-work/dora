@@ -3,6 +3,7 @@ package gov.ca.cwds.dora.health;
 import com.google.inject.Inject;
 import gov.ca.cwds.dora.DoraUtils;
 import gov.ca.cwds.rest.ElasticsearchConfiguration;
+import gov.ca.cwds.rest.EsRestClientManager;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Optional;
@@ -25,6 +26,9 @@ public class ElasticsearchPluginHealthCheck extends ElasticsearchHealthCheck {
 
   private String pluginName;
 
+  @Inject
+  private EsRestClientManager esRestClientManager;
+
   /**
    * Constructor
    *
@@ -43,7 +47,8 @@ public class ElasticsearchPluginHealthCheck extends ElasticsearchHealthCheck {
       return result;
     }
 
-    try (RestClient esRestClient = DoraUtils.createElasticsearchClient(esConfig)) {
+    try {
+      RestClient esRestClient = esRestClientManager.getEsRestClient();
       Map<String, Object> jsonMap = performRequest(esRestClient, "GET", ES_PLUGINS_ENDPOINT);
 
       Optional<String> badEsNodesOptional = DoraUtils.extractNodesWithoutPlugin(jsonMap, pluginName)

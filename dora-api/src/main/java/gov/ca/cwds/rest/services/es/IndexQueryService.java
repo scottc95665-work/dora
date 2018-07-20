@@ -1,5 +1,7 @@
 package gov.ca.cwds.rest.services.es;
 
+import gov.ca.cwds.rest.ElasticsearchConfiguration;
+import gov.ca.cwds.rest.EsRestClientManager;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -10,19 +12,19 @@ import javax.script.ScriptException;
 import javax.ws.rs.HttpMethod;
 import com.google.common.base.Strings;
 import com.google.inject.Inject;
-import gov.ca.cwds.dora.DoraUtils;
 import gov.ca.cwds.dora.security.FieldFilterScript;
 import gov.ca.cwds.dora.security.FieldFilters;
 import gov.ca.cwds.dora.security.intake.IntakeAccount;
-import gov.ca.cwds.rest.ElasticsearchConfiguration;
 import gov.ca.cwds.rest.api.DoraException;
 import gov.ca.cwds.rest.api.ElasticsearchException;
 import gov.ca.cwds.rest.api.domain.es.IndexQueryRequest;
 import gov.ca.cwds.rest.api.domain.es.IndexQueryResponse;
 import gov.ca.cwds.security.realm.PerrySubject;
 import org.apache.commons.io.IOUtils;
+import org.apache.http.Header;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.message.BasicHeader;
 import org.elasticsearch.client.Response;
 import org.elasticsearch.client.ResponseException;
 import org.elasticsearch.client.RestClient;
@@ -45,6 +47,9 @@ public class IndexQueryService {
 
   @Inject
   private ElasticsearchConfiguration esConfig;
+
+  @Inject
+  private EsRestClientManager esRestClientManager;
 
   @Inject
   private FieldFilters fieldFilters;
@@ -120,29 +125,23 @@ public class IndexQueryService {
     checkArgument(!Strings.isNullOrEmpty(documentType), "type cannot be Null or empty");
     checkArgument(!Strings.isNullOrEmpty(query), "query cannot be Null or empty");
 
-    RestClient client = null;
     try {
-      if (esConfig.getXpack() != null && esConfig.getXpack().isEnabled()) {
-        client = DoraUtils.createXpackElasticsearchClient(esConfig);
-      } else {
-        client = DoraUtils.createElasticsearchClient(esConfig);
-      }
-
       StringEntity entity = new StringEntity(query, ContentType.APPLICATION_JSON);
       String endpoint = String.format("/%s/%s/_search", index.trim(), documentType.trim());
-      return performRequest(client, entity, endpoint);
+      return performRequest(entity, endpoint);
     } catch (RuntimeException e) {
       throw new DoraException(e.getMessage(), e);
-    } finally {
-      if (null != client) {
-        client.close();
-      }
     }
   }
 
-  Response performRequest(RestClient client, StringEntity entity, String endpoint)
-      throws IOException {
-    return client.performRequest(HttpMethod.POST, endpoint,
-        Collections.<String, String>emptyMap(), entity);
+  Response performRequest(StringEntity entity, String endpoint) throws IOException {
+    RestClient esRestClient = esRestClientManager.getEsRestClient();
+    if (esConfig.getXpack() != null && esConfig.getXpack().isEnabled()) {
+      Header authHeader = new BasicHeader("Authorization", PerrySubject.getToken());
+      return esRestClient.performRequest(HttpMethod.POST, endpoint, Collections.emptyMap(), entity,
+          authHeader);
+    } else {
+      return esRestClient.performRequest(HttpMethod.POST, endpoint, Collections.emptyMap(), entity);
+    }
   }
 }

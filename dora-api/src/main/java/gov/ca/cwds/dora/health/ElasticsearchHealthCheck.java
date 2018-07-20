@@ -3,6 +3,7 @@ package gov.ca.cwds.dora.health;
 import com.google.inject.Inject;
 import gov.ca.cwds.dora.DoraUtils;
 import gov.ca.cwds.rest.ElasticsearchConfiguration;
+import gov.ca.cwds.rest.EsRestClientManager;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +20,9 @@ public class ElasticsearchHealthCheck extends BasicDoraHealthCheck {
 
   static final String HEALTHY_ELASTICSEARCH_MSG = "Elasticsearch %s in cluster '%s' is up-and-running.";
   static final String UNHEALTHY_ELASTICSEARCH_MSG = "Can't connect to Elasticsearch. Details: ";
+
+  @Inject
+  private EsRestClientManager esRestClientManager;
 
   /**
    * Constructor
@@ -37,7 +41,8 @@ public class ElasticsearchHealthCheck extends BasicDoraHealthCheck {
       return result;
     }
 
-    try (RestClient esRestClient = DoraUtils.createElasticsearchClient(esConfig)) {
+    try {
+      RestClient esRestClient = esRestClientManager.getEsRestClient();
       Map<String, Object> jsonMap = performRequest(esRestClient, "GET", "/");
                                                         
       String version = DoraUtils.extractElasticsearchVersion(jsonMap);
