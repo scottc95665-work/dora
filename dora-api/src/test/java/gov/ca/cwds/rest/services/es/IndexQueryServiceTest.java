@@ -13,7 +13,6 @@ import static org.mockito.Mockito.when;
 
 import gov.ca.cwds.dora.security.FieldFilters;
 import gov.ca.cwds.rest.ElasticsearchConfiguration;
-import gov.ca.cwds.rest.EsRestClientManager;
 import gov.ca.cwds.rest.api.DoraException;
 import gov.ca.cwds.rest.api.domain.es.IndexQueryRequest;
 import io.dropwizard.testing.FixtureHelpers;
@@ -23,10 +22,8 @@ import java.util.HashMap;
 import java.util.Map;
 import org.apache.http.StatusLine;
 import org.apache.http.entity.BasicHttpEntity;
-import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.elasticsearch.client.Response;
-import org.elasticsearch.client.RestClient;
 import org.hamcrest.junit.ExpectedException;
 import org.junit.Before;
 import org.junit.Rule;
@@ -117,27 +114,5 @@ public class IndexQueryServiceTest {
     doReturn(response).when(target).performRequest(any(StringEntity.class), anyString());
 
     assertNotNull(target.callElasticsearch("people", "person", "{}"));
-  }
-
-  @Test
-  public void testPerformRequest() throws IOException {
-    ElasticsearchConfiguration esConfig = new ElasticsearchConfiguration();
-    esConfig.setUser("user");
-    esConfig.setPassword("password");
-    esConfig.setNodes("localhost:1");
-    Whitebox.setInternalState(target, "esConfig", esConfig);
-
-    Response response = mock(Response.class);
-    RestClient mockRestClient = mock(RestClient.class);
-    doReturn(response).when(mockRestClient).performRequest(anyString(), anyString(), anyMap(),
-        any(StringEntity.class));
-
-    EsRestClientManager mockEsRestClientManager = mock(EsRestClientManager.class);
-    doReturn(mockRestClient).when(mockEsRestClientManager).getEsRestClient();
-
-    Whitebox.setInternalState(target, "esRestClientManager", mockEsRestClientManager);
-
-    StringEntity stringEntity = new StringEntity("{}", ContentType.APPLICATION_JSON);
-    assertNotNull(target.performRequest(stringEntity, "/people/person/_search"));
   }
 }

@@ -1,7 +1,7 @@
 package gov.ca.cwds.rest.services.es;
 
 import gov.ca.cwds.rest.ElasticsearchConfiguration;
-import gov.ca.cwds.rest.EsRestClientManager;
+import gov.ca.cwds.inject.EsRestClientManager;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
