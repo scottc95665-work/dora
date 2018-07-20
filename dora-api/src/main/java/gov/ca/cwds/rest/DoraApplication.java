@@ -8,6 +8,7 @@ import com.google.inject.Module;
 import gov.ca.cwds.dora.DoraUtils;
 import gov.ca.cwds.dora.health.*;
 import gov.ca.cwds.inject.ApplicationModule;
+import gov.ca.cwds.managed.EsRestClientManager;
 import gov.ca.cwds.rest.filters.RequestResponseLoggingFilter;
 import gov.ca.cwds.rest.resources.SwaggerResource;
 import io.dropwizard.assets.AssetsBundle;
@@ -101,6 +102,10 @@ public final class DoraApplication extends BaseApiApplication<DoraConfiguration>
 
     LOGGER.info("Configuring SWAGGER");
     configureSwagger(configuration, environment);
+
+    EsRestClientManager esRestClientManager =
+        new EsRestClientManager(configuration.getElasticsearchConfiguration());
+    environment.lifecycle().manage(esRestClientManager);
   }
 
   private static void configureCors(final Environment environment) {

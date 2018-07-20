@@ -9,7 +9,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
-import gov.ca.cwds.inject.EsRestClientManager;
+import gov.ca.cwds.managed.EsRestClientManager;
 import gov.ca.cwds.rest.ElasticsearchConfiguration;
 import gov.ca.cwds.rest.ElasticsearchConfiguration.XpackConfiguration;
 import gov.ca.cwds.security.realm.PerrySubject;

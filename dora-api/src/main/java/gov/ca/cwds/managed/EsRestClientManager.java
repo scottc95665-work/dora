@@ -1,8 +1,7 @@
-package gov.ca.cwds.inject;
+package gov.ca.cwds.managed;
 
 import static gov.ca.cwds.dora.DoraUtils.createElasticsearchClient;
 
-import com.google.inject.Inject;
 import gov.ca.cwds.rest.ElasticsearchConfiguration;
 import gov.ca.cwds.rest.api.DoraException;
 import io.dropwizard.lifecycle.Managed;
@@ -18,7 +17,6 @@ public class EsRestClientManager implements Managed {
 
   private static RestClient esRestClient;
 
-  @Inject
   public EsRestClientManager(ElasticsearchConfiguration esConfig) {
     esRestClient = Optional.ofNullable(esRestClient).orElse(createElasticsearchClient(esConfig));
     LOGGER.info("\n********* Elasticsearch Rest Client is created *********");
