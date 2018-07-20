@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
-import java.util.Date;
 import java.util.Map;
 import javax.script.ScriptException;
 import javax.ws.rs.HttpMethod;
@@ -34,7 +33,9 @@ import org.slf4j.LoggerFactory;
 
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static gov.ca.cwds.dora.DoraUtils.*;
+import static gov.ca.cwds.dora.DoraUtils.getElasticSearchSearchResultCount;
+import static gov.ca.cwds.dora.DoraUtils.getElasticSearchSearchTime;
+import static gov.ca.cwds.dora.DoraUtils.stringToJsonMap;
 
 /**
  * Business service for Index Query.
@@ -49,9 +50,6 @@ public class IndexQueryService {
   private ElasticsearchConfiguration esConfig;
 
   @Inject
-  private EsRestClientManager esRestClientManager;
-
-  @Inject
   private FieldFilters fieldFilters;
 
   /**
@@ -62,7 +60,7 @@ public class IndexQueryService {
   }
 
   public IndexQueryResponse handleRequest(IndexQueryRequest req) {
-    long timeBeforeHandleRequest = new Date().getTime();
+    long timeBeforeHandleRequest = System.currentTimeMillis();
 
     checkArgument(req != null, "query cannot be Null or empty");
     @SuppressWarnings("unchecked")
@@ -72,10 +70,10 @@ public class IndexQueryService {
     LOGGER.info("User is searching for '{}' in Elasticsearch index '{}'", documentType, index);
 
     try {
-      long timeBeforeCallES = new Date().getTime();
+      long timeBeforeCallES = System.currentTimeMillis();
       Response response = callElasticsearch(index, documentType, query);
       LOGGER.info("Dora took {} milliseconds to call Elasticsearch",
-          new Date().getTime() - timeBeforeCallES);
+          System.currentTimeMillis() - timeBeforeCallES);
 
       InputStream content = response.getEntity().getContent();
       String esResponse = IOUtils.toString(content, StandardCharsets.UTF_8.toString());
@@ -99,7 +97,7 @@ public class IndexQueryService {
       }
 
       LOGGER.info("Dora took {} milliseconds to handle request",
-          new Date().getTime() - timeBeforeHandleRequest);
+          System.currentTimeMillis() - timeBeforeHandleRequest);
       return new IndexQueryResponse(filteredResponse);
     } catch (ResponseException e) {
       throw new ElasticsearchException(e);
@@ -135,7 +133,7 @@ public class IndexQueryService {
   }
 
   Response performRequest(StringEntity entity, String endpoint) throws IOException {
-    RestClient esRestClient = esRestClientManager.getEsRestClient();
+    RestClient esRestClient = EsRestClientManager.getEsRestClient();
     if (esConfig.getXpack() != null && esConfig.getXpack().isEnabled()) {
       Header authHeader = new BasicHeader("Authorization", PerrySubject.getToken());
       return esRestClient.performRequest(HttpMethod.POST, endpoint, Collections.emptyMap(), entity,

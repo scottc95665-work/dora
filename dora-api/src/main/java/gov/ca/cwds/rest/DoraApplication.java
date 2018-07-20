@@ -101,9 +101,6 @@ public final class DoraApplication extends BaseApiApplication<DoraConfiguration>
 
     LOGGER.info("Configuring SWAGGER");
     configureSwagger(configuration, environment);
-
-    EsRestClientManager esRestClientManager = new EsRestClientManager();
-    environment.lifecycle().manage(esRestClientManager);
   }
 
   private static void configureCors(final Environment environment) {

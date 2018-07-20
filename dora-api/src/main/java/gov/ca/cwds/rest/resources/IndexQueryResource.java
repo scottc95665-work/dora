@@ -3,6 +3,7 @@ package gov.ca.cwds.rest.resources;
 import static gov.ca.cwds.dora.DoraUtils.escapeCRLF;
 import static gov.ca.cwds.rest.DoraConstants.RESOURCE_ELASTICSEARCH_INDEX_QUERY;
 
+import com.codahale.metrics.annotation.Timed;
 import com.google.inject.Inject;
 import gov.ca.cwds.rest.api.domain.es.IndexQueryRequest;
 import gov.ca.cwds.rest.api.domain.es.IndexQueryResponse;
@@ -64,6 +65,7 @@ public class IndexQueryResource {
    * @return web service response
    */
   @POST
+  @Timed
   @Path("/{index}/{type}/_search")
   @ApiResponses(value = {@ApiResponse(code = 400, message = "Unable to process JSON"),
       @ApiResponse(code = 401, message = "Not Authorized"),

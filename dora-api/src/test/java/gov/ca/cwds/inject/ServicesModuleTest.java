@@ -19,8 +19,6 @@ import org.junit.rules.ExpectedException;
  */
 public class ServicesModuleTest {
 
-  private EsRestClientModule esRestClientModule;
-
   private ServicesModule servicesModule;
 
   @Rule
@@ -28,13 +26,12 @@ public class ServicesModuleTest {
 
   @Before
   public void init() {
-    esRestClientModule = new EsRestClientModule();
     servicesModule = new ServicesModule();
   }
 
   @Test
   public void testConfigure() {
-    Injector injector = Guice.createInjector(servicesModule, esRestClientModule);
+    Injector injector = Guice.createInjector(servicesModule);
     ServicesModule servicesModule = injector.getInstance(ServicesModule.class);
     assertNotNull(servicesModule);
   }
