@@ -1,9 +1,8 @@
 package gov.ca.cwds.dora.health;
 
-import static gov.ca.cwds.dora.DoraUtils.createElasticsearchClient;
-
 import com.google.inject.Inject;
 import gov.ca.cwds.dora.DoraUtils;
+import gov.ca.cwds.managed.EsRestClientManager;
 import gov.ca.cwds.rest.ElasticsearchConfiguration;
 import java.io.IOException;
 import java.util.List;
@@ -39,8 +38,8 @@ public class ElasticsearchHealthCheck extends BasicDoraHealthCheck {
       return result;
     }
 
-    try (RestClient esRestClient = createElasticsearchClient(esConfig)) {
-      return elasticsearchCheck(esRestClient);
+    try {
+      return elasticsearchCheck(EsRestClientManager.getEsRestClient());
     } catch (IOException e) {
       LOGGER.error("I/O error while hitting Elasticsearch", e);
       return Result.unhealthy(UNHEALTHY_ELASTICSEARCH_MSG + e.getMessage());

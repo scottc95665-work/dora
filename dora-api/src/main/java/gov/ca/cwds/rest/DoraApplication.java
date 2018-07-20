@@ -80,6 +80,10 @@ public final class DoraApplication extends BaseApiApplication<DoraConfiguration>
   @SuppressWarnings("findsecbugs:CRLF_INJECTION_LOGS")
   // DoraConfiguration and system-information.properties are trusted sources
   public final void runInternal(final DoraConfiguration configuration, final Environment environment) {
+    EsRestClientManager esRestClientManager =
+        new EsRestClientManager(configuration.getElasticsearchConfiguration());
+    environment.lifecycle().manage(esRestClientManager);
+
     //register and run application health checks
     registerHealthChecks(configuration, environment);
     runHealthChecks(environment);
@@ -102,10 +106,6 @@ public final class DoraApplication extends BaseApiApplication<DoraConfiguration>
 
     LOGGER.info("Configuring SWAGGER");
     configureSwagger(configuration, environment);
-
-    EsRestClientManager esRestClientManager =
-        new EsRestClientManager(configuration.getElasticsearchConfiguration());
-    environment.lifecycle().manage(esRestClientManager);
   }
 
   private static void configureCors(final Environment environment) {
