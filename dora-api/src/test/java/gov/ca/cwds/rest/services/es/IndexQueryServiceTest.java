@@ -3,9 +3,9 @@ package gov.ca.cwds.rest.services.es;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.anyMap;
-import static org.mockito.Matchers.anyObject;
-import static org.mockito.Matchers.anyString;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyMap;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
@@ -22,13 +22,13 @@ import java.util.HashMap;
 import java.util.Map;
 import org.apache.http.StatusLine;
 import org.apache.http.entity.BasicHttpEntity;
+import org.apache.http.entity.StringEntity;
 import org.elasticsearch.client.Response;
 import org.hamcrest.junit.ExpectedException;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.InjectMocks;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 import org.powermock.reflect.Whitebox;
@@ -52,12 +52,12 @@ public class IndexQueryServiceTest {
   }
 
   @Test
-  public void type() throws Exception {
+  public void type() {
     assertThat(IndexQueryService.class, notNullValue());
   }
 
   @Test
-  public void instantiation() throws Exception {
+  public void instantiation() {
     assertThat(target, notNullValue());
   }
 
@@ -84,7 +84,7 @@ public class IndexQueryServiceTest {
     entity.setContent(new ByteArrayInputStream(fixture.getBytes()));
     when(response.getEntity()).thenReturn(entity);
 
-    doReturn(response).when(target).callElasticsearch(Mockito.anyString(), Mockito.anyString(), Mockito.anyString());
+    doReturn(response).when(target).performRequest(any(StringEntity.class), anyString());
 
     assertNotNull(target.handleRequest(req));
   }
@@ -97,9 +97,9 @@ public class IndexQueryServiceTest {
     esConfig.setXpack(xpackConfiguration);
     Whitebox.setInternalState(target, "esConfig", esConfig);
     doThrow(new DoraException("")).when(target)
-        .callElasticsearch(Mockito.anyObject(), Mockito.anyString(), Mockito.anyString());
+        .performRequest(any(StringEntity.class), anyString());
     thrown.expect(DoraException.class);
-    target.callElasticsearch("http://localhost:8080", "{}", "");
+    target.callElasticsearch("http://localhost:8080", "{}", "{}");
   }
 
   @Test
@@ -111,7 +111,7 @@ public class IndexQueryServiceTest {
     Whitebox.setInternalState(target, "esConfig", esConfig);
 
     Response response = mock(Response.class);
-    doReturn(response).when(target).performRequest(anyObject(), anyObject(), anyString());
+    doReturn(response).when(target).performRequest(any(StringEntity.class), anyString());
 
     assertNotNull(target.callElasticsearch("people", "person", "{}"));
   }

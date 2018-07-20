@@ -2,6 +2,7 @@ package gov.ca.cwds.dora.health;
 
 import com.google.inject.Inject;
 import gov.ca.cwds.dora.DoraUtils;
+import gov.ca.cwds.managed.EsRestClientManager;
 import gov.ca.cwds.rest.ElasticsearchConfiguration;
 import java.io.IOException;
 import java.util.List;
@@ -37,20 +38,23 @@ public class ElasticsearchHealthCheck extends BasicDoraHealthCheck {
       return result;
     }
 
-    try (RestClient esRestClient = DoraUtils.createElasticsearchClient(esConfig)) {
-      Map<String, Object> jsonMap = performRequest(esRestClient, "GET", "/");
-                                                        
-      String version = DoraUtils.extractElasticsearchVersion(jsonMap);
-      String clusterName = DoraUtils.extractElasticsearchClusterName(jsonMap);
-      String healthyMsg = String.format(HEALTHY_ELASTICSEARCH_MSG, version, clusterName);
-
-      LOGGER.info(healthyMsg);
-      return Result.healthy(healthyMsg);
-
+    try {
+      return elasticsearchCheck(EsRestClientManager.getEsRestClient());
     } catch (IOException e) {
       LOGGER.error("I/O error while hitting Elasticsearch", e);
       return Result.unhealthy(UNHEALTHY_ELASTICSEARCH_MSG + e.getMessage());
     }
+  }
+
+  protected Result elasticsearchCheck(RestClient esRestClient) throws IOException {
+    Map<String, Object> jsonMap = performRequest(esRestClient, "GET", "/");
+
+    String version = DoraUtils.extractElasticsearchVersion(jsonMap);
+    String clusterName = DoraUtils.extractElasticsearchClusterName(jsonMap);
+    String healthyMsg = String.format(HEALTHY_ELASTICSEARCH_MSG, version, clusterName);
+
+    LOGGER.info(healthyMsg);
+    return Result.healthy(healthyMsg);
   }
 
   Map<String, Object> performRequest(RestClient esRestClient, String method, String endpoint) throws IOException {

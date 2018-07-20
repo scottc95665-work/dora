@@ -19,33 +19,32 @@ import org.junit.rules.ExpectedException;
  */
 public class ServicesModuleTest {
 
-  private ServicesModule module;
+  private ServicesModule servicesModule;
 
   @Rule
   public ExpectedException thrown = ExpectedException.none();
 
   @Before
-  public void init() throws Exception {
-    module = new ServicesModule();
+  public void init() {
+    servicesModule = new ServicesModule();
   }
 
   @Test
-  public void testConfigure() throws Exception {
-    Injector injector = Guice.createInjector(module);
+  public void testConfigure() {
+    Injector injector = Guice.createInjector(servicesModule);
     ServicesModule servicesModule = injector.getInstance(ServicesModule.class);
     assertNotNull(servicesModule);
   }
 
   @Test
-  public void testValidatorShouldThrowIllegalArgumentException() throws Exception {
+  public void testValidatorShouldThrowIllegalArgumentException() {
     thrown.expect(IllegalArgumentException.class);
-    Set<ConstraintViolation<IndexQueryRequest>> violations = module.provideValidator()
-        .validate(null);
+    servicesModule.provideValidator().validate(null);
   }
 
   @Test
-  public void testValidator() throws Exception {
-    Validator validator = module.provideValidator();
+  public void testValidator() {
+    Validator validator = servicesModule.provideValidator();
     IndexQueryRequest target = new IndexQueryRequest(null, null, null);
     Set<ConstraintViolation<IndexQueryRequest>> constraintViolations = validator
         .validateProperty(target, "query");

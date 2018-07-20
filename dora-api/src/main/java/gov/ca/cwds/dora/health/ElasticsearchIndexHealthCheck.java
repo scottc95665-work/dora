@@ -15,8 +15,7 @@ import org.slf4j.LoggerFactory;
  */
 public class ElasticsearchIndexHealthCheck extends ElasticsearchHealthCheck {
 
-  private static final Logger LOGGER = LoggerFactory
-      .getLogger(ElasticsearchIndexHealthCheck.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(ElasticsearchIndexHealthCheck.class);
 
   static final String ES_INDEXES_ENDPOINT = "/_cat/indices?format=json&pretty";
 
@@ -37,29 +36,17 @@ public class ElasticsearchIndexHealthCheck extends ElasticsearchHealthCheck {
   }
 
   @Override
-  protected Result check() throws Exception {
-    Result result = super.check();
-    if (!result.isHealthy()) {
-      return result;
-    }
-
-    try (RestClient esRestClient = DoraUtils.createElasticsearchClient(esConfig)) {
-      List<Object> jsonList = performRequestList(esRestClient, "GET", ES_INDEXES_ENDPOINT);
-
-      if (!DoraUtils.isIndexExist(jsonList, indexName)) {
-        String unhealthyMsg = String
-            .format(UNHEALTHY_ES_INDEX_MSG, indexName);
-        LOGGER.error(unhealthyMsg);
-        return Result.unhealthy(unhealthyMsg);
-      } else {
-        String healthyMsg = String.format(HEALTHY_ES_INDEX_MSG, indexName);
-        LOGGER.info(healthyMsg);
-        return Result.healthy(healthyMsg);
-      }
-
-    } catch (IOException e) {
-      LOGGER.error("I/O error while hitting Elasticsearch", e);
-      return Result.unhealthy(UNHEALTHY_ELASTICSEARCH_MSG + e.getMessage());
+  protected Result elasticsearchCheck(RestClient esRestClient) throws IOException {
+    List<Object> jsonList = performRequestList(esRestClient, "GET", ES_INDEXES_ENDPOINT);
+    if (!DoraUtils.isIndexExist(jsonList, indexName)) {
+      String unhealthyMsg = String
+          .format(UNHEALTHY_ES_INDEX_MSG, indexName);
+      LOGGER.error(unhealthyMsg);
+      return Result.unhealthy(unhealthyMsg);
+    } else {
+      String healthyMsg = String.format(HEALTHY_ES_INDEX_MSG, indexName);
+      LOGGER.info(healthyMsg);
+      return Result.healthy(healthyMsg);
     }
   }
 }

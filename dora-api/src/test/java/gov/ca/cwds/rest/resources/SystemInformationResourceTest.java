@@ -6,7 +6,6 @@ import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-
 import com.squarespace.jersey2.guice.JerseyGuiceUtils;
 import gov.ca.cwds.dora.dto.HealthCheckResultDTO;
 import gov.ca.cwds.dora.dto.SystemInformationDTO;
@@ -14,7 +13,6 @@ import gov.ca.cwds.rest.BaseDoraApplicationTest;
 import java.util.SortedMap;
 import javax.ws.rs.core.MediaType;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 

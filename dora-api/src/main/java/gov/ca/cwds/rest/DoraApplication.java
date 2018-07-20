@@ -8,6 +8,7 @@ import com.google.inject.Module;
 import gov.ca.cwds.dora.DoraUtils;
 import gov.ca.cwds.dora.health.*;
 import gov.ca.cwds.inject.ApplicationModule;
+import gov.ca.cwds.managed.EsRestClientManager;
 import gov.ca.cwds.rest.filters.RequestResponseLoggingFilter;
 import gov.ca.cwds.rest.resources.SwaggerResource;
 import io.dropwizard.assets.AssetsBundle;
@@ -79,6 +80,10 @@ public final class DoraApplication extends BaseApiApplication<DoraConfiguration>
   @SuppressWarnings("findsecbugs:CRLF_INJECTION_LOGS")
   // DoraConfiguration and system-information.properties are trusted sources
   public final void runInternal(final DoraConfiguration configuration, final Environment environment) {
+    EsRestClientManager esRestClientManager =
+        new EsRestClientManager(configuration.getElasticsearchConfiguration());
+    environment.lifecycle().manage(esRestClientManager);
+
     //register and run application health checks
     registerHealthChecks(configuration, environment);
     runHealthChecks(environment);
