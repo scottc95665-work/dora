@@ -1,7 +1,5 @@
 package gov.ca.cwds.inject;
 
-import static gov.ca.cwds.dora.DoraUtils.createElasticsearchClient;
-
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Provides;
@@ -16,7 +14,6 @@ import gov.ca.cwds.rest.resources.SwaggerResource;
 import gov.ca.cwds.rest.resources.SystemInformationResource;
 import gov.ca.cwds.rest.resources.TokenResource;
 import java.io.IOException;
-import org.elasticsearch.client.RestClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -81,11 +78,5 @@ public class ResourcesModule extends AbstractModule {
       }
     });
     return fieldFilters;
-  }
-
-  @Provides
-  @Inject
-  public RestClient provideEsRestClient(ElasticsearchConfiguration esConfig) {
-    return createElasticsearchClient(esConfig);
   }
 }

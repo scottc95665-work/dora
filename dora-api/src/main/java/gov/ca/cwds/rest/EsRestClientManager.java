@@ -27,9 +27,12 @@ public class EsRestClientManager implements Managed {
   @Override
   public void stop() {
     try {
-      esRestClient.close();
-      LOGGER.info("Elasticsearch client is closed");
+      if (esRestClient != null) {
+        esRestClient.close();
+        LOGGER.info("Elasticsearch client is closed");
+      }
     } catch (IOException e) {
+      LOGGER.error("error closing Elasticsearch client", e);
       throw new DoraException("error closing Elasticsearch client", e);
     }
   }

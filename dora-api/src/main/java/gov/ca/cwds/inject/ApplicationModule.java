@@ -27,6 +27,7 @@ public class ApplicationModule extends AbstractModule {
   protected void configure() {
     install(new ServicesModule());
     install(new ResourcesModule());
+    install(new EsRestClientModule());
     install(new AuditingModule());
     install(new FiltersModule());
   }

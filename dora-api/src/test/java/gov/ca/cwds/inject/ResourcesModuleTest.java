@@ -4,14 +4,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-import com.google.inject.ProvisionException;
 import gov.ca.cwds.rest.DoraConfiguration;
 import gov.ca.cwds.rest.ElasticsearchConfiguration;
 import gov.ca.cwds.rest.SwaggerConfiguration;
-import gov.ca.cwds.rest.resources.SystemInformationResource;
-import gov.ca.cwds.rest.resources.SwaggerResource;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -30,29 +25,29 @@ public class ResourcesModuleTest {
   public ExpectedException thrown = ExpectedException.none();
 
   @Before
-  public void init() throws Exception {
+  public void init() {
     module = new ResourcesModule();
   }
 
   @Test
-  public void testThatResourcesModuleIsCreatedWithDefaultConstructor() throws Exception {
+  public void testThatResourcesModuleIsCreatedWithDefaultConstructor() {
     assertNotNull(module);
   }
 
   @Test
-  public void testConfigureFail() throws Exception {
+  public void testConfigureFail() {
     thrown.expect(IllegalStateException.class);
     module.configure();
   }
 
   @Test
-  public void testSwaggerConfigurationNPE() throws Exception {
+  public void testSwaggerConfigurationNPE() {
     thrown.expect(NullPointerException.class);
     module.swaggerConfiguration(null);
   }
 
   @Test
-  public void testSwaggerConfiguration() throws Exception {
+  public void testSwaggerConfiguration() {
     SwaggerConfiguration testSwaggerConfiguration = new SwaggerConfiguration();
     DoraConfiguration testDoraConfiguration = new DoraConfiguration();
     testDoraConfiguration.setSwaggerConfiguration(testSwaggerConfiguration);
@@ -62,13 +57,13 @@ public class ResourcesModuleTest {
   }
 
   @Test
-  public void testElasticSearchConfigurationNPE() throws Exception {
+  public void testElasticSearchConfigurationNPE() {
     thrown.expect(NullPointerException.class);
     module.elasticSearchConfig(null);
   }
 
   @Test
-  public void testElasticSearchConfiguration() throws Exception {
+  public void testElasticSearchConfiguration() {
     ElasticsearchConfiguration testElasticsearchConfiguration = new ElasticsearchConfiguration();
     DoraConfiguration testDoraConfiguration = new DoraConfiguration();
     testDoraConfiguration.setElasticsearchConfiguration(testElasticsearchConfiguration);
@@ -79,7 +74,7 @@ public class ResourcesModuleTest {
   }
 
   @Test
-  public void testAppName() throws Exception {
+  public void testAppName() {
     DoraConfiguration testDoraConfiguration = new DoraConfiguration();
     String appName = module.provideAppName(testDoraConfiguration);
     assertNull(appName);
@@ -91,7 +86,7 @@ public class ResourcesModuleTest {
   }
 
   @Test
-  public void testAppVersion() throws Exception {
+  public void testAppVersion() {
     String version = module.provideAppVersion();
     assertNotNull(version);
   }
