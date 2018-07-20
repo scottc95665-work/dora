@@ -53,6 +53,6 @@ logging:
       threshold: INFO
       timeZone: UTC
       target: stdout
-      logFormat: '[%X{UNIQUE_ID}] %X{remoteAddress} [%date{ISO8601}] %level "[%X{REQUEST_ID}]" %logger: "%message%n"'
+      logFormat: '[%date{ISO8601}] [LEVEL=%level] [REMOTE_ADDRESS=%X{REMOTE_ADDRESS}] [REQUEST_ID=%X{REQUEST_ID}] [SESSION_ID=%X{SESSION_ID}] [STAFF_ID=%X{STAFF_ID}] [STAFF_COUNTY=%X{STAFF_COUNTY}] [RESPONSE_STATUS=%X{RESPONSE_STATUS}] [THREAD=%thread] [LOGGER=%logger] [MESSAGE=%message] [THROWABLE=%throwable]%n'
 
 version: -UNUSED-

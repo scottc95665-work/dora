@@ -1,4 +1,4 @@
-FROM cwds/javajdk:8u161
+FROM cwds/javajdk
 RUN mkdir /opt/cwds-dora
 RUN mkdir /opt/cwds-dora/logs
 ADD config /opt/cwds-dora/config

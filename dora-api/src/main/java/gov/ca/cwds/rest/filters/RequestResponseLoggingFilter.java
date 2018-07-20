@@ -1,16 +1,12 @@
 package gov.ca.cwds.rest.filters;
 
-import com.google.inject.Inject;
-import gov.ca.cwds.logging.LoggingContext;
-import gov.ca.cwds.logging.LoggingContext.LogParameter;
-import gov.ca.cwds.rest.api.ApiException;
-import gov.ca.cwds.rest.api.domain.DomainChef;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -26,10 +22,19 @@ import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
 import javax.ws.rs.ext.Provider;
+
 import org.apache.commons.compress.utils.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.bouncycastle.util.io.TeeOutputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.google.inject.Inject;
+
+import gov.ca.cwds.auth.PerryUserIdentity;
+import gov.ca.cwds.logging.LoggingContext;
+import gov.ca.cwds.logging.LoggingContext.LogParameter;
+import gov.ca.cwds.rest.api.ApiException;
 
 /**
  * @author CWDS API Team
@@ -59,16 +64,17 @@ public class RequestResponseLoggingFilter implements Filter {
 
     if (request instanceof HttpServletRequest) {
 
-      HttpServletRequest httpServletRequest = (HttpServletRequest) request;
+      final HttpServletRequest httpServletRequest = (HttpServletRequest) request;
+      final HttpServletResponse httpServletResponse = (HttpServletResponse) response;
 
       RequestExecutionContextImpl.startRequest();
 
-      setLoggingContextParameters(uniqueId, httpServletRequest);
+      setLoggingContextParameters(uniqueId, httpServletRequest, httpServletResponse);
 
       RequestResponseLoggingHttpServletRequest wrappedRequest =
           new RequestResponseLoggingHttpServletRequest(httpServletRequest);
 
-      final HttpServletResponse httpServletResponse = (HttpServletResponse) response;
+
       RequestResponseLoggingHttpServletResponseWrapper wrappedResponse =
           new RequestResponseLoggingHttpServletResponseWrapper(httpServletResponse);
 
@@ -84,15 +90,27 @@ public class RequestResponseLoggingFilter implements Filter {
     }
   }
 
-  private void setLoggingContextParameters(String uniqueId, HttpServletRequest httpServletRequest) {
-    loggingContext.setLogParameter(LogParameter.UNIQUE_ID, uniqueId);
-    loggingContext.setLogParameter(LogParameter.USER_ID,
-        RequestExecutionContext.instance().getUserId());
-    loggingContext.setLogParameter(LogParameter.REQUEST_START_TIME,
-        DomainChef.cookStrictTimestamp(RequestExecutionContext.instance().getRequestStartTime()));
-    loggingContext.setLogParameter(LogParameter.REMOTE_ADDRESS,
-        httpServletRequest.getRemoteAddr());
-    loggingContext.setLogParameter(LogParameter.REQUEST_ID, Thread.currentThread().getName());
+  private void setLoggingContextParameters(String uniqueId, HttpServletRequest httpServletRequest,
+      HttpServletResponse httpServletResponse) {
+    PerryUserIdentity user = (PerryUserIdentity) RequestExecutionContext.instance()
+        .get(RequestExecutionContext.Parameter.USER_IDENTITY);
+
+    if (user != null) {
+      loggingContext.setLogParameter(LogParameter.STAFF_ID, user.getStaffId());
+      loggingContext.setLogParameter(LogParameter.STAFF_COUNTY, user.getCountyCwsCode());
+    }
+
+    loggingContext.setLogParameter(LogParameter.REMOTE_ADDRESS, httpServletRequest.getRemoteAddr());
+
+    String sessionId = httpServletRequest.getHeader(LogParameter.SESSION_ID.name());
+    String requestId = httpServletRequest.getHeader(LogParameter.REQUEST_ID.name());
+
+    loggingContext.setLogParameter(LogParameter.REQUEST_ID,
+        StringUtils.isBlank(requestId) ? uniqueId : requestId);
+    loggingContext.setLogParameter(LogParameter.SESSION_ID, sessionId);
+
+    final int responseStatus = httpServletResponse.getStatus();
+    loggingContext.setLogParameter(LogParameter.RESPONSE_STATUS, String.valueOf(responseStatus));
   }
 
   @Override
