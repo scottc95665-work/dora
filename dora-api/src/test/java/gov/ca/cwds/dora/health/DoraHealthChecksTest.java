@@ -13,23 +13,22 @@ import static gov.ca.cwds.dora.health.ElasticsearchPluginHealthCheck.UNHEALTHY_E
 import static gov.ca.cwds.dora.health.ElasticsearchRolesHealthCheck.ES_ROLES_ENDPOINT;
 import static gov.ca.cwds.dora.health.ElasticsearchRolesHealthCheck.HEALTHY_ES_ROLES_MSG;
 import static gov.ca.cwds.dora.health.ElasticsearchRolesHealthCheck.UNHEALTHY_ES_ROLES_MSG;
+import static gov.ca.cwds.rest.BaseDoraApplicationTest.esConfig;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.eq;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.spy;
 
 import com.codahale.metrics.health.HealthCheck.Result;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import gov.ca.cwds.dora.DoraUtils;
 import gov.ca.cwds.rest.ElasticsearchConfiguration;
-import gov.ca.cwds.rest.ElasticsearchConfiguration.XpackConfiguration;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-import org.apache.http.HttpHost;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -58,8 +57,12 @@ public class DoraHealthChecksTest {
 
   @Test
   public void testElasticsearchUnavailable() throws Exception {
-    Result result = new ElasticsearchHealthCheck(esConfig("localhost:9999", false, "user", "password"))
-        .check();
+    ElasticsearchHealthCheck elasticsearchHealthCheck = spy(new ElasticsearchHealthCheck(
+        esConfig("localhost:9999", false, "user", "password")));
+    doThrow(new IOException("")).when(elasticsearchHealthCheck)
+        .performRequest(Mockito.any(), eq("GET"), eq("/"));
+    Result result = elasticsearchHealthCheck.check();
+
     assertNotNull(result);
     assertFalse(result.isHealthy());
     assertTrue(result.getMessage().startsWith(UNHEALTHY_ELASTICSEARCH_MSG));
@@ -200,19 +203,5 @@ public class DoraHealthChecksTest {
   private static List<Object> loadMockResponseList(String resourceFile) throws IOException {
     return new ObjectMapper()
         .readValue(DoraHealthChecksTest.class.getResourceAsStream(resourceFile), List.class);
-  }
-
-  private static ElasticsearchConfiguration esConfig(String nodes, boolean xPackEnabled,
-      String user, String password) {
-    XpackConfiguration xpackConfig = new XpackConfiguration();
-    xpackConfig.setEnabled(xPackEnabled);
-
-    ElasticsearchConfiguration esConfig = new ElasticsearchConfiguration();
-    esConfig.setNodes(nodes);
-    esConfig.setUser(user);
-    esConfig.setPassword(password);
-    esConfig.setXpack(xpackConfig);
-
-    return esConfig;
   }
 }
