@@ -72,7 +72,7 @@ public class IndexQueryService {
     try {
       long timeBeforeCallES = System.currentTimeMillis();
       Response response = callElasticsearch(index, documentType, query);
-      LOGGER.info("Dora took {} milliseconds to call Elasticsearch",
+      LOGGER.debug("Dora took {} milliseconds to call Elasticsearch",
           System.currentTimeMillis() - timeBeforeCallES);
 
       InputStream content = response.getEntity().getContent();
@@ -81,18 +81,18 @@ public class IndexQueryService {
 
       Map<String, Object> esResponseJsonMap = stringToJsonMap(esResponse);
 
-      LOGGER.info("Elastic Search took {} milliseconds to execute the search",
+      LOGGER.debug("Elastic Search took {} milliseconds to execute the search",
           getElasticSearchSearchTime(esResponseJsonMap));
-      LOGGER.info("Elastic Search has {} results in total",
+      LOGGER.debug("Elastic Search has {} results in total",
           getElasticSearchSearchResultCount(esResponseJsonMap));
 
       String filteredResponse;
       FieldFilterScript fieldFilterScript = fieldFilters.getFilter(documentType);
       if (null == fieldFilterScript) {
-        LOGGER.info("Field filtering for document type '{}' is not set", documentType);
+        LOGGER.debug("Field filtering for document type '{}' is not set", documentType);
         filteredResponse = esResponse;
       } else {
-        LOGGER.info("Applying field filtering for document type '{}'", documentType);
+        LOGGER.debug("Applying field filtering for document type '{}'", documentType);
         filteredResponse = applyFieldFiltering(esResponseJsonMap, documentType);
       }
 
