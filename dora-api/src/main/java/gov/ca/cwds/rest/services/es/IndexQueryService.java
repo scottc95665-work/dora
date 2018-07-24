@@ -55,7 +55,7 @@ public class IndexQueryService {
   /**
    * Constructor
    */
-  IndexQueryService() {
+  public IndexQueryService() {
     // no op
   }
 
