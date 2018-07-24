@@ -2,6 +2,7 @@ package gov.ca.cwds.rest.services.es;
 
 import gov.ca.cwds.rest.ElasticsearchConfiguration;
 import gov.ca.cwds.managed.EsRestClientManager;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -21,8 +22,7 @@ import gov.ca.cwds.rest.api.domain.es.IndexQueryResponse;
 import gov.ca.cwds.security.realm.PerrySubject;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.Header;
-import org.apache.http.entity.ContentType;
-import org.apache.http.entity.StringEntity;
+import org.apache.http.entity.InputStreamEntity;
 import org.apache.http.message.BasicHeader;
 import org.elasticsearch.client.Response;
 import org.elasticsearch.client.ResponseException;
@@ -60,18 +60,10 @@ public class IndexQueryService {
   }
 
   public IndexQueryResponse handleRequest(IndexQueryRequest req) {
-    long timeBeforeHandleRequest = System.currentTimeMillis();
-
     checkArgument(req != null, "query cannot be Null or empty");
-    @SuppressWarnings("unchecked")
-    String query = new JSONObject((Map<String, String>) req.getQuery()).toString();
-    String index = req.getIndex();
-    String documentType = req.getType();
-    LOGGER.info("User is searching for '{}' in Elasticsearch index '{}'", documentType, index);
-
     try {
       long timeBeforeCallES = System.currentTimeMillis();
-      Response response = callElasticsearch(index, documentType, query);
+      Response response = callElasticsearch(req);
       LOGGER.debug("Dora took {} milliseconds to call Elasticsearch",
           System.currentTimeMillis() - timeBeforeCallES);
 
@@ -87,17 +79,14 @@ public class IndexQueryService {
           getElasticSearchSearchResultCount(esResponseJsonMap));
 
       String filteredResponse;
-      FieldFilterScript fieldFilterScript = fieldFilters.getFilter(documentType);
-      if (null == fieldFilterScript) {
-        LOGGER.debug("Field filtering for document type '{}' is not set", documentType);
-        filteredResponse = esResponse;
-      } else {
+      String documentType = req.getType();
+      if (fieldFilters.hasFilter(documentType)) {
         LOGGER.debug("Applying field filtering for document type '{}'", documentType);
         filteredResponse = applyFieldFiltering(esResponseJsonMap, documentType);
+      } else {
+        LOGGER.debug("Field filtering for document type '{}' is not defined", documentType);
+        filteredResponse = esResponse;
       }
-
-      LOGGER.info("Dora took {} milliseconds to handle request",
-          System.currentTimeMillis() - timeBeforeHandleRequest);
       return new IndexQueryResponse(filteredResponse);
     } catch (ResponseException e) {
       throw new ElasticsearchException(e);
@@ -117,22 +106,28 @@ public class IndexQueryService {
     }
   }
 
-  Response callElasticsearch(String index, String documentType, String query)
-      throws IOException {
+  Response callElasticsearch(IndexQueryRequest req) throws IOException {
+    final String index = req.getIndex();
+    final String documentType = req.getType();
+    final Object query = req.getQuery();
     checkArgument(!Strings.isNullOrEmpty(index), "index name cannot be Null or empty");
     checkArgument(!Strings.isNullOrEmpty(documentType), "type cannot be Null or empty");
-    checkArgument(!Strings.isNullOrEmpty(query), "query cannot be Null or empty");
+    checkArgument(query != null, "query cannot be Null");
 
+    @SuppressWarnings("unchecked")
+    String queryString = new JSONObject((Map<String, String>) query).toString();
+    checkArgument(!queryString.isEmpty(), "query cannot be empty");
     try {
-      StringEntity entity = new StringEntity(query, ContentType.APPLICATION_JSON);
       String endpoint = String.format("/%s/%s/_search", index.trim(), documentType.trim());
-      return performRequest(entity, endpoint);
+      return performRequest(endpoint, queryString);
     } catch (RuntimeException e) {
       throw new DoraException(e.getMessage(), e);
     }
   }
 
-  Response performRequest(StringEntity entity, String endpoint) throws IOException {
+  Response performRequest(String endpoint, String queryString) throws IOException {
+    InputStreamEntity entity = new InputStreamEntity(
+        new ByteArrayInputStream(queryString.getBytes()));
     RestClient esRestClient = EsRestClientManager.getEsRestClient();
     if (esConfig.getXpack() != null && esConfig.getXpack().isEnabled()) {
       Header authHeader = new BasicHeader("Authorization", PerrySubject.getToken());

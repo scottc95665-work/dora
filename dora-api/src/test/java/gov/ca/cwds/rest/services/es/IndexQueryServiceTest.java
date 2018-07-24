@@ -3,7 +3,6 @@ package gov.ca.cwds.rest.services.es;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyMap;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doReturn;
@@ -22,7 +21,6 @@ import java.util.HashMap;
 import java.util.Map;
 import org.apache.http.StatusLine;
 import org.apache.http.entity.BasicHttpEntity;
-import org.apache.http.entity.StringEntity;
 import org.elasticsearch.client.Response;
 import org.hamcrest.junit.ExpectedException;
 import org.junit.Before;
@@ -84,7 +82,7 @@ public class IndexQueryServiceTest {
     entity.setContent(new ByteArrayInputStream(fixture.getBytes()));
     when(response.getEntity()).thenReturn(entity);
 
-    doReturn(response).when(target).performRequest(any(StringEntity.class), anyString());
+    doReturn(response).when(target).performRequest(anyString(), anyString());
 
     assertNotNull(target.handleRequest(req));
   }
@@ -97,9 +95,9 @@ public class IndexQueryServiceTest {
     esConfig.setXpack(xpackConfiguration);
     Whitebox.setInternalState(target, "esConfig", esConfig);
     doThrow(new DoraException("")).when(target)
-        .performRequest(any(StringEntity.class), anyString());
+        .performRequest(anyString(), anyString());
     thrown.expect(DoraException.class);
-    target.callElasticsearch("http://localhost:8080", "{}", "{}");
+    target.callElasticsearch(new IndexQueryRequest("http://localhost:8080", "{}", "{}"));
   }
 
   @Test
@@ -111,8 +109,8 @@ public class IndexQueryServiceTest {
     Whitebox.setInternalState(target, "esConfig", esConfig);
 
     Response response = mock(Response.class);
-    doReturn(response).when(target).performRequest(any(StringEntity.class), anyString());
+    doReturn(response).when(target).performRequest(anyString(), anyString());
 
-    assertNotNull(target.callElasticsearch("people", "person", "{}"));
+    assertNotNull(target.callElasticsearch(new IndexQueryRequest("people", "person", "{}")));
   }
 }

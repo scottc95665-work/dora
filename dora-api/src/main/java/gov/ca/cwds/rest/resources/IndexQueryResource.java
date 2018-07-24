@@ -101,6 +101,6 @@ public class IndexQueryResource {
     String idxStr = escapeCRLF(index);
     String typeStr = escapeCRLF(type);
     String regStr = escapeCRLF((null != req) ? req.toString() : null);
-    LOGGER.info("index: {}. type: {} query: {}", idxStr, typeStr, regStr);
+    LOGGER.info("index: {} type: {} query: {}", idxStr, typeStr, regStr);
   }
 }
