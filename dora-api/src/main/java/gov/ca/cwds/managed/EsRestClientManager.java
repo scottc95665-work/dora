@@ -19,7 +19,7 @@ public class EsRestClientManager implements Managed {
 
   public EsRestClientManager(ElasticsearchConfiguration esConfig) {
     esRestClient = Optional.ofNullable(esRestClient).orElse(createElasticsearchClient(esConfig));
-    LOGGER.info("\n********* Elasticsearch Rest Client is created *********");
+    LOGGER.info("********* Elasticsearch Rest Client is created *********");
   }
 
   @Override
@@ -27,14 +27,19 @@ public class EsRestClientManager implements Managed {
     // no-op
   }
 
+  /**
+   * This code is executed only once at the application start if properly managed.
+   * E.g. environment.lifecycle().manage(...)
+   * The EsRestClientManager should <b>not</b> be managed by guice.
+   */
   @Override
   public void stop() {
     try {
-      LOGGER.debug("\n********* EsRestClientManager stop is invoked *********");
+      LOGGER.debug("********* EsRestClientManager stop is invoked *********");
       if (esRestClient != null) {
         esRestClient.close();
         esRestClient = null;
-        LOGGER.info("\n********* Elasticsearch client is closed *********");
+        LOGGER.info("********* Elasticsearch client is closed *********");
       }
     } catch (IOException e) {
       LOGGER.error("error closing Elasticsearch client", e);

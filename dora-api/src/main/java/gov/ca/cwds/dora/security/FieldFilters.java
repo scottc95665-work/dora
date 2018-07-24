@@ -21,4 +21,8 @@ public class FieldFilters {
   public FieldFilterScript getFilter(String documentType) {
     return filters.get(documentType);
   }
+
+  public boolean hasFilter(String documentType) {
+    return filters.containsKey(documentType);
+  }
 }
