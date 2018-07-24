@@ -97,7 +97,7 @@ public class IndexQueryServiceTest {
     doThrow(new DoraException("")).when(target)
         .performRequest(anyString(), anyString());
     thrown.expect(DoraException.class);
-    target.callElasticsearch(new IndexQueryRequest("http://localhost:8080", "{}", "{}"));
+    target.callElasticsearch(new IndexQueryRequest("http://localhost:8080", "{}", new HashMap()));
   }
 
   @Test
@@ -111,6 +111,6 @@ public class IndexQueryServiceTest {
     Response response = mock(Response.class);
     doReturn(response).when(target).performRequest(anyString(), anyString());
 
-    assertNotNull(target.callElasticsearch(new IndexQueryRequest("people", "person", "{}")));
+    assertNotNull(target.callElasticsearch(new IndexQueryRequest("people", "person", new HashMap())));
   }
 }
