@@ -11,6 +11,7 @@ import org.elasticsearch.client.RestClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@SuppressWarnings("findbugs:ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD") // is instantiated only once
 public class EsRestClientManager implements Managed {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(EsRestClientManager.class);
@@ -18,6 +19,10 @@ public class EsRestClientManager implements Managed {
   private static RestClient esRestClient;
 
   public EsRestClientManager(ElasticsearchConfiguration esConfig) {
+    createEsRestClient(esConfig);
+  }
+
+  private static void createEsRestClient(ElasticsearchConfiguration esConfig) {
     esRestClient = Optional.ofNullable(esRestClient).orElse(createElasticsearchClient(esConfig));
     LOGGER.info("********* Elasticsearch Rest Client is created *********");
   }
@@ -38,7 +43,6 @@ public class EsRestClientManager implements Managed {
       LOGGER.debug("********* EsRestClientManager stop is invoked *********");
       if (esRestClient != null) {
         esRestClient.close();
-        esRestClient = null;
         LOGGER.info("********* Elasticsearch client is closed *********");
       }
     } catch (IOException e) {

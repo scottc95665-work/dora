@@ -5,7 +5,6 @@ import gov.ca.cwds.managed.EsRestClientManager;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.Map;
 import javax.script.ScriptException;
@@ -36,6 +35,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static gov.ca.cwds.dora.DoraUtils.getElasticSearchSearchResultCount;
 import static gov.ca.cwds.dora.DoraUtils.getElasticSearchSearchTime;
 import static gov.ca.cwds.dora.DoraUtils.stringToJsonMap;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 /**
  * Business service for Index Query.
@@ -68,7 +68,7 @@ public class IndexQueryService {
           System.currentTimeMillis() - timeBeforeCallES);
 
       InputStream content = response.getEntity().getContent();
-      String esResponse = IOUtils.toString(content, StandardCharsets.UTF_8.toString());
+      String esResponse = IOUtils.toString(content, UTF_8.toString());
       IOUtils.closeQuietly(content);
 
       Map<String, Object> esResponseJsonMap = stringToJsonMap(esResponse);
@@ -127,7 +127,7 @@ public class IndexQueryService {
 
   Response performRequest(String endpoint, String queryString) throws IOException {
     InputStreamEntity entity = new InputStreamEntity(
-        new ByteArrayInputStream(queryString.getBytes()));
+        new ByteArrayInputStream(queryString.getBytes(UTF_8)));
     RestClient esRestClient = EsRestClientManager.getEsRestClient();
     if (esConfig.getXpack() != null && esConfig.getXpack().isEnabled()) {
       Header authHeader = new BasicHeader("Authorization", PerrySubject.getToken());
