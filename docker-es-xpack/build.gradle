@@ -150,7 +150,6 @@ task dockerPopulateTestPeople {
     enabled = (System.getProperty("es.populate.test.people") ?: 'true').equalsIgnoreCase('true')
     doFirst {
         esExecute("PUT", "/people", readFile("$projectDir/test_data/people.index_config.json"))
-        esExecute("PUT", "/users", readFile("$projectDir/test_data/users.index_config.json"))
         // create people-summary index
         esExecute("PUT", "/people-summary", "{}")
         // create facilities index
@@ -158,7 +157,7 @@ task dockerPopulateTestPeople {
         // create screenings index
         esExecute("PUT", "/screenings", "{}")
         // create users index
-        esExecute("PUT", "/users", "{}")
+        esExecute("PUT", "/users", readFile("$projectDir/test_data/users.index_config.json"))
     }
     doLast {
         // populate test people data
