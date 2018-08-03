@@ -169,8 +169,7 @@ public class IndexQueryResource {
   private Response handleRequest(IndexQueryRequest request) {
     long startTime = System.currentTimeMillis();
     IndexQueryResponse indexQueryResponse = indexQueryService.handleRequest(request);
-    LOGGER.info("Elastic Search operation total time: {}",
-        (System.currentTimeMillis() - startTime));
+    LOGGER.info("Elastic Search operation total time: {}", System.currentTimeMillis() - startTime);
     return Response.status(Response.Status.OK).entity(indexQueryResponse.getResponse()).build();
   }
 
