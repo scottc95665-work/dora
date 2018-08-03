@@ -2,7 +2,7 @@ package gov.ca.cwds.managed;
 
 import static gov.ca.cwds.dora.DoraUtils.createElasticsearchClient;
 
-import gov.ca.cwds.rest.ElasticSearchConfiguration;
+import gov.ca.cwds.rest.ElasticsearchConfiguration;
 import gov.ca.cwds.rest.api.DoraException;
 import io.dropwizard.lifecycle.Managed;
 import java.io.IOException;
@@ -18,11 +18,11 @@ public class EsRestClientManager implements Managed {
 
   private static RestClient esRestClient;
 
-  public EsRestClientManager(ElasticSearchConfiguration esConfig) {
+  public EsRestClientManager(ElasticsearchConfiguration esConfig) {
     createEsRestClient(esConfig);
   }
 
-  private static void createEsRestClient(ElasticSearchConfiguration esConfig) {
+  private static void createEsRestClient(ElasticsearchConfiguration esConfig) {
     esRestClient = Optional.ofNullable(esRestClient).orElse(createElasticsearchClient(esConfig));
     LOGGER.info("********* Elasticsearch Rest Client is created *********");
   }

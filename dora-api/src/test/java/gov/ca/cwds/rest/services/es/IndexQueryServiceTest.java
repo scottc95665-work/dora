@@ -12,7 +12,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import gov.ca.cwds.dora.security.FieldFilters;
-import gov.ca.cwds.rest.ElasticSearchConfiguration;
+import gov.ca.cwds.rest.ElasticsearchConfiguration;
 import gov.ca.cwds.rest.api.DoraException;
 import gov.ca.cwds.rest.api.domain.es.IndexQueryRequest;
 import gov.ca.cwds.rest.api.domain.es.IndexQueryRequest.IndexQueryRequestBuilder;
@@ -63,7 +63,7 @@ public class IndexQueryServiceTest {
     String testBody = "{\"a\": \"value\"}";
     IndexQueryRequest request = new IndexQueryRequestBuilder().addDocumentType("person")
         .addRequestBody(testBody).build();
-    ElasticSearchConfiguration esConfig = new ElasticSearchConfiguration();
+    ElasticsearchConfiguration esConfig = new ElasticsearchConfiguration();
     Whitebox.setInternalState(target, "esConfig", esConfig);
 
     FieldFilters fieldFilters = mock(FieldFilters.class);
@@ -88,8 +88,8 @@ public class IndexQueryServiceTest {
 
   @Test
   public void testDoraException() throws Exception {
-    ElasticSearchConfiguration esConfig = new ElasticSearchConfiguration();
-    ElasticSearchConfiguration.XpackConfiguration xpackConfiguration = new ElasticSearchConfiguration.XpackConfiguration();
+    ElasticsearchConfiguration esConfig = new ElasticsearchConfiguration();
+    ElasticsearchConfiguration.XpackConfiguration xpackConfiguration = new ElasticsearchConfiguration.XpackConfiguration();
     xpackConfiguration.setEnabled(false);
     esConfig.setXpack(xpackConfiguration);
     Whitebox.setInternalState(target, "esConfig", esConfig);

@@ -7,7 +7,7 @@ import static org.mockito.Mockito.mock;
 
 import com.squarespace.jersey2.guice.JerseyGuiceUtils;
 import gov.ca.cwds.rest.DoraConstants;
-import gov.ca.cwds.rest.ElasticSearchConfiguration;
+import gov.ca.cwds.rest.ElasticsearchConfiguration;
 import gov.ca.cwds.rest.api.domain.es.IndexQueryResponse;
 import gov.ca.cwds.rest.services.es.IndexQueryService;
 import io.dropwizard.testing.junit.ResourceTestRule;
@@ -54,7 +54,7 @@ public class IndexQueryResourceTest {
 
   @BeforeClass
   public static void setUp() {
-    ElasticSearchConfiguration esConfig = new ElasticSearchConfiguration();
+    ElasticsearchConfiguration esConfig = new ElasticsearchConfiguration();
     esConfig.setNodes("localhost:9200");
     Whitebox.setInternalState(indexQueryService, "esConfig", esConfig);
 

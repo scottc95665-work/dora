@@ -10,8 +10,8 @@ import static org.mockito.Mockito.when;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 import gov.ca.cwds.managed.EsRestClientManager;
-import gov.ca.cwds.rest.ElasticSearchConfiguration;
-import gov.ca.cwds.rest.ElasticSearchConfiguration.XpackConfiguration;
+import gov.ca.cwds.rest.ElasticsearchConfiguration;
+import gov.ca.cwds.rest.ElasticsearchConfiguration.XpackConfiguration;
 import gov.ca.cwds.rest.api.domain.es.IndexQueryRequest;
 import gov.ca.cwds.rest.api.domain.es.IndexQueryRequest.IndexQueryRequestBuilder;
 import gov.ca.cwds.security.realm.PerrySubject;
@@ -35,7 +35,7 @@ public class PerformRequestTest {
   public void testPerformRequest() throws IOException {
     IndexQueryService target = new IndexQueryService();
 
-    ElasticSearchConfiguration esConfig = new ElasticSearchConfiguration();
+    ElasticsearchConfiguration esConfig = new ElasticsearchConfiguration();
     esConfig.setUser("user");
     esConfig.setPassword("password");
     esConfig.setNodes("localhost:1");
@@ -59,7 +59,7 @@ public class PerformRequestTest {
     mockStatic(PerrySubject.class);
     PowerMockito.when(PerrySubject.getToken()).thenReturn("");
 
-    ElasticSearchConfiguration esConfig = new ElasticSearchConfiguration();
+    ElasticsearchConfiguration esConfig = new ElasticsearchConfiguration();
     esConfig.setUser("user");
     esConfig.setPassword("password");
     esConfig.setNodes("localhost:1");

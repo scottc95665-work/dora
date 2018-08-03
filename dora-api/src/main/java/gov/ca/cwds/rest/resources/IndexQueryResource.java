@@ -61,7 +61,7 @@ public class IndexQueryResource {
   @ApiResponses(value = {@ApiResponse(code = 400, message = "Unable to process JSON"),
       @ApiResponse(code = 401, message = "Not Authorized"),
       @ApiResponse(code = 406, message = "Accept Header not supported")})
-  @ApiOperation(value = "Query given ElasticSearch index and type on given search terms", response = JSONObject.class)
+  @ApiOperation(value = "Query given Elasticsearch index and type on given search terms", response = JSONObject.class)
   @Consumes(value = MediaType.APPLICATION_JSON)
   public Response searchIndex(
       @PathParam("index")

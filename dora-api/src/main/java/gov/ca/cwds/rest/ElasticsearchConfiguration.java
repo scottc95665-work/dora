@@ -7,7 +7,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 /**
  * @author CWDS Elasticsearch Team
  */
-public class ElasticSearchConfiguration {
+public class ElasticsearchConfiguration {
     @NotEmpty
     @JsonProperty("nodes")
     private String nodes;
@@ -22,7 +22,7 @@ public class ElasticSearchConfiguration {
     @JsonProperty
     private Map<String, String> responseFieldFilters;
 
-    public ElasticSearchConfiguration() {
+    public ElasticsearchConfiguration() {
         // no op
     }
 

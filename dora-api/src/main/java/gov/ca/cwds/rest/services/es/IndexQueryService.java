@@ -1,7 +1,7 @@
 package gov.ca.cwds.rest.services.es;
 
-import static gov.ca.cwds.dora.DoraUtils.getElasticSearchSearchResultCount;
-import static gov.ca.cwds.dora.DoraUtils.getElasticSearchSearchTime;
+import static gov.ca.cwds.dora.DoraUtils.getElasticsearchSearchResultCount;
+import static gov.ca.cwds.dora.DoraUtils.getElasticsearchSearchTime;
 import static gov.ca.cwds.dora.DoraUtils.stringToJsonMap;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -10,7 +10,7 @@ import gov.ca.cwds.dora.security.FieldFilterScript;
 import gov.ca.cwds.dora.security.FieldFilters;
 import gov.ca.cwds.dora.security.intake.IntakeAccount;
 import gov.ca.cwds.managed.EsRestClientManager;
-import gov.ca.cwds.rest.ElasticSearchConfiguration;
+import gov.ca.cwds.rest.ElasticsearchConfiguration;
 import gov.ca.cwds.rest.api.DoraException;
 import gov.ca.cwds.rest.api.ElasticsearchException;
 import gov.ca.cwds.rest.api.domain.es.IndexQueryRequest;
@@ -42,7 +42,7 @@ public class IndexQueryService {
   private static final Logger LOGGER = LoggerFactory.getLogger(IndexQueryService.class);
 
   @Inject
-  private ElasticSearchConfiguration esConfig;
+  private ElasticsearchConfiguration esConfig;
 
   @Inject
   private FieldFilters fieldFilters;
@@ -66,9 +66,9 @@ public class IndexQueryService {
         Map<String, Object> esResponseJsonMap = stringToJsonMap(esResponse);
         if (LOGGER.isDebugEnabled()) {
           LOGGER.debug("Elastic Search took {} milliseconds to execute the search",
-              getElasticSearchSearchTime(esResponseJsonMap));
+              getElasticsearchSearchTime(esResponseJsonMap));
           LOGGER.debug("Elastic Search has {} results in total",
-              getElasticSearchSearchResultCount(esResponseJsonMap));
+              getElasticsearchSearchResultCount(esResponseJsonMap));
         }
         if (fieldFilters.hasFilter(request.getDocumentType())) {
           LOGGER
@@ -108,12 +108,12 @@ public class IndexQueryService {
     if (esConfig.getXpack() != null && esConfig.getXpack().isEnabled()) {
       Header authHeader = new BasicHeader("Authorization", PerrySubject.getToken());
       return esRestClient
-          .performRequest(request.getHttpMethod(), request.getEndpoint(), Collections.emptyMap(),
+          .performRequest(request.getHttpMethod(), request.getEsEndpoint(), Collections.emptyMap(),
               entity,
               authHeader);
     } else {
       return esRestClient
-          .performRequest(request.getHttpMethod(), request.getEndpoint(), Collections.emptyMap(),
+          .performRequest(request.getHttpMethod(), request.getEsEndpoint(), Collections.emptyMap(),
               entity);
     }
   }
