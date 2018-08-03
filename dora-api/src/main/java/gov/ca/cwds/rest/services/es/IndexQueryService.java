@@ -71,8 +71,8 @@ public class IndexQueryService {
               getElasticsearchSearchResultCount(esResponseJsonMap));
         }
         if (fieldFilters.hasFilter(request.getDocumentType())) {
-          LOGGER
-              .debug("Applying field filtering for document type '{}'", request.getDocumentType());
+          LOGGER.debug("Applying field filtering for document type '{}'",
+              request.getDocumentType());
           return new IndexQueryResponse(
               applyFieldFiltering(esResponseJsonMap, request.getDocumentType()));
         } else {
