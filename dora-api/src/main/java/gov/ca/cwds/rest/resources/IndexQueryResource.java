@@ -128,7 +128,7 @@ public class IndexQueryResource {
   }
 
   /**
-   * Endpoint for adding documents into Elastic Search index.
+   * Endpoint for updating existing document in Elastic Search index.
    */
   @PUT
   @Timed
