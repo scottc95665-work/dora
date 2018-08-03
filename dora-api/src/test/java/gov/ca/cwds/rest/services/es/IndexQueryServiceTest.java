@@ -97,7 +97,7 @@ public class IndexQueryServiceTest {
         .performRequest(any());
     thrown.expect(DoraException.class);
     target.handleRequest(
-        new IndexQueryRequestBuilder().addRequestBody("{}").addEndpoint("http://localhost:8080")
+        new IndexQueryRequestBuilder().addRequestBody("{}").addEsEndpoint("http://localhost:8080")
             .build());
   }
 

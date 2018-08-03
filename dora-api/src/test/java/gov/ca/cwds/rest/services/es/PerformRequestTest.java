@@ -81,7 +81,7 @@ public class PerformRequestTest {
 
   private IndexQueryRequest prepareIndexQueryRequest() {
     return new IndexQueryRequestBuilder().addRequestBody("{}").addDocumentType("person")
-        .addEndpoint("/people/person/_search").build();
+        .addEsEndpoint("/people/person/_search").build();
   }
 
 }

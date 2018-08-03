@@ -10,15 +10,15 @@ public class DoraConfiguration extends MinimalApiConfiguration {
 
 
   @NotNull
-  private ElasticSearchConfiguration elasticsearchConfiguration;
+  private ElasticsearchConfiguration elasticsearchConfiguration;
 
   @JsonProperty(value = "elasticsearch")
-  public ElasticSearchConfiguration getElasticsearchConfiguration() {
+  public ElasticsearchConfiguration getElasticsearchConfiguration() {
     return elasticsearchConfiguration;
   }
 
   @JsonProperty
-  public void setElasticsearchConfiguration(ElasticSearchConfiguration elasticsearchConfiguration) {
+  public void setElasticsearchConfiguration(ElasticsearchConfiguration elasticsearchConfiguration) {
     this.elasticsearchConfiguration = elasticsearchConfiguration;
   }
 

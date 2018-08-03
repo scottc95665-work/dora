@@ -30,7 +30,7 @@ public final class IndexQueryRequest implements Serializable {
   private String httpMethod;
   private String requestBody;
   private String documentType;
-  private String endpoint;
+  private String esEndpoint;
 
   public String getRequestBody() {
     return requestBody;
@@ -44,8 +44,8 @@ public final class IndexQueryRequest implements Serializable {
     return documentType;
   }
 
-  public String getEndpoint() {
-    return endpoint;
+  public String getEsEndpoint() {
+    return esEndpoint;
   }
 
   @Override
@@ -63,11 +63,11 @@ public final class IndexQueryRequest implements Serializable {
     private String requestBody;
     private String httpMethod;
     private String documentType;
-    private String endpoint;
+    private String esEndpoint;
 
 
-    public IndexQueryRequestBuilder addEndpoint(String endpoint) {
-      this.endpoint = endpoint;
+    public IndexQueryRequestBuilder addEsEndpoint(String endpoint) {
+      this.esEndpoint = endpoint;
       return this;
     }
 
@@ -88,7 +88,7 @@ public final class IndexQueryRequest implements Serializable {
 
     public IndexQueryRequest build() {
       IndexQueryRequest request = new IndexQueryRequest();
-      request.endpoint = endpoint;
+      request.esEndpoint = esEndpoint;
       request.documentType = documentType;
       request.requestBody = requestBody;
       if (StringUtils.isNotBlank(httpMethod)) {

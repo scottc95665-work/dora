@@ -81,7 +81,7 @@ public class IndexQueryResource {
           escapeCRLF(requestBody));
     }
     final String endpoint = String.format("/%s/%s/_search", index.trim(), documentType.trim());
-    IndexQueryRequest request = new IndexQueryRequestBuilder().addEndpoint(endpoint)
+    IndexQueryRequest request = new IndexQueryRequestBuilder().addEsEndpoint(endpoint)
         .addDocumentType(documentType).addRequestBody(requestBody).addHttpMethod(HttpMethod.POST)
         .build();
     return handleRequest(request);
@@ -121,7 +121,7 @@ public class IndexQueryResource {
     }
     final String endpoint = String
         .format("/%s/%s/%s/_create", index.trim(), documentType.trim(), id);
-    IndexQueryRequest request = new IndexQueryRequestBuilder().addEndpoint(endpoint)
+    IndexQueryRequest request = new IndexQueryRequestBuilder().addEsEndpoint(endpoint)
         .addDocumentType(documentType).addRequestBody(requestBody).addHttpMethod(HttpMethod.PUT)
         .build();
     return handleRequest(request);
@@ -160,7 +160,7 @@ public class IndexQueryResource {
           escapeCRLF(requestBody));
     }
     final String endpoint = String.format("/%s/%s/%s", index.trim(), documentType.trim(), id);
-    IndexQueryRequest request = new IndexQueryRequestBuilder().addEndpoint(endpoint)
+    IndexQueryRequest request = new IndexQueryRequestBuilder().addEsEndpoint(endpoint)
         .addDocumentType(documentType).addRequestBody(requestBody).addHttpMethod(HttpMethod.PUT)
         .build();
     return handleRequest(request);
