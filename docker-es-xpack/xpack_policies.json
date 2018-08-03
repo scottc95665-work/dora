@@ -270,7 +270,7 @@
             "users"
           ],
           "privileges": [
-            "read"
+            "read", "write"
           ],
           "query": {
             "template": {

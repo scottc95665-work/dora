@@ -3,6 +3,7 @@ package gov.ca.cwds.rest.services.es;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyMap;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doReturn;
@@ -14,11 +15,9 @@ import gov.ca.cwds.dora.security.FieldFilters;
 import gov.ca.cwds.rest.ElasticsearchConfiguration;
 import gov.ca.cwds.rest.api.DoraException;
 import gov.ca.cwds.rest.api.domain.es.IndexQueryRequest;
+import gov.ca.cwds.rest.api.domain.es.IndexQueryRequest.IndexQueryRequestBuilder;
 import io.dropwizard.testing.FixtureHelpers;
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 import org.apache.http.StatusLine;
 import org.apache.http.entity.BasicHttpEntity;
 import org.elasticsearch.client.Response;
@@ -61,9 +60,9 @@ public class IndexQueryServiceTest {
 
   @Test
   public void testHandleRequest() throws Exception {
-    Map<String, String> test = new HashMap<>();
-    test.put("a", "value");
-    IndexQueryRequest req = new IndexQueryRequest("people", "person", test);
+    String testBody = "{\"a\": \"value\"}";
+    IndexQueryRequest request = new IndexQueryRequestBuilder().addDocumentType("person")
+        .addRequestBody(testBody).build();
     ElasticsearchConfiguration esConfig = new ElasticsearchConfiguration();
     Whitebox.setInternalState(target, "esConfig", esConfig);
 
@@ -82,9 +81,9 @@ public class IndexQueryServiceTest {
     entity.setContent(new ByteArrayInputStream(fixture.getBytes()));
     when(response.getEntity()).thenReturn(entity);
 
-    doReturn(response).when(target).performRequest(anyString(), anyString());
+    doReturn(response).when(target).performRequest(request);
 
-    assertNotNull(target.handleRequest(req));
+    assertNotNull(target.handleRequest(request));
   }
 
   @Test
@@ -95,22 +94,11 @@ public class IndexQueryServiceTest {
     esConfig.setXpack(xpackConfiguration);
     Whitebox.setInternalState(target, "esConfig", esConfig);
     doThrow(new DoraException("")).when(target)
-        .performRequest(anyString(), anyString());
+        .performRequest(any());
     thrown.expect(DoraException.class);
-    target.callElasticsearch(new IndexQueryRequest("http://localhost:8080", "{}", new HashMap()));
+    target.handleRequest(
+        new IndexQueryRequestBuilder().addRequestBody("{}").addEsEndpoint("http://localhost:8080")
+            .build());
   }
 
-  @Test
-  public void testCallElasticsearch() throws IOException {
-    ElasticsearchConfiguration esConfig = new ElasticsearchConfiguration();
-    esConfig.setUser("user");
-    esConfig.setPassword("password");
-    esConfig.setNodes("localhost:1");
-    Whitebox.setInternalState(target, "esConfig", esConfig);
-
-    Response response = mock(Response.class);
-    doReturn(response).when(target).performRequest(anyString(), anyString());
-
-    assertNotNull(target.callElasticsearch(new IndexQueryRequest("people", "person", new HashMap())));
-  }
 }

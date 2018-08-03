@@ -12,6 +12,8 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import gov.ca.cwds.managed.EsRestClientManager;
 import gov.ca.cwds.rest.ElasticsearchConfiguration;
 import gov.ca.cwds.rest.ElasticsearchConfiguration.XpackConfiguration;
+import gov.ca.cwds.rest.api.domain.es.IndexQueryRequest;
+import gov.ca.cwds.rest.api.domain.es.IndexQueryRequest.IndexQueryRequestBuilder;
 import gov.ca.cwds.security.realm.PerrySubject;
 import java.io.IOException;
 import org.apache.http.Header;
@@ -47,7 +49,7 @@ public class PerformRequestTest {
     mockStatic(EsRestClientManager.class);
     when(EsRestClientManager.getEsRestClient()).thenReturn(mockRestClient);
 
-    assertNotNull(target.performRequest("/people/person/_search", "{}"));
+    assertNotNull(target.performRequest(prepareIndexQueryRequest()));
   }
 
   @Test
@@ -74,7 +76,12 @@ public class PerformRequestTest {
     mockStatic(EsRestClientManager.class);
     when(EsRestClientManager.getEsRestClient()).thenReturn(mockRestClient);
 
-    assertNotNull(target.performRequest("/people/person/_search", "{}"));
+    assertNotNull(target.performRequest(prepareIndexQueryRequest()));
+  }
+
+  private IndexQueryRequest prepareIndexQueryRequest() {
+    return new IndexQueryRequestBuilder().addRequestBody("{}").addDocumentType("person")
+        .addEsEndpoint("/people/person/_search").build();
   }
 
 }

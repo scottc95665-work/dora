@@ -47,7 +47,7 @@ public class ResourcesModule extends AbstractModule {
   }
 
   @Provides
-  public ElasticsearchConfiguration elasticSearchConfig(DoraConfiguration doraConfiguration) {
+  public ElasticsearchConfiguration elasticsearchConfig(DoraConfiguration doraConfiguration) {
     return doraConfiguration.getElasticsearchConfiguration();
   }
 

@@ -57,18 +57,18 @@ public class ResourcesModuleTest {
   }
 
   @Test
-  public void testElasticSearchConfigurationNPE() {
+  public void testElasticsearchConfigurationNPE() {
     thrown.expect(NullPointerException.class);
-    module.elasticSearchConfig(null);
+    module.elasticsearchConfig(null);
   }
 
   @Test
-  public void testElasticSearchConfiguration() {
+  public void testElasticsearchConfiguration() {
     ElasticsearchConfiguration testElasticsearchConfiguration = new ElasticsearchConfiguration();
     DoraConfiguration testDoraConfiguration = new DoraConfiguration();
     testDoraConfiguration.setElasticsearchConfiguration(testElasticsearchConfiguration);
     ElasticsearchConfiguration elasticsearchConfiguration = module
-        .elasticSearchConfig(testDoraConfiguration);
+        .elasticsearchConfig(testDoraConfiguration);
     assertNotNull(elasticsearchConfiguration);
     assertEquals(testElasticsearchConfiguration, elasticsearchConfiguration);
   }

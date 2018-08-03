@@ -1,85 +1,51 @@
 package gov.ca.cwds.rest.api.domain.es;
 
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-
 import java.io.Serializable;
-
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-
+import javax.ws.rs.HttpMethod;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 /**
  * A domain API Request for Index Query feature to Elasticsearch. <p> The Index Query for an Index
- * takes an index name, document type, and a json as string, which is used to query the
- * Elasticsearch Index documents by ALL relevant fields that are specified in the query. </p>
+ * takes an index name, document type, and a json as string, which is used to requestBody the
+ * Elasticsearch Index documents by ALL relevant fields that are specified in the requestBody. </p>
  *
  * @author CWDS API Team
  */
 @ApiModel
-public class IndexQueryRequest implements Serializable {
+public final class IndexQueryRequest implements Serializable {
 
   /**
    * Base serialization version. Increment by class version.
    */
-  private static final long serialVersionUID = 2L;
+  private static final long serialVersionUID = 3L;
 
-  @ApiModelProperty(required = true, example = "a valid elasticsearch index name")
-  @JsonProperty("index")
-  private String index;
-
-  @ApiModelProperty(required = true, example = "a valid elasticsearch document type")
-  @JsonProperty("type")
-  private String type;
-
-  @ApiModelProperty(required = true, example = "a valid elasticsearch query json")
-  @JsonProperty("query")
-  private transient Object query;
+  private IndexQueryRequest() {}
 
   /**
-   * JSON DropWizard Constructor. Takes query.
-   *
-   * @param index the name of the elasticsearch index to search
-   * @param type Elasticsearch document type
-   * @param query the elasticsearch query
+   * Http method for elasticsearch call
    */
-  @JsonCreator
-  public IndexQueryRequest(
-      @NotNull @JsonProperty("index") String index,
-      @NotNull @JsonProperty("type") String type,
-      @Valid @NotNull @JsonProperty("query") Object query
-  ) {
-    this.index = index;
-    this.type = type;
-    this.query = query;
+  private String httpMethod;
+  private String requestBody;
+  private String documentType;
+  private String esEndpoint;
+
+  public String getRequestBody() {
+    return requestBody;
   }
 
-  /**
-   * @return the index
-   */
-  public String getIndex() {
-    return index;
+  public String getHttpMethod() {
+    return httpMethod;
   }
 
-  /**
-   * @return the type
-   */
-  public String getType() {
-    return type;
+  public String getDocumentType() {
+    return documentType;
   }
 
-  /**
-   * Getter for query.
-   *
-   * @return query the elasticsearch query
-   */
-  public Object getQuery() {
-    return query;
+  public String getEsEndpoint() {
+    return esEndpoint;
   }
 
   @Override
@@ -90,6 +56,49 @@ public class IndexQueryRequest implements Serializable {
   @Override
   public final boolean equals(Object obj) {
     return EqualsBuilder.reflectionEquals(this, obj, false);
+  }
+
+  public static class IndexQueryRequestBuilder {
+
+    private String requestBody;
+    private String httpMethod;
+    private String documentType;
+    private String esEndpoint;
+
+
+    public IndexQueryRequestBuilder addEsEndpoint(String endpoint) {
+      this.esEndpoint = endpoint;
+      return this;
+    }
+
+    public IndexQueryRequestBuilder addDocumentType(String documentType) {
+      this.documentType = documentType;
+      return this;
+    }
+
+    public IndexQueryRequestBuilder addRequestBody(String requestBody) {
+      this.requestBody = requestBody;
+      return this;
+    }
+
+    public IndexQueryRequestBuilder addHttpMethod(String httpMethod) {
+      this.httpMethod = httpMethod;
+      return this;
+    }
+
+    public IndexQueryRequest build() {
+      IndexQueryRequest request = new IndexQueryRequest();
+      request.esEndpoint = esEndpoint;
+      request.documentType = documentType;
+      request.requestBody = requestBody;
+      if (StringUtils.isNotBlank(httpMethod)) {
+        request.httpMethod = httpMethod;
+      } else {
+        request.httpMethod = HttpMethod.POST;
+      }
+      return request;
+    }
+
   }
 
 }

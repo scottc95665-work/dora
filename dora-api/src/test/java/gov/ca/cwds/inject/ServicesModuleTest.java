@@ -6,6 +6,7 @@ import static org.junit.Assert.assertNotNull;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import gov.ca.cwds.rest.api.domain.es.IndexQueryRequest;
+import gov.ca.cwds.rest.api.domain.es.IndexQueryRequest.IndexQueryRequestBuilder;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
@@ -45,7 +46,8 @@ public class ServicesModuleTest {
   @Test
   public void testValidator() {
     Validator validator = servicesModule.provideValidator();
-    IndexQueryRequest target = new IndexQueryRequest(null, null, null);
+    IndexQueryRequest target = new IndexQueryRequestBuilder().addDocumentType(null)
+        .addRequestBody(null).build();
     Set<ConstraintViolation<IndexQueryRequest>> constraintViolations = validator
         .validateProperty(target, "query");
     assertEquals(0, constraintViolations.size());

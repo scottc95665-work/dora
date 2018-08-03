@@ -107,12 +107,12 @@ public final class DoraUtils {
   }
 
   @SuppressWarnings("unchecked")
-  public static Integer getElasticSearchSearchResultCount(Map<String, Object> jsonMap) {
+  public static Integer getElasticsearchSearchResultCount(Map<String, Object> jsonMap) {
     return (Integer) ((Map<String, Object>) jsonMap.get("hits")).get("total");
   }
 
   @SuppressWarnings("unchecked")
-  public static Integer getElasticSearchSearchTime(Map<String, Object> jsonMap) {
+  public static Integer getElasticsearchSearchTime(Map<String, Object> jsonMap) {
     return (Integer) jsonMap.get("took");
   }
 

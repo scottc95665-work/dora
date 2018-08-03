@@ -5,17 +5,19 @@ import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 
+import com.squarespace.jersey2.guice.JerseyGuiceUtils;
 import gov.ca.cwds.rest.DoraConstants;
 import gov.ca.cwds.rest.ElasticsearchConfiguration;
 import gov.ca.cwds.rest.api.domain.es.IndexQueryResponse;
 import gov.ca.cwds.rest.services.es.IndexQueryService;
 import io.dropwizard.testing.junit.ResourceTestRule;
-
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.function.Function;
 import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.Invocation.Builder;
 import javax.ws.rs.core.MediaType;
-
 import javax.ws.rs.core.Response;
 import org.apache.commons.io.IOUtils;
 import org.hamcrest.junit.ExpectedException;
@@ -24,8 +26,6 @@ import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
-
-import com.squarespace.jersey2.guice.JerseyGuiceUtils;
 import org.mockito.Mockito;
 import org.powermock.reflect.Whitebox;
 
@@ -34,8 +34,14 @@ import org.powermock.reflect.Whitebox;
  */
 public class IndexQueryResourceTest {
 
-  private static final String FOUND_RESOURCE =
-      "/" + DoraConstants.RESOURCE_ELASTICSEARCH_INDEX_QUERY + "/people/person/_search";
+  private static final String RESOURCE_BASE_PATH =
+      "/" + DoraConstants.RESOURCE_ELASTICSEARCH_INDEX_QUERY + "/people/person/";
+  private static final String RESOURCE_ADD_DOCUMENT_PATH = RESOURCE_BASE_PATH + "1/_create";
+  private static final String RESOURCE_UPDATE_DOCUMENT_PATH = RESOURCE_BASE_PATH + "1";
+
+  private static final String SEARCH_RESOURCE = RESOURCE_BASE_PATH + "_search";
+  public static final String VALID_JSON = "{\"a\":1}";
+  public static final String INVALID_JSON = "test";
 
   @Rule
   public ExpectedException thrown = ExpectedException.none();
@@ -64,31 +70,54 @@ public class IndexQueryResourceTest {
   public static JerseyGuiceRule rule = new JerseyGuiceRule();
 
   @Test
-  public void testPostNullGives400() throws Exception {
-    final int actual =
-        inMemoryResource.client().target(FOUND_RESOURCE).request()
-            .accept(MediaType.APPLICATION_JSON)
-            .post(Entity.entity("test", MediaType.APPLICATION_JSON)).getStatus();
-
-    int expected = 400;
-    assertThat(actual, is(expected));
+  public void testSearchNull() throws Exception {
+    testInvalidJsonPassedPost(SEARCH_RESOURCE, null);
   }
 
   @Test
-  public void testPostNonJsonGives400() throws Exception {
-    final int actual =
-        inMemoryResource.client().target(FOUND_RESOURCE).request()
-            .accept(MediaType.APPLICATION_JSON)
-            .post(Entity.entity("test", MediaType.APPLICATION_JSON)).getStatus();
+  public void testSearchInvalidQuery() throws Exception {
+    testInvalidJsonPassedPost(SEARCH_RESOURCE, INVALID_JSON);
+  }
 
-    int expected = 400;
-    assertThat(actual, is(expected));
+  @Test(expected = IllegalStateException.class)
+  public void testAddNewDocumentNull() throws Exception {
+    testInvalidJsonPassedPut(RESOURCE_ADD_DOCUMENT_PATH, null);
+  }
+
+  @Test
+  public void testAddNewDocumentInvalidJson() throws Exception {
+    testInvalidJsonPassedPut(RESOURCE_ADD_DOCUMENT_PATH, INVALID_JSON);
+  }
+
+  @Test(expected = IllegalStateException.class)
+  public void testUpdateExistingDocumentNull() throws Exception {
+    testInvalidJsonPassedPut(RESOURCE_UPDATE_DOCUMENT_PATH, null);
+  }
+
+  @Test
+  public void testUpdateExistingDocumentInvalidJson() throws Exception {
+    testInvalidJsonPassedPut(RESOURCE_UPDATE_DOCUMENT_PATH, INVALID_JSON);
   }
 
   @Test
   public void testSearchIndex() throws Exception {
-    Response actualResponse = inMemoryResource.client().target(FOUND_RESOURCE)
-        .request(MediaType.APPLICATION_JSON).post(Entity.json(""));
+    testResource(SEARCH_RESOURCE, builder -> builder.post(Entity.json(VALID_JSON)));
+  }
+
+  @Test
+  public void testAddDocumentToIndex() throws Exception {
+    testResource(RESOURCE_ADD_DOCUMENT_PATH, builder -> builder.put(Entity.json(VALID_JSON)));
+  }
+
+  @Test
+  public void testUpdateExistingDocument() throws Exception {
+    testResource(RESOURCE_UPDATE_DOCUMENT_PATH, builder -> builder.put(Entity.json(VALID_JSON)));
+  }
+
+  private void testResource(String path, Function<Builder, Response> restOperation)
+      throws IOException {
+    Response actualResponse = restOperation.apply(inMemoryResource.client().target(path)
+        .request(MediaType.APPLICATION_JSON));
 
     String actualResponseBody = IOUtils
         .toString((ByteArrayInputStream) actualResponse.getEntity(),
@@ -97,4 +126,21 @@ public class IndexQueryResourceTest {
     assertThat(actualResponse.getStatus(), is(200));
     assertThat(actualResponseBody, is("fred"));
   }
+
+  private void testInvalidJsonPassed(String path, Function<Builder, Response> restOperation) {
+    final int actual = restOperation.apply(
+        inMemoryResource.client().target(path).request()
+            .accept(MediaType.APPLICATION_JSON)).getStatus();
+    int expected = 422;
+    assertThat(actual, is(expected));
+  }
+
+  private void testInvalidJsonPassedPost(String path, String invalidJson) {
+    testInvalidJsonPassed(path, builder -> builder.post(Entity.json(invalidJson)));
+  }
+
+  private void testInvalidJsonPassedPut(String path, String invalidJson) {
+    testInvalidJsonPassed(path, builder -> builder.put(Entity.json(invalidJson)));
+  }
+
 }

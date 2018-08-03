@@ -28,7 +28,7 @@ public class IndexQueryResponse implements Serializable {
   private static final long serialVersionUID = 2L;
 
   @JsonRawValue
-  private String searchResults;
+  private String response;
 
   /**
    * Disallow use of default constructor.
@@ -41,10 +41,10 @@ public class IndexQueryResponse implements Serializable {
   /**
    * Preferred constructor
    *
-   * @param searchResults the json response from Elasticsearch
+   * @param response the json response from Elasticsearch
    */
-  public IndexQueryResponse(String searchResults) {
-    this.searchResults = searchResults;
+  public IndexQueryResponse(String response) {
+    this.response = response;
   }
 
   /**
@@ -53,8 +53,8 @@ public class IndexQueryResponse implements Serializable {
    * @return Elasticsearch json response
    */
   @JsonRawValue
-  public String getSearchResults() {
-    return searchResults;
+  public String getResponse() {
+    return response;
   }
 
   @Override
