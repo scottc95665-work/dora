@@ -25,7 +25,7 @@ import static org.mockito.Mockito.spy;
 
 import com.codahale.metrics.health.HealthCheck.Result;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import gov.ca.cwds.rest.ElasticsearchConfiguration;
+import gov.ca.cwds.rest.ElasticSearchConfiguration;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -37,14 +37,14 @@ import org.mockito.Mockito;
  */
 public class DoraHealthChecksTest {
 
-  private static final ElasticsearchConfiguration ES_CONFIG_OK_NO_XPACK = esConfig(
+  private static final ElasticSearchConfiguration ES_CONFIG_OK_NO_XPACK = esConfig(
       "localhost:9200", false, "user", "password");
-  private static final ElasticsearchConfiguration ES_CONFIG_OK_XPACK = esConfig(
+  private static final ElasticSearchConfiguration ES_CONFIG_OK_XPACK = esConfig(
       "dora.dev.cwds.io:9200", true, "user", "password");
 
   @Test
   public void testElasticsearchConfigurations() throws Exception {
-    new ElasticsearchConfiguration().setNodes("localhost:");
+    new ElasticSearchConfiguration().setNodes("localhost:");
     assertIncorrectElasticsearchConfiguration(esConfig("localhost:", false, null, null));
     assertIncorrectElasticsearchConfiguration(esConfig(":9200", false, null, null));
     assertIncorrectElasticsearchConfiguration(esConfig("localhost:9200", true, null, null));
@@ -175,7 +175,7 @@ public class DoraHealthChecksTest {
     assertEquals(String.format(UNHEALTHY_ES_ROLES_MSG, "worker"),result.getMessage());
   }
 
-  private void assertIncorrectElasticsearchConfiguration(ElasticsearchConfiguration esConfig)
+  private void assertIncorrectElasticsearchConfiguration(ElasticSearchConfiguration esConfig)
       throws Exception {
     Result result = new BasicDoraHealthCheck(esConfig).check();
     assertNotNull(result);
@@ -183,7 +183,7 @@ public class DoraHealthChecksTest {
     assertEquals(UNHEALTHY_ES_CONFIG_MSG, result.getMessage());
   }
 
-  private void assertCorrectElasticsearchConfiguration(ElasticsearchConfiguration esConfig)
+  private void assertCorrectElasticsearchConfiguration(ElasticSearchConfiguration esConfig)
       throws Exception {
     Result result = new BasicDoraHealthCheck(esConfig).check();
     assertNotNull(result);

@@ -1,7 +1,7 @@
 package gov.ca.cwds.dora;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import gov.ca.cwds.rest.ElasticsearchConfiguration;
+import gov.ca.cwds.rest.ElasticSearchConfiguration;
 import gov.ca.cwds.rest.api.DoraException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -63,7 +63,7 @@ public final class DoraUtils {
     return hostPortPair.length > 0 ? hostPortPair[0] : "";
   }
 
-  public static RestClient createElasticsearchClient(ElasticsearchConfiguration esConfig) {
+  public static RestClient createElasticsearchClient(ElasticSearchConfiguration esConfig) {
     HttpHost[] httpHosts = parseNodes(esConfig.getNodes());
     final CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
     credentialsProvider.setCredentials(AuthScope.ANY,

@@ -3,18 +3,17 @@ package gov.ca.cwds.rest.api.domain.es;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
+import com.squarespace.jersey2.guice.JerseyGuiceUtils;
+import gov.ca.cwds.rest.api.domain.es.IndexQueryRequest.IndexQueryRequestBuilder;
 import gov.ca.cwds.rest.resources.JerseyGuiceRule;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;
-
 import org.hamcrest.junit.ExpectedException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
-
-import com.squarespace.jersey2.guice.JerseyGuiceUtils;
 
 /**
  * Test domain request class, {@link IndexQueryRequest}.
@@ -27,39 +26,40 @@ import com.squarespace.jersey2.guice.JerseyGuiceUtils;
  */
 @SuppressWarnings("javadoc")
 public class IndexQueryRequestTest {
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
 
-    @After
-    public void ensureServiceLocatorPopulated() {
-        JerseyGuiceUtils.reset();
-    }
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
 
-    @ClassRule
-    public static JerseyGuiceRule rule = new JerseyGuiceRule();
+  @After
+  public void ensureServiceLocatorPopulated() {
+    JerseyGuiceUtils.reset();
+  }
 
-    @Before
-    public void setup() {
-    }
+  @ClassRule
+  public static JerseyGuiceRule rule = new JerseyGuiceRule();
 
-    @Test
-    public void type() throws Exception {
-        assertThat(IndexQueryRequest.class, notNullValue());
-    }
+  @Before
+  public void setup() {
+  }
 
-    @Test
-    public void instantiation() throws Exception {
-        IndexQueryRequest target = produce("index", "type", null);
-        assertThat(target, notNullValue());
-    }
+  @Test
+  public void type() throws Exception {
+    assertThat(IndexQueryRequest.class, notNullValue());
+  }
 
-    @Test
-    public void equalsHashCodeWork() throws Exception {
-        EqualsVerifier.forClass(IndexQueryRequest.class).suppress(Warning.NONFINAL_FIELDS).verify();
-    }
+  @Test
+  public void instantiation() throws Exception {
+    IndexQueryRequest target = produce("type", null);
+    assertThat(target, notNullValue());
+  }
 
-    private IndexQueryRequest produce(String index, String type, String s) {
-        return new IndexQueryRequest(index, type, s);
-    }
+  @Test
+  public void equalsHashCodeWork() throws Exception {
+    EqualsVerifier.forClass(IndexQueryRequest.class).suppress(Warning.NONFINAL_FIELDS).verify();
+  }
+
+  private IndexQueryRequest produce(String type, String s) {
+    return new IndexQueryRequestBuilder().addDocumentType(type).addRequestBody(s).build();
+  }
 
 }

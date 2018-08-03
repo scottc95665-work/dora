@@ -7,7 +7,7 @@ import com.google.inject.name.Named;
 import gov.ca.cwds.dora.DoraUtils;
 import gov.ca.cwds.dora.security.FieldFilters;
 import gov.ca.cwds.rest.DoraConfiguration;
-import gov.ca.cwds.rest.ElasticsearchConfiguration;
+import gov.ca.cwds.rest.ElasticSearchConfiguration;
 import gov.ca.cwds.rest.SwaggerConfiguration;
 import gov.ca.cwds.rest.api.DoraException;
 import gov.ca.cwds.rest.resources.SwaggerResource;
@@ -47,7 +47,7 @@ public class ResourcesModule extends AbstractModule {
   }
 
   @Provides
-  public ElasticsearchConfiguration elasticSearchConfig(DoraConfiguration doraConfiguration) {
+  public ElasticSearchConfiguration elasticSearchConfig(DoraConfiguration doraConfiguration) {
     return doraConfiguration.getElasticsearchConfiguration();
   }
 
@@ -65,7 +65,7 @@ public class ResourcesModule extends AbstractModule {
 
   @Provides
   @Inject
-  public FieldFilters provideFieldFilters(ElasticsearchConfiguration esConfig) {
+  public FieldFilters provideFieldFilters(ElasticSearchConfiguration esConfig) {
     FieldFilters fieldFilters = new FieldFilters();
     esConfig.getResponseFieldFilters().forEach((documentType, filePath) -> {
       try {

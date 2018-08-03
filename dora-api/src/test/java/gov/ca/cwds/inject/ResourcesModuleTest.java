@@ -5,7 +5,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 import gov.ca.cwds.rest.DoraConfiguration;
-import gov.ca.cwds.rest.ElasticsearchConfiguration;
+import gov.ca.cwds.rest.ElasticSearchConfiguration;
 import gov.ca.cwds.rest.SwaggerConfiguration;
 import org.junit.Before;
 import org.junit.Rule;
@@ -64,10 +64,10 @@ public class ResourcesModuleTest {
 
   @Test
   public void testElasticSearchConfiguration() {
-    ElasticsearchConfiguration testElasticsearchConfiguration = new ElasticsearchConfiguration();
+    ElasticSearchConfiguration testElasticsearchConfiguration = new ElasticSearchConfiguration();
     DoraConfiguration testDoraConfiguration = new DoraConfiguration();
     testDoraConfiguration.setElasticsearchConfiguration(testElasticsearchConfiguration);
-    ElasticsearchConfiguration elasticsearchConfiguration = module
+    ElasticSearchConfiguration elasticsearchConfiguration = module
         .elasticSearchConfig(testDoraConfiguration);
     assertNotNull(elasticsearchConfiguration);
     assertEquals(testElasticsearchConfiguration, elasticsearchConfiguration);

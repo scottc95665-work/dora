@@ -3,7 +3,7 @@ package gov.ca.cwds.dora.health;
 import com.codahale.metrics.health.HealthCheck;
 import com.google.inject.Inject;
 import gov.ca.cwds.dora.DoraUtils;
-import gov.ca.cwds.rest.ElasticsearchConfiguration;
+import gov.ca.cwds.rest.ElasticSearchConfiguration;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpHost;
 import org.slf4j.Logger;
@@ -19,7 +19,7 @@ public class BasicDoraHealthCheck extends HealthCheck {
   static final String HEALTHY_ES_CONFIG_MSG = "Dora is configured for Elasticsearch on nodes %s with X-pack %s.";
   static final String UNHEALTHY_ES_CONFIG_MSG = "Dora is not properly configured for Elasticsearch.";
 
-  private ElasticsearchConfiguration esConfig;
+  private ElasticSearchConfiguration esConfig;
 
   /**
    * Constructor
@@ -27,7 +27,7 @@ public class BasicDoraHealthCheck extends HealthCheck {
    * @param esConfig instance of ElasticsearchConfiguration
    */
   @Inject
-  public BasicDoraHealthCheck(ElasticsearchConfiguration esConfig) {
+  public BasicDoraHealthCheck(ElasticSearchConfiguration esConfig) {
     this.esConfig = esConfig;
   }
 

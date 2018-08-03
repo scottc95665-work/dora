@@ -1,6 +1,6 @@
 package gov.ca.cwds.rest;
 
-import gov.ca.cwds.rest.ElasticsearchConfiguration.XpackConfiguration;
+import gov.ca.cwds.rest.ElasticSearchConfiguration.XpackConfiguration;
 import io.dropwizard.testing.ResourceHelpers;
 import io.dropwizard.testing.junit.DropwizardAppRule;
 import javax.ws.rs.client.Client;
@@ -39,12 +39,12 @@ public abstract class BaseDoraApplicationTest {
   @Rule
   public RestClientTestRule clientTestRule = new RestClientTestRule(appRule);
 
-  public static ElasticsearchConfiguration esConfig(String nodes, boolean xPackEnabled,
+  public static ElasticSearchConfiguration esConfig(String nodes, boolean xPackEnabled,
       String user, String password) {
     XpackConfiguration xpackConfig = new XpackConfiguration();
     xpackConfig.setEnabled(xPackEnabled);
 
-    ElasticsearchConfiguration esConfig = new ElasticsearchConfiguration();
+    ElasticSearchConfiguration esConfig = new ElasticSearchConfiguration();
     esConfig.setNodes(nodes);
     esConfig.setUser(user);
     esConfig.setPassword(password);

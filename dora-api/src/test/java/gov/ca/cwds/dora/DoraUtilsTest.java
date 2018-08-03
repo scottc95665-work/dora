@@ -3,7 +3,7 @@ package gov.ca.cwds.dora;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import gov.ca.cwds.rest.ElasticsearchConfiguration;
+import gov.ca.cwds.rest.ElasticSearchConfiguration;
 import org.apache.http.HttpHost;
 import org.junit.Test;
 
@@ -26,7 +26,7 @@ public class DoraUtilsTest {
 
   @Test
   public void testCreateElasticsearchClient() {
-    ElasticsearchConfiguration esConfig = new ElasticsearchConfiguration();
+    ElasticSearchConfiguration esConfig = new ElasticSearchConfiguration();
     esConfig.setNodes("localhost:9200");
     esConfig.setUser("user");
     esConfig.setPassword("password");
