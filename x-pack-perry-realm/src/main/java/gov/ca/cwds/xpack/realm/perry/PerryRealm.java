@@ -91,9 +91,12 @@ public class PerryRealm extends Realm {
 
   private String validatePerryToken(String token)
       throws IOException, PerryTokenValidationException {
+    long timeBeforeTokenValidation = System.currentTimeMillis();
     try (CloseableHttpClient httpClient = HttpClients.createMinimal()) {
       HttpGet httpGet = new HttpGet(tokenValidationUrl + token);
       try (CloseableHttpResponse response = httpClient.execute(httpGet)) {
+        logger.debug("PerryRealm: Token Validation took {} milliseconds",
+            System.currentTimeMillis() - timeBeforeTokenValidation);
         if (HTTP_OK == response.getStatusLine().getStatusCode()) {
           return EntityUtils.toString(response.getEntity(), "UTF-8");
         } else {
@@ -114,6 +117,8 @@ public class PerryRealm extends Realm {
    */
   @Override
   public void authenticate(AuthenticationToken authenticationToken, ActionListener<User> listener) {
+    long timeBeforeAuthenticate = System.currentTimeMillis();
+
     try {
       String jsonToken = validatePerryToken(authenticationToken.principal());
       JsonTokenInfoHolder jsonTokenInfoHolder = parsePerryTokenFromJSON(jsonToken);
@@ -169,6 +174,9 @@ public class PerryRealm extends Realm {
 
       User user = new User("perry", roles, "full name", "email@a.net", metadata, true);
       listener.onResponse(user);
+
+      logger.debug("PerryRealm: authenticate took {} milliseconds",
+          System.currentTimeMillis() - timeBeforeAuthenticate);
 
     } catch (PerryTokenValidationException e) {
       logger.warn("invalid Perry Token: " + e.getMessage(), e);
