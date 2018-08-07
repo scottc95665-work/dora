@@ -1,12 +1,31 @@
 package gov.ca.cwds.rest;
 
+import java.util.EnumSet;
+import java.util.Map;
+
+import javax.servlet.DispatcherType;
+import javax.servlet.FilterRegistration;
+
+import org.eclipse.jetty.server.session.SessionHandler;
+import org.eclipse.jetty.servlets.CrossOriginFilter;
+import org.knowm.dropwizard.sundial.SundialBundle;
+import org.knowm.dropwizard.sundial.SundialConfiguration;
+import org.secnod.shiro.jaxrs.ShiroExceptionMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.codahale.metrics.health.HealthCheck;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.google.inject.Injector;
 import com.google.inject.Module;
+
 import gov.ca.cwds.dora.DoraUtils;
-import gov.ca.cwds.dora.health.*;
+import gov.ca.cwds.dora.health.BasicDoraHealthCheck;
+import gov.ca.cwds.dora.health.ElasticsearchHealthCheck;
+import gov.ca.cwds.dora.health.ElasticsearchIndexHealthCheck;
+import gov.ca.cwds.dora.health.ElasticsearchPluginHealthCheck;
+import gov.ca.cwds.dora.health.ElasticsearchRolesHealthCheck;
 import gov.ca.cwds.inject.ApplicationModule;
 import gov.ca.cwds.managed.EsRestClientManager;
 import gov.ca.cwds.rest.filters.RequestResponseLoggingFilter;
@@ -16,21 +35,10 @@ import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import io.swagger.jaxrs.config.BeanConfig;
 import io.swagger.jaxrs.listing.ApiListingResource;
-import org.eclipse.jetty.server.session.SessionHandler;
-import org.eclipse.jetty.servlets.CrossOriginFilter;
-import org.secnod.shiro.jaxrs.ShiroExceptionMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import javax.servlet.DispatcherType;
-import javax.servlet.FilterRegistration;
-import java.util.EnumSet;
-import java.util.Map;
 
 /**
  * Core execution class of CWDS REST Dora server application.
- * <h3>Standard command line arguments:</h3>
- * <blockquote> server config/dora.yml </blockquote>
+ * <h3>Standard command line arguments:</h3> <blockquote> server config/dora.yml </blockquote>
  * <h3>Standard JVM arguments:</h3>
  * <blockquote>-Djava.library.path=${workspace_loc:CWDS_API}/lib:/usr/local/lib/ </blockquote>
  *
@@ -76,6 +84,25 @@ public final class DoraApplication extends BaseApiApplication<DoraConfiguration>
     return new ApplicationModule();
   }
 
+
+  @Override
+  public void initializeInternal(Bootstrap<DoraConfiguration> bootstrap) {
+    bootstrap.addBundle(new SundialBundle<DoraConfiguration>() {
+      @Override
+      public SundialConfiguration getSundialConfiguration(DoraConfiguration configuration) {
+        SundialConfiguration config = new SundialConfiguration();
+        config.setThreadPoolSize("10");
+        config.setPerformShutdown("true");
+        config.setWaitOnShutdown("false");
+        config.setStartDelay("5");
+        config.setStartOnLoad("true");
+        config.setGlobalLockOnLoad("false");
+        config.setAnnotatedJobsPackageName("gov.ca.cwds.jobs");
+        return config;
+      }
+    });
+  }
+
   @Override
   @SuppressWarnings("findsecbugs:CRLF_INJECTION_LOGS")
   // DoraConfiguration and system-information.properties are trusted sources
@@ -93,6 +120,7 @@ public final class DoraApplication extends BaseApiApplication<DoraConfiguration>
 
     environment.jersey().register(new ShiroExceptionMapper());
     environment.servlets().setSessionHandler(new SessionHandler());
+    environment.getApplicationContext().setAttribute("environment", environment);
 
     environment.servlets()
         .addFilter("AuditAndLoggingFilter",
@@ -193,9 +221,9 @@ public final class DoraApplication extends BaseApiApplication<DoraConfiguration>
             FACILITIES_INDEX));
   }
 
-    private void runHealthChecks(Environment environment) {
-    for (Map.Entry<String, HealthCheck.Result> entry :
-            environment.healthChecks().runHealthChecks().entrySet()) {
+  private void runHealthChecks(Environment environment) {
+    for (Map.Entry<String, HealthCheck.Result> entry : environment.healthChecks().runHealthChecks()
+        .entrySet()) {
       if (!entry.getValue().isHealthy()) {
         LOGGER.error("Fail - {}: {}", entry.getKey(), entry.getValue().getMessage());
       }
