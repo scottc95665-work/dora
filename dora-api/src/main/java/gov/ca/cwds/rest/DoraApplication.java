@@ -8,8 +8,6 @@ import javax.servlet.FilterRegistration;
 
 import org.eclipse.jetty.server.session.SessionHandler;
 import org.eclipse.jetty.servlets.CrossOriginFilter;
-import org.knowm.dropwizard.sundial.SundialBundle;
-import org.knowm.dropwizard.sundial.SundialConfiguration;
 import org.secnod.shiro.jaxrs.ShiroExceptionMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -84,25 +82,6 @@ public final class DoraApplication extends BaseApiApplication<DoraConfiguration>
     return new ApplicationModule();
   }
 
-
-  @Override
-  public void initializeInternal(Bootstrap<DoraConfiguration> bootstrap) {
-    bootstrap.addBundle(new SundialBundle<DoraConfiguration>() {
-      @Override
-      public SundialConfiguration getSundialConfiguration(DoraConfiguration configuration) {
-        SundialConfiguration config = new SundialConfiguration();
-        config.setThreadPoolSize("10");
-        config.setPerformShutdown("true");
-        config.setWaitOnShutdown("false");
-        config.setStartDelay("5");
-        config.setStartOnLoad("true");
-        config.setGlobalLockOnLoad("false");
-        config.setAnnotatedJobsPackageName("gov.ca.cwds.jobs");
-        return config;
-      }
-    });
-  }
-
   @Override
   @SuppressWarnings("findsecbugs:CRLF_INJECTION_LOGS")
   // DoraConfiguration and system-information.properties are trusted sources
@@ -120,7 +99,6 @@ public final class DoraApplication extends BaseApiApplication<DoraConfiguration>
 
     environment.jersey().register(new ShiroExceptionMapper());
     environment.servlets().setSessionHandler(new SessionHandler());
-    environment.getApplicationContext().setAttribute("environment", environment);
 
     environment.servlets()
         .addFilter("AuditAndLoggingFilter",
