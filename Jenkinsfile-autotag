@@ -116,6 +116,25 @@ def comp = { x, y ->
 	}
     tags.sort (comp)
     echo "tags after sort : $tags"
+
+// Sort because comparator is not worked well
+	for (i=0;i<tags.size();i++)  {
+		for (j=i+1;j<tags.size();j++) {
+			def x1 = tags[i].tokenize('.')
+			def y1 = tags[j].tokenize('.')
+			for(int index in (0..2)) {
+			    if (x1[index].toInteger() != y1[index].toInteger()) {
+					if (x1[index].toInteger() >  y1[index].toInteger()) {
+						def saveitem = tags[j]
+						tags[j] = tags[i]
+						tags[i] = saveitem
+						break
+					} else {
+						break
+					}
+				}
+			}
+    echo "tags after second sort : $tags"
     def mostRecentTag = tags.last()
     def mostRecentTagParts = mostRecentTag.tokenize('.')
     def newTagMajor = mostRecentTagParts[0].toInteger()
