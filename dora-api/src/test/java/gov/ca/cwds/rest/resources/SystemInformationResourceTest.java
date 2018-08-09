@@ -15,7 +15,6 @@ import javax.ws.rs.core.MediaType;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import com.squarespace.jersey2.guice.JerseyGuiceUtils;
@@ -62,7 +61,6 @@ public class SystemInformationResourceTest extends BaseDoraApplicationTest {
     assertThat(systemInformationDTO.getVersion(), is(notNullValue()));
   }
 
-  @Ignore
   @Test
   public void testHealthChecksResults() {
     SystemInformationDTO systemInformationDTO = clientTestRule.target(SYSTEM_INFORMATION)
