@@ -1,8 +1,10 @@
 package gov.ca.cwds.dora.health;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
+import org.elasticsearch.client.ResponseException;
 import org.elasticsearch.client.RestClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,17 +43,29 @@ public class ElasticsearchIndexHealthCheck extends ElasticsearchHealthCheck {
   @Override
   protected Result elasticsearchCheck(RestClient esRestClient) throws IOException {
     List<Object> jsonListIndices = performRequestList(esRestClient, "GET", ES_INDEXES_ENDPOINT);
-    List<Object> jsonListAliases = performRequestList(esRestClient, "GET", ES_ALIASES_ENDPOINT);
+    List<Object> jsonListAliases = getAliasesList(esRestClient, "GET", ES_ALIASES_ENDPOINT);
 
-    if (!DoraUtils.isIndexExist(jsonListIndices, indexName)
-        && !DoraUtils.isAliasExist(jsonListAliases, indexName)) {
-      String unhealthyMsg = String.format(UNHEALTHY_ES_INDEX_MSG, indexName);
-      LOGGER.error(unhealthyMsg);
-      return Result.unhealthy(unhealthyMsg);
-    } else {
+
+    if (DoraUtils.isIndexExist(jsonListIndices, indexName)
+        || DoraUtils.isAliasExist(jsonListAliases, indexName)) {
       String healthyMsg = String.format(HEALTHY_ES_INDEX_MSG, indexName);
       LOGGER.info(healthyMsg);
       return Result.healthy(healthyMsg);
+    } else {
+      String unhealthyMsg = String.format(UNHEALTHY_ES_INDEX_MSG, indexName);
+      LOGGER.error(unhealthyMsg);
+      return Result.unhealthy(unhealthyMsg);
     }
+  }
+
+  private List<Object> getAliasesList(RestClient esRestClient, String method,
+      String esAliasesEndpoint) throws IOException {
+    List<Object> jsonListAliases = new ArrayList<>();
+    try {
+      jsonListAliases = performRequestList(esRestClient, method, esAliasesEndpoint);
+    } catch (ResponseException re) {
+      LOGGER.info("Aliases do not exist.");
+    }
+    return jsonListAliases;
   }
 }
