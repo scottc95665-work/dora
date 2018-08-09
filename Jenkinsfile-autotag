@@ -105,15 +105,15 @@ def getTags() {
 def getNewTag(List tags, VersionIncrement increment) {
     debug("start getNewTag( tags: {$tags}, increment: ${increment} )")
 
-def comp = { x, y ->
-		List tag1Split = x.tokenize('.')
-		List tag2Split = y.tokenize('.')
+    def comp = { x, y ->
+            List tag1Split = x.tokenize('.')
+            List tag2Split = y.tokenize('.')
 
-		for(int index in (0..2)) {
-			if (tag1Split[index].toInteger() != tag2Split[index].toInteger())
-			    return tag1Split[index].toInteger() <=> tag2Split[index].toInteger()
-		}
-	}
+            for(int index in (0..2)) {
+                if (tag1Split[index].toInteger() != tag2Split[index].toInteger())
+                    return tag1Split[index].toInteger() <=> tag2Split[index].toInteger()
+            }
+        }
     tags.sort (comp)
     echo "tags after sort : $tags"
 
