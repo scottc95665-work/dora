@@ -134,6 +134,8 @@ def comp = { x, y ->
 					}
 				}
 			}
+		}
+	}
     echo "tags after second sort : $tags"
     def mostRecentTag = tags.last()
     def mostRecentTagParts = mostRecentTag.tokenize('.')
