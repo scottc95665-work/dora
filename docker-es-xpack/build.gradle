@@ -157,7 +157,7 @@ task dockerPopulateTestPeople {
         // create screenings index
         esExecute("PUT", "/screenings", "{}")
         // create users index
-        esExecute("PUT", "/users", readFile("$projectDir/test_data/users.index_config.json"))
+        esExecute("PUT", "/users", readFile("$projectDir/test_data/people.index_config.json"))
     }
     doLast {
         // populate test people data

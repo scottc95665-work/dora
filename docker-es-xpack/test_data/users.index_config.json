@@ -1,22 +1,47 @@
 {
+
+ "settings": {
+    "number_of_shards": 1,
+    "number_of_replicas": 2,
+    "analysis": {
+      "analyzer": {
+        "keyword_lowercase": {
+          "tokenizer": "keyword",
+          "filter": ["lowercase"]
+        }
+      }
+    }
+  },
   "mappings": {
     "user": {
       "properties": {
-        "first_name": {
-          "type": "text",
-          "fields": {
-            "keyword": {
-              "type": "keyword"
-            }
-          }
-        },
-        "last_name": {
-          "type": "text",
-          "fields": {
-            "keyword": {
-              "type": "keyword"
-            }
-          }
+         "last_name": {
+           "type": "text",
+           "fields": {
+             "for_sort": {
+               "type": "text",
+               "analyzer": "keyword_lowercase",
+               "fielddata": true
+             },
+             "keyword": {
+               "type": "keyword",
+               "ignore_above": 256
+             }
+           }
+         },
+         "first_name": {
+           "type": "text",
+           "fields": {
+             "for_sort": {
+               "type": "text",
+               "analyzer": "keyword_lowercase",
+               "fielddata": true
+             },
+             "keyword": {
+               "type": "keyword",
+               "ignore_above": 256
+             }
+           }
         }
       }
     }
