@@ -1,8 +1,5 @@
 package gov.ca.cwds.dora;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import gov.ca.cwds.rest.ElasticsearchConfiguration;
-import gov.ca.cwds.rest.api.DoraException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -11,6 +8,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.stream.Stream;
+
 import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
@@ -22,6 +20,11 @@ import org.elasticsearch.client.RestClientBuilder;
 import org.jadira.usertype.spi.utils.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import gov.ca.cwds.rest.ElasticsearchConfiguration;
+import gov.ca.cwds.rest.api.DoraException;
 
 /**
  * @author CWDS TPT-2
@@ -55,8 +58,8 @@ public final class DoraUtils {
 
   @SuppressWarnings("fb-contrib:CLI_CONSTANT_LIST_INDEX")
   private static int getPort(String[] hostPortPair) {
-    return hostPortPair.length > 1 && hostPortPair[1] != null ?
-        Integer.parseInt(hostPortPair[1]) : -1;
+    return hostPortPair.length > 1 && hostPortPair[1] != null ? Integer.parseInt(hostPortPair[1])
+        : -1;
   }
 
   private static String getHost(String[] hostPortPair) {
@@ -67,14 +70,10 @@ public final class DoraUtils {
     HttpHost[] httpHosts = parseNodes(esConfig.getNodes());
     final CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
     credentialsProvider.setCredentials(AuthScope.ANY,
-        new UsernamePasswordCredentials(esConfig.getUser(),
-            esConfig.getPassword()));
+        new UsernamePasswordCredentials(esConfig.getUser(), esConfig.getPassword()));
 
-    RestClientBuilder restClientBuilder = RestClient
-        .builder(httpHosts)
-        .setHttpClientConfigCallback(
-            httpClientBuilder -> httpClientBuilder
-                .setDefaultCredentialsProvider(credentialsProvider));
+    RestClientBuilder restClientBuilder = RestClient.builder(httpHosts).setHttpClientConfigCallback(
+        httpClientBuilder -> httpClientBuilder.setDefaultCredentialsProvider(credentialsProvider));
     return restClientBuilder.build();
   }
 
@@ -129,20 +128,25 @@ public final class DoraUtils {
     return nodesMap.entrySet().stream().filter(esNodeEntry -> {
       Map<String, Object> esNode = (Map<String, Object>) esNodeEntry.getValue();
       List<Object> esNodePluginsList = (List<Object>) esNode.get("plugins");
-      // return true if the node does not have the plugin, because we need to have such nodes after the filter
-      return esNodePluginsList.stream().noneMatch(
-          plugin -> ((Map<String, Object>) plugin).get("name").equals(pluginName)
-      );
+      // return true if the node does not have the plugin, because we need to have such nodes after
+      // the filter
+      return esNodePluginsList.stream()
+          .noneMatch(plugin -> ((Map<String, Object>) plugin).get("name").equals(pluginName));
     }).map(Entry::getKey);
   }
 
   @SuppressWarnings("unchecked")
-  public static boolean isIndexExist(List<Object> jsonList,
-      String indexName) {
+  public static boolean isIndexExist(List<Object> jsonList, String indexName) {
 
-    return jsonList.stream().anyMatch(
-        index -> ((Map<String, Object>) index).get("index").equals(indexName)
-    );
+    return jsonList.stream()
+        .anyMatch(index -> ((Map<String, Object>) index).get("index").equals(indexName));
+  }
+
+  @SuppressWarnings("unchecked")
+  public static boolean isAliasExist(List<Object> jsonList, String indexName) {
+
+    return jsonList.stream()
+        .anyMatch(index -> ((Map<String, Object>) index).get("alias").equals(indexName));
   }
 
   private static Properties getSystemInformationProperties() {
