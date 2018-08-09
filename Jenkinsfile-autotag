@@ -102,7 +102,6 @@ def getTags() {
 // Takes a list of strings in sem
 // Returns a string with the new version tag
 def getNewTag(List tags, VersionIncrement increment) {
-    debug("start getNewTag( tags: {$tags}, increment: ${increment} )")
     // Sort because comparator is not worked well
     for (i=0;i<tags.size();i++)  {
         for (j=i+1;j<tags.size();j++) {
@@ -123,13 +122,11 @@ def getNewTag(List tags, VersionIncrement increment) {
 			}
 		}
 	}
-	echo "tags after second sort : $tags"
 	def mostRecentTag = tags.last()
 	def mostRecentTagParts = mostRecentTag.tokenize('.')
 	def newTagMajor = mostRecentTagParts[0].toInteger()
 	def newTagMinor = mostRecentTagParts[1].toInteger()
     def newTagPatch = mostRecentTagParts[2].toInteger()
-
     switch(increment) {
         case VersionIncrement.MAJOR:
             newTagMajor++
