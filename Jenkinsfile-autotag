@@ -115,6 +115,7 @@ def comp = { x, y ->
 		}
 	}
     tags.sort (comp)
+    echo "tags after sort : $tags"
     def mostRecentTag = tags.last()
     def mostRecentTagParts = mostRecentTag.tokenize('.')
     def newTagMajor = mostRecentTagParts[0].toInteger()
