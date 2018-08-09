@@ -94,8 +94,6 @@ def getVersionIncrement(labels) {
 // Returns a list of strings (version number tags)
 def getTags() {
     def gitTagOutput = sh(script: "git tag", returnStdout: true)
-    debug("getTags(): git tag Output: ${gitTagOutput}")
-
     def tags = gitTagOutput.split("\n").findAll{ it =~ /^\d+\.\d+\.\d+$/ }
     return tags
 }
@@ -103,29 +101,20 @@ def getTags() {
 // Gets a string indicating what the new tag should be in SemVer format
 // Takes a list of strings in sem
 // Returns a string with the new version tag
+@NonCPS
 def getNewTag(List tags, VersionIncrement increment) {
     debug("start getNewTag( tags: {$tags}, increment: ${increment} )")
 
-// Sort because comparator is not worked well
-	for (i=0;i<tags.size();i++)  {
-		for (j=i+1;j<tags.size();j++) {
-			debug("i: ${i} tag1: ${tags[i]} j: ${j} tag2: ${tags[j]}")
-			def x1 = tags[i].tokenize('.')
-			def y1 = tags[j].tokenize('.')
-			for(int index in (0..2)) {
-			    if (x1[index].toInteger() != y1[index].toInteger()) {
-					if (x1[index].toInteger() >  y1[index].toInteger()) {
-						def saveitem = tags[j]
-						tags[j] = tags[i]
-						tags[i] = saveitem
-						break
-					} else {
-						break
-					}
-				}
-			}
+def comp = { x, y ->
+		List tag1Split = x.tokenize('.')
+		List tag2Split = y.tokenize('.')
+
+		for(int index in (0..2)) {
+			if (tag1Split[index].toInteger() != tag2Split[index].toInteger())
+			    return tag1Split[index].toInteger() <=> tag2Split[index].toInteger()
 		}
 	}
+    tags.sort (comp)
     def mostRecentTag = tags.last()
     def mostRecentTagParts = mostRecentTag.tokenize('.')
     def newTagMajor = mostRecentTagParts[0].toInteger()
@@ -198,8 +187,6 @@ node('dora-slave') {
             checkout changelog: false, poll: false, scm: [$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'ansible']], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '433ac100-b3c2-4519-b4d6-207c029a103b', url: 'git@github.com:ca-cwds/de-ansible.git']]]
             rtGradle.tool = "Gradle_35"
             rtGradle.resolver repo: 'repo', server: serverArti
-        }
-        stage("Increment Tag") {
             try {
                 def prEvent = getPullRequestEvent()
                 def labels = getLabels(prEvent)
