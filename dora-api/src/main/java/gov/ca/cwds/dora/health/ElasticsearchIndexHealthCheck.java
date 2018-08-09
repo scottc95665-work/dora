@@ -1,14 +1,16 @@
 package gov.ca.cwds.dora.health;
 
-import com.google.inject.Inject;
-import gov.ca.cwds.dora.DoraUtils;
-import gov.ca.cwds.rest.ElasticsearchConfiguration;
 import java.io.IOException;
 import java.util.List;
 
 import org.elasticsearch.client.RestClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.google.inject.Inject;
+
+import gov.ca.cwds.dora.DoraUtils;
+import gov.ca.cwds.rest.ElasticsearchConfiguration;
 
 /**
  * @author CWDS TPT-2
@@ -18,6 +20,7 @@ public class ElasticsearchIndexHealthCheck extends ElasticsearchHealthCheck {
   private static final Logger LOGGER = LoggerFactory.getLogger(ElasticsearchIndexHealthCheck.class);
 
   static final String ES_INDEXES_ENDPOINT = "/_cat/indices?format=json&pretty";
+  static final String ES_ALIASES_ENDPOINT = "/_cat/aliases?format=json&pretty";
 
   static final String HEALTHY_ES_INDEX_MSG = "[%s] index exist on the server.";
   static final String UNHEALTHY_ES_INDEX_MSG = "[%s] index does not exist on the server.";
@@ -37,10 +40,12 @@ public class ElasticsearchIndexHealthCheck extends ElasticsearchHealthCheck {
 
   @Override
   protected Result elasticsearchCheck(RestClient esRestClient) throws IOException {
-    List<Object> jsonList = performRequestList(esRestClient, "GET", ES_INDEXES_ENDPOINT);
-    if (!DoraUtils.isIndexExist(jsonList, indexName)) {
-      String unhealthyMsg = String
-          .format(UNHEALTHY_ES_INDEX_MSG, indexName);
+    List<Object> jsonListIndices = performRequestList(esRestClient, "GET", ES_INDEXES_ENDPOINT);
+    List<Object> jsonListAliases = performRequestList(esRestClient, "GET", ES_ALIASES_ENDPOINT);
+
+    if (!DoraUtils.isIndexExist(jsonListIndices, indexName)
+        && !DoraUtils.isAliasExist(jsonListAliases, indexName)) {
+      String unhealthyMsg = String.format(UNHEALTHY_ES_INDEX_MSG, indexName);
       LOGGER.error(unhealthyMsg);
       return Result.unhealthy(unhealthyMsg);
     } else {

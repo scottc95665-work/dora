@@ -1,0 +1,9 @@
+[
+  {
+    "alias": "people-summary",
+    "index": "people-summary_2018.08.07.12.11.26",
+    "filter": "-",
+    "routing.index": "-",
+    "routing.search": "-"
+  }
+]
