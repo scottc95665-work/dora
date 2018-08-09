@@ -98,6 +98,17 @@ def getTags() {
     return tags
 }
 
+def comp = { x, y ->
+    List tag1Split = x.tokenize('.')
+    List tag2Split = y.tokenize('.')
+
+    for(int index in (0..2)) {
+          if (tag1Split[index].toInteger() != tag2Split[index].toInteger())
+               return tag1Split[index].toInteger() <=> tag2Split[index].toInteger()
+          }
+}
+
+
 // Gets a string indicating what the new tag should be in SemVer format
 // Takes a list of strings in sem
 // Returns a string with the new version tag
@@ -105,15 +116,6 @@ def getTags() {
 def getNewTag(List tags, VersionIncrement increment) {
     debug("start getNewTag( tags: {$tags}, increment: ${increment} )")
 
-    def comp = { x, y ->
-            List tag1Split = x.tokenize('.')
-            List tag2Split = y.tokenize('.')
-
-            for(int index in (0..2)) {
-                if (tag1Split[index].toInteger() != tag2Split[index].toInteger())
-                    return tag1Split[index].toInteger() <=> tag2Split[index].toInteger()
-            }
-        }
     tags.sort (comp)
     echo "tags after sort : $tags"
 
