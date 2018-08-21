@@ -22,6 +22,8 @@ swagger:
   callbackUrl: ${SWAGGER_CALLBACK_URL:-http://localhost:8090/swagger}
   tokenUrl: ${SWAGGER_TOKEN_URL:-http://localhost:8080/perry/authn/token}
 
+mode: ${DORA_MODE:-PROD}
+
 elasticsearch:
   nodes: ${ES_NODES:-dora.dev.cwds.io:9200,localhost:9200}
   user: ${XPACK_USER:-elastic}

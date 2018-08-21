@@ -10,4 +10,8 @@ public interface DoraConstants {
     String SYSTEM_INFORMATION = "system-information";
 
     String RESOURCE_ELASTICSEARCH_INDEX_QUERY = "dora";
+
+    String PROD_MODE = "PROD";
+
+    String DEV_MODE = "DEV";
 }

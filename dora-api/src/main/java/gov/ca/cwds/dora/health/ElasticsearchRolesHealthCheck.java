@@ -1,7 +1,7 @@
 package gov.ca.cwds.dora.health;
 
 import com.google.inject.Inject;
-import gov.ca.cwds.rest.ElasticsearchConfiguration;
+import gov.ca.cwds.rest.DoraConfiguration;
 import org.elasticsearch.client.RestClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,11 +26,11 @@ public class ElasticsearchRolesHealthCheck extends ElasticsearchHealthCheck {
   /**
    * Constructor
    *
-   * @param esConfig instance of ElasticsearchConfiguration
+   * @param config instance of DoraConfiguration
    */
   @Inject
-  public ElasticsearchRolesHealthCheck(ElasticsearchConfiguration esConfig, String roleName) {
-    super(esConfig);
+  public ElasticsearchRolesHealthCheck(DoraConfiguration config, String roleName) {
+    super(config);
     this.roleName = roleName;
   }
 
