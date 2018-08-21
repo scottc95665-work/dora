@@ -13,6 +13,8 @@ swagger:
   loginUrl: ${PERRY_URL:-http://localhost:8090/authn/login}
   showSwagger: ${SHOW_SWAGGER:-false}
 
+mode: ${DORA_MODE:-DEV}
+
 elasticsearch:
   nodes: ${ES_NODES:-dora.dev.cwds.io:9200}
   user: ${XPACK_USER:-elastic}

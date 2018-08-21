@@ -14,6 +14,11 @@ For example `/dora/facilities/facility/_search` or `/dora/people/person/_search`
 
 Configuration options are available in the file config/dora.yml.
 
+Dora can be configured to run in `PROD` or `DEV` mode.
+The default mode is `PROD`, and it can be changed with the `DORA_MODE` environment variable accepting values `'PROD'` and `'DEV'`.
+When Dora is configured to run in `PROD` mode, it does not fire health checks of Elasticsearch XPack Roles.
+Any other mode will cause Dora to fire that health checks.
+
 ### Security Configuration
 
 #### Disabling Security

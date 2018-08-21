@@ -15,6 +15,8 @@ swagger:
   jsonUrl: ${SWAGGER_JSON_URL:-http://localhost:8080/swagger.json}
   callbackUrl: ${SWAGGER_CALLBACK_URL:-http://localhost:8080/swagger}
 
+mode: ${DORA_MODE:-PROD}
+
 elasticsearch:
   nodes: ${ES_NODES:-dora.dev.cwds.io:9200,localhost:9210}
   user: ${XPACK_USER:-elastic}

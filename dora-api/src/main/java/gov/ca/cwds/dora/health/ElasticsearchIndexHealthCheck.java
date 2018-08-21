@@ -1,5 +1,6 @@
 package gov.ca.cwds.dora.health;
 
+import gov.ca.cwds.rest.DoraConfiguration;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +13,6 @@ import org.slf4j.LoggerFactory;
 import com.google.inject.Inject;
 
 import gov.ca.cwds.dora.DoraUtils;
-import gov.ca.cwds.rest.ElasticsearchConfiguration;
 
 /**
  * @author CWDS TPT-2
@@ -32,11 +32,11 @@ public class ElasticsearchIndexHealthCheck extends ElasticsearchHealthCheck {
   /**
    * Constructor
    *
-   * @param esConfig instance of ElasticsearchConfiguration
+   * @param config instance of DoraConfiguration
    */
   @Inject
-  public ElasticsearchIndexHealthCheck(ElasticsearchConfiguration esConfig, String indexName) {
-    super(esConfig);
+  public ElasticsearchIndexHealthCheck(DoraConfiguration config, String indexName) {
+    super(config);
     this.indexName = indexName;
   }
 

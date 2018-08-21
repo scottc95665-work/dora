@@ -14,7 +14,10 @@ import static gov.ca.cwds.dora.health.ElasticsearchPluginHealthCheck.UNHEALTHY_E
 import static gov.ca.cwds.dora.health.ElasticsearchRolesHealthCheck.ES_ROLES_ENDPOINT;
 import static gov.ca.cwds.dora.health.ElasticsearchRolesHealthCheck.HEALTHY_ES_ROLES_MSG;
 import static gov.ca.cwds.dora.health.ElasticsearchRolesHealthCheck.UNHEALTHY_ES_ROLES_MSG;
+import static gov.ca.cwds.rest.BaseDoraApplicationTest.config;
 import static gov.ca.cwds.rest.BaseDoraApplicationTest.esConfig;
+import static gov.ca.cwds.rest.DoraConstants.DEV_MODE;
+import static gov.ca.cwds.rest.DoraConstants.PROD_MODE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -24,6 +27,7 @@ import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.spy;
 
+import gov.ca.cwds.rest.DoraConfiguration;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -41,28 +45,28 @@ import gov.ca.cwds.rest.ElasticsearchConfiguration;
  */
 public class DoraHealthChecksTest {
 
-  private static final ElasticsearchConfiguration ES_CONFIG_OK_NO_XPACK =
-      esConfig("localhost:9200", false, "user", "password");
-  private static final ElasticsearchConfiguration ES_CONFIG_OK_XPACK =
-      esConfig("dora.dev.cwds.io:9200", true, "user", "password");
+  private static final DoraConfiguration CONFIG_OK_NO_XPACK =
+      config(DEV_MODE, esConfig("localhost:9200", false, "user", "password"));
+  private static final DoraConfiguration CONFIG_OK_XPACK =
+      config(PROD_MODE, esConfig("dora.dev.cwds.io:9200", true, "user", "password"));
 
   @Test
   public void testElasticsearchConfigurations() throws Exception {
     new ElasticsearchConfiguration().setNodes("localhost:");
-    assertIncorrectElasticsearchConfiguration(esConfig("localhost:", false, null, null));
-    assertIncorrectElasticsearchConfiguration(esConfig(":9200", false, null, null));
-    assertIncorrectElasticsearchConfiguration(esConfig("localhost:9200", true, null, null));
-    assertIncorrectElasticsearchConfiguration(esConfig("localhost:9200", true, "user", null));
-    assertIncorrectElasticsearchConfiguration(esConfig("localhost:9200", true, null, "password"));
+    assertIncorrectElasticsearchConfiguration(config("localhost:", false, null, null));
+    assertIncorrectElasticsearchConfiguration(config(":9200", false, null, null));
+    assertIncorrectElasticsearchConfiguration(config("localhost:9200", true, null, null));
+    assertIncorrectElasticsearchConfiguration(config("localhost:9200", true, "user", null));
+    assertIncorrectElasticsearchConfiguration(config("localhost:9200", true, null, "password"));
 
-    assertCorrectElasticsearchConfiguration(ES_CONFIG_OK_NO_XPACK);
-    assertCorrectElasticsearchConfiguration(ES_CONFIG_OK_XPACK);
+    assertCorrectElasticsearchConfiguration(CONFIG_OK_NO_XPACK);
+    assertCorrectElasticsearchConfiguration(CONFIG_OK_XPACK);
   }
 
   @Test
   public void testElasticsearchUnavailable() throws Exception {
     ElasticsearchHealthCheck elasticsearchHealthCheck =
-        spy(new ElasticsearchHealthCheck(esConfig("localhost:9999", false, "user", "password")));
+        spy(new ElasticsearchHealthCheck(config("localhost:9999", false, "user", "password")));
     doThrow(new IOException("")).when(elasticsearchHealthCheck).performRequest(Mockito.any(),
         eq("GET"), eq("/"));
     Result result = elasticsearchHealthCheck.check();
@@ -75,7 +79,7 @@ public class DoraHealthChecksTest {
   @Test
   public void testElasticsearchAvailable() throws Exception {
     ElasticsearchHealthCheck elasticsearchHealthCheck =
-        spy(new ElasticsearchHealthCheck(ES_CONFIG_OK_NO_XPACK));
+        spy(new ElasticsearchHealthCheck(CONFIG_OK_NO_XPACK));
     doReturn(loadMockResponse("/es/mock-responses/es-get.json")).when(elasticsearchHealthCheck)
         .performRequest(Mockito.any(), eq("GET"), eq("/"));
     Result result = elasticsearchHealthCheck.check();
@@ -89,7 +93,7 @@ public class DoraHealthChecksTest {
   @Test
   public void testElasticsearchPluginUnavailable() throws Exception {
     ElasticsearchPluginHealthCheck elasticsearchPluginHealthCheck =
-        spy(new ElasticsearchPluginHealthCheck(ES_CONFIG_OK_XPACK, "x-pack"));
+        spy(new ElasticsearchPluginHealthCheck(CONFIG_OK_XPACK, "x-pack"));
     doReturn(loadMockResponse("/es/mock-responses/es-get.json"))
         .when(elasticsearchPluginHealthCheck).performRequest(Mockito.any(), eq("GET"), eq("/"));
     doReturn(loadMockResponse("/es/mock-responses/es-get-nodes-plugins-1.json"))
@@ -106,7 +110,7 @@ public class DoraHealthChecksTest {
   @Test
   public void testElasticsearchPluginAvailable() throws Exception {
     ElasticsearchPluginHealthCheck elasticsearchPluginHealthCheck =
-        spy(new ElasticsearchPluginHealthCheck(ES_CONFIG_OK_XPACK, "x-pack"));
+        spy(new ElasticsearchPluginHealthCheck(CONFIG_OK_XPACK, "x-pack"));
     doReturn(loadMockResponse("/es/mock-responses/es-get.json"))
         .when(elasticsearchPluginHealthCheck).performRequest(Mockito.any(), eq("GET"), eq("/"));
     doReturn(loadMockResponse("/es/mock-responses/es-get-nodes-plugins-2.json"))
@@ -122,7 +126,7 @@ public class DoraHealthChecksTest {
   @Test
   public void testElasticsearchIndexAvailable() throws Exception {
     ElasticsearchIndexHealthCheck elasticsearchIndexHealthCheck =
-        spy(new ElasticsearchIndexHealthCheck(ES_CONFIG_OK_XPACK, "people"));
+        spy(new ElasticsearchIndexHealthCheck(CONFIG_OK_XPACK, "people"));
     doReturn(loadMockResponse("/es/mock-responses/es-get.json")).when(elasticsearchIndexHealthCheck)
         .performRequest(Mockito.any(), eq("GET"), eq("/"));
     doReturn(loadMockResponseList("/es/mock-responses/es-get-indexes-1.json"))
@@ -141,7 +145,7 @@ public class DoraHealthChecksTest {
   @Test
   public void testElasticsearchIndexNotAvailable() throws Exception {
     ElasticsearchIndexHealthCheck elasticsearchIndexHealthCheck =
-        spy(new ElasticsearchIndexHealthCheck(ES_CONFIG_OK_XPACK, "people"));
+        spy(new ElasticsearchIndexHealthCheck(CONFIG_OK_XPACK, "people"));
     doReturn(loadMockResponse("/es/mock-responses/es-get.json")).when(elasticsearchIndexHealthCheck)
         .performRequest(Mockito.any(), eq("GET"), eq("/"));
     doReturn(loadMockResponseList("/es/mock-responses/es-get-indexes-2.json"))
@@ -161,7 +165,7 @@ public class DoraHealthChecksTest {
   @Test
   public void testElasticsearchAliasAvailable() throws Exception {
     ElasticsearchIndexHealthCheck elasticsearchIndexHealthCheck =
-        spy(new ElasticsearchIndexHealthCheck(ES_CONFIG_OK_XPACK, "people"));
+        spy(new ElasticsearchIndexHealthCheck(CONFIG_OK_XPACK, "people"));
     doReturn(loadMockResponse("/es/mock-responses/es-get.json")).when(elasticsearchIndexHealthCheck)
         .performRequest(Mockito.any(), eq("GET"), eq("/"));
     doReturn(loadMockResponseList("/es/mock-responses/es-get-indexes-2.json"))
@@ -181,7 +185,7 @@ public class DoraHealthChecksTest {
   @Test
   public void testElasticsearchAliasNotAvailable() throws Exception {
     ElasticsearchIndexHealthCheck elasticsearchIndexHealthCheck =
-        spy(new ElasticsearchIndexHealthCheck(ES_CONFIG_OK_XPACK, "people"));
+        spy(new ElasticsearchIndexHealthCheck(CONFIG_OK_XPACK, "people"));
     doReturn(loadMockResponse("/es/mock-responses/es-get.json")).when(elasticsearchIndexHealthCheck)
         .performRequest(Mockito.any(), eq("GET"), eq("/"));
     doReturn(loadMockResponseList("/es/mock-responses/es-get-indexes-2.json"))
@@ -201,7 +205,7 @@ public class DoraHealthChecksTest {
   @Test
   public void testElasticsearchRoleAvailable() throws Exception {
     ElasticsearchRolesHealthCheck elasticsearchRolesHealthCheck =
-        spy(new ElasticsearchRolesHealthCheck(ES_CONFIG_OK_XPACK, "worker"));
+        spy(new ElasticsearchRolesHealthCheck(CONFIG_OK_XPACK, "worker"));
     doReturn(loadMockResponse("/es/mock-responses/es-get.json")).when(elasticsearchRolesHealthCheck)
         .performRequest(Mockito.any(), eq("GET"), eq("/"));
     doReturn(loadMockResponse("/es/mock-responses/es-get-roles-1.json"))
@@ -217,7 +221,7 @@ public class DoraHealthChecksTest {
   @Test
   public void testElasticsearchRoleNotAvailable() throws Exception {
     ElasticsearchRolesHealthCheck elasticsearchRolesHealthCheck =
-        spy(new ElasticsearchRolesHealthCheck(ES_CONFIG_OK_XPACK, "worker"));
+        spy(new ElasticsearchRolesHealthCheck(CONFIG_OK_XPACK, "worker"));
     doReturn(loadMockResponse("/es/mock-responses/es-get.json")).when(elasticsearchRolesHealthCheck)
         .performRequest(Mockito.any(), eq("GET"), eq("/"));
     doReturn(loadMockResponse("/es/mock-responses/es-get-roles-2.json"))
@@ -230,20 +234,21 @@ public class DoraHealthChecksTest {
     assertEquals(String.format(UNHEALTHY_ES_ROLES_MSG, "worker"), result.getMessage());
   }
 
-  private void assertIncorrectElasticsearchConfiguration(ElasticsearchConfiguration esConfig)
+  private void assertIncorrectElasticsearchConfiguration(DoraConfiguration config)
       throws Exception {
-    Result result = new BasicDoraHealthCheck(esConfig).check();
+    Result result = new BasicDoraHealthCheck(config).check();
     assertNotNull(result);
     assertFalse(result.isHealthy());
     assertEquals(UNHEALTHY_ES_CONFIG_MSG, result.getMessage());
   }
 
-  private void assertCorrectElasticsearchConfiguration(ElasticsearchConfiguration esConfig)
+  private void assertCorrectElasticsearchConfiguration(DoraConfiguration config)
       throws Exception {
-    Result result = new BasicDoraHealthCheck(esConfig).check();
+    Result result = new BasicDoraHealthCheck(config).check();
     assertNotNull(result);
     assertTrue(result.isHealthy());
-    assertEquals(String.format(HEALTHY_ES_CONFIG_MSG, esConfig.getNodes(),
+    ElasticsearchConfiguration esConfig = config.getElasticsearchConfiguration();
+    assertEquals(String.format(HEALTHY_ES_CONFIG_MSG, config.getMode(), esConfig.getNodes(),
         esConfig.getXpack().isEnabled() ? "enabled" : "disabled"), result.getMessage());
   }
 

@@ -3,7 +3,7 @@ package gov.ca.cwds.dora.health;
 import com.google.inject.Inject;
 import gov.ca.cwds.dora.DoraUtils;
 import gov.ca.cwds.managed.EsRestClientManager;
-import gov.ca.cwds.rest.ElasticsearchConfiguration;
+import gov.ca.cwds.rest.DoraConfiguration;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -24,11 +24,11 @@ public class ElasticsearchHealthCheck extends BasicDoraHealthCheck {
   /**
    * Constructor
    *
-   * @param esConfig instance of ElasticsearchConfiguration
+   * @param config instance of DoraConfiguration
    */
   @Inject
-  public ElasticsearchHealthCheck(ElasticsearchConfiguration esConfig) {
-    super(esConfig);
+  public ElasticsearchHealthCheck(DoraConfiguration config) {
+    super(config);
   }
 
   @Override
