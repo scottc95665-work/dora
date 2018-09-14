@@ -1,6 +1,8 @@
 package gov.ca.cwds.xpack.realm.perry;
 
-import static gov.ca.cwds.xpack.realm.utils.Constants.CWS_ADMIN;
+import static gov.ca.cwds.xpack.realm.utils.Constants.COUNTY_ADMIN;
+import static gov.ca.cwds.xpack.realm.utils.Constants.OFFICE_ADMIN;
+import static gov.ca.cwds.xpack.realm.utils.Constants.STATE_ADMIN;
 import static gov.ca.cwds.xpack.realm.utils.PerryRealmUtils.parsePerryTokenFromJSON;
 import static java.net.HttpURLConnection.HTTP_OK;
 
@@ -126,12 +128,14 @@ public class PerryRealm extends Realm {
       logger.info(cwdsPrivileges);
 
       ArrayList<String> rolesList = new ArrayList<>();
-      rolesList.add(WORKER);
-      logger.debug(ADDING_ROLE, WORKER);
+      addRole(rolesList, WORKER);
 
-      if (jsonTokenInfoHolder.getRoles().contains(CWS_ADMIN)) {
-        rolesList.add(CWS_ADMIN);
-        logger.debug(ADDING_ROLE, CWS_ADMIN);
+      if (jsonTokenInfoHolder.getRoles().contains(STATE_ADMIN)) {
+        addRole(rolesList, STATE_ADMIN);
+      } else if (jsonTokenInfoHolder.getRoles().contains(COUNTY_ADMIN)) {
+        addRole(rolesList, COUNTY_ADMIN);
+      } else if (jsonTokenInfoHolder.getRoles().contains(OFFICE_ADMIN)) {
+        addRole(rolesList, OFFICE_ADMIN);
       }
 
       if (cwdsPrivileges.isSocialWorkerOnly()) {
@@ -140,29 +144,23 @@ public class PerryRealm extends Realm {
 
       if (cwdsPrivileges.isCountySensitive() || cwdsPrivileges.isStateSensitive()) {
         setSocialWorkerOnlyRoles(rolesList);
-        rolesList.add(PEOPLE_SENSITIVE);
-        logger.debug(ADDING_ROLE, PEOPLE_SENSITIVE);
+        addRole(rolesList, PEOPLE_SENSITIVE);
       }
 
       if (cwdsPrivileges.isCountySensitive()) {
-        rolesList.add(PEOPLE_SENSITIVE_NO_COUNTY);
-        logger.debug(ADDING_ROLE, PEOPLE_SENSITIVE_NO_COUNTY);
+        addRole(rolesList, PEOPLE_SENSITIVE_NO_COUNTY);
       }
 
       if (cwdsPrivileges.isCountySealed() || cwdsPrivileges.isStateSealed()) {
         setSocialWorkerOnlyRoles(rolesList);
-        rolesList.add(PEOPLE_SEALED);
-        logger.debug(ADDING_ROLE, PEOPLE_SEALED);
-        rolesList.add(PEOPLE_SEALED_NO_COUNTY);
-        logger.debug(ADDING_ROLE, PEOPLE_SEALED_NO_COUNTY);
+        addRole(rolesList, PEOPLE_SEALED);
+        addRole(rolesList, PEOPLE_SEALED_NO_COUNTY);
       }
 
       if (cwdsPrivileges.isFacilitiesReadAdoptions()){
-        rolesList.add(FACILITIES_READ_ADOPTIONS);
-        logger.debug(ADDING_ROLE, FACILITIES_READ_ADOPTIONS);
+        addRole(rolesList, FACILITIES_READ_ADOPTIONS);
       } else if (cwdsPrivileges.isFacilitiesRead()) {
-        rolesList.add(FACILITIES_READ);
-        logger.debug(ADDING_ROLE, FACILITIES_READ);
+        addRole(rolesList, FACILITIES_READ);
       }
 
       String[] roles = rolesList.toArray(new String[rolesList.size()]);
@@ -189,11 +187,14 @@ public class PerryRealm extends Realm {
     }
   }
 
+  private void addRole(ArrayList<String> rolesList, String role) {
+    rolesList.add(role);
+    logger.debug(ADDING_ROLE, role);
+  }
+
   private void setSocialWorkerOnlyRoles(ArrayList<String> rolesList) {
-    rolesList.add(PEOPLE_WORKER);
-    logger.debug(ADDING_ROLE, PEOPLE_WORKER);
-    rolesList.add(PEOPLE_SUMMARY_WORKER);
-    logger.debug(ADDING_ROLE, PEOPLE_SUMMARY_WORKER);
+    addRole(rolesList, PEOPLE_WORKER);
+    addRole(rolesList, PEOPLE_SUMMARY_WORKER);
   }
 
   /**
