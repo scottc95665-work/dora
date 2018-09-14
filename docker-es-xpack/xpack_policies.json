@@ -261,7 +261,7 @@
     }
   },
   {
-    "action": "POST /_xpack/security/role/CWS-admin",
+    "action": "POST /_xpack/security/role/CoutyLevel-admin",
     "content": {
       "cluster": [],
       "indices": [

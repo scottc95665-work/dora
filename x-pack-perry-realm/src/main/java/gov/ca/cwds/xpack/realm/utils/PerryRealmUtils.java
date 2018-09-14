@@ -1,10 +1,12 @@
 package gov.ca.cwds.xpack.realm.utils;
 
 import static gov.ca.cwds.xpack.realm.utils.Constants.ADOPTIONS;
+import static gov.ca.cwds.xpack.realm.utils.Constants.COUNTY_ADMIN;
 import static gov.ca.cwds.xpack.realm.utils.Constants.COUNTY_CODE;
 import static gov.ca.cwds.xpack.realm.utils.Constants.COUNTY_NAME;
-import static gov.ca.cwds.xpack.realm.utils.Constants.CWS_ADMIN;
+import static gov.ca.cwds.xpack.realm.utils.Constants.COUNTY_LEVEL_ADMIN;
 import static gov.ca.cwds.xpack.realm.utils.Constants.CWS_CASE_MANAGEMENT_SYSTEM;
+import static gov.ca.cwds.xpack.realm.utils.Constants.OFFICE_ADMIN;
 import static gov.ca.cwds.xpack.realm.utils.Constants.PRIVILEGES;
 import static gov.ca.cwds.xpack.realm.utils.Constants.RESOURCE_MANAGEMENT;
 import static gov.ca.cwds.xpack.realm.utils.Constants.ROLES;
@@ -15,6 +17,7 @@ import static gov.ca.cwds.xpack.realm.utils.Constants.STATE_OF_CALIFORNIA;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -31,6 +34,8 @@ public final class PerryRealmUtils {
   private static JsonFactory jsonFactory;
 
   private static HashMap<String, String> countyCodeToCountyIdMap = new HashMap<>();
+
+  private static Set<String> adminRoles = new HashSet<>(Arrays.asList(COUNTY_ADMIN, OFFICE_ADMIN));
 
   static {
     jsonFactory = new JsonFactory();
@@ -137,8 +142,8 @@ public final class PerryRealmUtils {
           // roles is array, loop until token equal to "]"
           while (parser.nextToken() != JsonToken.END_ARRAY) {
             String role = parser.getValueAsString().trim();
-            if (CWS_ADMIN.equals(role)) {
-              roles.add(CWS_ADMIN);
+            if (isAdminRole(role)) {
+              roles.add(COUNTY_LEVEL_ADMIN);
             }
           }
         } else if (COUNTY_NAME.equals(fieldName)) {
@@ -156,6 +161,10 @@ public final class PerryRealmUtils {
     holder.setPrivileges(privileges);
     holder.setRoles(roles);
     return holder;
+  }
+
+  private static boolean isAdminRole(String role) {
+    return adminRoles.contains(role);
   }
 
   private static boolean checkThatCountyIsStateOfCalifornia(

@@ -1,6 +1,6 @@
 package gov.ca.cwds.xpack.realm.perry;
 
-import static gov.ca.cwds.xpack.realm.utils.Constants.CWS_ADMIN;
+import static gov.ca.cwds.xpack.realm.utils.Constants.COUNTY_LEVEL_ADMIN;
 import static gov.ca.cwds.xpack.realm.utils.PerryRealmUtils.parsePerryTokenFromJSON;
 import static java.net.HttpURLConnection.HTTP_OK;
 
@@ -129,9 +129,9 @@ public class PerryRealm extends Realm {
       rolesList.add(WORKER);
       logger.debug(ADDING_ROLE, WORKER);
 
-      if (jsonTokenInfoHolder.getRoles().contains(CWS_ADMIN)) {
-        rolesList.add(CWS_ADMIN);
-        logger.debug(ADDING_ROLE, CWS_ADMIN);
+      if (jsonTokenInfoHolder.getRoles().contains(COUNTY_LEVEL_ADMIN)) {
+        rolesList.add(COUNTY_LEVEL_ADMIN);
+        logger.debug(ADDING_ROLE, COUNTY_LEVEL_ADMIN);
       }
 
       if (cwdsPrivileges.isSocialWorkerOnly()) {

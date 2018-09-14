@@ -26,7 +26,8 @@ public class CwdsPrivilegesTest {
     assertTrue(isCwdsPrivilegesEqualsToJson("fixtures/jwtToken-test5.json", true,true, false, false, false, true, false,"1123", "Ventura"));
     assertTrue(isCwdsPrivilegesEqualsToJson("fixtures/jwtToken-test6.json", false,false, false, true, true, false, false,"1126", "State of California"));
     assertTrue(isCwdsPrivilegesEqualsToJson("fixtures/jwtToken-test7.json", false,false, false, true, true, true, true,"1126", "State of California"));
-    assertTrue(isCwdsPrivilegesEqualsToJson("fixtures/jwtToken-test8.json", true,true, true, false, false, true, true,"1087", "Madera", "CWS-admin"));
+    assertTrue(isCwdsPrivilegesEqualsToJson("fixtures/jwtToken-test8.json", true,true, true, false, false, true, true,"1087", "Madera", "CountyLevel-admin"));
+    assertTrue(isCwdsPrivilegesEqualsToJson("fixtures/jwtToken-test9.json", true,true, true, false, false, true, true,"1087", "Madera", "CountyLevel-admin"));
   }
 
   private boolean isCwdsPrivilegesEqualsToJson(String jsonFile, boolean isSocialWorkerOnly, boolean isCountySealed,
