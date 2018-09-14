@@ -4,7 +4,6 @@ import static gov.ca.cwds.xpack.realm.utils.Constants.ADOPTIONS;
 import static gov.ca.cwds.xpack.realm.utils.Constants.COUNTY_ADMIN;
 import static gov.ca.cwds.xpack.realm.utils.Constants.COUNTY_CODE;
 import static gov.ca.cwds.xpack.realm.utils.Constants.COUNTY_NAME;
-import static gov.ca.cwds.xpack.realm.utils.Constants.COUNTY_LEVEL_ADMIN;
 import static gov.ca.cwds.xpack.realm.utils.Constants.CWS_CASE_MANAGEMENT_SYSTEM;
 import static gov.ca.cwds.xpack.realm.utils.Constants.OFFICE_ADMIN;
 import static gov.ca.cwds.xpack.realm.utils.Constants.PRIVILEGES;
@@ -12,6 +11,7 @@ import static gov.ca.cwds.xpack.realm.utils.Constants.RESOURCE_MANAGEMENT;
 import static gov.ca.cwds.xpack.realm.utils.Constants.ROLES;
 import static gov.ca.cwds.xpack.realm.utils.Constants.SEALED;
 import static gov.ca.cwds.xpack.realm.utils.Constants.SENSITIVE_PERSONS;
+import static gov.ca.cwds.xpack.realm.utils.Constants.STATE_ADMIN;
 import static gov.ca.cwds.xpack.realm.utils.Constants.STATE_OF_CALIFORNIA;
 
 import com.fasterxml.jackson.core.JsonFactory;
@@ -35,7 +35,7 @@ public final class PerryRealmUtils {
 
   private static HashMap<String, String> countyCodeToCountyIdMap = new HashMap<>();
 
-  private static Set<String> adminRoles = new HashSet<>(Arrays.asList(COUNTY_ADMIN, OFFICE_ADMIN));
+  private static Set<String> adminRoles = new HashSet<>(Arrays.asList(COUNTY_ADMIN, OFFICE_ADMIN, STATE_ADMIN));
 
   static {
     jsonFactory = new JsonFactory();
@@ -143,7 +143,7 @@ public final class PerryRealmUtils {
           while (parser.nextToken() != JsonToken.END_ARRAY) {
             String role = parser.getValueAsString().trim();
             if (isAdminRole(role)) {
-              roles.add(COUNTY_LEVEL_ADMIN);
+              roles.add(role);
             }
           }
         } else if (COUNTY_NAME.equals(fieldName)) {

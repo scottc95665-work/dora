@@ -261,7 +261,7 @@
     }
   },
   {
-    "action": "POST /_xpack/security/role/CountyLevel-admin",
+    "action": "POST /_xpack/security/role/County-admin",
     "content": {
       "cluster": [],
       "indices": [
@@ -281,6 +281,47 @@
               }
             }
           }
+        }
+      ]
+    }
+  },
+  {
+    "action": "POST /_xpack/security/role/Office-admin",
+    "content": {
+      "cluster": [],
+      "indices": [
+        {
+          "names": [
+            "users"
+          ],
+          "privileges": [
+            "read", "write"
+          ],
+          "query": {
+            "template": {
+              "inline": {
+                "match": {
+                  "county_name": "{{_user.metadata.county_name}}"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  {
+    "action": "POST /_xpack/security/role/State-admin",
+    "content": {
+      "cluster": [],
+      "indices": [
+        {
+          "names": [
+            "users"
+          ],
+          "privileges": [
+            "read", "write"
+          ]
         }
       ]
     }

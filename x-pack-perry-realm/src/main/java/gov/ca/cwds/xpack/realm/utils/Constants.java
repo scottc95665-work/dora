@@ -20,7 +20,7 @@ public class Constants {
   //roles
   public static final String COUNTY_ADMIN="County-admin";
   public static final String OFFICE_ADMIN="Office-admin";
-  public static final String COUNTY_LEVEL_ADMIN = "CountyLevel-admin";
+  public static final String STATE_ADMIN="State-admin";
 
 
 
