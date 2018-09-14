@@ -261,7 +261,7 @@
     }
   },
   {
-    "action": "POST /_xpack/security/role/CoutyLevel-admin",
+    "action": "POST /_xpack/security/role/CountyLevel-admin",
     "content": {
       "cluster": [],
       "indices": [

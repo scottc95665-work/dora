@@ -56,8 +56,6 @@ dependencies {
     provided "org.elasticsearch:elasticsearch:${project.elasticsearchVersion}"
     provided "org.elasticsearch.plugin:x-pack-api:${project.elasticsearchVersion}"
 
-    compile group: 'org.apache.commons', name: 'commons-lang3', version: commonsLangVersion
-
     testCompile 'io.dropwizard:dropwizard-testing:1.1.0'
     testCompile group: 'junit', name: 'junit', version: '4.+'
 }

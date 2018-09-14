@@ -29,7 +29,6 @@ project.ext {
     dockerTag = projectVersion
 
     elasticsearchVersion = '5.5.2'
-    commonsLangVersion = '3.6'
 
     mainclass = "gov.ca.cwds.rest.DoraApplication"
     configPath = "$rootProject.projectDir/config/"
