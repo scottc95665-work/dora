@@ -1,0 +1,34 @@
+{
+  "user": "PADMAS",
+  "first_name": "Shilpa",
+  "last_name": "Padmawar",
+  "email": "Shilpa.Padmawar@osi.ca.gov",
+  "roles": [
+    "CALS-admin",
+    "CWS-worker",
+    "SocialWorker"
+  ],
+  "staffId": "aa9",
+  "county_name": "Madera",
+  "county_code": "20",
+  "county_cws_code": 1087,
+  "privileges": [
+    "Non-CWD",
+    "CWS Case Management System",
+    "Closed Case/Referral Update",
+    "Program Management Reports",
+    "Non-CWD Kin-GAP",
+    "Merge Client",
+    "County License Case Management",
+    "Create Service Provider",
+    "SOC158 Application",
+    "Countywide Read/Write",
+    "Adoptions",
+    "Sensitive Persons",
+    "Sealed",
+    "Non-CWD Mental Health",
+    "Statewide Read"
+  ],
+  "authorityCodes": [],
+  "userName": "128e120c-d643-44ac-ad9b-4a3fc767f04d"
+}

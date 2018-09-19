@@ -325,5 +325,30 @@
         }
       ]
     }
+  },
+  {
+    "action": "POST /_xpack/security/role/CALS-admin",
+    "content": {
+      "cluster": [],
+      "indices": [
+        {
+          "names": [
+            "users"
+          ],
+          "privileges": [
+            "read"
+          ],
+          "query": {
+            "template": {
+              "inline": {
+                "match": {
+                  "roles": "CALS-external-worker"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
   }
 ]

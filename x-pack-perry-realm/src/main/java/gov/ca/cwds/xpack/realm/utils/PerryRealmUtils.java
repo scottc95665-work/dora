@@ -1,6 +1,7 @@
 package gov.ca.cwds.xpack.realm.utils;
 
 import static gov.ca.cwds.xpack.realm.utils.Constants.ADOPTIONS;
+import static gov.ca.cwds.xpack.realm.utils.Constants.CALS_ADMIN;
 import static gov.ca.cwds.xpack.realm.utils.Constants.COUNTY_ADMIN;
 import static gov.ca.cwds.xpack.realm.utils.Constants.COUNTY_CODE;
 import static gov.ca.cwds.xpack.realm.utils.Constants.COUNTY_NAME;
@@ -35,7 +36,7 @@ public final class PerryRealmUtils {
 
   private static HashMap<String, String> countyCodeToCountyIdMap = new HashMap<>();
 
-  private static Set<String> adminRoles = new HashSet<>(Arrays.asList(COUNTY_ADMIN, OFFICE_ADMIN, STATE_ADMIN));
+  private static Set<String> adminRoles = new HashSet<>(Arrays.asList(COUNTY_ADMIN, OFFICE_ADMIN, STATE_ADMIN, CALS_ADMIN));
 
   static {
     jsonFactory = new JsonFactory();
