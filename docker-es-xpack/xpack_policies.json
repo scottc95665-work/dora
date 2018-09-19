@@ -338,15 +338,7 @@
           "privileges": [
             "read"
           ],
-          "query": {
-            "template": {
-              "inline": {
-                "match": {
-                  "roles": "CALS-external-worker"
-                }
-              }
-            }
-          }
+          "query": "{ \"match\": { \"roles\": \"CALS-external-worker\" } }"
         }
       ]
     }
