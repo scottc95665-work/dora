@@ -336,7 +336,7 @@
             "users"
           ],
           "privileges": [
-            "read", "write"
+            "read"
           ],
           "query": {
             "template": {
