@@ -42,6 +42,10 @@
                "ignore_above": 256
              }
            }
+        },
+        "roles": {
+          "type" : "text",
+          "index" : "not_analyzed"
         }
       }
     }

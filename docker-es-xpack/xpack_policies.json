@@ -338,7 +338,7 @@
           "privileges": [
             "read"
           ],
-          "query": "{ \"match\": { \"roles\": \"CALS-external-worker\" } }"
+          "query": "{ \"term\": { \"roles\": \"CALS-external-worker\" } }"
         }
       ]
     }
