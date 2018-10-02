@@ -1,0 +1,21 @@
+{
+  "id": "e9622e0a-74e2-4311-a254-32450c9184cc",
+  "email": "sylvia.batista@osi.ca.gov",
+  "first_name": "Sylvia",
+  "last_name": "Batista",
+  "county_name": "San Joaquin",
+  "racfid": "BATISS",
+  "start_date": "1997-11-03",
+  "office_id": "SU97fft00E",
+  "phone_number": "2094681210",
+  "user_create_date": "2018-10-02",
+  "user_last_modified_date": "2018-10-02",
+  "enabled": true,
+  "status": "FORCE_CHANGE_PASSWORD",
+  "permissions": [
+    "CANS-rollout"
+  ],
+  "roles": [
+    "CWS-worker"
+  ]
+}
