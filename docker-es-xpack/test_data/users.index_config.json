@@ -45,10 +45,10 @@
          },
          "county_name": {
           "type": "text",
+          "analyzer": "keyword_lowercase",
           "fields": {
             "keyword": {
               "type": "keyword",
-              "analyzer": "keyword_lowercase",
               "ignore_above": 256
             }
           }
