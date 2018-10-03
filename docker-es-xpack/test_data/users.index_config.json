@@ -9,6 +9,12 @@
           "tokenizer": "keyword",
           "filter": ["lowercase"]
         }
+      },
+      "normalizer": {
+        "lowercase_normalizer": {
+          "type": "custom",
+          "filter":  [ "lowercase" ]
+        }
       }
     }
   },
@@ -45,10 +51,10 @@
          },
          "county_name": {
           "type": "text",
-          "analyzer": "keyword_lowercase",
           "fields": {
             "keyword": {
               "type": "keyword",
+              "normalizer": "lowercase_normalizer",
               "ignore_above": 256
             }
           }
