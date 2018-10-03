@@ -1,4 +1,5 @@
 {
+
  "settings": {
     "number_of_shards": 1,
     "number_of_replicas": 2,
@@ -41,16 +42,6 @@
                "ignore_above": 256
              }
            }
-        },
-        "county_name": {
-          "type": "text",
-          "fields": {
-            "keyword": {
-              "type": "keyword",
-              "analyzer": "keyword_lowercase",
-              "ignore_above": 256
-            }
-          }
         }
       }
     }
