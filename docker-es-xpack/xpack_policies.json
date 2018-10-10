@@ -276,7 +276,7 @@
             "template": {
               "inline": {
                 "match": {
-                  "county_name": "{{_user.metadata.county_name}}"
+                  "county_name.keyword": "{{_user.metadata.county_name}}"
                 }
               }
             }
