@@ -70,7 +70,7 @@ processResources {
 
 task buildZip(type:Zip, dependsOn: jar) {
     from "build/libs/x-pack-perry-realm-${version}.jar"
-    from 'build/resources/main/x-pack-extension-descriptor.properties'
+    from 'build/resources/main/plugin-descriptor.properties'
 }
 
 publishing {
