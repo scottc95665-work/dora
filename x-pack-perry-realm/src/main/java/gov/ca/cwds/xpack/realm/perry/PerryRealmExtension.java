@@ -3,8 +3,8 @@ package gov.ca.cwds.xpack.realm.perry;
 import java.util.Map;
 import org.elasticsearch.common.collect.MapBuilder;
 import org.elasticsearch.watcher.ResourceWatcherService;
-import org.elasticsearch.xpack.extensions.XPackExtension;
-import org.elasticsearch.xpack.security.authc.Realm.Factory;
+import org.elasticsearch.xpack.core.extensions.XPackExtension;
+import org.elasticsearch.xpack.core.security.authc.Realm.Factory;
 
 /**
  * The extension class that serves as the integration point between Elasticsearch, X-Pack,

@@ -1,7 +1,7 @@
 package gov.ca.cwds.xpack.realm.perry;
 
 import java.util.Objects;
-import org.elasticsearch.xpack.security.authc.AuthenticationToken;
+import org.elasticsearch.xpack.core.security.authc.AuthenticationToken;
 
 /**
  * @author CWDS TPT-2
