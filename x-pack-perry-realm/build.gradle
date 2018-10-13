@@ -18,6 +18,14 @@ buildscript {
 apply plugin: 'jacoco'
 apply plugin: 'maven-publish'
 apply plugin: 'java'
+apply plugin: 'elasticsearch.esplugin'
+
+esplugin {
+    name 'spi-extension'
+    description 'An example spi extension pluing for xpack security'
+    classname 'org.elasticsearch.example.SpiExtensionPlugin'
+    extendedPlugins = ['x-pack-security']
+}
 
 jacocoTestReport {
     reports {
@@ -54,7 +62,7 @@ sourceSets {
 
 dependencies {
     provided "org.elasticsearch:elasticsearch:${project.elasticsearchVersion}"
-    compile "org.elasticsearch.plugin:x-pack-core:${project.elasticsearchVersion}"
+    compileOnly "org.elasticsearch.plugin:x-pack-core:${project.elasticsearchVersion}"
 
     testCompile 'io.dropwizard:dropwizard-testing:1.1.0'
     testCompile group: 'junit', name: 'junit', version: '4.+'
@@ -71,7 +79,6 @@ processResources {
 task buildZip(type:Zip, dependsOn: jar) {
     from "build/libs/x-pack-perry-realm-${version}.jar"
     from 'build/resources/main/plugin-descriptor.properties'
-    from 'build/resources/META-INF/services/org.elasticsearch.xpack.core.security.SecurityExtension'
 }
 
 publishing {
