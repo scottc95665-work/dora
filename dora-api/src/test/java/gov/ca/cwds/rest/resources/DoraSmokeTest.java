@@ -7,8 +7,8 @@ import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 
-import gov.ca.cwds.dora.dto.HealthCheckResultDTO;
-import gov.ca.cwds.dora.dto.SystemInformationDTO;
+import gov.ca.cwds.dto.app.HealthCheckResultDto;
+import gov.ca.cwds.dto.app.SystemInformationDto;
 import gov.ca.cwds.rest.BaseDoraApplicationTest;
 import javax.ws.rs.core.MediaType;
 import org.junit.Test;
@@ -26,23 +26,23 @@ public class DoraSmokeTest extends BaseDoraApplicationTest {
 
   @Test
   public void testSystemInformationGet() {
-    SystemInformationDTO systemInformationDTO = clientTestRule.target(SYSTEM_INFORMATION)
-        .request(MediaType.APPLICATION_JSON).get(SystemInformationDTO.class);
+    SystemInformationDto systemInformationDto = clientTestRule.target(SYSTEM_INFORMATION)
+        .request(MediaType.APPLICATION_JSON).get(SystemInformationDto.class);
 
-    assertThat(systemInformationDTO.getApplicationName(), is(equalTo("CWDS Dora")));
-    assertThat(systemInformationDTO.getVersion(), is(notNullValue()));
+    assertThat(systemInformationDto.getApplicationName(), is(equalTo("CWDS Dora")));
+    assertThat(systemInformationDto.getVersion(), is(notNullValue()));
   }
 
   @Test
-  public void testHealthy() throws Exception {
-    SystemInformationDTO systemInformationDTO = clientTestRule.target(SYSTEM_INFORMATION)
-        .request(MediaType.APPLICATION_JSON).get(SystemInformationDTO.class);
+  public void testHealthy() {
+    SystemInformationDto systemInformationDTO = clientTestRule.target(SYSTEM_INFORMATION)
+        .request(MediaType.APPLICATION_JSON).get(SystemInformationDto.class);
 
     assertThat(systemInformationDTO.getHealthCheckResults(), is(notNullValue()));
     assertThat(systemInformationDTO.getHealthCheckResults().values().size(), is(greaterThan(0)));
 
     boolean isAllHealthy = systemInformationDTO.getHealthCheckResults().values().stream()
-        .allMatch(HealthCheckResultDTO::isHealthy);
+        .allMatch(HealthCheckResultDto::isHealthy);
     assertThat(isAllHealthy, is(true));
   }
 }

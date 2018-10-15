@@ -9,6 +9,8 @@ import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import gov.ca.cwds.dto.app.HealthCheckResultDto;
+import gov.ca.cwds.dto.app.SystemInformationDto;
 import java.util.SortedMap;
 
 import javax.ws.rs.core.MediaType;
@@ -19,8 +21,6 @@ import org.junit.Test;
 
 import com.squarespace.jersey2.guice.JerseyGuiceUtils;
 
-import gov.ca.cwds.dora.dto.HealthCheckResultDTO;
-import gov.ca.cwds.dora.dto.SystemInformationDTO;
 import gov.ca.cwds.rest.BaseDoraApplicationTest;
 
 /**
@@ -54,20 +54,20 @@ public class SystemInformationResourceTest extends BaseDoraApplicationTest {
 
   @Test
   public void testSystemInformationGet() {
-    SystemInformationDTO systemInformationDTO = clientTestRule.target(SYSTEM_INFORMATION)
-        .request(MediaType.APPLICATION_JSON).get(SystemInformationDTO.class);
+    SystemInformationDto systemInformationDto = clientTestRule.target(SYSTEM_INFORMATION)
+        .request(MediaType.APPLICATION_JSON).get(SystemInformationDto.class);
 
-    assertThat(systemInformationDTO.getApplicationName(), is(equalTo("CWDS Dora")));
-    assertThat(systemInformationDTO.getVersion(), is(notNullValue()));
+    assertThat(systemInformationDto.getApplicationName(), is(equalTo("CWDS Dora")));
+    assertThat(systemInformationDto.getVersion(), is(notNullValue()));
   }
 
   @Test
   public void testHealthChecksResults() {
-    SystemInformationDTO systemInformationDTO = clientTestRule.target(SYSTEM_INFORMATION)
-        .request(MediaType.APPLICATION_JSON).get(SystemInformationDTO.class);
+    SystemInformationDto systemInformationDto = clientTestRule.target(SYSTEM_INFORMATION)
+        .request(MediaType.APPLICATION_JSON).get(SystemInformationDto.class);
 
-    SortedMap<String, HealthCheckResultDTO> healthCheckResults =
-        systemInformationDTO.getHealthCheckResults();
+    SortedMap<String, HealthCheckResultDto> healthCheckResults =
+        systemInformationDto.getHealthCheckResults();
 
     assertThat(healthCheckResults, is(notNullValue()));
     System.out.println(healthCheckResults.values().size());
@@ -83,10 +83,10 @@ public class SystemInformationResourceTest extends BaseDoraApplicationTest {
     assertHealthCheckResult(healthCheckResults.get("elasticsearch-index-people-summary"), true);
   }
 
-  private void assertHealthCheckResult(HealthCheckResultDTO healthCheckResultDTO,
+  private void assertHealthCheckResult(HealthCheckResultDto healthCheckResultDto,
       boolean isHealthy) {
-    assertNotNull(healthCheckResultDTO);
-    assertEquals(healthCheckResultDTO.isHealthy(), isHealthy);
+    assertNotNull(healthCheckResultDto);
+    assertEquals(healthCheckResultDto.isHealthy(), isHealthy);
   }
 
   @Test
