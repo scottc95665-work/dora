@@ -55,7 +55,7 @@ void esConnect(baseUrl) {
         } catch (Exception e) {
             //continue
         }
-        if (responseCode == 200) {
+        if (responseCode == 200 || responseCode == 403) {
             break
         }
         println "\nretrying to connect to " + baseUrl + " ... "
