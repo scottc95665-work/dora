@@ -41,7 +41,7 @@ def esExecute(String method, String path, String content) {
     while ((line = reader.readLine()) != null) {
         jsonString.append(line)
     }
-    print jsonString
+    print "\nES response [" + jsonString + "]"
     int responseCode = connection.getResponseCode()
     connection.disconnect()
     return responseCode
@@ -55,9 +55,10 @@ void esConnect(baseUrl) {
         } catch (Exception e) {
             //continue
         }
-        if (responseCode == 200 || responseCode == 403) {
+        if (responseCode == 200) {
             break
         }
+        println "\nES response status " + responseCode
         println "\nretrying to connect to " + baseUrl + " ... "
         sleep(7500)
     }
@@ -94,6 +95,7 @@ task dockerCopyScripts(type: Copy) {
     into dockerContextDir
     include 'entrypoint.sh'
     include 'elasticsearch.yml'
+    include 'elastic.pass'
     include 'jvm.options'
     include 'names_synonyms.txt'
     filter(FixCrLfFilter.class, eol:FixCrLfFilter.CrLf.newInstance("lf"))
