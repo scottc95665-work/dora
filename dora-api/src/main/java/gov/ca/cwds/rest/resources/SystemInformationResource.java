@@ -2,20 +2,17 @@ package gov.ca.cwds.rest.resources;
 
 import static gov.ca.cwds.rest.DoraConstants.SYSTEM_INFORMATION;
 
-import com.codahale.metrics.health.HealthCheck;
-import com.codahale.metrics.health.HealthCheck.Result;
-import gov.ca.cwds.dora.dto.HealthCheckResultDTO;
-import gov.ca.cwds.dora.dto.SystemInformationDTO;
+import gov.ca.cwds.dto.app.SystemInformationDto;
 import gov.ca.cwds.rest.api.ApiException;
+import gov.ca.cwds.rest.resources.system.AbstractSystemInformationResource;
 import io.dropwizard.setup.Environment;
 import io.swagger.annotations.ApiOperation;
 
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Map.Entry;
 import java.util.Properties;
-import java.util.SortedMap;
-import java.util.TreeMap;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 
@@ -25,6 +22,7 @@ import com.google.inject.name.Named;
 import io.swagger.annotations.Api;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 
 /**
@@ -35,15 +33,10 @@ import javax.ws.rs.core.MediaType;
 @Api(value = SYSTEM_INFORMATION)
 @Path(SYSTEM_INFORMATION)
 @Produces(MediaType.APPLICATION_JSON)
-public class SystemInformationResource {
+public class SystemInformationResource extends AbstractSystemInformationResource {
 
   private static final String VERSION_PROPERTIES_FILE = "system-information.properties";
   private static final String BUILD_NUMBER = "build.number";
-
-  private String applicationName;
-  private String version;
-  private Environment environment;
-  private String buildNumber;
 
   /**
    * Constructor
@@ -54,11 +47,12 @@ public class SystemInformationResource {
   @Inject
   public SystemInformationResource(@Named("app.name") String applicationName,
       @Named("app.version") String version, Environment environment) {
-    this.applicationName = applicationName;
-    this.version = version;
-    this.environment = environment;
+    super(environment.healthChecks());
+    super.applicationName = applicationName;
+    super.version = version;
     Properties versionProperties = getVersionProperties();
-    this.buildNumber = versionProperties.getProperty(BUILD_NUMBER);
+    super.buildNumber = versionProperties.getProperty(BUILD_NUMBER);
+    super.systemHealthStatusStrategy = new DoraSystemHealthStatusStrategy();
   }
 
   private Properties getVersionProperties() {
@@ -78,26 +72,15 @@ public class SystemInformationResource {
    * @return the application data
    */
   @GET
-  @ApiOperation(value = "Returns System Information", response = SystemInformationDTO.class)
-  public SystemInformationDTO get() {
-    SystemInformationDTO systemInformationDTO = new SystemInformationDTO();
-    systemInformationDTO.setApplicationName(applicationName);
-    systemInformationDTO.setVersion(version);
-    systemInformationDTO.setBuildNumber(buildNumber);
-
-    SortedMap<String, HealthCheckResultDTO> healthCheckResults = new TreeMap<>();
-    SortedMap<String, Result> healthChecks = environment.healthChecks().runHealthChecks();
-    for(Entry<String, Result> entry : healthChecks.entrySet()) {
-      healthCheckResults.put(entry.getKey(), getHealthCheckResultDTO(entry.getValue()));
-    }
-    systemInformationDTO.setHealthCheckResults(healthCheckResults);
-
-    return systemInformationDTO;
-  }
-
-  private HealthCheckResultDTO getHealthCheckResultDTO(HealthCheck.Result result) {
-    HealthCheckResultDTO healthCheckResultDTO = new HealthCheckResultDTO();
-    healthCheckResultDTO.setResult(result);
-    return healthCheckResultDTO;
+  @ApiResponses(
+      value = {
+          @ApiResponse(code = 401, message = "Not Authorized"),
+          @ApiResponse(code = 404, message = "Not found"),
+          @ApiResponse(code = 465, message = "CARES Service is not healthy")
+      }
+  )
+  @ApiOperation(value = "Returns System Information", response = SystemInformationDto.class)
+  public Response get() {
+    return super.buildResponse();
   }
 }

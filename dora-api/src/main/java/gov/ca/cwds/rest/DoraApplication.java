@@ -1,6 +1,30 @@
 package gov.ca.cwds.rest;
 
+import static gov.ca.cwds.rest.DoraConstants.HealthCheck.HC_ES_CONFIG;
+import static gov.ca.cwds.rest.DoraConstants.HealthCheck.HC_ES_STATUS;
+import static gov.ca.cwds.rest.DoraConstants.HealthCheck.HC_FACILITIES_INDEX;
+import static gov.ca.cwds.rest.DoraConstants.HealthCheck.HC_PEOPLE_SEALED_NO_COUNTY_ROLE;
+import static gov.ca.cwds.rest.DoraConstants.HealthCheck.HC_PEOPLE_SEALED_ROLE;
+import static gov.ca.cwds.rest.DoraConstants.HealthCheck.HC_PEOPLE_SENSITIVE_NO_COUNTY_ROLE;
+import static gov.ca.cwds.rest.DoraConstants.HealthCheck.HC_PEOPLE_SENSITIVE_ROLE;
+import static gov.ca.cwds.rest.DoraConstants.HealthCheck.HC_PEOPLE_SUMMARY_INDEX;
+import static gov.ca.cwds.rest.DoraConstants.HealthCheck.HC_PEOPLE_SUMMARY_WORKER_ROLE;
+import static gov.ca.cwds.rest.DoraConstants.HealthCheck.HC_PEOPLE_WORKER_ROLE;
+import static gov.ca.cwds.rest.DoraConstants.HealthCheck.HC_PHONETIC_PLUGIN;
+import static gov.ca.cwds.rest.DoraConstants.HealthCheck.HC_WORKER_ROLE;
+import static gov.ca.cwds.rest.DoraConstants.HealthCheck.HC_X_PACK_PLUGIN;
+import static gov.ca.cwds.rest.DoraConstants.Index.FACILITIES_INDEX;
+import static gov.ca.cwds.rest.DoraConstants.Index.PEOPLE_SUMMARY_INDEX;
 import static gov.ca.cwds.rest.DoraConstants.PROD_MODE;
+import static gov.ca.cwds.rest.DoraConstants.Plugin.PHONETIC_PLUGIN;
+import static gov.ca.cwds.rest.DoraConstants.Plugin.X_PACK_PLUGIN;
+import static gov.ca.cwds.rest.DoraConstants.Role.PEOPLE_SEALED_NO_COUNTY_ROLE;
+import static gov.ca.cwds.rest.DoraConstants.Role.PEOPLE_SEALED_ROLE;
+import static gov.ca.cwds.rest.DoraConstants.Role.PEOPLE_SENSITIVE_NO_COUNTY_ROLE;
+import static gov.ca.cwds.rest.DoraConstants.Role.PEOPLE_SENSITIVE_ROLE;
+import static gov.ca.cwds.rest.DoraConstants.Role.PEOPLE_SUMMARY_WORKER_ROLE;
+import static gov.ca.cwds.rest.DoraConstants.Role.PEOPLE_WORKER_ROLE;
+import static gov.ca.cwds.rest.DoraConstants.Role.WORKER_ROLE;
 
 import java.util.EnumSet;
 import java.util.Map;
@@ -48,22 +72,6 @@ public final class DoraApplication extends BaseApiApplication<DoraConfiguration>
 
   @SuppressWarnings("unused")
   private static final Logger LOGGER = LoggerFactory.getLogger(DoraApplication.class);
-
-  private static final String PHONETIC_SEARCH_PLUGIN_NAME = "analysis-phonetic";
-  private static final String X_PACK_PLUGIN_NAME = "perry_realm";
-
-  private static final String FACILITIES_INDEX = "facilities";
-  private static final String PEOPLE_SUMMARY_INDEX = "people-summary";
-
-  private static final String WORKER_ROLE = "worker";
-  private static final String PEOPLE_WORKER_ROLE = "people_worker";
-  private static final String PEOPLE_SENSITIVE_ROLE = "people_sensitive";
-  private static final String PEOPLE_SENSITIVE_NO_COUNTY_ROLE = "people_sensitive_no_county";
-  private static final String PEOPLE_SEALED_ROLE = "people_sealed";
-  private static final String PEOPLE_SEALED_NO_COUNTY_ROLE = "people_sealed_no_county";
-  private static final String PEOPLE_SUMMARY_WORKER_ROLE = "people_summary_worker";
-
-  private static final String ROLE_HEALTHCHECK_PREFIX = "elasticsearch-role-";
 
   /**
    * Start the CWDS RESTful API application.
@@ -154,14 +162,12 @@ public final class DoraApplication extends BaseApiApplication<DoraConfiguration>
 
   private void registerHealthChecks(final DoraConfiguration configuration,
       final Environment environment) {
-    environment.healthChecks().register("dora-es-config",
-        new BasicDoraHealthCheck(configuration));
-    environment.healthChecks().register("elasticsearch-status",
-        new ElasticsearchHealthCheck(configuration));
-    environment.healthChecks().register("elasticsearch-plugin-" + PHONETIC_SEARCH_PLUGIN_NAME,
-        new ElasticsearchPluginHealthCheck(configuration, PHONETIC_SEARCH_PLUGIN_NAME));
-    environment.healthChecks().register("elasticsearch-plugin-" + X_PACK_PLUGIN_NAME,
-        new ElasticsearchPluginHealthCheck(configuration, X_PACK_PLUGIN_NAME));
+    environment.healthChecks().register(HC_ES_CONFIG, new BasicDoraHealthCheck(configuration));
+    environment.healthChecks().register(HC_ES_STATUS, new ElasticsearchHealthCheck(configuration));
+    environment.healthChecks().register(HC_PHONETIC_PLUGIN,
+        new ElasticsearchPluginHealthCheck(configuration, PHONETIC_PLUGIN));
+    environment.healthChecks().register(HC_X_PACK_PLUGIN,
+        new ElasticsearchPluginHealthCheck(configuration, X_PACK_PLUGIN));
     registerIndexHealthChecks(configuration, environment);
     if (!PROD_MODE.equals(configuration.getMode())) {
       registerRolesHealthChecks(configuration, environment);
@@ -169,26 +175,26 @@ public final class DoraApplication extends BaseApiApplication<DoraConfiguration>
   }
 
   private void registerRolesHealthChecks(DoraConfiguration configuration, Environment environment) {
-    environment.healthChecks().register(ROLE_HEALTHCHECK_PREFIX + WORKER_ROLE,
+    environment.healthChecks().register(HC_WORKER_ROLE,
         new ElasticsearchRolesHealthCheck(configuration, WORKER_ROLE));
-    environment.healthChecks().register(ROLE_HEALTHCHECK_PREFIX + PEOPLE_WORKER_ROLE,
+    environment.healthChecks().register(HC_PEOPLE_WORKER_ROLE,
         new ElasticsearchRolesHealthCheck(configuration, PEOPLE_WORKER_ROLE));
-    environment.healthChecks().register(ROLE_HEALTHCHECK_PREFIX + PEOPLE_SENSITIVE_ROLE,
+    environment.healthChecks().register(HC_PEOPLE_SENSITIVE_ROLE,
         new ElasticsearchRolesHealthCheck(configuration, PEOPLE_SENSITIVE_ROLE));
-    environment.healthChecks().register(ROLE_HEALTHCHECK_PREFIX + PEOPLE_SENSITIVE_NO_COUNTY_ROLE,
+    environment.healthChecks().register(HC_PEOPLE_SENSITIVE_NO_COUNTY_ROLE,
         new ElasticsearchRolesHealthCheck(configuration, PEOPLE_SENSITIVE_NO_COUNTY_ROLE));
-    environment.healthChecks().register(ROLE_HEALTHCHECK_PREFIX + PEOPLE_SEALED_ROLE,
+    environment.healthChecks().register(HC_PEOPLE_SEALED_ROLE,
         new ElasticsearchRolesHealthCheck(configuration, PEOPLE_SEALED_ROLE));
-    environment.healthChecks().register(ROLE_HEALTHCHECK_PREFIX + PEOPLE_SEALED_NO_COUNTY_ROLE,
+    environment.healthChecks().register(HC_PEOPLE_SEALED_NO_COUNTY_ROLE,
         new ElasticsearchRolesHealthCheck(configuration, PEOPLE_SEALED_NO_COUNTY_ROLE));
-    environment.healthChecks().register(ROLE_HEALTHCHECK_PREFIX + PEOPLE_SUMMARY_WORKER_ROLE,
+    environment.healthChecks().register(HC_PEOPLE_SUMMARY_WORKER_ROLE,
         new ElasticsearchRolesHealthCheck(configuration, PEOPLE_SUMMARY_WORKER_ROLE));
   }
 
   private void registerIndexHealthChecks(DoraConfiguration configuration, Environment environment) {
-    environment.healthChecks().register("elasticsearch-index-" + PEOPLE_SUMMARY_INDEX,
+    environment.healthChecks().register(HC_PEOPLE_SUMMARY_INDEX,
         new ElasticsearchIndexHealthCheck(configuration, PEOPLE_SUMMARY_INDEX));
-    environment.healthChecks().register("elasticsearch-index-" + FACILITIES_INDEX,
+    environment.healthChecks().register(HC_FACILITIES_INDEX,
         new ElasticsearchIndexHealthCheck(configuration, FACILITIES_INDEX));
   }
 

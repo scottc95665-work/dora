@@ -1,5 +1,11 @@
 package gov.ca.cwds.rest.resources;
 
+import static gov.ca.cwds.rest.DoraConstants.HealthCheck.HC_DEADLOCKS;
+import static gov.ca.cwds.rest.DoraConstants.HealthCheck.HC_ES_CONFIG;
+import static gov.ca.cwds.rest.DoraConstants.HealthCheck.HC_ES_STATUS;
+import static gov.ca.cwds.rest.DoraConstants.HealthCheck.HC_PEOPLE_SUMMARY_INDEX;
+import static gov.ca.cwds.rest.DoraConstants.HealthCheck.HC_PHONETIC_PLUGIN;
+import static gov.ca.cwds.rest.DoraConstants.HealthCheck.HC_X_PACK_PLUGIN;
 import static gov.ca.cwds.rest.DoraConstants.SYSTEM_INFORMATION;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
@@ -9,6 +15,8 @@ import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import gov.ca.cwds.dto.app.HealthCheckResultDto;
+import gov.ca.cwds.dto.app.SystemInformationDto;
 import java.util.SortedMap;
 
 import javax.ws.rs.core.MediaType;
@@ -20,8 +28,6 @@ import org.junit.Test;
 
 import com.squarespace.jersey2.guice.JerseyGuiceUtils;
 
-import gov.ca.cwds.dora.dto.HealthCheckResultDTO;
-import gov.ca.cwds.dora.dto.SystemInformationDTO;
 import gov.ca.cwds.rest.BaseDoraApplicationTest;
 
 /**
@@ -55,40 +61,40 @@ public class SystemInformationResourceTest extends BaseDoraApplicationTest {
 
   @Test
   public void testSystemInformationGet() {
-    SystemInformationDTO systemInformationDTO = clientTestRule.target(SYSTEM_INFORMATION)
-        .request(MediaType.APPLICATION_JSON).get(SystemInformationDTO.class);
+    SystemInformationDto systemInformationDto = clientTestRule.target(SYSTEM_INFORMATION)
+        .request(MediaType.APPLICATION_JSON).get(SystemInformationDto.class);
 
-    assertThat(systemInformationDTO.getApplicationName(), is(equalTo("CWDS Dora")));
-    assertThat(systemInformationDTO.getVersion(), is(notNullValue()));
+    assertThat(systemInformationDto.getApplicationName(), is(equalTo("CWDS Dora")));
+    assertThat(systemInformationDto.getVersion(), is(notNullValue()));
   }
 
   @Ignore
   @Test
   public void testHealthChecksResults() {
-    SystemInformationDTO systemInformationDTO = clientTestRule.target(SYSTEM_INFORMATION)
-        .request(MediaType.APPLICATION_JSON).get(SystemInformationDTO.class);
+    SystemInformationDto systemInformationDto = clientTestRule.target(SYSTEM_INFORMATION)
+        .request(MediaType.APPLICATION_JSON).get(SystemInformationDto.class);
 
-    SortedMap<String, HealthCheckResultDTO> healthCheckResults =
-        systemInformationDTO.getHealthCheckResults();
+    SortedMap<String, HealthCheckResultDto> healthCheckResults =
+        systemInformationDto.getHealthCheckResults();
 
     assertThat(healthCheckResults, is(notNullValue()));
     System.out.println(healthCheckResults.values().size());
     assertThat(healthCheckResults.values().size(), is(equalTo(14)));
 
-    assertHealthCheckResult(healthCheckResults.get("deadlocks"), true);
-    assertHealthCheckResult(healthCheckResults.get("dora-es-config"), true);
+    assertHealthCheckResult(healthCheckResults.get(HC_DEADLOCKS), true);
+    assertHealthCheckResult(healthCheckResults.get(HC_ES_CONFIG), true);
 
     // there is no Elasticsearch server available while Unit Tests
-    assertHealthCheckResult(healthCheckResults.get("elasticsearch-status"), true);
-    assertHealthCheckResult(healthCheckResults.get("elasticsearch-plugin-perry_realm"), true);
-    assertHealthCheckResult(healthCheckResults.get("elasticsearch-plugin-analysis-phonetic"), true);
-    assertHealthCheckResult(healthCheckResults.get("elasticsearch-index-people-summary"), true);
+    assertHealthCheckResult(healthCheckResults.get(HC_ES_STATUS), true);
+    assertHealthCheckResult(healthCheckResults.get(HC_X_PACK_PLUGIN), true);
+    assertHealthCheckResult(healthCheckResults.get(HC_PHONETIC_PLUGIN), true);
+    assertHealthCheckResult(healthCheckResults.get(HC_PEOPLE_SUMMARY_INDEX), true);
   }
 
-  private void assertHealthCheckResult(HealthCheckResultDTO healthCheckResultDTO,
+  private void assertHealthCheckResult(HealthCheckResultDto healthCheckResultDto,
       boolean isHealthy) {
-    assertNotNull(healthCheckResultDTO);
-    assertEquals(healthCheckResultDTO.isHealthy(), isHealthy);
+    assertNotNull(healthCheckResultDto);
+    assertEquals(healthCheckResultDto.isHealthy(), isHealthy);
   }
 
   @Test
