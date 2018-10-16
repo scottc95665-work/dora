@@ -52,6 +52,7 @@ public class SystemInformationResource extends AbstractSystemInformationResource
     super.version = version;
     Properties versionProperties = getVersionProperties();
     super.buildNumber = versionProperties.getProperty(BUILD_NUMBER);
+    super.systemHealthStatusStrategy = new DoraSystemHealthStatusStrategy();
   }
 
   private Properties getVersionProperties() {
