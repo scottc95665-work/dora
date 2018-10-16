@@ -58,7 +58,6 @@ void esConnect(baseUrl) {
         if (responseCode == 200) {
             break
         }
-        println "\nES response status " + responseCode
         println "\nretrying to connect to " + baseUrl + " ... "
         sleep(7500)
     }
