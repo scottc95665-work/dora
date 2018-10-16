@@ -80,7 +80,7 @@ public class SystemInformationResourceTest extends BaseDoraApplicationTest {
 
     // there is no Elasticsearch server available while Unit Tests
     assertHealthCheckResult(healthCheckResults.get("elasticsearch-status"), true);
-    assertHealthCheckResult(healthCheckResults.get("elasticsearch-plugin-x-pack"), true);
+    assertHealthCheckResult(healthCheckResults.get("elasticsearch-plugin-perry_realm"), true);
     assertHealthCheckResult(healthCheckResults.get("elasticsearch-plugin-analysis-phonetic"), true);
     assertHealthCheckResult(healthCheckResults.get("elasticsearch-index-people-summary"), true);
   }

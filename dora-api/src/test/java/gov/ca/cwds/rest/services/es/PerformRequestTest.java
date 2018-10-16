@@ -18,6 +18,7 @@ import gov.ca.cwds.security.realm.PerrySubject;
 import java.io.IOException;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
+import org.elasticsearch.client.Request;
 import org.elasticsearch.client.Response;
 import org.elasticsearch.client.RestClient;
 import org.junit.Test;
@@ -43,8 +44,7 @@ public class PerformRequestTest {
 
     Response response = mock(Response.class);
     RestClient mockRestClient = mock(RestClient.class);
-    doReturn(response).when(mockRestClient).performRequest(anyString(), anyString(), anyMap(),
-        any(HttpEntity.class));
+    doReturn(response).when(mockRestClient).performRequest(any(Request.class));
 
     mockStatic(EsRestClientManager.class);
     when(EsRestClientManager.getEsRestClient()).thenReturn(mockRestClient);
@@ -70,8 +70,7 @@ public class PerformRequestTest {
 
     Response response = mock(Response.class);
     RestClient mockRestClient = mock(RestClient.class);
-    doReturn(response).when(mockRestClient).performRequest(anyString(), anyString(), anyMap(),
-        any(HttpEntity.class), any(Header.class));
+    doReturn(response).when(mockRestClient).performRequest(any(Request.class));
 
     mockStatic(EsRestClientManager.class);
     when(EsRestClientManager.getEsRestClient()).thenReturn(mockRestClient);
