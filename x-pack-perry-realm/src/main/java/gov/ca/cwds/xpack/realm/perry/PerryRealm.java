@@ -192,6 +192,7 @@ public class PerryRealm extends Realm {
       logger.warn("failed to parse Json Token: " + e.getMessage(), e);
       actionListener.onResponse(null);
     } catch (IOException e) {
+      logger.warn("IO exception during Token validation: " + e.getMessage(), e);
       actionListener.onFailure(e);
     }
   }
