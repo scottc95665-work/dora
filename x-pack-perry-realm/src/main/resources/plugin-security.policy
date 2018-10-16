@@ -1,1 +1,3 @@
-permission java.net.SocketPermission "*", "connect";
+grant {
+  permission java.net.SocketPermission "*", "connect";
+}
