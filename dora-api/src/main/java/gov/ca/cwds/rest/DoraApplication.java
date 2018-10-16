@@ -50,7 +50,7 @@ public final class DoraApplication extends BaseApiApplication<DoraConfiguration>
   private static final Logger LOGGER = LoggerFactory.getLogger(DoraApplication.class);
 
   private static final String PHONETIC_SEARCH_PLUGIN_NAME = "analysis-phonetic";
-  private static final String X_PACK_PLUGIN_NAME = "x-pack";
+  private static final String X_PACK_PLUGIN_NAME = "perry_realm";
 
   private static final String FACILITIES_INDEX = "facilities";
   private static final String PEOPLE_SUMMARY_INDEX = "people-summary";
