@@ -68,7 +68,6 @@ public class SystemInformationResourceTest extends BaseDoraApplicationTest {
     assertThat(systemInformationDto.getVersion(), is(notNullValue()));
   }
 
-  @Ignore
   @Test
   public void testHealthChecksResults() {
     SystemInformationDto systemInformationDto = clientTestRule.target(SYSTEM_INFORMATION)

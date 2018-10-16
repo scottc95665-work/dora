@@ -134,7 +134,7 @@ For example: `-e PERRY_URL=http://localhost:8090/authn/login`
 
 ## Building and publishing docker image with Elasticsearch + X-Pack
  
-The following command will build a versioned docker image with Elasticsearch 5.5.2 + X-Pack and publish it to DockerHub as `cwds/elasticsearch_xpack_data` 
+The following command will build a versioned docker image with Elasticsearch 6.4.1 + Perry Realm plugin and publish it to DockerHub as `cwds/elasticsearch_xpack_data` 
 
     % ./gradlew :docker-es-xpack:dockerEsXpackPublish
     
@@ -145,7 +145,7 @@ _**It is not recommended to publish the docker image with Elasticsearch + X-Pack
 
 ## Running docker container with Elasticsearch + X-Pack
 
-There is a Docker Image with Elasticsearch 5.5.2 and X-Pack.
+There is a Docker Image with Elasticsearch 6.4.1 and X-Pack.
 
 Pull the Docker image:
 
