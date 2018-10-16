@@ -28,7 +28,7 @@ public final class DoraConstants {
 
   public static class Plugin {
 
-    public static final String X_PACK_PLUGIN = "x-pack";
+    public static final String X_PACK_PLUGIN = "perry_realm";
     public static final String PHONETIC_PLUGIN = "analysis-phonetic";
 
     private Plugin() {
