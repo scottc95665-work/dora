@@ -17,7 +17,6 @@ import static gov.ca.cwds.dora.health.ElasticsearchRolesHealthCheck.UNHEALTHY_ES
 import static gov.ca.cwds.rest.BaseDoraApplicationTest.config;
 import static gov.ca.cwds.rest.BaseDoraApplicationTest.esConfig;
 import static gov.ca.cwds.rest.DoraConstants.DEV_MODE;
-import static gov.ca.cwds.rest.DoraConstants.Index.PEOPLE_SUMMARY_INDEX;
 import static gov.ca.cwds.rest.DoraConstants.PROD_MODE;
 import static gov.ca.cwds.rest.DoraConstants.Plugin.X_PACK_PLUGIN;
 import static gov.ca.cwds.rest.DoraConstants.Role.WORKER_ROLE;
@@ -52,6 +51,8 @@ public class DoraHealthChecksTest {
       config(DEV_MODE, esConfig("localhost:9200", false, "user", "password"));
   private static final DoraConfiguration CONFIG_OK_XPACK =
       config(PROD_MODE, esConfig("dora.dev.cwds.io:9200", true, "user", "password"));
+
+  private static final String PEOPLE_ALIAS = "people";
 
   @Test
   public void testElasticsearchConfigurations() throws Exception {
@@ -148,7 +149,7 @@ public class DoraHealthChecksTest {
   @Test
   public void testElasticsearchIndexNotAvailable() throws Exception {
     ElasticsearchIndexHealthCheck elasticsearchIndexHealthCheck =
-        spy(new ElasticsearchIndexHealthCheck(CONFIG_OK_XPACK, PEOPLE_SUMMARY_INDEX));
+        spy(new ElasticsearchIndexHealthCheck(CONFIG_OK_XPACK, PEOPLE_ALIAS));
     doReturn(loadMockResponse("/es/mock-responses/es-get.json")).when(elasticsearchIndexHealthCheck)
         .performRequest(Mockito.any(), eq("GET"), eq("/"));
     doReturn(loadMockResponseList("/es/mock-responses/es-get-indexes-2.json"))
@@ -162,13 +163,13 @@ public class DoraHealthChecksTest {
 
     assertNotNull(result);
     assertFalse(result.isHealthy());
-    assertEquals(String.format(UNHEALTHY_ES_INDEX_MSG, PEOPLE_SUMMARY_INDEX), result.getMessage());
+    assertEquals(String.format(UNHEALTHY_ES_INDEX_MSG, PEOPLE_ALIAS), result.getMessage());
   }
 
   @Test
   public void testElasticsearchAliasAvailable() throws Exception {
     ElasticsearchIndexHealthCheck elasticsearchIndexHealthCheck =
-        spy(new ElasticsearchIndexHealthCheck(CONFIG_OK_XPACK, PEOPLE_SUMMARY_INDEX));
+        spy(new ElasticsearchIndexHealthCheck(CONFIG_OK_XPACK, PEOPLE_ALIAS));
     doReturn(loadMockResponse("/es/mock-responses/es-get.json")).when(elasticsearchIndexHealthCheck)
         .performRequest(Mockito.any(), eq("GET"), eq("/"));
     doReturn(loadMockResponseList("/es/mock-responses/es-get-indexes-2.json"))
@@ -182,13 +183,13 @@ public class DoraHealthChecksTest {
 
     assertNotNull(result);
     assertTrue(result.isHealthy());
-    assertEquals(String.format(HEALTHY_ES_INDEX_MSG, PEOPLE_SUMMARY_INDEX), result.getMessage());
+    assertEquals(String.format(HEALTHY_ES_INDEX_MSG, PEOPLE_ALIAS), result.getMessage());
   }
 
   @Test
   public void testElasticsearchAliasNotAvailable() throws Exception {
     ElasticsearchIndexHealthCheck elasticsearchIndexHealthCheck =
-        spy(new ElasticsearchIndexHealthCheck(CONFIG_OK_XPACK, PEOPLE_SUMMARY_INDEX));
+        spy(new ElasticsearchIndexHealthCheck(CONFIG_OK_XPACK, PEOPLE_ALIAS));
     doReturn(loadMockResponse("/es/mock-responses/es-get.json")).when(elasticsearchIndexHealthCheck)
         .performRequest(Mockito.any(), eq("GET"), eq("/"));
     doReturn(loadMockResponseList("/es/mock-responses/es-get-indexes-2.json"))
@@ -202,7 +203,7 @@ public class DoraHealthChecksTest {
 
     assertNotNull(result);
     assertFalse(result.isHealthy());
-    assertEquals(String.format(UNHEALTHY_ES_INDEX_MSG, PEOPLE_SUMMARY_INDEX), result.getMessage());
+    assertEquals(String.format(UNHEALTHY_ES_INDEX_MSG, PEOPLE_ALIAS), result.getMessage());
   }
 
   @Test
