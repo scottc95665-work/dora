@@ -131,7 +131,7 @@ run {
 }
 
 test {
-    exclude '**/*IT*', '**/*SmokeTest*'
+    exclude '**/*IT*', '**/*SmokeTest*', '**/SystemInformationResourceTest*'
 }
 
 task integrationTest(type: Test, dependsOn: testClasses) {
