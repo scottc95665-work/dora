@@ -22,7 +22,9 @@ import java.io.InputStream;
 import java.util.Map;
 import javax.script.ScriptException;
 import org.apache.commons.io.IOUtils;
+import org.apache.http.entity.ContentType;
 import org.apache.http.entity.InputStreamEntity;
+import org.apache.http.nio.entity.NStringEntity;
 import org.elasticsearch.client.Request;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.Response;
@@ -117,6 +119,7 @@ public class IndexQueryService {
   private RequestOptions buildRequestOptions() {
     RequestOptions.Builder builder = RequestOptions.DEFAULT.toBuilder();
     builder.addHeader("Authorization", PerrySubject.getToken());
+    builder.addHeader("Content-Type", ContentType.APPLICATION_JSON.getMimeType());
     return builder.build();
   }
 
