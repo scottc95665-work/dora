@@ -19,13 +19,12 @@ import gov.ca.cwds.security.realm.PerrySubject;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Collections;
 import java.util.Map;
 import javax.script.ScriptException;
 import org.apache.commons.io.IOUtils;
-import org.apache.http.Header;
 import org.apache.http.entity.InputStreamEntity;
-import org.apache.http.message.BasicHeader;
+import org.elasticsearch.client.Request;
+import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.Response;
 import org.elasticsearch.client.ResponseException;
 import org.elasticsearch.client.RestClient;
@@ -105,17 +104,20 @@ public class IndexQueryService {
     InputStreamEntity entity = new InputStreamEntity(
         new ByteArrayInputStream(request.getRequestBody().getBytes(UTF_8)));
     RestClient esRestClient = EsRestClientManager.getEsRestClient();
+    Request esRequest = new Request(request.getHttpMethod(), request.getEsEndpoint());
+    esRequest.setEntity(entity);
     if (esConfig.getXpack() != null && esConfig.getXpack().isEnabled()) {
-      Header authHeader = new BasicHeader("Authorization", PerrySubject.getToken());
-      return esRestClient
-          .performRequest(request.getHttpMethod(), request.getEsEndpoint(), Collections.emptyMap(),
-              entity,
-              authHeader);
+      esRequest.setOptions(buildRequestOptions());
+      return esRestClient.performRequest(esRequest);
     } else {
-      return esRestClient
-          .performRequest(request.getHttpMethod(), request.getEsEndpoint(), Collections.emptyMap(),
-              entity);
+      return esRestClient.performRequest(esRequest);
     }
+  }
+
+  private RequestOptions buildRequestOptions() {
+    RequestOptions.Builder builder = RequestOptions.DEFAULT.toBuilder();
+    builder.addHeader("Authorization", PerrySubject.getToken());
+    return builder.build();
   }
 
 }

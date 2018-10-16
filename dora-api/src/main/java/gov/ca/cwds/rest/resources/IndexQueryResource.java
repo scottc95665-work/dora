@@ -82,7 +82,7 @@ public class IndexQueryResource {
     }
     final String endpoint = String.format("/%s/%s/_search", index.trim(), documentType.trim());
     IndexQueryRequest request = new IndexQueryRequestBuilder().addEsEndpoint(endpoint)
-        .addRequestBody(requestBody).addHttpMethod(HttpMethod.POST)
+        .addDocumentType(documentType).addRequestBody(requestBody).addHttpMethod(HttpMethod.POST)
         .build();
     return handleRequest(request);
   }
