@@ -11,6 +11,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import gov.ca.cwds.xpack.realm.CwdsPrivileges;
 import gov.ca.cwds.xpack.realm.utils.JsonTokenInfoHolder;
 import java.io.IOException;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -19,6 +21,8 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.apache.logging.log4j.Logger;
+import org.elasticsearch.SpecialPermission;
 import org.elasticsearch.action.ActionListener;
 import org.elasticsearch.common.util.concurrent.ThreadContext;
 import org.elasticsearch.rest.RestRequest;
@@ -103,16 +107,33 @@ public class PerryRealm extends Realm {
     long timeBeforeTokenValidation = System.currentTimeMillis();
     try (CloseableHttpClient httpClient = HttpClients.createMinimal()) {
       HttpGet httpGet = new HttpGet(tokenValidationUrl + token);
-      try (CloseableHttpResponse response = httpClient.execute(httpGet)) {
+      try (CloseableHttpResponse response = executeTokenValidate(httpClient, httpGet, logger)){
         logger.debug("PerryRealm: Token Validation took {} milliseconds",
             System.currentTimeMillis() - timeBeforeTokenValidation);
-        if (HTTP_OK == response.getStatusLine().getStatusCode()) {
+        if (response != null && HTTP_OK == response.getStatusLine().getStatusCode()) {
           return EntityUtils.toString(response.getEntity(), "UTF-8");
         } else {
           throw new PerryTokenValidationException("invalid Perry token");
         }
       }
     }
+  }
+
+  public static CloseableHttpResponse executeTokenValidate(CloseableHttpClient httpClient, HttpGet httpGet, Logger logger) {
+    SecurityManager sm = System.getSecurityManager();
+    if (sm != null) {
+      sm.checkPermission(new SpecialPermission());
+    }
+    return AccessController.doPrivileged(
+        (PrivilegedAction<CloseableHttpResponse>) () -> {
+          try {
+            return httpClient.execute(httpGet);
+          } catch (IOException e) {
+            logger.warn("Exception during Perry token validate GET call", e);
+          }
+          return null;
+        }
+    );
   }
 
   /**
