@@ -107,7 +107,7 @@ public class PerryRealm extends Realm {
     long timeBeforeTokenValidation = System.currentTimeMillis();
     try (CloseableHttpClient httpClient = HttpClients.createMinimal()) {
       HttpGet httpGet = new HttpGet(tokenValidationUrl + token);
-      try (CloseableHttpResponse response = executeTokenValidate(httpClient, httpGet, logger)){
+      try (CloseableHttpResponse response = executeHttpGetWithPrivileges(httpClient, httpGet, logger)){
         logger.debug("PerryRealm: Token Validation took {} milliseconds",
             System.currentTimeMillis() - timeBeforeTokenValidation);
         if (response != null && HTTP_OK == response.getStatusLine().getStatusCode()) {
@@ -119,7 +119,7 @@ public class PerryRealm extends Realm {
     }
   }
 
-  public static CloseableHttpResponse executeTokenValidate(CloseableHttpClient httpClient, HttpGet httpGet, Logger logger) {
+  private static CloseableHttpResponse executeHttpGetWithPrivileges(CloseableHttpClient httpClient, HttpGet httpGet, Logger logger) {
     SecurityManager sm = System.getSecurityManager();
     if (sm != null) {
       sm.checkPermission(new SpecialPermission());
