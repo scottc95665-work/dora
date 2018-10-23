@@ -16,5 +16,7 @@
     "Snapshot-rollout",
     "Hotline-rollout"
   ],
+  "roles": ["CWS-worker"],
   "RACFID": "CWDS3"
 }
+
