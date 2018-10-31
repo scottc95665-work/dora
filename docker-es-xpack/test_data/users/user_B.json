@@ -12,5 +12,7 @@
   "user_last_modified_date": "2018-06-08",
   "enabled": true,
   "status": "CONFIRMED",
-  "RACFID": "CWDS8"
+  "RACFID": "CWDS8",
+  "roles": ["CWS-worker"]
 }
+

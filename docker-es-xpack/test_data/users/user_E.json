@@ -15,5 +15,7 @@
   "permissions": [
     "Facility-search-rollout",
     "Hotline-rollout"
-  ]
+  ],
+  "roles": ["CWS-worker"]
 }
+
