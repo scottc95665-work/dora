@@ -1,0 +1,23 @@
+{
+  "id": "aef63efc-dca5-4162-9b7c-d34821ea9e77",
+  "email": "worker.approval@gmail.com",
+  "first_name": "Worker",
+  "last_name": "Approval",
+  "county_name": "Madera",
+  "racfid": "APPROW",
+  "start_date": "1998-03-25",
+  "office_id": "TW57yjq01z",
+  "phone_number": "4444444444",
+  "phone_extension_number": "4444444",
+  "user_create_date": "2018-09-26",
+  "user_last_modified_date": "2018-10-19",
+  "enabled": true,
+  "status": "CONFIRMED",
+  "permissions": [
+    "RFA-rollout",
+    "Facility-search-rollout"
+  ],
+  "roles": [
+    "County-admin"
+  ]
+}
