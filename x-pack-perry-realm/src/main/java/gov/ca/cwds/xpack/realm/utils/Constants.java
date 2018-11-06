@@ -10,7 +10,7 @@ public class Constants {
   public static final String COUNTY_NAME = "county_name";
   public static final String PRIVILEGES = "privileges";
   public static final String ROLES = "roles";
-  public static final String ADMIN_OFFICE_IDS = "adminOfficeIds";
+  public static final String ADMIN_OFFICE_IDS = "admin_office_ids";
   //privileges
   public static final String CWS_CASE_MANAGEMENT_SYSTEM = "CWS Case Management System";
   public static final String SENSITIVE_PERSONS = "Sensitive Persons";
