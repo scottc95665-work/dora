@@ -12,6 +12,10 @@
   "county_name": "Madera",
   "county_code": "20",
   "county_cws_code": 1087,
+  "admin_office_ids": [
+    "NpuJq9k0Wz",
+    "OFu4W1a00E"
+  ],
   "privileges": [
     "Non-CWD",
     "CWS Case Management System",

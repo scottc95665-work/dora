@@ -1,5 +1,6 @@
 package gov.ca.cwds.xpack.realm.utils;
 
+import static gov.ca.cwds.xpack.realm.utils.Constants.ADMIN_OFFICE_IDS;
 import static gov.ca.cwds.xpack.realm.utils.Constants.ADOPTIONS;
 import static gov.ca.cwds.xpack.realm.utils.Constants.CALS_ADMIN;
 import static gov.ca.cwds.xpack.realm.utils.Constants.COUNTY_ADMIN;
@@ -114,6 +115,7 @@ public final class PerryRealmUtils {
     JsonTokenInfoHolder holder = new JsonTokenInfoHolder();
     List<String> privileges = new LinkedList<>();
     Set<String> roles = new HashSet<>();
+    Set<String> adminOfficeIds = new HashSet<>();
 
     try (JsonParser parser = jsonFactory.createParser(json)) {
       while (parser.nextToken() != null) {
@@ -153,6 +155,13 @@ public final class PerryRealmUtils {
           holder.setCountyName(countyName);
           holder.setCountyIsStateOfCalifornia(
               checkThatCountyIsStateOfCalifornia(countyName));
+        } else if (ADMIN_OFFICE_IDS.equals(fieldName)) {
+          parser.nextToken(); // current token is "[", move next
+          // adminOfficeIds is array, loop until token equal to "]"
+          while (parser.nextToken() != JsonToken.END_ARRAY) {
+            String adminOfficeId = parser.getValueAsString().trim();
+            adminOfficeIds.add(adminOfficeId);
+          }
         }
       }
     } catch (Exception e) {
@@ -161,6 +170,7 @@ public final class PerryRealmUtils {
 
     holder.setPrivileges(privileges);
     holder.setRoles(roles);
+    holder.setAdminOfficeIds(adminOfficeIds);
     return holder;
   }
 
