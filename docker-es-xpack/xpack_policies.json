@@ -310,9 +310,20 @@
                     },
                     {
                       "bool": {
-                        "must_not": [
-                          { "match_phrase": { "roles": "CALS-external-worker" } }
-                        ]
+                        "must_not": {
+                          "match_phrase": {
+                            "roles": "CALS-external-worker"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "bool": {
+                        "must_not": {
+                          "match_phrase": {
+                            "roles": "CALS-admin"
+                          }
+                        }
                       }
                     }
                   ]
