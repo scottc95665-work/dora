@@ -1,0 +1,22 @@
+{
+  "id": "15055bbc-60da-4e1c-bf62-5dbcae5902e1",
+  "email": "asd@lkjsfv.fg",
+  "first_name": "Michael",
+  "last_name": "Burns",
+  "county_name": "Madera",
+  "racfid": "BURNSM",
+  "start_date": "2017-05-20",
+  "office_id": "NpuJq9k0Wz",
+  "phone_number": "5599994321",
+  "user_create_date": "2018-09-01",
+  "user_last_modified_date": "2018-10-25",
+  "enabled": true,
+  "status": "CONFIRMED",
+  "permissions": [
+    "Snapshot-rollout"
+  ],
+  "roles": [
+    "CALS-admin"
+  ]
+}
+
