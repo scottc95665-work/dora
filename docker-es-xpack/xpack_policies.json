@@ -295,13 +295,38 @@
             "users"
           ],
           "privileges": [
-            "read", "write"
+            "read",
+            "write"
           ],
           "query": {
             "template": {
               "inline": {
-                "match": {
-                  "county_name.keyword": "{{_user.metadata.county_name}}"
+                "bool": {
+                  "must": [
+                    {
+                      "match": {
+                        "county_name.keyword": "{{_user.metadata.county_name}}"
+                      }
+                    },
+                    {
+                      "bool": {
+                        "must_not": {
+                          "match_phrase": {
+                            "roles": "CALS-external-worker"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "bool": {
+                        "must_not": {
+                          "match_phrase": {
+                            "roles": "CALS-admin"
+                          }
+                        }
+                      }
+                    }
+                  ]
                 }
               }
             }

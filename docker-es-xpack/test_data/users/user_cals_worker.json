@@ -1,0 +1,19 @@
+{
+  "id": "0136e80c-ab89-4347-b02f-3ac19a24cf2a",
+  "email": "asdfasd@vocmc.ov",
+  "first_name": "Gina",
+  "last_name": "Blakemore",
+  "county_name": "Madera",
+  "office_id": "NpuJq9k0Wz",
+  "user_create_date": "2018-08-27",
+  "user_last_modified_date": "2018-08-27",
+  "enabled": true,
+  "status": "CONFIRMED",
+  "permissions": [
+    "Hotline-rollout"
+  ],
+  "roles": [
+    "CALS-external-worker"
+  ]
+}
+
