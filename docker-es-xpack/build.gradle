@@ -188,7 +188,7 @@ task dockerPopulateTestPeople {
 
         // populate test users data
         ["A", "B", "C", "D", "E", "F", "G", "other_office_ca", "other_office_sa",
-         "cals_worker", "cals_admin", "super_admin.json"].each {
+         "cals_worker", "cals_admin", "super_admin"].each {
             String esUrl = "/users/user/user_$it"
             String content = readFile("$projectDir/test_data/users/user_${it}.json")
             esExecute("PUT", esUrl, content)
