@@ -369,7 +369,16 @@
           ],
           "privileges": [
             "read", "write"
-          ]
+          ],
+          "query": {
+            "bool": {
+              "must_not": {
+                "match_phrase": {
+                  "roles": "Super-admin"
+                }
+              }
+            }
+          }
         }
       ]
     }
