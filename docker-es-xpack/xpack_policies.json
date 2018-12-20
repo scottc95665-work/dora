@@ -366,5 +366,21 @@
         }
       ]
     }
+  },
+  {
+    "action": "POST /_xpack/security/role/Super-admin",
+    "content": {
+      "cluster": [],
+      "indices": [
+        {
+          "names": [
+            "users"
+          ],
+          "privileges": [
+            "read", "write"
+          ]
+        }
+      ]
+    }
   }
 ]
