@@ -15,6 +15,7 @@ import static gov.ca.cwds.xpack.realm.utils.Constants.SEALED;
 import static gov.ca.cwds.xpack.realm.utils.Constants.SENSITIVE_PERSONS;
 import static gov.ca.cwds.xpack.realm.utils.Constants.STATE_ADMIN;
 import static gov.ca.cwds.xpack.realm.utils.Constants.STATE_OF_CALIFORNIA;
+import static gov.ca.cwds.xpack.realm.utils.Constants.SUPER_ADMIN;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
@@ -37,7 +38,8 @@ public final class PerryRealmUtils {
 
   private static HashMap<String, String> countyCodeToCountyIdMap = new HashMap<>();
 
-  private static Set<String> adminRoles = new HashSet<>(Arrays.asList(COUNTY_ADMIN, OFFICE_ADMIN, STATE_ADMIN, CALS_ADMIN));
+  private static Set<String> adminRoles = new HashSet<>(
+      Arrays.asList(SUPER_ADMIN, STATE_ADMIN, COUNTY_ADMIN, OFFICE_ADMIN, CALS_ADMIN));
 
   static {
     jsonFactory = new JsonFactory();

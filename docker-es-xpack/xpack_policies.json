@@ -275,8 +275,23 @@
           "query": {
             "template": {
               "inline": {
-                "match": {
-                  "county_name.keyword": "{{_user.metadata.county_name}}"
+                "bool": {
+                  "must": [
+                    {
+                      "match": {
+                        "county_name.keyword": "{{_user.metadata.county_name}}"
+                      }
+                    },
+                    {
+                      "bool": {
+                        "must_not": {
+                          "match_phrase": {
+                            "roles": "Super-admin"
+                          }
+                        }
+                      }
+                    }
+                  ]
                 }
               }
             }
@@ -324,6 +339,15 @@
                           }
                         }
                       }
+                    },
+                    {
+                      "bool": {
+                        "must_not": {
+                          "match_phrase": {
+                            "roles": "Super-admin"
+                          }
+                        }
+                      }
                     }
                   ]
                 }
@@ -345,7 +369,16 @@
           ],
           "privileges": [
             "read", "write"
-          ]
+          ],
+          "query": {
+            "bool": {
+              "must_not": {
+                "match_phrase": {
+                  "roles": "Super-admin"
+                }
+              }
+            }
+          }
         }
       ]
     }
@@ -363,6 +396,22 @@
             "read"
           ],
           "query": "{ \"match_phrase\": { \"roles\": \"CALS-external-worker\" } }"
+        }
+      ]
+    }
+  },
+  {
+    "action": "POST /_xpack/security/role/Super-admin",
+    "content": {
+      "cluster": [],
+      "indices": [
+        {
+          "names": [
+            "users"
+          ],
+          "privileges": [
+            "read", "write"
+          ]
         }
       ]
     }
