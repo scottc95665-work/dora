@@ -140,8 +140,6 @@ node('dora-slave') {
            buildInfo = rtGradle.run buildFile: './docker-dora/build.gradle', tasks: 'dockerCleanUpTagged'
            cleanWs()
         }
-      } else {
-        cleanWs()
       }
     } catch (Exception e) {
         errorcode = e;
