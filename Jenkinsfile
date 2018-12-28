@@ -94,6 +94,7 @@ node('dora-slave') {
             withSonarQubeEnv('Core-SonarQube') {
                 buildInfo = rtGradle.run buildFile: 'build.gradle', switches: '--info', tasks: 'sonarqube'
             }
+            echo "sonarqube"
         }
         if (env.BUILD_JOB_TYPE=="master" ) {
           stage('License Report') {
@@ -148,8 +149,9 @@ node('dora-slave') {
         throw e;
 
     } finally {
+        echo "finally"
         cleanWs()
-        sh "cd localenv; docker-compose down -v"
+        //sh "cd localenv; docker-compose down -v"
         publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'build/reports/license/', reportFiles: 'license-dependency.html', reportName: 'License Report', reportTitles: 'License summary'])
         publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'dora-api/build/reports/tests/test/', reportFiles: 'index.html', reportName: 'JUnit Reports', reportTitles: 'JUnit tests summary'])
         publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'dora-api/build/reports/tests/smokeTest', reportFiles: 'index.html', reportName: 'Smoke Tests Reports', reportTitles: 'Smoke tests summary'])
