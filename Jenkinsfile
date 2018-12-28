@@ -72,10 +72,6 @@ node('dora-slave') {
         if (env.BUILD_JOB_TYPE=="master" ) {
              stage('Increment Tag') {
                newTag = newSemVer()
-               projectSnapshotVersion = newTag + "-SNAPSHOT"
-               projectReleaseVersion = (env.OVERRIDE_VERSION == null || env.OVERRIDE_VERSION == ""  ? newTag + '_' + env.BUILD_NUMBER + '-RC' : env.OVERRIDE_VERSION )
-               projectVersion = (env.RELEASE_PROJECT == "true" ? projectReleaseVersion : projectSnapshotVersion )
-               newTag = projectVersion
                echo newTag
               }
         } else {

@@ -48,7 +48,7 @@ project.ext {
 if (System.getProperty('newVersion') && System.getProperty('newVersion')!='null') {
       def newVersion = "${System.getProperty('newVersion')}"
       version = newVersion
-    } else {
+} else {
       version = projectVersion
 }
 def dockerTag = version
