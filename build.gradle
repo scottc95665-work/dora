@@ -26,7 +26,6 @@ project.ext {
     projectSnapshotVersion = projectMajorVersion + "-SNAPSHOT"
     projectReleaseVersion = (customVersion == null || customVersion == "" || customVersion.startsWith('$') ? projectMajorVersion + '_' + buildNumber + '-RC' : customVersion )
     projectVersion = (isRelease ? projectReleaseVersion : projectSnapshotVersion )
-    dockerTag = projectVersion
 
     elasticsearchVersion = '5.5.2'
 
@@ -45,6 +44,14 @@ project.ext {
     releaseMavenRepo = "http://sonar.dev.cwds.io:8081/artifactory/libs-release"
     artifactoryRepo = (isRelease ? releaseMavenRepo : snapshotMavenRepo)
 }
+
+if (System.getProperty('newVersion') && System.getProperty('newVersion')!='null') {
+      def newVersion = "${System.getProperty('newVersion')}"
+      version = newVersion
+} else {
+      version = projectVersion
+}
+def dockerTag = version
 
 repositories {
     maven { url "http://sonar.dev.cwds.io:8081/artifactory/repo" }
