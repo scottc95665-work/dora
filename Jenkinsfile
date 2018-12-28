@@ -1,3 +1,5 @@
+@Library('jenkins-pipeline-utils') _
+
 def notifyBuild(String buildStatus, Exception e) {
     buildStatus = buildStatus ?: 'SUCCESSFUL'
 
