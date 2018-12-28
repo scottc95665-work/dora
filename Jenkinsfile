@@ -76,6 +76,7 @@ node('dora-slave') {
                projectReleaseVersion = (env.OVERRIDE_VERSION == null || env.OVERRIDE_VERSION == ""  ? newTag + '_' + env.BUILD_NUMBER + '-RC' : env.OVERRIDE_VERSION )
                projectVersion = (env.RELEASE_PROJECT == "true" ? projectReleaseVersion : projectSnapshotVersion )
                newTag = projectVersion
+               echo newTag
               }
         } else {
              stage('Check for Label') {
@@ -90,13 +91,12 @@ node('dora-slave') {
             publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'dora-api/build/reports/tests/test/', reportFiles: 'index.html', reportName: 'JUnit Reports', reportTitles: 'JUnit tests summary'])
         }
 
-        stage('SonarQube analysis') {
+       stage('SonarQube analysis') {
             withSonarQubeEnv('Core-SonarQube') {
                 buildInfo = rtGradle.run buildFile: 'build.gradle', switches: '--info', tasks: 'sonarqube'
             }
-            echo "sonarqube"
-        }
-        if (env.BUILD_JOB_TYPE=="master" ) {
+       }
+       if (env.BUILD_JOB_TYPE=="master" ) {
           stage('License Report') {
              buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: 'downloadLicenses'
           }
@@ -114,16 +114,16 @@ node('dora-slave') {
                 }
             }
           }
-        stage ('Build Tests Docker'){
+          stage ('Build Tests Docker'){
             buildInfo = rtGradle.run buildFile: './dora-api/docker-tests/build.gradle', switches: '--stacktrace',  tasks: "dockerTestsCreateImage -DRelease=\$RELEASE_PROJECT -DBuildNumber=\$BUILD_NUMBER -DCustomVersion=\$OVERRIDE_VERSION -DnewVersion=${newTag}".toString()
             withDockerRegistry([credentialsId: docker_credentials_id]) {
                 buildInfo = rtGradle.run buildFile: './dora-api/docker-tests/build.gradle', switches: '--stacktrace',  tasks: "dockerTestsPublish -DRelease=\$RELEASE_PROJECT -DBuildNumber=\$BUILD_NUMBER -DCustomVersion=\$OVERRIDE_VERSION -DnewVersion=${newTag}".toString()
             }
-        }
-        stage('Archive Artifacts') {
+          }
+          stage('Archive Artifacts') {
             archiveArtifacts artifacts: '**/dora*.jar,readme.txt', fingerprint: true
-        }
-        stage('Deploy Application') {
+          }
+          stage('Deploy Application') {
  	        withDockerRegistry([credentialsId: docker_credentials_id]) {
 	           sh "cd localenv; docker-compose pull ; docker-compose up -d"
 	           sh "if [ ! -d /var/log/elasticsearch ]; then sudo mkdir /var/log/elasticsearch/; fi"
@@ -131,16 +131,16 @@ node('dora-slave') {
             git changelog: false, credentialsId: github_credentials_id, poll: false, url: 'git@github.com:ca-cwds/de-ansible.git'
             sh 'ansible-playbook -e NEW_RELIC_AGENT=$USE_NEWRELIC -e DORA_API_VERSION=$APP_VERSION -i $inventory deploy-dora.yml --vault-password-file ~/.ssh/vault.txt -vv'
             cleanWs()
-        }
-        stage('Smoke Tests') {
+          }
+          stage('Smoke Tests') {
             git branch: '$branch', url: 'https://github.com/ca-cwds/dora.git'
             sh "curl http://dora.dev.cwds.io:8083/system-information"
             buildInfo = rtGradle.run buildFile: './dora-api/build.gradle', tasks: 'smokeTest --stacktrace'
-        }
-        stage('Clean WorkSpace') {
+          }
+          stage('Clean WorkSpace') {
            buildInfo = rtGradle.run buildFile: './docker-dora/build.gradle', tasks: 'dockerCleanUpTagged'
            cleanWs()
-        }
+          }
       }
     } catch (Exception e) {
         errorcode = e;
@@ -149,9 +149,10 @@ node('dora-slave') {
         throw e;
 
     } finally {
-        echo "finally"
         cleanWs()
-        //sh "cd localenv; docker-compose down -v"
+        if (env.BUILD_JOB_TYPE=="master" ) {
+          sh "cd localenv; docker-compose down -v"
+        }
         publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'build/reports/license/', reportFiles: 'license-dependency.html', reportName: 'License Report', reportTitles: 'License summary'])
         publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'dora-api/build/reports/tests/test/', reportFiles: 'index.html', reportName: 'JUnit Reports', reportTitles: 'JUnit tests summary'])
         publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'dora-api/build/reports/tests/smokeTest', reportFiles: 'index.html', reportName: 'Smoke Tests Reports', reportTitles: 'Smoke tests summary'])
