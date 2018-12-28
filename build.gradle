@@ -42,7 +42,7 @@ project.ext {
     // Publishing configuration
     snapshotMavenRepo = "http://sonar.dev.cwds.io:8081/artifactory/repo"
     releaseMavenRepo = "http://sonar.dev.cwds.io:8081/artifactory/libs-release"
-    artifactoryRepo = (isRelease ? releaseMavenRepo : snapshotMavenRepo)
+    artifactoryRepo = releaseMavenRepo
 }
 
 if (System.getProperty('newVersion') && System.getProperty('newVersion')!='null') {

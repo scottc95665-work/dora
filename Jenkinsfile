@@ -51,14 +51,29 @@ node('dora-slave') {
         booleanParam(defaultValue: true, description: 'Default release version template is: <majorVersion>_<buildNumber>-RC', name: 'RELEASE_PROJECT'),
         string(description: 'Fill this field if need to specify custom version ', name: 'OVERRIDE_VERSION'),
         string(defaultValue: 'inventories/tpt2dev/hosts.yml', description: '', name: 'inventory')
-    ]), pipelineTriggers([githubPush()])])
-    } else {
-      properties([disableConcurrentBuilds(), [$class: 'RebuildSettings', autoRebuild: false, rebuildDisabled: false],
-      parameters([
-        string(defaultValue: 'master', description: '', name: 'branch'),
-        booleanParam(defaultValue: true, description: 'Default release version template is: <majorVersion>_<buildNumber>-RC', name: 'RELEASE_PROJECT'),
-        string(defaultValue: 'inventories/tpt2dev/hosts.yml', description: '', name: 'inventory')])])
-   }
+     ]), 
+     pipelineTriggers([
+        [$class: 'GenericTrigger',
+         genericVariables: [
+           [key: 'pull_request_action', value: 'action', expressionType: 'JSONPath'],
+           [key: 'pull_request_merged', value: 'pull_request.merged', expressionType: 'JSONPath'],
+           [key: 'pull_request_event', value: 'pull_request', expressionType: 'JSONPath']
+           ],
+         causeString: 'Triggered by a PR merge',
+         token: 'dora-master',
+         regexpFilterText: '$pull_request_action:$pull_request_merged',
+         regexpFilterExpression: '^closed:true$'
+         ] 
+        ]),
+      pipelineTriggers([pollSCM('H/5 * * * *')])
+     ])
+     } else {
+       properties([disableConcurrentBuilds(), [$class: 'RebuildSettings', autoRebuild: false, rebuildDisabled: false],
+       parameters([
+         string(defaultValue: 'master', description: '', name: 'branch'),
+         booleanParam(defaultValue: true, description: 'Default release version template is: <majorVersion>_<buildNumber>-RC', name: 'RELEASE_PROJECT'),
+         string(defaultValue: 'inventories/tpt2dev/hosts.yml', description: '', name: 'inventory')])])
+    }
     def errorcode = null;
     def buildInfo = '';
 
