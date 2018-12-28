@@ -64,8 +64,7 @@ node('dora-slave') {
          regexpFilterText: '$pull_request_action:$pull_request_merged',
          regexpFilterExpression: '^closed:true$'
          ] 
-        ]),
-      pipelineTriggers([pollSCM('H/5 * * * *')])
+        ])
      ])
      } else {
        properties([disableConcurrentBuilds(), [$class: 'RebuildSettings', autoRebuild: false, rebuildDisabled: false],
