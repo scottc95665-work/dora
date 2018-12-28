@@ -37,6 +37,10 @@ def notifyBuild(String buildStatus, Exception e) {
 node('dora-slave') {
     def serverArti = Artifactory.server 'CWDS_DEV'
     def rtGradle = Artifactory.newGradleBuild()
+    def docker_credentials_id = '6ba8d05c-ca13-4818-8329-15d41a089ec0'
+    def github_credentials_id = '433ac100-b3c2-4519-b4d6-207c029a103b'
+    def newTag
+    if (env.BUILD_JOB_TYPE=="master" ) {
     properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '3', numToKeepStr: '15')), disableConcurrentBuilds(), [$class: 'RebuildSettings', autoRebuild: false, rebuildDisabled: false],
     parameters([
         booleanParam(defaultValue: true, description: '', name: 'USE_NEWRELIC'),
@@ -46,6 +50,13 @@ node('dora-slave') {
         string(description: 'Fill this field if need to specify custom version ', name: 'OVERRIDE_VERSION'),
         string(defaultValue: 'inventories/tpt2dev/hosts.yml', description: '', name: 'inventory')
     ]), pipelineTriggers([githubPush()])])
+    } else {
+      properties([disableConcurrentBuilds(), [$class: 'RebuildSettings', autoRebuild: false, rebuildDisabled: false],
+      parameters([
+        string(defaultValue: 'master', description: '', name: 'branch'),
+        booleanParam(defaultValue: true, description: 'Default release version template is: <majorVersion>_<buildNumber>-RC', name: 'RELEASE_PROJECT'),
+        string(defaultValue: 'inventories/tpt2dev/hosts.yml', description: '', name: 'inventory')])])
+   }
     def errorcode = null;
     def buildInfo = '';
 
@@ -56,50 +67,65 @@ node('dora-slave') {
             rtGradle.tool = "Gradle_35"
             rtGradle.resolver repo: 'repo', server: serverArti
         }
-        stage('Build') {
-            buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: 'jar -DRelease=$RELEASE_PROJECT -DBuildNumber=$BUILD_NUMBER -DCustomVersion=$OVERRIDE_VERSION'
-        }
-        stage('Unit Tests') {
+        if (env.BUILD_JOB_TYPE=="master" ) {
+             stage('Increment Tag') {
+               newTag = newSemVer()
+               projectSnapshotVersion = newTag + "-SNAPSHOT"
+               projectReleaseVersion = (env.OVERRIDE_VERSION == null || env.OVERRIDE_VERSION == ""  ? newTag + '_' + env.BUILD_NUMBER + '-RC' : env.OVERRIDE_VERSION )
+               projectVersion = (env.RELEASE_PROJECT == "true" ? projectReleaseVersion : projectSnapshotVersion )
+               newTag = projectVersion
+              }
+        } else {
+             stage('Check for Label') {
+               checkForLabel("dora")
+             }
+       }
+       stage('Build'){
+            buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: "jar -DRelease=\$RELEASE_PROJECT -DBuildNumber=\$BUILD_NUMBER -DCustomVersion=\$OVERRIDE_VERSION -DnewVersion=${newTag}".toString()
+       }
+       stage('Unit Tests') {
             buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: 'test jacocoTestReport'
             publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'dora-api/build/reports/tests/test/', reportFiles: 'index.html', reportName: 'JUnit Reports', reportTitles: 'JUnit tests summary'])
         }
-        stage('License Report') {
-            buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: 'downloadLicenses'
-        }
+
         stage('SonarQube analysis') {
             withSonarQubeEnv('Core-SonarQube') {
                 buildInfo = rtGradle.run buildFile: 'build.gradle', switches: '--info', tasks: 'sonarqube'
             }
         }
-        stage('Push to Artifactory') {
-            rtGradle.deployer.deployArtifacts = true
-            buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: 'publish -DRelease=$RELEASE_PROJECT -DBuildNumber=$BUILD_NUMBER -DCustomVersion=$OVERRIDE_VERSION'
-            rtGradle.deployer.deployArtifacts = false
-        }
-        stage('Build Docker') {
+        if (env.BUILD_JOB_TYPE=="master" ) {
+          stage('License Report') {
+             buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: 'downloadLicenses'
+          }
+          stage('Push to Artifactory') {
+             rtGradle.deployer.deployArtifacts = true
+             buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: "publish -DRelease=\$RELEASE_PROJECT -DBuildNumber=\$BUILD_NUMBER -DCustomVersion=\$OVERRIDE_VERSION -DnewVersion=${newTag}".toString()
+             rtGradle.deployer.deployArtifacts = false
+          }
+          stage('Build Docker') {
             withEnv(['ELASTIC_HOST=127.0.0.1']) {
                 buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: 'printConfig'
-                buildInfo = rtGradle.run buildFile: './docker-dora/build.gradle', tasks: 'dockerCreateImage -DRelease=$RELEASE_PROJECT -DBuildNumber=$BUILD_NUMBER -DCustomVersion=$OVERRIDE_VERSION'
-                withDockerRegistry([credentialsId: '6ba8d05c-ca13-4818-8329-15d41a089ec0']) {
-                    buildInfo = rtGradle.run buildFile: './docker-dora/build.gradle', tasks: 'dockerDoraPublish -DRelease=$RELEASE_PROJECT -DBuildNumber=$BUILD_NUMBER -DCustomVersion=$OVERRIDE_VERSION'
+                buildInfo = rtGradle.run buildFile: './docker-dora/build.gradle', tasks: "dockerCreateImage -DRelease=\$RELEASE_PROJECT -DBuildNumber=\$BUILD_NUMBER -DCustomVersion=\$OVERRIDE_VERSION -DnewVersion=${newTag}".toString()
+                withDockerRegistry([credentialsId: docker_credentials_id]) {
+                    buildInfo = rtGradle.run buildFile: './docker-dora/build.gradle', tasks: "dockerDoraPublish -DRelease=\$RELEASE_PROJECT -DBuildNumber=\$BUILD_NUMBER -DCustomVersion=\$OVERRIDE_VERSION -DnewVersion=${newTag}".toString()
                 }
             }
-        }
+          }
         stage ('Build Tests Docker'){
-            buildInfo = rtGradle.run buildFile: './dora-api/docker-tests/build.gradle', switches: '--stacktrace',  tasks: 'dockerTestsCreateImage -DRelease=$RELEASE_PROJECT -DBuildNumber=$BUILD_NUMBER -DCustomVersion=$OVERRIDE_VERSION'
-           withDockerRegistry([credentialsId: '6ba8d05c-ca13-4818-8329-15d41a089ec0']) {
-                buildInfo = rtGradle.run buildFile: './dora-api/docker-tests/build.gradle', switches: '--stacktrace',  tasks: 'dockerTestsPublish -DRelease=$RELEASE_PROJECT -DBuildNumber=$BUILD_NUMBER -DCustomVersion=$OVERRIDE_VERSION'
-           }
+            buildInfo = rtGradle.run buildFile: './dora-api/docker-tests/build.gradle', switches: '--stacktrace',  tasks: "dockerTestsCreateImage -DRelease=\$RELEASE_PROJECT -DBuildNumber=\$BUILD_NUMBER -DCustomVersion=\$OVERRIDE_VERSION -DnewVersion=${newTag}".toString()
+            withDockerRegistry([credentialsId: docker_credentials_id]) {
+                buildInfo = rtGradle.run buildFile: './dora-api/docker-tests/build.gradle', switches: '--stacktrace',  tasks: "dockerTestsPublish -DRelease=\$RELEASE_PROJECT -DBuildNumber=\$BUILD_NUMBER -DCustomVersion=\$OVERRIDE_VERSION -DnewVersion=${newTag}".toString()
+            }
         }
         stage('Archive Artifacts') {
             archiveArtifacts artifacts: '**/dora*.jar,readme.txt', fingerprint: true
         }
         stage('Deploy Application') {
- 	        withDockerRegistry([credentialsId: '6ba8d05c-ca13-4818-8329-15d41a089ec0']) {
+ 	        withDockerRegistry([credentialsId: docker_credentials_id]) {
 	           sh "cd localenv; docker-compose pull ; docker-compose up -d"
 	           sh "if [ ! -d /var/log/elasticsearch ]; then sudo mkdir /var/log/elasticsearch/; fi"
 	        }
-            git changelog: false, credentialsId: '433ac100-b3c2-4519-b4d6-207c029a103b', poll: false, url: 'git@github.com:ca-cwds/de-ansible.git'
+            git changelog: false, credentialsId: github_credentials_id, poll: false, url: 'git@github.com:ca-cwds/de-ansible.git'
             sh 'ansible-playbook -e NEW_RELIC_AGENT=$USE_NEWRELIC -e DORA_API_VERSION=$APP_VERSION -i $inventory deploy-dora.yml --vault-password-file ~/.ssh/vault.txt -vv'
             cleanWs()
         }
@@ -107,11 +133,14 @@ node('dora-slave') {
             git branch: '$branch', url: 'https://github.com/ca-cwds/dora.git'
             sh "curl http://dora.dev.cwds.io:8083/system-information"
             buildInfo = rtGradle.run buildFile: './dora-api/build.gradle', tasks: 'smokeTest --stacktrace'
-
         }
         stage('Clean WorkSpace') {
-          buildInfo = rtGradle.run buildFile: './docker-dora/build.gradle', tasks: 'dockerCleanUpTagged'
+           buildInfo = rtGradle.run buildFile: './docker-dora/build.gradle', tasks: 'dockerCleanUpTagged'
+           cleanWs()
         }
+      } else {
+        cleanWs()
+      }
     } catch (Exception e) {
         errorcode = e;
         currentBuild.result = "FAIL"
@@ -119,6 +148,7 @@ node('dora-slave') {
         throw e;
 
     } finally {
+        cleanWs()
         sh "cd localenv; docker-compose down -v"
         publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'build/reports/license/', reportFiles: 'license-dependency.html', reportName: 'License Report', reportTitles: 'License summary'])
         publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'dora-api/build/reports/tests/test/', reportFiles: 'index.html', reportName: 'JUnit Reports', reportTitles: 'JUnit tests summary'])
