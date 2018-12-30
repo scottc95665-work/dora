@@ -157,7 +157,6 @@ node('dora-slave') {
         currentBuild.result = "FAIL"
         notifyBuild(currentBuild.result, errorcode)
         throw e;
-
     } finally {
         cleanWs()
         if (env.BUILD_JOB_TYPE=="master" ) {
