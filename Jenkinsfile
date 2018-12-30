@@ -61,8 +61,8 @@ node('dora-slave') {
            ],
          causeString: 'Triggered by a PR merge',
          token: 'dora-master',
-         regexpFilterText: '$pull_request_action:$pull_request_merged',
-         regexpFilterExpression: '^closed:true$'
+         regexpFilterText: '$pull_request_action:$trigger_key:$pull_request_merged',
+         regexpFilterExpression: '^closed:dora-master:true$'
          ] 
         ])
      ])
