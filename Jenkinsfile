@@ -66,13 +66,14 @@ node('dora-slave') {
 
     try {
         stage('Preparation') {
-            cleanWs()
-            git branch: '$branch', url: 'https://github.com/ca-cwds/dora.git'
+            def scmInfo = checkout scm
             rtGradle.tool = "Gradle_35"
             rtGradle.resolver repo: 'repo', server: serverArti
+            rtGradle.useWrapper = true
         }
         if (env.BUILD_JOB_TYPE=="master" ) {
              stage('Increment Tag') {
+               echo " new tag "
                newTag = newSemVer()
                echo newTag
               }
