@@ -43,7 +43,8 @@ node('dora-slave') {
     def github_credentials_id = '433ac100-b3c2-4519-b4d6-207c029a103b'
     def newTag
     if (env.BUILD_JOB_TYPE=="master" ) {
-    properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '3', numToKeepStr: '15')), disableConcurrentBuilds(), [$class: 'RebuildSettings', autoRebuild: false, rebuildDisabled: false],
+    triggerProperties = pullRequestMergedTriggerProperties('dora-master')
+    properties([pipelineTriggers([triggerProperties]), buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '50')), disableConcurrentBuilds(), [$class: 'RebuildSettings', autoRebuild: false, rebuildDisabled: false],
     parameters([
         booleanParam(defaultValue: true, description: '', name: 'USE_NEWRELIC'),
         string(defaultValue: 'latest', description: '', name: 'APP_VERSION'),
@@ -51,18 +52,7 @@ node('dora-slave') {
         booleanParam(defaultValue: true, description: 'Default release version template is: <majorVersion>_<buildNumber>-RC', name: 'RELEASE_PROJECT'),
         string(description: 'Fill this field if need to specify custom version ', name: 'OVERRIDE_VERSION'),
         string(defaultValue: 'inventories/tpt2dev/hosts.yml', description: '', name: 'inventory')
-     ]), 
-     pipelineTriggers([
-        [$class: 'GenericTrigger',
-         genericVariables: [
-           [key: 'pull_request_action', value: 'action', expressionType: 'JSONPath'],
-           [key: 'pull_request_merged', value: 'pull_request.merged', expressionType: 'JSONPath'],
-           [key: 'pull_request_event', value: 'pull_request', expressionType: 'JSONPath']
-           ],
-         causeString: 'Triggered by a PR merge',
-         token: 'dora-master'
-         ] 
-        ])
+     ])
      ])
      } else {
        properties([disableConcurrentBuilds(), [$class: 'RebuildSettings', autoRebuild: false, rebuildDisabled: false],
