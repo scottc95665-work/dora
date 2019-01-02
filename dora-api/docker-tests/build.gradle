@@ -3,6 +3,7 @@ import org.apache.tools.ant.filters.FixCrLfFilter
 
 def dockerImageName = targetDockerHubOrganization + '/dora-tests' // like 'cwds/dora-tests'
 def dockerContextDir = "build/docker-context"
+def dockerTag = projectVersion
 
 task dockerTestsCleanUpLatest(type: Exec, dependsOn: project.rootProject.checkDockerService) {
     ignoreExitValue true
