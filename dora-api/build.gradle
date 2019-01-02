@@ -60,7 +60,7 @@ repositories {
 
 processResources {
     filter(ReplaceTokens, tokens: [
-        'build.version': projectVersion
+        'build.version': projectVersion as String
     ])
 }
 
@@ -147,7 +147,7 @@ task smokeTest(type: Test) {
 
 processResources {
     filter(ReplaceTokens, tokens:[
-            'build.version' : projectVersion,
+            'build.version' : projectVersion as String,
             'build.number' : (System.getenv("BUILD_NUMBER") ?: "IDE")
     ])
 }

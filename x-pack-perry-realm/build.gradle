@@ -62,7 +62,7 @@ dependencies {
 
 processResources {
     filter(ReplaceTokens, tokens: [
-            'version'      : version,
+            'version'      : version as String,
             'xpack.version': project.elasticsearchVersion,
             'java.version' : targetCompatibility as String
     ])
