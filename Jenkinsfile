@@ -83,7 +83,7 @@ node('dora-slave') {
              }
        }
        stage('Build'){
-            buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: "jar -DRelease=\$RELEASE_PROJECT -DBuildNumber=\$BUILD_NUMBER -DCustomVersion=\$OVERRIDE_VERSION -DnewVersion=${newTag}".toString()
+            buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: "jar -DRelease=\$RELEASE_PROJECT -DBuildNumber=\$BUILD_NUMBER -DCustomVersion=\$OVERRIDE_VERSION -DnewVersion=${newTag} --stacktrace".toString()
        }
        stage('Unit Tests') {
             buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: 'test jacocoTestReport'
