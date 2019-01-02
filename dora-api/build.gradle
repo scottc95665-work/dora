@@ -47,6 +47,8 @@ shadowJar {
     mergeServiceFiles()
     manifest {
         attributes 'Main-Class': mainclass
+        attributes 'Dora-Api-Version': projectVersion
+        attributes 'Dora-Api-Build': (System.getenv("BUILD_NUMBER") ?: "IDE")
     }
     version = projectVersion
 }
@@ -56,12 +58,6 @@ mainClassName = mainclass
 repositories {
     mavenCentral()
     maven { url "http://sonar.dev.cwds.io:8081/artifactory/repo" }
-}
-
-processResources {
-    filter(ReplaceTokens, tokens: [
-        'build.version': projectVersion
-    ])
 }
 
 dependencies {
@@ -143,13 +139,6 @@ task smokeTest(type: Test) {
     // URL where smoke tests will be pointed to (change it in gradle.properties)
     systemProperty 'dora.url', project.property('dora.url')
     include '**/*SmokeTestSuite*'
-}
-
-processResources {
-    filter(ReplaceTokens, tokens:[
-            'build.version' : projectVersion,
-            'build.number' : (System.getenv("BUILD_NUMBER") ?: "IDE")
-    ])
 }
 
 publishing {
