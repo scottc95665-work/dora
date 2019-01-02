@@ -61,13 +61,11 @@ dependencies {
 }
 
 processResources {
-  filesMatching('x-pack-extension-descriptor.properties') {
     filter(ReplaceTokens, tokens: [
-            'version'      : version,
+            'version'      : version as String,
             'xpack.version': project.elasticsearchVersion,
             'java.version' : targetCompatibility as String
     ])
-  }
 }
 processResources {
     filesMatching('application.properties') {
