@@ -130,6 +130,13 @@ test {
     exclude '**/*IT*', '**/*SmokeTest*'
 }
 
+jar {
+    manifest {
+        attributes 'Dora-Api-Version': version
+        attributes 'Dora-Api-Build': (System.getenv("BUILD_NUMBER") ?: "IDE")
+    }
+}
+
 task integrationTest(type: Test, dependsOn: testClasses) {
     include '**/*IT*'
     exclude '**/*Test*'
