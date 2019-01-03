@@ -140,6 +140,22 @@ node('dora-slave') {
            buildInfo = rtGradle.run buildFile: './docker-dora/build.gradle', tasks: 'dockerCleanUpTagged'
            cleanWs()
           }
+          stage('Deploy to Pre-int') {
+            withCredentials([usernameColonPassword(credentialsId: 'fa186416-faac-44c0-a2fa-089aed50ca17', variable: 'jenkinsauth')]) {
+            sh "curl -u $jenkinsauth 'http://jenkins.mgmt.cwds.io:8080/job/preint/job/deploy-dora/buildWithParameters?token=deployDoraToPreint&version=${newTag}'"
+            }
+          }
+          stage('Update Pre-int Manifest') {
+            updateManifest("dora", "preint", github_credentials_id, newTag)
+          }    
+          stage('Deploy to Integration') {
+            withCredentials([usernameColonPassword(credentialsId: 'fa186416-faac-44c0-a2fa-089aed50ca17', variable: 'jenkinsauth')]) {
+              sh "curl -u $jenkinsauth 'http://jenkins.mgmt.cwds.io:8080/job/Integration%20Environment/job/deploy-dora/buildWithParameters?token=deployDoraToIntegration&version=${newTag}'"
+            }
+          }
+          stage('Update Integration Manifest') {
+            updateManifest("dora", "integration", github_credentials_id, newTag)
+          }
       }
     } catch (Exception e) {
         errorcode = e;
