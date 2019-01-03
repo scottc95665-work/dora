@@ -99,6 +99,9 @@ node('dora-slave') {
           stage('License Report') {
              buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: 'downloadLicenses'
           }
+          stage('Tag Git') {
+            tagGithubRepo(newTag, github_credentials_id)
+          }
           stage('Push to Artifactory') {
              rtGradle.deployer.deployArtifacts = true
              buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: "publish -DRelease=\$RELEASE_PROJECT -DBuildNumber=\$BUILD_NUMBER -DCustomVersion=\$OVERRIDE_VERSION -DnewVersion=${newTag}".toString()
