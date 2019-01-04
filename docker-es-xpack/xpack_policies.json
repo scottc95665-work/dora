@@ -12,6 +12,14 @@
           "privileges": [
             "read"
           ]
+        },
+        {
+          "names": [
+            "auditevent*"
+          ],
+          "privileges": [
+            "read", "write"
+          ]
         }
       ]
     }
