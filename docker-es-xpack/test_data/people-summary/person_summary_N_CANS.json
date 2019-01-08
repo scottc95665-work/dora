@@ -1,0 +1,71 @@
+{
+  "index_update_time": "2019-01-04T12:52:44.480-0800",
+  "first_name": "Franklin",
+  "middle_name": null,
+  "last_name": "Lackie",
+  "name_suffix": null,
+  "date_of_birth": "2001-10-21",
+  "gender": "male",
+  "ssn": null,
+  "open_case_id": "8xgkcre0OY",
+  "open_case_responsible_agency_code": "C",
+  "type": "gov.ca.cwds.data.persistence.cms.rep.ReplicatedClient",
+  "sensitivity_indicator": "N",
+  "client_county": {
+    "id": "1097",
+    "description": "Orange"
+  },
+  "client_counties": [
+    {
+      "id": "1097",
+      "description": "Orange"
+    }
+  ],
+  "race_ethnicity": {
+    "race_codes": [],
+    "hispanic_codes": [],
+    "unable_to_determine_code": "",
+    "hispanic_origin_code": "U",
+    "hispanic_unable_to_determine_code": ""
+  },
+  "source": "",
+  "legacy_descriptor": {
+    "legacy_id": "79AmkC60OY",
+    "legacy_ui_id": "0406-0062-2525-4001522",
+    "legacy_last_updated": "2018-07-25T11:03:33.762-0700",
+    "legacy_table_name": "CLIENT_T",
+    "legacy_table_description": "Client"
+  },
+  "legacy_id": "79AmkC60OY",
+  "addresses": [],
+  "phone_numbers": [],
+  "languages": [],
+  "id": "79AmkC60OY",
+  "date_of_birth_as_text": [
+    "102101",
+    "102001",
+    "2001",
+    "1021",
+    "10212001"
+  ],
+  "autocomplete_search_bar": [
+    "Franklin",
+    "102101",
+    "102001",
+    "2001",
+    "1021",
+    "Lackie",
+    "10212001"
+  ],
+  "searchable_date_of_birth": [
+    "102101",
+    "102001",
+    "2001",
+    "1021",
+    "10212001"
+  ],
+  "searchable_name": [
+    "Franklin",
+    "Lackie"
+  ]
+}
