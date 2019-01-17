@@ -157,7 +157,9 @@ task dockerPopulateTestPeople {
         // create screenings index
         esExecute("PUT", "/screenings", "{}")
         // create users index
-        esExecute("PUT", "/users", readFile("$projectDir/test_data/users.index_config.json"))
+        esExecute("PUT", "/users", readFile("$projectDir/test_data/users.index_config.json"))        
+        // create users index
+        esExecute("PUT", "/auditevents", "{}")
     }
     doLast {
         // populate test people data
@@ -194,6 +196,14 @@ task dockerPopulateTestPeople {
             esExecute("PUT", esUrl, content)
         }
         // verify with URL like: http://192.168.99.100:9200/users/user/_search?pretty
+
+        // populate auditevents test data
+        ["A", "B", "C", "D", "E"].each {
+            String esUrl = "/auditevents/auditevent/auditevent_$it"
+            String content = readFile("$projectDir/test_data/audit-events/audit_event_${it}.json")
+            esExecute("PUT", esUrl, content)
+        }
+        // verify with URL like: http://192.168.99.100:9200/auditevents/auditevent/_search?pretty
     }
 }
 

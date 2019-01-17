@@ -15,10 +15,10 @@
         },
         {
           "names": [
-            "auditevent*"
+            "auditevents"
           ],
           "privileges": [
-            "read", "write"
+            "read"
           ]
         }
       ]
@@ -275,7 +275,7 @@
       "indices": [
         {
           "names": [
-            "users"
+            "users", "auditevents"
           ],
           "privileges": [
             "read", "write"
@@ -315,7 +315,7 @@
       "indices": [
         {
           "names": [
-            "users"
+            "users", "auditevents"
           ],
           "privileges": [
             "read", "write"
@@ -373,7 +373,7 @@
       "indices": [
         {
           "names": [
-            "users"
+            "users", "auditevents"
           ],
           "privileges": [
             "read", "write"
@@ -398,12 +398,12 @@
       "indices": [
         {
           "names": [
-            "users"
+            "users", "auditevents"
           ],
           "privileges": [
             "read"
           ],
-          "query": "{ \"match_phrase\": { \"roles\": \"CALS-external-worker\" } }"
+          "query": "{ \"match_phrase\": { \" roles\": \"CALS-external-worker\" } }"
         }
       ]
     }
@@ -415,7 +415,7 @@
       "indices": [
         {
           "names": [
-            "users"
+            "users", "auditevents"
           ],
           "privileges": [
             "read", "write"
