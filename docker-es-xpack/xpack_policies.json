@@ -12,14 +12,6 @@
           "privileges": [
             "read"
           ]
-        },
-        {
-          "names": [
-            "auditevents"
-          ],
-          "privileges": [
-            "read"
-          ]
         }
       ]
     }
