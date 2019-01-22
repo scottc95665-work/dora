@@ -198,7 +198,8 @@ task dockerPopulateTestPeople {
         // verify with URL like: http://192.168.99.100:9200/users/user/_search?pretty
 
         // populate auditevents test data
-        ["user_cals_admin", "user_cals_external", "user_county_admin", "user_cws_worker", 
+        ["user_cals_admin", "user_cals_external", "user_county_admin", 
+         "user_county_admin_Ventura_county", "user_cws_worker", 
          "user_office_admin", "user_state_admin", "user_super_admin"].each {
             String esUrl = "/auditevents/auditevent/auditevent_$it"
             String content = readFile("$projectDir/test_data/audit-events/audit_event_${it}.json")
