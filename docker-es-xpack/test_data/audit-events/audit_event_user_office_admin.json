@@ -6,7 +6,7 @@
     "user_id": "user_id_5",
     "user_name": "User 5",
     "county_name": "Madera",
-    "role": "Office-admin",
+    "user_roles": "Office-admin",
     "old_value": "15",
     "new_value": "25"
   },

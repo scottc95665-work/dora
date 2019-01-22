@@ -6,7 +6,7 @@
     "user_id": "user_id_2",
     "user_name": "User 2",
     "county_name": "Madera",
-    "role": "CALS-external-worker"
+    "user_roles": "CALS-external-worker"
   },
   "comment": "some comment2",
   "event_type": "createdEvent",

@@ -6,7 +6,7 @@
     "user_id": "user_id_6",
     "user_name": "User 6",
     "county_name": "Madera",
-    "role": "State-admin"
+    "user_roles": "State-admin"
   },
   "comment": "some comment6",
   "event_type": "NewValueSetEvent",

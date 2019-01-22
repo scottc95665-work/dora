@@ -3,12 +3,12 @@
   "event": {
     "admin_role": "State Administrator",
     "admin_name": "John Admin",
-    "user_id": "user_id_3",
-    "user_name": "User 3",
-    "county_name": "Madera",
+    "user_id": "user_id_3_1",
+    "user_name": "User 3_1",
+    "county_name": "Ventura",
     "user_roles": "County-admin"
   },
-  "comment": "some comment3",
+  "comment": "some comment3_1",
   "event_type": "createdEvent",
   "event_source": "test"
 }
