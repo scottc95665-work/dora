@@ -1,0 +1,14 @@
+{
+  "user_login": "user_cals_external_worker",
+  "event": {
+    "admin_role": "State Administrator",
+    "admin_name": "John Admin",
+    "user_id": "user_id_2",
+    "user_name": "User 2",
+    "county_name": "Madera",
+    "user_roles": "CALS-external-worker"
+  },
+  "comment": "some comment2",
+  "event_type": "createdEvent",
+  "event_source": "test"
+}

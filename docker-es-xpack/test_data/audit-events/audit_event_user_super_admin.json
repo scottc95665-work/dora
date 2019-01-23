@@ -1,0 +1,14 @@
+{
+  "user_login": "user_super_admin",
+  "event": {
+    "admin_role": "State Administrator",
+    "admin_name": "John Admin",
+    "user_id": "user_id_7",
+    "user_name": "User 7",
+    "county_name": "Madera",
+    "user_roles": "Super-admin"
+  },
+  "comment": "some comment7",
+  "event_type": "createdEvent",
+  "event_source": "test"
+}

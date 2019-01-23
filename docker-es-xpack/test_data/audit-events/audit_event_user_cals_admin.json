@@ -1,0 +1,14 @@
+{
+  "user_login": "user_cals_admin",
+  "event": {
+    "admin_role": "State Administrator",
+    "admin_name": "John Admin",
+    "user_id": "user_id_1",
+    "user_name": "User 1",
+    "county_name": "Madera",
+    "user_roles": "CALS-admin"
+  },
+  "comment": "some comment1",
+  "event_type": "NewValueSetEvent",
+  "event_source": "test"
+}
