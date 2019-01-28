@@ -1,70 +1,148 @@
 {
+  "index_update_time": "2019-01-15T14:15:23.001-0800",
+  "first_name": "Victim 01",
+  "middle_name": "Test",
+  "last_name": "Referral",
+  "name_suffix": "Suff",
+  "date_of_birth": "2014-01-01",
+  "gender": "male",
+  "ssn": null,
+  "type": "gov.ca.cwds.data.persistence.cms.rep.ReplicatedClient",
+  "sensitivity_indicator": "N",
+  "client_county": {
+    "id": "1101",
+    "description": "Sacramento"
+  },
+  "client_counties": [
+    {
+      "id": "1101",
+      "description": "Sacramento"
+    }
+  ],
   "race_ethnicity": {
-    "hispanic_origin_code": "X",
-    "unable_to_determine_code": "",
     "race_codes": [],
     "hispanic_codes": [],
+    "unable_to_determine_code": "",
+    "hispanic_origin_code": "X",
     "hispanic_unable_to_determine_code": ""
   },
+  "source": "",
+  "legacy_descriptor": {
+    "legacy_id": "LmfBIVragn",
+    "legacy_ui_id": "1237-3878-4575-1141037",
+    "legacy_last_updated": "2019-01-02T09:02:41.075-0800",
+    "legacy_table_name": "CLIENT_T",
+    "legacy_table_description": "Client"
+  },
+  "legacy_id": "LmfBIVragn",
   "addresses": [
     {
+      "id": "0qagg5fagn",
+      "city": "Regression City",
+      "state": {
+        "id": "1828",
+        "description": "California"
+      },
+      "state_code": "CA",
+      "state_name": "California",
+      "county": {
+        "id": "1101",
+        "description": "Sacramento"
+      },
       "zip": "10101",
+      "type": {
+        "id": "32",
+        "description": "Residence"
+      },
+      "street_number": "101",
+      "street_name": "Regression Drive",
+      "effective_start_date": "2019-01-02",
+      "active": "true",
+      "last_known": "true",
       "phone_numbers": [
         {
           "number": "1010101010",
           "type": "Home"
         }
       ],
-      "city": "Regression City",
-      "county": {
-        "description": "Sacramento",
-        "id": "1101"
-      },
       "legacy_descriptor": {
-        "legacy_last_updated": "2019-01-02T08:43:17.422-0800",
         "legacy_id": "0qagg5fagn",
         "legacy_ui_id": "0048-1810-2693-5141037",
+        "legacy_last_updated": "2019-01-02T08:43:17.422-0800",
         "legacy_table_name": "ADDRS_T",
         "legacy_table_description": "Address"
       },
-      "street_number": "101",
-      "effective_start_date": "2019-01-02",
-      "id": "0qagg5fagn",
-      "type": {
-        "description": "Residence",
-        "id": "32"
-      },
-      "state_code": "CA",
-      "street_name": "Regression Drive"
+      "searchable_address": [
+        "101",
+        "Regression",
+        "Drive"
+      ],
+      "autocomplete_searchable_address": [
+        "101",
+        "Regression",
+        "Drive"
+      ],
+      "autocomplete_city": "Regression City"
     }
   ],
-  "gender": "male",
-  "languages": [],
-  "name_suffix": "Suff",
-  "date_of_birth": "2014-01-01",
-  "legacy_descriptor": {
-    "legacy_last_updated": "2019-01-02T09:02:41.075-0800",
-    "legacy_id": "LmfBIVragn",
-    "legacy_ui_id": "1237-3878-4575-1141037",
-    "legacy_table_name": "CLIENT_T",
-    "legacy_table_description": "Client"
-  },
-  "last_name": "Referral",
-  "middle_name": "Test",
-  "ssn": null,
   "phone_numbers": [
     {
       "number": "1010101010",
       "type": "Home"
     }
   ],
+  "languages": [],
   "id": "LmfBIVragn",
-  "first_name": "Victim 01",
-  "sensitivity_indicator": "N",
-  "client_counties": [
-    {
-      "description": "Sacramento",
-      "id": "1101"
-    }
+  "autocomplete_search_bar": [
+    "11",
+    "Suff",
+    "112014",
+    "01114",
+    "012014",
+    "0114",
+    "0101",
+    "010114",
+    "1114",
+    "Victim 01",
+    "Referral",
+    "Test",
+    "2014",
+    "12014",
+    "10114",
+    "01012014"
+  ],
+  "date_of_birth_as_text": [
+    "012014",
+    "11",
+    "0114",
+    "0101",
+    "010114",
+    "1114",
+    "2014",
+    "112014",
+    "01114",
+    "12014",
+    "10114",
+    "01012014"
+  ],
+  "searchable_date_of_birth": [
+    "012014",
+    "11",
+    "0114",
+    "0101",
+    "010114",
+    "1114",
+    "2014",
+    "112014",
+    "01114",
+    "12014",
+    "10114",
+    "01012014"
+  ],
+  "searchable_name": [
+    "Victim 01",
+    "Referral",
+    "Test",
+    "Suff"
   ]
 }

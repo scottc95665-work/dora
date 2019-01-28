@@ -1,33 +1,96 @@
 {
-  "race_ethnicity": {
-    "hispanic_origin_code": "X",
-    "unable_to_determine_code": "",
-    "race_codes": [],
-    "hispanic_codes": [],
-    "hispanic_unable_to_determine_code": ""
-  },
-  "gender": "female",
-  "languages": [],
+  "index_update_time": "2019-01-15T14:15:20.364-0800",
+  "first_name": "Child 02",
+  "middle_name": "Test",
+  "last_name": "Case",
   "name_suffix": "Suff",
   "date_of_birth": "2012-01-04",
+  "gender": "female",
+  "ssn": null,
+  "open_case_id": "HulraxLagn",
   "open_case_responsible_agency_code": "C",
+  "type": "gov.ca.cwds.data.persistence.cms.rep.ReplicatedClient",
+  "sensitivity_indicator": "N",
+  "client_county": {
+    "id": "1101",
+    "description": "Sacramento"
+  },
+  "client_counties": [
+    {
+      "id": "1101",
+      "description": "Sacramento"
+    }
+  ],
+  "race_ethnicity": {
+    "race_codes": [],
+    "hispanic_codes": [],
+    "unable_to_determine_code": "",
+    "hispanic_origin_code": "X",
+    "hispanic_unable_to_determine_code": ""
+  },
+  "source": "",
   "legacy_descriptor": {
-    "legacy_last_updated": "2019-01-02T10:19:56.205-0800",
     "legacy_id": "HJGXdOpagn",
     "legacy_ui_id": "0983-2549-6639-1141037",
+    "legacy_last_updated": "2019-01-02T10:19:56.205-0800",
     "legacy_table_name": "CLIENT_T",
     "legacy_table_description": "Client"
   },
-  "last_name": "Case",
-  "middle_name": "Test",
-  "ssn": null,
+  "legacy_id": "HJGXdOpagn",
+  "addresses": [],
+  "phone_numbers": [],
+  "languages": [],
   "id": "HJGXdOpagn",
-  "first_name": "Child 02",
-  "sensitivity_indicator": "N",
-  "client_counties": [
-    {
-      "description": "Sacramento",
-      "id": "1101"
-    }
+  "autocomplete_search_bar": [
+    "01042012",
+    "14",
+    "Child 02",
+    "Suff",
+    "2012",
+    "01412",
+    "Case",
+    "012012",
+    "0104",
+    "142012",
+    "1412",
+    "0112",
+    "Test",
+    "010412",
+    "12012",
+    "10412"
+  ],
+  "date_of_birth_as_text": [
+    "01042012",
+    "012012",
+    "0104",
+    "142012",
+    "1412",
+    "14",
+    "0112",
+    "010412",
+    "2012",
+    "12012",
+    "01412",
+    "10412"
+  ],
+  "searchable_date_of_birth": [
+    "01042012",
+    "012012",
+    "0104",
+    "142012",
+    "1412",
+    "14",
+    "0112",
+    "010412",
+    "2012",
+    "12012",
+    "01412",
+    "10412"
+  ],
+  "searchable_name": [
+    "Child 02",
+    "Test",
+    "Suff",
+    "Case"
   ]
 }
