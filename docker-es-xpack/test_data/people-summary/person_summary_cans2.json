@@ -1,21 +1,28 @@
 {
-  "gender": "male",
+  "race_ethnicity": {
+    "hispanic_origin_code": "X",
+    "unable_to_determine_code": "",
+    "race_codes": [],
+    "hispanic_codes": [],
+    "hispanic_unable_to_determine_code": ""
+  },
+  "gender": "female",
   "languages": [],
   "name_suffix": "Suff",
-  "date_of_birth": "2013-01-03",
+  "date_of_birth": "2012-01-04",
   "open_case_responsible_agency_code": "C",
   "legacy_descriptor": {
-    "legacy_last_updated": "2019-01-02T09:02:11.854-0800",
-    "legacy_id": "PCqccrvagn",
-    "legacy_ui_id": "1431-7770-5893-5141037",
+    "legacy_last_updated": "2019-01-02T10:19:56.205-0800",
+    "legacy_id": "HJGXdOpagn",
+    "legacy_ui_id": "0983-2549-6639-1141037",
     "legacy_table_name": "CLIENT_T",
     "legacy_table_description": "Client"
   },
   "last_name": "Case",
   "middle_name": "Test",
   "ssn": null,
-  "id": "PCqccrvagn",
-  "first_name": "Child 01",
+  "id": "HJGXdOpagn",
+  "first_name": "Child 02",
   "sensitivity_indicator": "N",
   "client_counties": [
     {
