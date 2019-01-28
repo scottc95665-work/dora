@@ -1,64 +1,26 @@
 {
-  "_index": "people-summary_2019.01.15.14.14.43",
-  "_type": "person-summary",
-  "_id": "PCqccrvagn",
-  "_score": 328.9638,
-  "_source": {
-    "race_ethnicity": {
-      "hispanic_origin_code": "X",
-      "unable_to_determine_code": "",
-      "race_codes": [],
-      "hispanic_codes": [],
-      "hispanic_unable_to_determine_code": ""
-    },
-    "gender": "male",
-    "languages": [],
-    "name_suffix": "Suff",
-    "date_of_birth": "2013-01-03",
-    "open_case_responsible_agency_code": "C",
-    "legacy_descriptor": {
-      "legacy_last_updated": "2019-01-02T09:02:11.854-0800",
-      "legacy_id": "PCqccrvagn",
-      "legacy_ui_id": "1431-7770-5893-5141037",
-      "legacy_table_name": "CLIENT_T",
-      "legacy_table_description": "Client"
-    },
-    "last_name": "Case",
-    "middle_name": "Test",
-    "ssn": null,
-    "id": "PCqccrvagn",
-    "first_name": "Child 01",
-    "sensitivity_indicator": "N",
-    "client_counties": [
-      {
-        "description": "Sacramento",
-        "id": "1101"
-      }
-    ]
+  "gender": "male",
+  "languages": [],
+  "name_suffix": "Suff",
+  "date_of_birth": "2013-01-03",
+  "open_case_responsible_agency_code": "C",
+  "legacy_descriptor": {
+    "legacy_last_updated": "2019-01-02T09:02:11.854-0800",
+    "legacy_id": "PCqccrvagn",
+    "legacy_ui_id": "1431-7770-5893-5141037",
+    "legacy_table_name": "CLIENT_T",
+    "legacy_table_description": "Client"
   },
-  "highlight": {
-    "searchable_date_of_birth": [
-      "\u003cem\u003e0103\u003c/em\u003e",
-      "\u003cem\u003e012013\u003c/em\u003e",
-      "\u003cem\u003e0113\u003c/em\u003e",
-      "\u003cem\u003e010313\u003c/em\u003e",
-      "\u003cem\u003e01032013\u003c/em\u003e",
-      "\u003cem\u003e01313\u003c/em\u003e"
-    ],
-    "autocomplete_search_bar": [
-      "\u003cem\u003eChild\u003c/em\u003e \u003cem\u003e01\u003c/em\u003e",
-      "\u003cem\u003e01313\u003c/em\u003e",
-      "\u003cem\u003eCase\u003c/em\u003e",
-      "\u003cem\u003e0103\u003c/em\u003e",
-      "\u003cem\u003e012013\u003c/em\u003e",
-      "\u003cem\u003e0113\u003c/em\u003e",
-      "\u003cem\u003eTest\u003c/em\u003e",
-      "\u003cem\u003e010313\u003c/em\u003e",
-      "\u003cem\u003e01032013\u003c/em\u003e"
-    ]
-  },
-  "sort": [
-    328.9638,
-    "person-summary#PCqccrvagn"
+  "last_name": "Case",
+  "middle_name": "Test",
+  "ssn": null,
+  "id": "PCqccrvagn",
+  "first_name": "Child 01",
+  "sensitivity_indicator": "N",
+  "client_counties": [
+    {
+      "description": "Sacramento",
+      "id": "1101"
+    }
   ]
 }

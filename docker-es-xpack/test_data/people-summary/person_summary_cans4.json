@@ -1,102 +1,70 @@
 {
-  "_index": "people-summary_2019.01.15.14.14.43",
-  "_type": "person-summary",
-  "_id": "68FSl8xagn",
-  "_score": 289.57593,
-  "_source": {
-    "race_ethnicity": {
-      "hispanic_origin_code": "X",
-      "unable_to_determine_code": "",
-      "race_codes": [],
-      "hispanic_codes": [],
-      "hispanic_unable_to_determine_code": ""
-    },
-    "addresses": [
-      {
-        "zip": "10101",
-        "phone_numbers": [
-          {
-            "number": "1010101010",
-            "type": "Home"
-          }
-        ],
-        "city": "Regression City",
-        "county": {
-          "description": "Sacramento",
-          "id": "1101"
-        },
-        "legacy_descriptor": {
-          "legacy_last_updated": "2019-01-02T08:43:17.422-0800",
-          "legacy_id": "0qagg5fagn",
-          "legacy_ui_id": "0048-1810-2693-5141037",
-          "legacy_table_name": "ADDRS_T",
-          "legacy_table_description": "Address"
-        },
-        "street_number": "101",
-        "effective_start_date": "2019-01-02",
-        "id": "0qagg5fagn",
-        "type": {
-          "description": "Residence",
-          "id": "32"
-        },
-        "state_code": "CA",
-        "street_name": "Regression Drive"
-      }
-    ],
-    "gender": "female",
-    "languages": [],
-    "name_suffix": "Suff",
-    "date_of_birth": "2015-01-02",
-    "legacy_descriptor": {
-      "legacy_last_updated": "2019-01-02T09:02:41.075-0800",
-      "legacy_id": "68FSl8xagn",
-      "legacy_ui_id": "0348-3589-7560-7141037",
-      "legacy_table_name": "CLIENT_T",
-      "legacy_table_description": "Client"
-    },
-    "last_name": "Referral",
-    "middle_name": "Test",
-    "ssn": null,
-    "phone_numbers": [
-      {
-        "number": "1010101010",
-        "type": "Home"
-      }
-    ],
-    "id": "68FSl8xagn",
-    "first_name": "Victim 02",
-    "sensitivity_indicator": "N",
-    "client_counties": [
-      {
+  "race_ethnicity": {
+    "hispanic_origin_code": "X",
+    "unable_to_determine_code": "",
+    "race_codes": [],
+    "hispanic_codes": [],
+    "hispanic_unable_to_determine_code": ""
+  },
+  "addresses": [
+    {
+      "zip": "10101",
+      "phone_numbers": [
+        {
+          "number": "1010101010",
+          "type": "Home"
+        }
+      ],
+      "city": "Regression City",
+      "county": {
         "description": "Sacramento",
         "id": "1101"
-      }
-    ]
+      },
+      "legacy_descriptor": {
+        "legacy_last_updated": "2019-01-02T08:43:17.422-0800",
+        "legacy_id": "0qagg5fagn",
+        "legacy_ui_id": "0048-1810-2693-5141037",
+        "legacy_table_name": "ADDRS_T",
+        "legacy_table_description": "Address"
+      },
+      "street_number": "101",
+      "effective_start_date": "2019-01-02",
+      "id": "0qagg5fagn",
+      "type": {
+        "description": "Residence",
+        "id": "32"
+      },
+      "state_code": "CA",
+      "street_name": "Regression Drive"
+    }
+  ],
+  "gender": "female",
+  "languages": [],
+  "name_suffix": "Suff",
+  "date_of_birth": "2015-01-02",
+  "legacy_descriptor": {
+    "legacy_last_updated": "2019-01-02T09:02:41.075-0800",
+    "legacy_id": "68FSl8xagn",
+    "legacy_ui_id": "0348-3589-7560-7141037",
+    "legacy_table_name": "CLIENT_T",
+    "legacy_table_description": "Client"
   },
-  "highlight": {
-    "searchable_date_of_birth": [
-      "\u003cem\u003e012015\u003c/em\u003e",
-      "\u003cem\u003e0115\u003c/em\u003e",
-      "\u003cem\u003e0102\u003c/em\u003e",
-      "\u003cem\u003e010215\u003c/em\u003e",
-      "\u003cem\u003e01215\u003c/em\u003e",
-      "\u003cem\u003e01022015\u003c/em\u003e"
-    ],
-    "autocomplete_search_bar": [
-      "\u003cem\u003eSuff\u003c/em\u003e",
-      "\u003cem\u003e01215\u003c/em\u003e",
-      "\u003cem\u003e01022015\u003c/em\u003e",
-      "\u003cem\u003e012015\u003c/em\u003e",
-      "\u003cem\u003e0115\u003c/em\u003e",
-      "\u003cem\u003e0102\u003c/em\u003e",
-      "\u003cem\u003eReferral\u003c/em\u003e",
-      "\u003cem\u003eTest\u003c/em\u003e",
-      "\u003cem\u003e010215\u003c/em\u003e",
-      "\u003cem\u003eVictim\u003c/em\u003e 02"
-    ]
-  },
-  "sort": [
-    289.57593,
-    "person-summary#68FSl8xagn"
+  "last_name": "Referral",
+  "middle_name": "Test",
+  "ssn": null,
+  "phone_numbers": [
+    {
+      "number": "1010101010",
+      "type": "Home"
+    }
+  ],
+  "id": "68FSl8xagn",
+  "first_name": "Victim 02",
+  "sensitivity_indicator": "N",
+  "client_counties": [
+    {
+      "description": "Sacramento",
+      "id": "1101"
+    }
   ]
 }
