@@ -169,7 +169,7 @@ task dockerPopulateTestPeople {
             esExecute("PUT", esUrl, content)
         }
         // verify with URL like: http://192.168.99.100:9200/people/person/_search?pretty
-        ["R_DC", "R_NC", "R_SC", "R_AC", "S_DC", "S_NC", "S_SC", "S_AC", "N_DC", "N_NC", "N_SC", "N_AC", "N_CANS"].each {
+        ["R_DC", "R_NC", "R_SC", "R_AC", "S_DC", "S_NC", "S_SC", "S_AC", "N_DC", "N_NC", "N_SC", "N_AC", "N_CANS", "cans1", "cans2", "cans3", "cans4"].each {
             String esUrl = "/people-summary/person-summary/person_summary_$it"
             String content = readFile("$projectDir/test_data/people-summary/person_summary_${it}.json")
             esExecute("PUT", esUrl, content)
