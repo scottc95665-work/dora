@@ -1,5 +1,7 @@
 package gov.ca.cwds.inject;
 
+import java.io.File;
+import org.apache.commons.io.FilenameUtils;
 import com.google.inject.AbstractModule;
 import gov.ca.cwds.rest.filters.RequestResponseLoggingFilter;
 
@@ -16,5 +18,9 @@ public class FiltersModule extends AbstractModule {
   @Override
   protected void configure() {
     bind(RequestResponseLoggingFilter.class);
+  }
+  
+  private File createFile(String file) {
+    return new File(FilenameUtils.getFullPath(file), FilenameUtils.getName(file));
   }
 }
