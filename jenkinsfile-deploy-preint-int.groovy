@@ -8,11 +8,11 @@ def deAnsibleGithubUrl = 'git@github.com:ca-cwds/de-ansible.git'
 @Field
 def envProps = [
   'preint': [
-    'DORA_URL': 'https://dora.preint.cwds.io',
+    'DORA_URL': 'https://dora.preint.cwds.io/',
     'PERRY_URL': 'https://web.preint.cwds.io'
   ],
   'integration': [
-    'DORA_URL': 'https://doraapi.integration.cwds.io',
+    'DORA_URL': 'https://doraapi.integration.cwds.io/',
     'PERRY_URL': 'https://web.integration.cwds.io'
   ]
 ]
@@ -26,6 +26,7 @@ def deploy(environment) {
       checkoutStage(environment)
       deployStage(environment, env.version)
       updateManifestStage(environment, env.version)
+      testsStage(environment)
     } catch(Exception e) {
       currentBuild.result = 'FAILURE'
       throw e
@@ -56,5 +57,16 @@ def deployStage(environment, version) {
 def updateManifestStage(environment, version) {
   stage("Update Manifest for $environment") {
     updateManifest('dora', environment, githubCredentialsId, version)
+  }
+}
+
+def testsStage(environment) {
+  stage("Smoke tests on $environment"){
+    environment {
+      DORA_URL=envProps[environment].DORA_URL
+      PERRY_URL=envProps[environment].PERRY_URL
+    }
+    rtGradle.run buildFile: './dora-api/build.gradle', tasks: 'smokeTest --stacktrace'
+    publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'dora-api/build/reports/tests/smokeTest', reportFiles: 'index.html', reportName: "Smoke Tests Report for $environment", reportTitles: ''])
   }
 }
