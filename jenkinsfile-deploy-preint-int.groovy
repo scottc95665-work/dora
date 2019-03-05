@@ -2,7 +2,7 @@ import groovy.transform.Field
 @Library('jenkins-pipeline-utils') _
 
 @Field
-def githubCredentialsId = '433ac100-b3c2-4519-b4d6-20node7c029a103b'
+def githubCredentialsId = '433ac100-b3c2-4519-b4d6-207c029a103b'
 @Field
 def deAnsibleGithubUrl = 'git@github.com:ca-cwds/de-ansible.git'
 @Field
@@ -20,13 +20,13 @@ def envProps = [
 deploy('preint')
 deploy('integration')
 
-def deploy(environment) {
-  node(environment) {
+def deploy(envName) {
+  node(envName) {
     try {
-      checkoutStage(environment)
-      deployStage(environment, env.version)
-      updateManifestStage(environment, env.version)
-      testsStage(environment)
+      checkoutStage(envName)
+      deployStage(envName, env.version)
+      updateManifestStage(envName, env.version)
+      testsStage(envName)
     } catch(Exception e) {
       currentBuild.result = 'FAILURE'
       throw e
@@ -36,37 +36,37 @@ def deploy(environment) {
   }
 }
 
-def checkoutStage(environment) {
-  stage("Checkout for $environment") {
+def checkoutStage(envName) {
+  stage("Checkout for $envName") {
     deleteDir()
     checkout scm
   }
 }
 
-def deployStage(environment, version) {
-  stage("Deploy to $environment") {
+def deployStage(envName, version) {
+  stage("Deploy to $envName") {
     ws {
       environmentDashboard(addColumns: false, buildJob: '', buildNumber: version, componentName: 'Dora', data: [], nameOfEnv: 'PREINT', packageName: 'Dora') {
         git branch: 'master', credentialsId: githubCredentialsId, url: deAnsibleGithubUrl
-        sh "ansible-playbook -e NEW_RELIC_AGENT=$env.USE_NEWRELIC -e DORA_API_VERSION=$version -i inventories/$environment/hosts.yml deploy-dora.yml --vault-password-file ~/.ssh/vault.txt"
+        sh "ansible-playbook -e NEW_RELIC_AGENT=$env.USE_NEWRELIC -e DORA_API_VERSION=$version -i inventories/$envName/hosts.yml deploy-dora.yml --vault-password-file ~/.ssh/vault.txt"
       }
     }
   }
 }
 
-def updateManifestStage(environment, version) {
-  stage("Update Manifest for $environment") {
-    updateManifest('dora', environment, githubCredentialsId, version)
+def updateManifestStage(envName, version) {
+  stage("Update Manifest for $envName") {
+    updateManifest('dora', envName, githubCredentialsId, version)
   }
 }
 
-def testsStage(environment) {
-  stage("Smoke tests on $environment"){
+def testsStage(envName) {
+  stage("Smoke tests on $envName"){
     environment {
-      DORA_URL=envProps[environment].DORA_URL
-      PERRY_URL=envProps[environment].PERRY_URL
+      DORA_URL=envProps[envName].DORA_URL
+      PERRY_URL=envProps[envName].PERRY_URL
     }
     rtGradle.run buildFile: './dora-api/build.gradle', tasks: 'smokeTest --stacktrace'
-    publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'dora-api/build/reports/tests/smokeTest', reportFiles: 'index.html', reportName: "Smoke Tests Report for $environment", reportTitles: ''])
+    publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'dora-api/build/reports/tests/smokeTest', reportFiles: 'index.html', reportName: "Smoke Tests Report for $envName", reportTitles: ''])
   }
 }
