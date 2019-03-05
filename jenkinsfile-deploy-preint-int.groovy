@@ -16,6 +16,13 @@ def envProps = [
     'PERRY_URL': 'https://web.integration.cwds.io'
   ]
 ]
+@Field
+def serverArti = Artifactory.newServer url: 'http://pr.dev.cwds.io/artifactory'
+@Field
+def rtGradle = Artifactory.newGradleBuild()
+rtGradle.tool = "Gradle_35"
+rtGradle.resolver server: serverArti
+rtGradle.useWrapper = true
 
 deploy('preint')
 deploy('integration')
