@@ -16,13 +16,6 @@ def envProps = [
     'PERRY_URL': 'https://web.integration.cwds.io'
   ]
 ]
-@Field
-def serverArti = Artifactory.newServer url: 'http://pr.dev.cwds.io/artifactory'
-@Field
-def rtGradle = Artifactory.newGradleBuild()
-rtGradle.tool = "Gradle_35"
-rtGradle.resolver server: serverArti
-rtGradle.useWrapper = true
 
 deploy('preint')
 deploy('integration')
@@ -69,6 +62,11 @@ def updateManifestStage(envName, version) {
 
 def testsStage(envName) {
   stage("Smoke tests on $envName"){
+    def serverArti = Artifactory.newServer url: 'http://pr.dev.cwds.io/artifactory'
+    def rtGradle = Artifactory.newGradleBuild()
+    rtGradle.tool = "Gradle_35"
+    rtGradle.resolver server: serverArti
+    rtGradle.useWrapper = true
     environment {
       DORA_URL=envProps[envName].DORA_URL
       PERRY_URL=envProps[envName].PERRY_URL
