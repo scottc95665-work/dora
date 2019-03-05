@@ -123,16 +123,16 @@ node('dora-slave') {
           stage('Archive Artifacts') {
             archiveArtifacts artifacts: '**/dora*.jar,readme.txt', fingerprint: true
           }
-          stage('Deploy Application') {
- 	        withDockerRegistry([credentialsId: docker_credentials_id]) {
-	           sh "cd localenv; docker-compose pull ; docker-compose up -d"
-	           sh "if [ ! -d /var/log/elasticsearch ]; then sudo mkdir /var/log/elasticsearch/; fi"
-	        }
+          stage('Deploy to Dev') {
+            withDockerRegistry([credentialsId: docker_credentials_id]) {
+               sh "cd localenv; docker-compose pull ; docker-compose up -d"
+               sh "if [ ! -d /var/log/elasticsearch ]; then sudo mkdir /var/log/elasticsearch/; fi"
+            }
             git changelog: false, credentialsId: github_credentials_id, poll: false, url: 'git@github.com:ca-cwds/de-ansible.git'
             sh 'ansible-playbook -e NEW_RELIC_AGENT=$USE_NEWRELIC -e DORA_API_VERSION=$APP_VERSION -i $inventory deploy-dora.yml --vault-password-file ~/.ssh/vault.txt -vv'
             cleanWs()
           }
-          stage('Smoke Tests') {
+          stage('Smoke Tests on Dev') {
             git branch: '$branch', url: 'https://github.com/ca-cwds/dora.git'
             sh "curl http://dora.dev.cwds.io:8083/system-information"
             buildInfo = rtGradle.run buildFile: './dora-api/build.gradle', tasks: 'smokeTest --stacktrace'
@@ -141,21 +141,10 @@ node('dora-slave') {
            buildInfo = rtGradle.run buildFile: './docker-dora/build.gradle', tasks: 'dockerCleanUpTagged'
            cleanWs()
           }
-          stage('Deploy to Pre-int') {
+          stage('Deploy to Pre-int and Integration') {
             withCredentials([usernameColonPassword(credentialsId: 'fa186416-faac-44c0-a2fa-089aed50ca17', variable: 'jenkinsauth')]) {
-            sh "curl -u $jenkinsauth 'http://jenkins.mgmt.cwds.io:8080/job/preint/job/deploy-dora/buildWithParameters?token=deployDoraToPreint&version=${newTag}'"
+              sh "curl -u $jenkinsauth 'http://jenkins.mgmt.cwds.io:8080/job/PreInt-Integration/job/deploy-dora/buildWithParameters?token=deployDoraToPreint&version=${newTag}'"
             }
-          }
-          stage('Update Pre-int Manifest') {
-            updateManifest("dora", "preint", github_credentials_id, newTag)
-          }    
-          stage('Deploy to Integration') {
-            withCredentials([usernameColonPassword(credentialsId: 'fa186416-faac-44c0-a2fa-089aed50ca17', variable: 'jenkinsauth')]) {
-              sh "curl -u $jenkinsauth 'http://jenkins.mgmt.cwds.io:8080/job/Integration%20Environment/job/deploy-dora/buildWithParameters?token=deployDoraToIntegration&version=${newTag}'"
-            }
-          }
-          stage('Update Integration Manifest') {
-            updateManifest("dora", "integration", github_credentials_id, newTag)
           }
       }
     } catch (Exception e) {
