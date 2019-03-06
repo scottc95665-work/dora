@@ -3,7 +3,7 @@ import static org.gradle.api.logging.LogLevel.INFO
 buildscript {
     repositories {
         maven {
-            url "http://sonar.dev.cwds.io:8081/artifactory/repo"
+            url "http://pr.dev.cwds.io/artifactory/repo"
         }
     }
 }
@@ -55,7 +55,11 @@ if (System.getProperty('newVersion') && System.getProperty('newVersion')!='null'
 def dockerTag = version
 
 repositories {
-    maven { url "http://sonar.dev.cwds.io:8081/artifactory/repo" }
+  mavenLocal()
+  maven {
+    url "http://pr.dev.cwds.io/artifactory/repo"
+  }
+  mavenCentral()
 }
 
 sonarqube {
