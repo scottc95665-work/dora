@@ -54,7 +54,7 @@ shadowJar {
 mainClassName = mainclass
 
 repositories {
-    mavenCentral()
+    mavenLocal()
     maven {
         url "http://pr.dev.cwds.io/artifactory/repo"
     }
