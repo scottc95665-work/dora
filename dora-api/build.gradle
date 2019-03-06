@@ -144,9 +144,9 @@ task integrationTest(type: Test, dependsOn: testClasses) {
 
 task smokeTest(type: Test) {
     // URL where smoke tests will be pointed to (change it in gradle.properties)
-    def doraUrl = System.getenv('DORA_URL') ?: project.property('dora.url')
+    def doraUrl = project.property('dora.url')
     println "Running Smoke Tests against ${doraUrl}"
-    systemProperty 'dora.url', doraUrl 
+    systemProperty 'dora.url', doraUrl
     include '**/*SmokeTestSuite*'
 }
 
