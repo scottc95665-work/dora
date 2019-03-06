@@ -68,6 +68,7 @@ def testsStage(envName) {
     rtGradle.tool = "Gradle_35"
     rtGradle.resolver server: serverArti
     rtGradle.useWrapper = true
+    rtGradle.env.capture = true
     environment {
       DORA_URL=envProps[envName].DORA_URL
       PERRY_URL=envProps[envName].PERRY_URL
