@@ -31,6 +31,7 @@ def deploy(envName) {
       currentBuild.result = 'FAILURE'
       throw e
     } finally {
+      publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'dora-api/build/reports/tests/smokeTest', reportFiles: 'index.html', reportName: "Smoke Tests Report for $envName", reportTitles: ''])
       cleanWs()
     }
   }
@@ -72,6 +73,5 @@ def testsStage(envName) {
       PERRY_URL=envProps[envName].PERRY_URL
     }
     rtGradle.run buildFile: './dora-api/build.gradle', tasks: 'smokeTest --stacktrace'
-    publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'dora-api/build/reports/tests/smokeTest', reportFiles: 'index.html', reportName: "Smoke Tests Report for $envName", reportTitles: ''])
   }
 }
