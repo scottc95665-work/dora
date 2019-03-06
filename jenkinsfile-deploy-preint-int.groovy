@@ -68,11 +68,7 @@ def testsStage(envName) {
     rtGradle.tool = "Gradle_35"
     rtGradle.resolver server: serverArti
     rtGradle.useWrapper = true
-    rtGradle.env.capture = true
-    environment {
-      DORA_URL=envProps[envName].DORA_URL
-      PERRY_URL=envProps[envName].PERRY_URL
-    }
-    rtGradle.run buildFile: './dora-api/build.gradle', tasks: 'smokeTest --stacktrace'
+    def doraUrl = envProps[envName].DORA_URL
+    rtGradle.run buildFile: './dora-api/build.gradle', tasks: "clean smokeTest --stacktrace -Pdora.url=$doraUrl"
   }
 }
