@@ -8,12 +8,12 @@ def deAnsibleGithubUrl = 'git@github.com:ca-cwds/de-ansible.git'
 @Field
 def envProps = [
   'preint': [
-    'DORA_URL': 'https://dora.preint.cwds.io/',
-    'PERRY_URL': 'https://web.preint.cwds.io'
+    'DORA_URL': 'https://dora.preint.cwds.io/'.toString(),
+    'PERRY_URL': 'https://web.preint.cwds.io'.toString()
   ],
   'integration': [
-    'DORA_URL': 'https://doraapi.integration.cwds.io/',
-    'PERRY_URL': 'https://web.integration.cwds.io'
+    'DORA_URL': 'https://doraapi.integration.cwds.io/'.toString(),
+    'PERRY_URL': 'https://web.integration.cwds.io'.toString()
   ]
 ]
 
@@ -68,7 +68,7 @@ def testsStage(envName) {
     rtGradle.tool = "Gradle_35"
     rtGradle.resolver server: serverArti
     rtGradle.useWrapper = true
-    def doraUrl = envProps[envName].DORA_URL.toString()
+    String doraUrl = envProps[envName].DORA_URL.toString()
     rtGradle.run buildFile: './dora-api/build.gradle', tasks: "clean smokeTest --stacktrace -Pdora.url=$doraUrl"
   }
 }
