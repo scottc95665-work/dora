@@ -22,7 +22,6 @@ public class Constants {
   public static final String STATE_ADMIN="State-admin";
   public static final String COUNTY_ADMIN="County-admin";
   public static final String OFFICE_ADMIN="Office-admin";
-  public static final String CALS_ADMIN="CALS-admin";
 
   public static final String STATE_OF_CALIFORNIA = "State of California";
 
