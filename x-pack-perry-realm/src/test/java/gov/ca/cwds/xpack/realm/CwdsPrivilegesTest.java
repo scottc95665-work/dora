@@ -49,7 +49,7 @@ public class CwdsPrivilegesTest {
         true, true, "1087", "Madera", toSet("State-admin"), toSet());
 
     testCwdsPrivilegesEqualsToJson("fixtures/jwtToken-test11.json", true, true, true, false, false,
-        true, true, "1087", "Madera", toSet("CALS-admin"), toSet());
+        true, true, "1087", "Madera", toSet("Office-admin"), toSet());
   }
 
   private void testCwdsPrivilegesEqualsToJson(

@@ -1,6 +1,5 @@
 package gov.ca.cwds.xpack.realm.perry;
 
-import static gov.ca.cwds.xpack.realm.utils.Constants.CALS_ADMIN;
 import static gov.ca.cwds.xpack.realm.utils.Constants.COUNTY_ADMIN;
 import static gov.ca.cwds.xpack.realm.utils.Constants.OFFICE_ADMIN;
 import static gov.ca.cwds.xpack.realm.utils.Constants.STATE_ADMIN;
@@ -134,8 +133,6 @@ public class PerryRealm extends Realm {
 
       if (jsonTokenInfoHolder.getRoles().contains(SUPER_ADMIN)) {
         addRole(rolesList, SUPER_ADMIN);
-      } else if (jsonTokenInfoHolder.getRoles().contains(CALS_ADMIN)) {
-        addRole(rolesList, CALS_ADMIN);
       } else if (jsonTokenInfoHolder.getRoles().contains(STATE_ADMIN)) {
         addRole(rolesList, STATE_ADMIN);
       } else if (jsonTokenInfoHolder.getRoles().contains(COUNTY_ADMIN)) {
