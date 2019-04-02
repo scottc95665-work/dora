@@ -18,8 +18,11 @@ import gov.ca.cwds.security.realm.PerrySubject;
 import java.io.IOException;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.elasticsearch.client.Response;
 import org.elasticsearch.client.RestClient;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.api.mockito.PowerMockito;
@@ -28,8 +31,15 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({EsRestClientManager.class, PerrySubject.class})
+@PrepareForTest({EsRestClientManager.class, PerrySubject.class, SecurityUtils.class})
 public class PerformRequestTest {
+
+  @Before
+  public void doBefore() {
+    mockStatic(SecurityUtils.class);
+    Subject mockedSubject =  mock(Subject.class);
+    PowerMockito.when(SecurityUtils.getSubject()).thenReturn(mockedSubject);
+  }
 
   @Test
   public void testPerformRequest() throws IOException {
@@ -55,7 +65,6 @@ public class PerformRequestTest {
   @Test
   public void testPerformRequestWithXpack() throws IOException {
     IndexQueryService target = new IndexQueryService();
-
     mockStatic(PerrySubject.class);
     PowerMockito.when(PerrySubject.getToken()).thenReturn("");
 

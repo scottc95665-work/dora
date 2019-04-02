@@ -33,7 +33,7 @@ sourceCompatibility = 1.8
 project.ext {
     mainclass = "gov.ca.cwds.rest.DoraApplication"
 
-    coreApiVersion = "1.9.4_867-RC" 
+    coreApiVersion = "1.19.1_928-RC" 
     dropwizardVersion = "1.1.0"
     metricsVersion = "3.1.0"
     dropwizardSwaggerVersion = "1.0.0-1"
