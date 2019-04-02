@@ -5,6 +5,8 @@ shiro:
   ini:
     main:
       perryRealm.validationUri: ${PERRY_VALIDATION_URL:-http://localhost:8080/perry/authn/validate}
+      basicAuthRealm.basicAuthUser: ${DORA_BASIC_AUTH_USER:-user}
+      basicAuthRealm.basicAuthPassword: ${DORA_BASIC_AUTH_PASSWORD:-pass}
 
   
 swagger:
