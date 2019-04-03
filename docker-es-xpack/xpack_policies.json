@@ -270,7 +270,7 @@
             "users"
           ],
           "privileges": [
-            "read", "write"
+            "read"
           ],
           "query": {
             "template": {
@@ -302,7 +302,7 @@
             "auditevents"
           ],
           "privileges": [
-            "read", "write"
+            "read"
           ],
           "query": {
             "template": {
@@ -342,7 +342,7 @@
             "users"
           ],
           "privileges": [
-            "read", "write"
+            "read"
           ],
           "query": {
             "template": {
@@ -383,7 +383,7 @@
             "auditevents"
           ],
           "privileges": [
-            "read", "write"
+            "read"
           ],
           "query": {
             "template": {
@@ -432,7 +432,7 @@
             "users"
           ],
           "privileges": [
-            "read", "write"
+            "read"
           ],
           "query": {
             "bool": {
@@ -449,7 +449,7 @@
             "auditevents"
           ],
           "privileges": [
-            "read", "write"
+            "read"
           ],
           "query": {
             "bool": {
@@ -474,7 +474,7 @@
             "users", "auditevents"
           ],
           "privileges": [
-            "read", "write"
+            "read"
           ]
         }
       ]
