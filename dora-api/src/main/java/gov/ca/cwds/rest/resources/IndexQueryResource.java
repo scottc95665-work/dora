@@ -4,6 +4,7 @@ import static gov.ca.cwds.dora.DoraUtils.escapeCRLF;
 import static gov.ca.cwds.rest.DoraConstants.RESOURCE_ELASTICSEARCH_INDEX_QUERY;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.HttpMethod;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -68,6 +69,8 @@ public class IndexQueryResource {
       response = JSONObject.class)
   @Consumes(value = MediaType.APPLICATION_JSON)
   public Response searchIndex(
+      @HeaderParam("custom_sort") @ApiParam(required = true, name = "custom_sort",
+          value = "Custom sort flag", example = "true") Boolean customSort,
       @PathParam("index") @ApiParam(required = true, name = "index",
           value = "The index of the search", example = "facilities") @NotBlank String index,
       @PathParam("type") @ApiParam(required = true, name = "type", value = "The document type",
