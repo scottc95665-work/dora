@@ -76,14 +76,10 @@ public class IndexQueryResource {
       @ValidJson
           String requestBody
   ) {
-    if (LOGGER.isInfoEnabled()) {
-      LOGGER.info("index: {} type: {} query: {}", escapeCRLF(index), escapeCRLF(documentType),
-          escapeCRLF(requestBody));
-    }
+    log(index, documentType, requestBody);
     final String endpoint = String.format("/%s/%s/_search", index.trim(), documentType.trim());
-    IndexQueryRequest request = new IndexQueryRequestBuilder().addEsEndpoint(endpoint)
-        .addDocumentType(documentType).addRequestBody(requestBody).addHttpMethod(HttpMethod.POST)
-        .build();
+    IndexQueryRequest request =
+        createIndexQueryRequest(documentType, requestBody, endpoint, HttpMethod.POST);
     return handleRequest(request);
   }
 
@@ -110,14 +106,10 @@ public class IndexQueryResource {
       @ValidJson
           String requestBody
   ) {
-    if (LOGGER.isInfoEnabled()) {
-      LOGGER.info("index: {} type: {} query: {}", escapeCRLF(index), escapeCRLF(documentType),
-          escapeCRLF(requestBody));
-    }
+    log(index, documentType, requestBody);
     final String endpoint = String.format("/%s/%s/_count", index.trim(), documentType.trim());
-    IndexQueryRequest request = new IndexQueryRequestBuilder().addEsEndpoint(endpoint)
-        .addDocumentType(documentType).addRequestBody(requestBody).addHttpMethod(HttpMethod.POST)
-        .build();
+    IndexQueryRequest request =
+        createIndexQueryRequest(documentType, requestBody, endpoint, HttpMethod.POST);
     return handleRequest(request);
   }
 
@@ -149,15 +141,11 @@ public class IndexQueryResource {
       @ValidJson
           String requestBody
   ) {
-    if (LOGGER.isInfoEnabled()) {
-      LOGGER.info("index: {} type: {} id: {} body: {}", escapeCRLF(index), escapeCRLF(documentType),
-          escapeCRLF(id), escapeCRLF(requestBody));
-    }
+    log(index, documentType, id, requestBody);
     final String endpoint = String
         .format("/%s/%s/%s/_create", index.trim(), documentType.trim(), id);
-    IndexQueryRequest request = new IndexQueryRequestBuilder().addEsEndpoint(endpoint)
-        .addDocumentType(documentType).addRequestBody(requestBody).addHttpMethod(HttpMethod.PUT)
-        .build();
+    IndexQueryRequest request =
+        createIndexQueryRequest(documentType, requestBody, endpoint, HttpMethod.PUT);
     return handleRequest(request);
   }
 
@@ -189,15 +177,42 @@ public class IndexQueryResource {
       @ValidJson
           String requestBody
   ) {
+    log(index, documentType, requestBody);
+    final String endpoint = String.format("/%s/%s/%s", index.trim(), documentType.trim(), id);
+    IndexQueryRequest request =
+        createIndexQueryRequest(documentType, requestBody, endpoint, HttpMethod.PUT);
+    return handleRequest(request);
+  }
+
+  private void log(String index, String documentType, String requestBody) {
     if (LOGGER.isInfoEnabled()) {
-      LOGGER.info("index: {} type: {} body: {}", escapeCRLF(index), escapeCRLF(documentType),
+      LOGGER.info(
+          "index: {} type: {} body: {}",
+          escapeCRLF(index),
+          escapeCRLF(documentType),
           escapeCRLF(requestBody));
     }
-    final String endpoint = String.format("/%s/%s/%s", index.trim(), documentType.trim(), id);
-    IndexQueryRequest request = new IndexQueryRequestBuilder().addEsEndpoint(endpoint)
-        .addDocumentType(documentType).addRequestBody(requestBody).addHttpMethod(HttpMethod.PUT)
+  }
+
+  private void log(String index, String documentType, String id, String requestBody) {
+    if (LOGGER.isInfoEnabled()) {
+      LOGGER.info(
+          "index: {} type: {} id: {} body: {}",
+          escapeCRLF(index),
+          escapeCRLF(documentType),
+          escapeCRLF(id),
+          escapeCRLF(requestBody));
+    }
+  }
+
+  private IndexQueryRequest createIndexQueryRequest(
+      String documentType, String requestBody, String endpoint, String post) {
+    return new IndexQueryRequestBuilder()
+        .addEsEndpoint(endpoint)
+        .addDocumentType(documentType)
+        .addRequestBody(requestBody)
+        .addHttpMethod(post)
         .build();
-    return handleRequest(request);
   }
 
   private Response handleRequest(IndexQueryRequest request) {
