@@ -88,6 +88,40 @@ public class IndexQueryResource {
   }
 
   /**
+   * Endpoint for Query Count.
+   */
+  @POST
+  @Timed
+  @Path("/{index}/{type}/_count")
+  @ApiResponses(value = {@ApiResponse(code = 400, message = "Unable to process JSON"),
+      @ApiResponse(code = 401, message = "Not Authorized"),
+      @ApiResponse(code = 406, message = "Accept Header not supported")})
+  @ApiOperation(value = "Number of matches given Elasticsearch index and type on given search terms", response = JSONObject.class)
+  public Response getNumberOfMatches(
+      @PathParam("index")
+      @ApiParam(required = true, name = "index", value = "The index of the search", example = "facilities")
+      @NotBlank
+          String index,
+      @PathParam("type")
+      @ApiParam(required = true, name = "type", value = "The document type", example = "facility")
+      @NotBlank
+          String documentType,
+      @ApiParam(required = true, examples = @Example(@ExampleProperty(mediaType = MediaType.APPLICATION_JSON, value = "{\"query\":{\"match_all\":{}}}")))
+      @ValidJson
+          String requestBody
+  ) {
+    if (LOGGER.isInfoEnabled()) {
+      LOGGER.info("index: {} type: {} query: {}", escapeCRLF(index), escapeCRLF(documentType),
+          escapeCRLF(requestBody));
+    }
+    final String endpoint = String.format("/%s/%s/_count", index.trim(), documentType.trim());
+    IndexQueryRequest request = new IndexQueryRequestBuilder().addEsEndpoint(endpoint)
+        .addDocumentType(documentType).addRequestBody(requestBody).addHttpMethod(HttpMethod.POST)
+        .build();
+    return handleRequest(request);
+  }
+
+  /**
    * Endpoint for adding documents into Elastic Search index.
    */
   @PUT
