@@ -93,7 +93,7 @@ public class IndexQueryResource {
       @ApiResponse(code = 401, message = "Not Authorized"),
       @ApiResponse(code = 406, message = "Accept Header not supported")})
   @ApiOperation(value = "Number of matches given Elasticsearch index and type on given search terms", response = JSONObject.class)
-  public Response getNumberOfMatches(
+  public Response countIndex(
       @PathParam("index")
       @ApiParam(required = true, name = "index", value = "The index of the search", example = "facilities")
       @NotBlank

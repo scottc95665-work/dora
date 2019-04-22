@@ -94,12 +94,12 @@ public class IndexQueryResourceTest {
   }
 
   @Test
-  public void testGetNumberOfMatchesNull() throws Exception {
+  public void testCountIndexNull() throws Exception {
     testInvalidJsonPassedPost(COUNT_RESOURCE, null);
   }
 
   @Test
-  public void testGetNumberOfMatchesInvalidQuery() throws Exception {
+  public void testCountIndexInvalidQuery() throws Exception {
     testInvalidJsonPassedPost(COUNT_RESOURCE, INVALID_JSON);
   }
 
@@ -129,7 +129,7 @@ public class IndexQueryResourceTest {
   }
 
   @Test
-  public void testGetNumberOfMatches() throws Exception {
+  public void testCountIndex() throws Exception {
     testResource(COUNT_RESOURCE, builder -> builder.post(Entity.json(VALID_JSON)), "1");
   }
 
