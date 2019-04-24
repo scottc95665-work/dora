@@ -78,8 +78,9 @@ public class IndexQueryResource {
   ) {
     log(index, documentType, requestBody);
     final String endpoint = String.format("/%s/%s/_search", index.trim(), documentType.trim());
-    IndexQueryRequest request =
-        createIndexQueryRequest(documentType, requestBody, endpoint, HttpMethod.POST);
+    IndexQueryRequest request = new IndexQueryRequestBuilder().addEsEndpoint(endpoint)
+        .addDocumentType(documentType).addRequestBody(requestBody).addHttpMethod(HttpMethod.POST)
+        .build();
     return handleRequest(request);
   }
 
@@ -93,7 +94,7 @@ public class IndexQueryResource {
       @ApiResponse(code = 401, message = "Not Authorized"),
       @ApiResponse(code = 406, message = "Accept Header not supported")})
   @ApiOperation(value = "Number of matches given Elasticsearch index and type on given search terms", response = JSONObject.class)
-  public Response countIndex(
+  public Response getDocumentCount(
       @PathParam("index")
       @ApiParam(required = true, name = "index", value = "The index of the search", example = "facilities")
       @NotBlank
@@ -108,8 +109,9 @@ public class IndexQueryResource {
   ) {
     log(index, documentType, requestBody);
     final String endpoint = String.format("/%s/%s/_count", index.trim(), documentType.trim());
-    IndexQueryRequest request =
-        createIndexQueryRequest(documentType, requestBody, endpoint, HttpMethod.POST);
+    IndexQueryRequest request = new IndexQueryRequestBuilder().addEsEndpoint(endpoint)
+        .addDocumentType(documentType).addRequestBody(requestBody).addHttpMethod(HttpMethod.POST)
+        .build();
     return handleRequest(request);
   }
 
@@ -144,8 +146,9 @@ public class IndexQueryResource {
     log(index, documentType, id, requestBody);
     final String endpoint = String
         .format("/%s/%s/%s/_create", index.trim(), documentType.trim(), id);
-    IndexQueryRequest request =
-        createIndexQueryRequest(documentType, requestBody, endpoint, HttpMethod.PUT);
+    IndexQueryRequest request = new IndexQueryRequestBuilder().addEsEndpoint(endpoint)
+        .addDocumentType(documentType).addRequestBody(requestBody).addHttpMethod(HttpMethod.PUT)
+        .build();
     return handleRequest(request);
   }
 
@@ -179,8 +182,9 @@ public class IndexQueryResource {
   ) {
     log(index, documentType, requestBody);
     final String endpoint = String.format("/%s/%s/%s", index.trim(), documentType.trim(), id);
-    IndexQueryRequest request =
-        createIndexQueryRequest(documentType, requestBody, endpoint, HttpMethod.PUT);
+    IndexQueryRequest request = new IndexQueryRequestBuilder().addEsEndpoint(endpoint)
+        .addDocumentType(documentType).addRequestBody(requestBody).addHttpMethod(HttpMethod.PUT)
+        .build();
     return handleRequest(request);
   }
 
@@ -203,16 +207,6 @@ public class IndexQueryResource {
           escapeCRLF(id),
           escapeCRLF(requestBody));
     }
-  }
-
-  private IndexQueryRequest createIndexQueryRequest(
-      String documentType, String requestBody, String endpoint, String post) {
-    return new IndexQueryRequestBuilder()
-        .addEsEndpoint(endpoint)
-        .addDocumentType(documentType)
-        .addRequestBody(requestBody)
-        .addHttpMethod(post)
-        .build();
   }
 
   private Response handleRequest(IndexQueryRequest request) {
