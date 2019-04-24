@@ -76,7 +76,13 @@ public class IndexQueryResource {
       @ValidJson
           String requestBody
   ) {
-    log(index, documentType, requestBody);
+    if (LOGGER.isInfoEnabled()) {
+      LOGGER.info(
+          "index: {} type: {} body: {}",
+          escapeCRLF(index),
+          escapeCRLF(documentType),
+          escapeCRLF(requestBody));
+    }
     final String endpoint = String.format("/%s/%s/_search", index.trim(), documentType.trim());
     IndexQueryRequest request = new IndexQueryRequestBuilder().addEsEndpoint(endpoint)
         .addDocumentType(documentType).addRequestBody(requestBody).addHttpMethod(HttpMethod.POST)
@@ -107,7 +113,13 @@ public class IndexQueryResource {
       @ValidJson
           String requestBody
   ) {
-    log(index, documentType, requestBody);
+    if (LOGGER.isInfoEnabled()) {
+      LOGGER.info(
+          "index: {} type: {} body: {}",
+          escapeCRLF(index),
+          escapeCRLF(documentType),
+          escapeCRLF(requestBody));
+    }
     final String endpoint = String.format("/%s/%s/_count", index.trim(), documentType.trim());
     IndexQueryRequest request = new IndexQueryRequestBuilder().addEsEndpoint(endpoint)
         .addDocumentType(documentType).addRequestBody(requestBody).addHttpMethod(HttpMethod.POST)
@@ -143,7 +155,14 @@ public class IndexQueryResource {
       @ValidJson
           String requestBody
   ) {
-    log(index, documentType, id, requestBody);
+    if (LOGGER.isInfoEnabled()) {
+      LOGGER.info(
+          "index: {} type: {} id: {} body: {}",
+          escapeCRLF(index),
+          escapeCRLF(documentType),
+          escapeCRLF(id),
+          escapeCRLF(requestBody));
+    }
     final String endpoint = String
         .format("/%s/%s/%s/_create", index.trim(), documentType.trim(), id);
     IndexQueryRequest request = new IndexQueryRequestBuilder().addEsEndpoint(endpoint)
@@ -180,15 +199,6 @@ public class IndexQueryResource {
       @ValidJson
           String requestBody
   ) {
-    log(index, documentType, requestBody);
-    final String endpoint = String.format("/%s/%s/%s", index.trim(), documentType.trim(), id);
-    IndexQueryRequest request = new IndexQueryRequestBuilder().addEsEndpoint(endpoint)
-        .addDocumentType(documentType).addRequestBody(requestBody).addHttpMethod(HttpMethod.PUT)
-        .build();
-    return handleRequest(request);
-  }
-
-  private void log(String index, String documentType, String requestBody) {
     if (LOGGER.isInfoEnabled()) {
       LOGGER.info(
           "index: {} type: {} body: {}",
@@ -196,17 +206,11 @@ public class IndexQueryResource {
           escapeCRLF(documentType),
           escapeCRLF(requestBody));
     }
-  }
-
-  private void log(String index, String documentType, String id, String requestBody) {
-    if (LOGGER.isInfoEnabled()) {
-      LOGGER.info(
-          "index: {} type: {} id: {} body: {}",
-          escapeCRLF(index),
-          escapeCRLF(documentType),
-          escapeCRLF(id),
-          escapeCRLF(requestBody));
-    }
+    final String endpoint = String.format("/%s/%s/%s", index.trim(), documentType.trim(), id);
+    IndexQueryRequest request = new IndexQueryRequestBuilder().addEsEndpoint(endpoint)
+        .addDocumentType(documentType).addRequestBody(requestBody).addHttpMethod(HttpMethod.PUT)
+        .build();
+    return handleRequest(request);
   }
 
   private Response handleRequest(IndexQueryRequest request) {
