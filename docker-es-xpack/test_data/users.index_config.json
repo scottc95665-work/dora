@@ -8,6 +8,10 @@
         "keyword_lowercase": {
           "tokenizer": "keyword",
           "filter": ["lowercase"]
+        },
+        "dbl_metaphone": {
+          "tokenizer": "standard",
+          "filter":    "dbl_metaphone"
         }
       }
     }
@@ -26,6 +30,10 @@
             "keyword": {
               "type": "keyword",
               "ignore_above": 256
+            },
+            "phonetic": {
+              "type": "text",
+              "analyzer": "dbl_metaphone"
             }
           }
         },
@@ -40,6 +48,10 @@
             "keyword": {
               "type": "keyword",
               "ignore_above": 256
+            },
+            "phonetic": {
+              "type": "text",
+              "analyzer": "dbl_metaphone"
             }
           }
         },
