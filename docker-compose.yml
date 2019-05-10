@@ -47,6 +47,7 @@ services:
       interval: 5s
       timeout: 10s
       retries: 80
+    env_file: .env
   elasticsearch:
     image: cwds/elasticsearch_xpack_data:1.7.13-SNAPSHOT
     depends_on:
