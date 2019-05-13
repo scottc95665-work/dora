@@ -75,13 +75,18 @@ public class RestClientTestRule implements TestRule {
             System.getProperty(PERRY_URL_PROP) + "/perry/login");
         return tokenProvider.doGetToken(new JsonIdentityAuthParams(DEV_AUTH_MODE_PRINCIPAL));
       } else if (isIntegrationAuthMode()) {
-        TokenProvider tokenProvider = new CognitoTokenProvider();
-        return tokenProvider.doGetToken(getLoginParams());
+        String token = System.getProperty("token");
+        if (StringUtils.isBlank(token)) {
+          System.setProperty("token", "noTokenFound");
+          token = new CognitoTokenProvider().doGetToken(getLoginParams());
+          System.setProperty("token", token);
+        }
+        return token;
       } else {
         return "";
       }
     } catch (RuntimeException e) {
-      LOG.info("Unable to extract token");
+      LOG.error("Unable to extract token", e);
       return "";
     }
   }
