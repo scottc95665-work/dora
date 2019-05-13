@@ -68,7 +68,7 @@ def updateManifestStage(envName, version) {
 }
 
 def testsStage(envName) {
-  stage("Smoke tests on $envName"){
+  stage("Smoke tests on $envName") {
     String doraUrl = envProps[envName].DORA_URL.toString()
     String authMode = envProps[envName].AUTH_MODE.toString()
     String dockerEnv = "-e DORA_URL=$doraUrl -e TEST_TYPE=smoke -e AUTH_MODE=$authMode".toString()
@@ -84,8 +84,5 @@ def testsStage(envName) {
           cwds/dora-tests:latest"
       }
     }
-    publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true,
-                 reportDir: 'build/reports/tests/smokeTest', reportFiles: 'index.html',
-                 reportName: "Smoke Tests Report for $envName", reportTitles: ''])
   }
 }
