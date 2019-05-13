@@ -9,7 +9,7 @@ public final class SmokeTestUtils {
 
   public static final String DORA_URL_PROP = "dora.url";
   public static final String AUTH_MODE_PROP = "auth.mode";
-  public static final String PERRY_URL_ENV = "PERRY_URL";
+  public static final String PERRY_URL_PROP = "perry.url";
   public static final String SMOKE_TEST_USER_ENV = "SMOKE_TEST_USER";
   public static final String SMOKE_TEST_PASSWORD_ENV = "SMOKE_TEST_PASSWORD";
   public static final String SMOKE_VERIFICATION_CODE_ENV = "SMOKE_VERIFICATION_CODE";

@@ -1,7 +1,7 @@
 package gov.ca.cwds.rest;
 
 import static gov.ca.cwds.rest.SmokeTestUtils.DORA_URL_PROP;
-import static gov.ca.cwds.rest.SmokeTestUtils.PERRY_URL_ENV;
+import static gov.ca.cwds.rest.SmokeTestUtils.PERRY_URL_PROP;
 import static gov.ca.cwds.rest.SmokeTestUtils.SMOKE_TEST_PASSWORD_ENV;
 import static gov.ca.cwds.rest.SmokeTestUtils.SMOKE_TEST_USER_ENV;
 import static gov.ca.cwds.rest.SmokeTestUtils.SMOKE_VERIFICATION_CODE_ENV;
@@ -40,7 +40,8 @@ public class RestClientTestRule implements TestRule {
   private static final Logger LOG = LoggerFactory.getLogger(RestClientTestRule.class);
 
   private static final AuthParams defaultAuthParams = new JsonIdentityAuthParams("{}");
-  private static final String DEV_AUTH_MODE_PRINCIPAL = fixture("security/default-login-principal.json");
+  private static final String DEV_AUTH_MODE_PRINCIPAL = fixture(
+      "security/default-login-principal.json");
 
   private final DropwizardAppRule<DoraConfiguration> dropWizardApplication;
 
@@ -70,7 +71,8 @@ public class RestClientTestRule implements TestRule {
     try {
       if (isDevAuthMode()) {
         TokenProvider tokenProvider = new PerryV2DevModeTokenProvider(client,
-            System.getenv(PERRY_URL_ENV), System.getenv(PERRY_URL_ENV) + "/perry/login");
+            System.getProperty(PERRY_URL_PROP),
+            System.getProperty(PERRY_URL_PROP) + "/perry/login");
         return tokenProvider.doGetToken(new JsonIdentityAuthParams(DEV_AUTH_MODE_PRINCIPAL));
       } else if (isIntegrationAuthMode()) {
         TokenProvider tokenProvider = new CognitoTokenProvider();

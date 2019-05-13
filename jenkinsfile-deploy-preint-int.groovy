@@ -84,5 +84,8 @@ def testsStage(envName) {
           cwds/dora-tests:latest"
       }
     }
+    publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true,
+                 reportDir: 'build/reports/tests/smokeTest', reportFiles: 'index.html',
+                 reportName: "Smoke Tests Report for $envName", reportTitles: ''])
   }
 }

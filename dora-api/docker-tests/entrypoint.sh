@@ -17,6 +17,13 @@ if ([ -z "$AUTH_MODE" ]); then
   exit 1
 fi
 
+if [ "$AUTH_MODE" = "dev" ]; then
+  if ([ -z "$PERRY_URL" ]); then
+    echo "PERRY_URL variable is required in dev auth. mode."
+    exit 1
+  fi
+fi
+
 if [ "$TEST_TYPE" = "smoke" ]; then
   echo "Executing the Smoke Test..."
   TEST_CLASS=gov.ca.cwds.rest.resources.DoraSmokeTest
@@ -27,4 +34,4 @@ fi
 
 echo "Running Dora Tests of type '$TEST_TYPE' against ${DORA_URL}"
 
-java ${JAVA_OPT} -Ddora.url="${DORA_URL}" -Dauth.mode=${AUTH_MODE} -Dorg.apache.logging.log4j.simplelog.StatusLogger.level=INFO -cp /opt/dora-tests/resources:dora-tests.jar org.junit.runner.JUnitCore ${TEST_CLASS}
+java ${JAVA_OPT} -Ddora.url="${DORA_URL}" -Dauth.mode=${AUTH_MODE} -Dperry.url=$PERRY_URL -cp /opt/dora-tests/resources:dora-tests.jar org.junit.runner.JUnitCore ${TEST_CLASS}

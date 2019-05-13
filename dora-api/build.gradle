@@ -150,6 +150,7 @@ task smokeTest(type: Test) {
     println 'Running Smoke Tests against ' + doraUrl
     systemProperty 'dora.url', doraUrl
     systemProperty 'auth.mode', project.property('test.auth.mode')
+    systemProperty 'perry.url', project.property('test.perry.url')
     include '**/*SmokeTestSuite*'
 }
 
