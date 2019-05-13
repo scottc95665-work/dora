@@ -1,13 +1,24 @@
 package gov.ca.cwds.rest;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import static gov.ca.cwds.rest.SmokeTestUtils.DORA_URL_PROP;
+import static gov.ca.cwds.rest.SmokeTestUtils.PERRY_URL_ENV;
+import static gov.ca.cwds.rest.SmokeTestUtils.SMOKE_TEST_PASSWORD_ENV;
+import static gov.ca.cwds.rest.SmokeTestUtils.SMOKE_TEST_USER_ENV;
+import static gov.ca.cwds.rest.SmokeTestUtils.SMOKE_VERIFICATION_CODE_ENV;
+import static gov.ca.cwds.rest.SmokeTestUtils.isDevAuthMode;
+import static gov.ca.cwds.rest.SmokeTestUtils.isIntegrationAuthMode;
+import static io.dropwizard.testing.FixtureHelpers.fixture;
+
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
+import gov.ca.cwds.test.support.AuthParams;
+import gov.ca.cwds.test.support.CognitoLoginAuthParams;
+import gov.ca.cwds.test.support.CognitoTokenProvider;
+import gov.ca.cwds.test.support.JsonIdentityAuthParams;
+import gov.ca.cwds.test.support.PerryV2DevModeTokenProvider;
+import gov.ca.cwds.test.support.TokenProvider;
 import io.dropwizard.testing.junit.DropwizardAppRule;
-import java.net.URI;
 import java.security.SecureRandom;
 import java.security.cert.X509Certificate;
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 import javax.ws.rs.client.Client;
@@ -28,42 +39,49 @@ public class RestClientTestRule implements TestRule {
 
   private static final Logger LOG = LoggerFactory.getLogger(RestClientTestRule.class);
 
-  private static final String DORA_URL = "dora.url";
+  private static final AuthParams defaultAuthParams = new JsonIdentityAuthParams("{}");
+  private static final String DEV_AUTH_MODE_PRINCIPAL = fixture("security/default-login-principal.json");
+
   private final DropwizardAppRule<DoraConfiguration> dropWizardApplication;
 
   private Client client;
-
-  private ObjectMapper mapper;
 
   RestClientTestRule(DropwizardAppRule<DoraConfiguration> dropWizardApplication) {
     this.dropWizardApplication = dropWizardApplication;
   }
 
   public WebTarget target(String pathInfo) {
+    return target(pathInfo, defaultAuthParams);
+  }
+
+  public WebTarget target(String pathInfo, AuthParams authParams) {
     String restUrl = getUriString() + pathInfo;
-    WebTarget webTarget = client.target(restUrl);
-    webTarget.register(new LoggingFilter());
-    return webTarget;
+    String token = extractToken(authParams);
+    return client.target(restUrl).queryParam("token", token).register(new LoggingFilter());
   }
 
   String getUriString() {
-    String serverUrlStr = System.getProperty(DORA_URL);
-    if (StringUtils.isEmpty(serverUrlStr)) {
-      serverUrlStr = composeUriString();
+    String serverUrlStr = System.getProperty(DORA_URL_PROP);
+    return StringUtils.isEmpty(serverUrlStr) ?
+        String.format("http://localhost:%s/", dropWizardApplication.getLocalPort()) : serverUrlStr;
+  }
+
+  private String extractToken(AuthParams authParams) {
+    try {
+      if (isDevAuthMode()) {
+        TokenProvider tokenProvider = new PerryV2DevModeTokenProvider(client,
+            System.getenv(PERRY_URL_ENV), System.getenv(PERRY_URL_ENV) + "/perry/login");
+        return tokenProvider.doGetToken(new JsonIdentityAuthParams(DEV_AUTH_MODE_PRINCIPAL));
+      } else if (isIntegrationAuthMode()) {
+        TokenProvider tokenProvider = new CognitoTokenProvider();
+        return tokenProvider.doGetToken(getLoginParams());
+      } else {
+        return "";
+      }
+    } catch (RuntimeException e) {
+      LOG.info("Unable to extract token");
+      return "";
     }
-    return serverUrlStr;
-  }
-
-  protected URI getServerUrl() {
-    return dropWizardApplication.getEnvironment().getApplicationContext().getServer().getURI();
-  }
-
-  private String composeUriString() {
-    return String.format("http://localhost:%s/", dropWizardApplication.getLocalPort());
-  }
-
-  ObjectMapper getMapper() {
-    return mapper;
   }
 
   @Override
@@ -71,16 +89,12 @@ public class RestClientTestRule implements TestRule {
     return new Statement() {
       @Override
       public void evaluate() throws Throwable {
-
         JerseyClientBuilder clientBuilder = new JerseyClientBuilder()
             .property(ClientProperties.CONNECT_TIMEOUT, 5000)
             .property(ClientProperties.READ_TIMEOUT, 20000)
-            .hostnameVerifier(new HostnameVerifier() {
-              @Override
-              public boolean verify(String hostName, SSLSession sslSession) {
-                // Just ignore host verification for test purposes
-                return true;
-              }
+            .hostnameVerifier((hostName, sslSession) -> {
+              // Just ignore host verification for test purposes
+              return true;
             });
 
         client = clientBuilder.build();
@@ -99,11 +113,18 @@ public class RestClientTestRule implements TestRule {
         }};
 
         client.getSslContext().init(null, trustAllCerts, new SecureRandom());
-
-        mapper = dropWizardApplication.getObjectMapper();
-        client.register(new JacksonJsonProvider(mapper));
+        client.register(new JacksonJsonProvider(dropWizardApplication.getObjectMapper()));
         statement.evaluate();
       }
     };
+  }
+
+  private static CognitoLoginAuthParams getLoginParams() {
+    CognitoLoginAuthParams loginParams = new CognitoLoginAuthParams();
+    loginParams.setUser(System.getenv(SMOKE_TEST_USER_ENV));
+    loginParams.setPassword(System.getenv(SMOKE_TEST_PASSWORD_ENV));
+    loginParams.setCode(System.getenv(SMOKE_VERIFICATION_CODE_ENV));
+    loginParams.setUrl(System.getProperty(DORA_URL_PROP));
+    return loginParams;
   }
 }
