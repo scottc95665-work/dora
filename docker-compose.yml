@@ -1,0 +1,62 @@
+version: '3.2'
+services:
+  perry:
+    image: cwds/perry:6.6.5
+
+    hostname: perry
+    restart: on-failure
+    ports:
+      - ${PERRY_PORT}:8080
+      - 18081:8090
+    environment:
+      - DEV_MODE
+      - COGNITO_MODE
+      - LOG_LEVEL=${LOG_LEVEL}:"INFO"
+      - DB_CMS_USER
+      - DB_CMS_PASSWORD
+      - DB_CMS_JDBC_URL
+      - DORA_URL
+      - SAF_AUTH_PATH
+      - SAF_CLIENT_ID
+      - SAF_CLIENT_SECRET
+      - SAF_LOGOUT_URI
+      - SAF_RETRIEVE_TOKEN_PATH
+      - SAF_REVOKE_TOKEN_URI
+      - SAF_VALIDATE_TOKEN_URI
+      - TOKEN_STORE_JDBC_URL
+      - TOKEN_STORE_DB_USER
+      - TOKEN_STORE_DB_PASSWORD
+      - COGNITO_IAM_ACCESS_ID
+      - COGNITO_IAM_SECRET
+      - COGNITO_REGION
+      - COGNITO_USERPOOL
+      - IDP_MAPPING_SCRIPT
+    # logging:
+    #   driver: none
+  dora:
+    image: cwds/dora:1.16.0
+    command: bash -c "./entrypoint.sh 2>&1 | tee 'log.file'"
+    depends_on:
+      - perry
+      - elasticsearch
+    ports:
+      - ${DORA_PORT}:8080
+    restart: on-failure
+    healthcheck:
+      test: head -n 500 log.file | grep "Started @"
+      interval: 5s
+      timeout: 10s
+      retries: 80
+    env_file: .env
+  elasticsearch:
+    image: cwds/elasticsearch_xpack_data:1.7.13-SNAPSHOT
+    depends_on:
+      - perry
+    ports:
+      - "${ES_PORT}:9200"
+    expose:
+      - 9200
+      - 9300
+    environment:
+      TOKEN_VALIDATION_URL: ${TOKEN_VALIDATION_URL}
+      PERRY_VALIDATION_URL: ${PERRY_VALIDATION_URL}
