@@ -126,6 +126,8 @@ dependencies {
     testCompile group: 'org.powermock', name: 'powermock-api-mockito2', version: powerMockVersion
 
     testCompile group: 'com.google.errorprone', name: 'error_prone_annotations', version: '2.0.19'
+
+    testCompile group: 'gov.ca.cwds.api', name: 'api-core-test-support', version: coreApiVersion
 }
 
 
@@ -144,9 +146,10 @@ task integrationTest(type: Test, dependsOn: testClasses) {
 
 task smokeTest(type: Test) {
     // URL where smoke tests will be pointed to (change it in gradle.properties)
-    def doraUrl = project.property('dora.url')
+    def doraUrl = project.property('test.dora.url')
     println 'Running Smoke Tests against ' + doraUrl
     systemProperty 'dora.url', doraUrl
+    systemProperty 'auth.mode', project.property('test.auth.mode')
     include '**/*SmokeTestSuite*'
 }
 
