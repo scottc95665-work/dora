@@ -2,7 +2,7 @@ import groovy.transform.Field
 @Library('jenkins-pipeline-utils') _
 
 @Field
-def githubCredentialsId = '433ac100-b3c2-4519-b4d6-207c029a103b'
+def githubCredentialsId = 'fa29964d-237e-4ecb-96bc-1350dda63f79'
 @Field
 def deAnsibleGithubUrl = 'git@github.com:ca-cwds/de-ansible.git'
 @Field
