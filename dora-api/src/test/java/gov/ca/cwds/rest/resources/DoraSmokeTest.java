@@ -5,11 +5,9 @@ import static gov.ca.cwds.rest.SmokeTestUtils.BLANK_JSON_ENTITY;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.anyOf;
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 
-import gov.ca.cwds.dto.app.HealthCheckResultDto;
 import gov.ca.cwds.dto.app.SystemInformationDto;
 import gov.ca.cwds.rest.BaseDoraApplicationTest;
 import javax.ws.rs.client.WebTarget;
@@ -53,12 +51,8 @@ public class DoraSmokeTest extends BaseDoraApplicationTest {
     SystemInformationDto systemInformationDTO = target.request(MediaType.APPLICATION_JSON)
         .get(SystemInformationDto.class);
 
-    assertThat(systemInformationDTO.getHealthCheckResults(), is(notNullValue()));
-    assertThat(systemInformationDTO.getHealthCheckResults().values().size(), is(greaterThan(0)));
-
-    boolean isAllHealthy = systemInformationDTO.getHealthCheckResults().values().stream()
-        .allMatch(HealthCheckResultDto::isHealthy);
-    assertThat(isAllHealthy, is(true));
+    assertThat(systemInformationDTO, is(notNullValue()));
+    assertThat(systemInformationDTO.isHealthStatus(), is(true));
   }
 
   @Test
