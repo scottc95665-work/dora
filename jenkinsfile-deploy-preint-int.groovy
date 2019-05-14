@@ -27,6 +27,7 @@ def deploy(envName) {
       checkoutStage(envName)
       deployStage(envName, env.version)
       updateManifestStage(envName, env.version)
+      buildTestsDockerImageStage()
       testsStage(envName)
     } catch(Exception e) {
       currentBuild.result = 'FAILURE'
@@ -62,6 +63,17 @@ def updateManifestStage(envName, version) {
   }
 }
 
+def buildTestsDockerImageStage() {
+  stage('Build Tests Docker Image') {
+    def serverArti = Artifactory.newServer url: 'http://pr.dev.cwds.io/artifactory'
+    def rtGradle = Artifactory.newGradleBuild()
+    rtGradle.tool = "Gradle_35"
+    rtGradle.resolver server: serverArti
+    rtGradle.useWrapper = true
+    rtGradle.run buildFile: 'build.gradle', tasks: ':dora-api:docker-tests:dockerTestsCreateImage'
+  }
+}
+
 def testsStage(envName) {
   stage("Smoke tests on $envName") {
     String doraUrl = envProps[envName].DORA_URL.toString()
@@ -80,7 +92,7 @@ def testsStage(envName) {
           -e SMOKE_TEST_USER=$SMOKE_TEST_USER \
           -e SMOKE_TEST_PASSWORD=$SMOKE_TEST_PASSWORD \
           -e SMOKE_VERIFICATION_CODE=$SMOKE_VERIFICATION_CODE \
-          cwds/dora-tests:latest"
+          cwds/dora-tests"
       }
     }
   }
