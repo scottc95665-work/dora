@@ -11,7 +11,7 @@ RUN apt-get update && \
     apt-get -y install openjdk-8-jdk && \
     apt-get clean
 
-ENV CHROME_DRIVER="/usr/bin/chromedriver"
+ENV CHROME_DRIVER /usr/bin/chromedriver
 
 RUN mkdir /opt/dora-tests
 ADD dora-tests.jar /opt/dora-tests/dora-tests.jar
