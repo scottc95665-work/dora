@@ -111,7 +111,7 @@ public class IndexQueryService {
     if (!isExternalApplication && esConfig.getXpack() != null && esConfig.getXpack().isEnabled()) {
       Header authHeader = new BasicHeader("Authorization", PerrySubject.getToken());
       return esRestClient
-          .performRequest(request.getHttpMethod(), request.getEsEndpoint(), Collections.emptyMap(),
+          .performRequest(request.getHttpMethod(), request.getEsEndpoint(), request.getParameters(),
               entity,
               authHeader);
     } else {
