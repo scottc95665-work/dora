@@ -18,12 +18,14 @@ import io.swagger.annotations.ApiResponses;
 import io.swagger.annotations.Example;
 import io.swagger.annotations.ExampleProperty;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.HttpMethod;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.hibernate.validator.constraints.NotBlank;
@@ -44,6 +46,9 @@ import org.slf4j.LoggerFactory;
 public class IndexQueryResource {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(IndexQueryResource.class);
+  public static final String DFS_QUERY_THEN_FETCH_QUERY_PARAM = "dfsQueryThenFetch";
+  public static final String SEARCH_TYPE_PARAM = "search_type";
+  public static final String DFS_QUERY_THEN_FETCH = "dfs_query_then_fetch";
 
   private IndexQueryService indexQueryService;
 
@@ -74,20 +79,28 @@ public class IndexQueryResource {
           String documentType,
       @ApiParam(required = true, examples = @Example(@ExampleProperty(mediaType = MediaType.APPLICATION_JSON, value = "{\"query\":{\"match_all\":{}}}")))
       @ValidJson
-          String requestBody
+          String requestBody,
+      @QueryParam(DFS_QUERY_THEN_FETCH_QUERY_PARAM)
+      @DefaultValue("true")
+      @ApiParam(required = false, name = "dfsQueryThenFetch", value = "Distributed Frequency Search", example = "true")
+          boolean isDfsQueryThenFetch
   ) {
     if (LOGGER.isInfoEnabled()) {
       LOGGER.info(
-          "index: {} type: {} body: {}",
+          "index: {} type: {} body: {} isDfsQueryThenFetch {}",
           escapeCRLF(index),
           escapeCRLF(documentType),
-          escapeCRLF(requestBody));
+          escapeCRLF(requestBody),
+          isDfsQueryThenFetch
+      );
     }
     final String endpoint = String.format("/%s/%s/_search", index.trim(), documentType.trim());
-    IndexQueryRequest request = new IndexQueryRequestBuilder().addEsEndpoint(endpoint)
-        .addDocumentType(documentType).addRequestBody(requestBody).addHttpMethod(HttpMethod.POST)
-        .build();
-    return handleRequest(request);
+    IndexQueryRequestBuilder builder = new IndexQueryRequestBuilder().addEsEndpoint(endpoint)
+        .addDocumentType(documentType).addRequestBody(requestBody).addHttpMethod(HttpMethod.POST);
+    if (isDfsQueryThenFetch) {
+      builder.addParameter(SEARCH_TYPE_PARAM, DFS_QUERY_THEN_FETCH);
+    }
+    return handleRequest(builder.build());
   }
 
   /**
