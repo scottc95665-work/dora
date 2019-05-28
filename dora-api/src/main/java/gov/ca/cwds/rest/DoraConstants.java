@@ -19,7 +19,15 @@ public final class DoraConstants {
   public static class Index {
 
     public static final String FACILITIES_INDEX = "facilities";
+    public static final String FACILITIES_LIS_INDEX = "facilities-lis";
+    public static final String FACILITIES_CWS_INDEX = "facilities-cws";
     public static final String PEOPLE_SUMMARY_INDEX = "people-summary";
+    public static final String AUDIT_EVENTS_INDEX = "auditevents";
+    public static final String USERS_INDEX = "users";
+
+    public static final String FACILITIES_ES_ALIAS_ENDPOINT = "/facilities/_alias";
+    public static final String AUDIT_EVENTS_ES_ALIAS_ENDPOINT = "/auditevents/_alias";
+    public static final String USERS_ES_ALIAS_ENDPOINT = "/users/_alias";
 
     private Index() {
       // default
@@ -61,6 +69,19 @@ public final class DoraConstants {
     public static final String HC_FACILITIES_INDEX = HC_INDEX_PREFIX + Index.FACILITIES_INDEX;
     public static final String HC_PEOPLE_SUMMARY_INDEX =
         HC_INDEX_PREFIX + Index.PEOPLE_SUMMARY_INDEX;
+    public static final String HC_AUDIT_EVENTS_INDEX = HC_INDEX_PREFIX + Index.AUDIT_EVENTS_INDEX;
+    public static final String HC_USERS_INDEX = HC_INDEX_PREFIX + Index.USERS_INDEX;
+
+    public static final String HC_ALIAS_INDEX_PREFIX =
+        "elasticsearch-alias-index-";
+    public static final String HC_FACILITIES_LIS_ALIAS_INDEX =
+        HC_ALIAS_INDEX_PREFIX + Index.FACILITIES_LIS_INDEX;
+    public static final String HC_FACILITIES_CWS_ALIAS_INDEX =
+        HC_ALIAS_INDEX_PREFIX + Index.FACILITIES_CWS_INDEX;
+    public static final String HC_AUDIT_EVENTS_ALIAS_INDEX =
+        HC_ALIAS_INDEX_PREFIX + Index.AUDIT_EVENTS_INDEX;
+    public static final String HC_USERS_ALIAS_INDEX =
+        HC_ALIAS_INDEX_PREFIX + Index.USERS_INDEX;
 
     public static final String HC_PLUGIN_PREFIX = "elasticsearch-plugin-";
     public static final String HC_X_PACK_PLUGIN = HC_PLUGIN_PREFIX + Plugin.X_PACK_PLUGIN;

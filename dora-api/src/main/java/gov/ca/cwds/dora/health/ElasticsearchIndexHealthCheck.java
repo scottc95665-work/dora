@@ -68,4 +68,8 @@ public class ElasticsearchIndexHealthCheck extends ElasticsearchHealthCheck {
     }
     return jsonListAliases;
   }
+
+  public String getIndexName() {
+    return indexName;
+  }
 }

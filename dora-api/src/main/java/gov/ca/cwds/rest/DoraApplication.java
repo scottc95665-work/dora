@@ -1,8 +1,12 @@
 package gov.ca.cwds.rest;
 
+import static gov.ca.cwds.rest.DoraConstants.HealthCheck.HC_AUDIT_EVENTS_INDEX;
+import static gov.ca.cwds.rest.DoraConstants.HealthCheck.HC_AUDIT_EVENTS_ALIAS_INDEX;
 import static gov.ca.cwds.rest.DoraConstants.HealthCheck.HC_ES_CONFIG;
 import static gov.ca.cwds.rest.DoraConstants.HealthCheck.HC_ES_STATUS;
+import static gov.ca.cwds.rest.DoraConstants.HealthCheck.HC_FACILITIES_CWS_ALIAS_INDEX;
 import static gov.ca.cwds.rest.DoraConstants.HealthCheck.HC_FACILITIES_INDEX;
+import static gov.ca.cwds.rest.DoraConstants.HealthCheck.HC_FACILITIES_LIS_ALIAS_INDEX;
 import static gov.ca.cwds.rest.DoraConstants.HealthCheck.HC_PEOPLE_SEALED_NO_COUNTY_ROLE;
 import static gov.ca.cwds.rest.DoraConstants.HealthCheck.HC_PEOPLE_SEALED_ROLE;
 import static gov.ca.cwds.rest.DoraConstants.HealthCheck.HC_PEOPLE_SENSITIVE_NO_COUNTY_ROLE;
@@ -11,10 +15,19 @@ import static gov.ca.cwds.rest.DoraConstants.HealthCheck.HC_PEOPLE_SUMMARY_INDEX
 import static gov.ca.cwds.rest.DoraConstants.HealthCheck.HC_PEOPLE_SUMMARY_WORKER_ROLE;
 import static gov.ca.cwds.rest.DoraConstants.HealthCheck.HC_PEOPLE_WORKER_ROLE;
 import static gov.ca.cwds.rest.DoraConstants.HealthCheck.HC_PHONETIC_PLUGIN;
+import static gov.ca.cwds.rest.DoraConstants.HealthCheck.HC_USERS_INDEX;
+import static gov.ca.cwds.rest.DoraConstants.HealthCheck.HC_USERS_ALIAS_INDEX;
 import static gov.ca.cwds.rest.DoraConstants.HealthCheck.HC_WORKER_ROLE;
 import static gov.ca.cwds.rest.DoraConstants.HealthCheck.HC_X_PACK_PLUGIN;
+import static gov.ca.cwds.rest.DoraConstants.Index.AUDIT_EVENTS_ES_ALIAS_ENDPOINT;
+import static gov.ca.cwds.rest.DoraConstants.Index.AUDIT_EVENTS_INDEX;
+import static gov.ca.cwds.rest.DoraConstants.Index.FACILITIES_CWS_INDEX;
+import static gov.ca.cwds.rest.DoraConstants.Index.FACILITIES_ES_ALIAS_ENDPOINT;
 import static gov.ca.cwds.rest.DoraConstants.Index.FACILITIES_INDEX;
+import static gov.ca.cwds.rest.DoraConstants.Index.FACILITIES_LIS_INDEX;
 import static gov.ca.cwds.rest.DoraConstants.Index.PEOPLE_SUMMARY_INDEX;
+import static gov.ca.cwds.rest.DoraConstants.Index.USERS_ES_ALIAS_ENDPOINT;
+import static gov.ca.cwds.rest.DoraConstants.Index.USERS_INDEX;
 import static gov.ca.cwds.rest.DoraConstants.PROD_MODE;
 import static gov.ca.cwds.rest.DoraConstants.Plugin.PHONETIC_PLUGIN;
 import static gov.ca.cwds.rest.DoraConstants.Plugin.X_PACK_PLUGIN;
@@ -48,6 +61,7 @@ import gov.ca.cwds.dora.DoraUtils;
 import gov.ca.cwds.dora.health.BasicDoraHealthCheck;
 import gov.ca.cwds.dora.health.ElasticsearchHealthCheck;
 import gov.ca.cwds.dora.health.ElasticsearchIndexHealthCheck;
+import gov.ca.cwds.dora.health.ElasticsearchAliasWithIndexHealthCheck;
 import gov.ca.cwds.dora.health.ElasticsearchPluginHealthCheck;
 import gov.ca.cwds.dora.health.ElasticsearchRolesHealthCheck;
 import gov.ca.cwds.inject.ApplicationModule;
@@ -169,6 +183,7 @@ public final class DoraApplication extends BaseApiApplication<DoraConfiguration>
     environment.healthChecks().register(HC_X_PACK_PLUGIN,
         new ElasticsearchPluginHealthCheck(configuration, X_PACK_PLUGIN));
     registerIndexHealthChecks(configuration, environment);
+    registerAliasWithIndexHealthChecks(configuration, environment);
     if (!PROD_MODE.equals(configuration.getMode())) {
       registerRolesHealthChecks(configuration, environment);
     }
@@ -196,6 +211,21 @@ public final class DoraApplication extends BaseApiApplication<DoraConfiguration>
         new ElasticsearchIndexHealthCheck(configuration, PEOPLE_SUMMARY_INDEX));
     environment.healthChecks().register(HC_FACILITIES_INDEX,
         new ElasticsearchIndexHealthCheck(configuration, FACILITIES_INDEX));
+    environment.healthChecks().register(HC_AUDIT_EVENTS_INDEX,
+        new ElasticsearchIndexHealthCheck(configuration, AUDIT_EVENTS_INDEX));
+    environment.healthChecks().register(HC_USERS_INDEX,
+        new ElasticsearchIndexHealthCheck(configuration, USERS_INDEX));
+  }
+
+  private void registerAliasWithIndexHealthChecks(DoraConfiguration configuration, Environment environment) {
+    environment.healthChecks().register(HC_FACILITIES_LIS_ALIAS_INDEX,
+        new ElasticsearchAliasWithIndexHealthCheck(configuration, FACILITIES_LIS_INDEX, FACILITIES_ES_ALIAS_ENDPOINT));
+    environment.healthChecks().register(HC_FACILITIES_CWS_ALIAS_INDEX,
+        new ElasticsearchAliasWithIndexHealthCheck(configuration, FACILITIES_CWS_INDEX, FACILITIES_ES_ALIAS_ENDPOINT));
+    environment.healthChecks().register(HC_AUDIT_EVENTS_ALIAS_INDEX,
+        new ElasticsearchAliasWithIndexHealthCheck(configuration, AUDIT_EVENTS_INDEX, AUDIT_EVENTS_ES_ALIAS_ENDPOINT));
+    environment.healthChecks().register(HC_USERS_ALIAS_INDEX,
+        new ElasticsearchAliasWithIndexHealthCheck(configuration, USERS_INDEX, USERS_ES_ALIAS_ENDPOINT));
   }
 
   private void runHealthChecks(Environment environment) {

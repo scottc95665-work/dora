@@ -1,11 +1,17 @@
 package gov.ca.cwds.rest.resources;
 
+import static gov.ca.cwds.rest.DoraConstants.HealthCheck.HC_AUDIT_EVENTS_ALIAS_INDEX;
+import static gov.ca.cwds.rest.DoraConstants.HealthCheck.HC_AUDIT_EVENTS_INDEX;
 import static gov.ca.cwds.rest.DoraConstants.HealthCheck.HC_DEADLOCKS;
 import static gov.ca.cwds.rest.DoraConstants.HealthCheck.HC_ES_CONFIG;
 import static gov.ca.cwds.rest.DoraConstants.HealthCheck.HC_ES_STATUS;
+import static gov.ca.cwds.rest.DoraConstants.HealthCheck.HC_FACILITIES_CWS_ALIAS_INDEX;
 import static gov.ca.cwds.rest.DoraConstants.HealthCheck.HC_FACILITIES_INDEX;
+import static gov.ca.cwds.rest.DoraConstants.HealthCheck.HC_FACILITIES_LIS_ALIAS_INDEX;
 import static gov.ca.cwds.rest.DoraConstants.HealthCheck.HC_PEOPLE_SUMMARY_INDEX;
 import static gov.ca.cwds.rest.DoraConstants.HealthCheck.HC_PHONETIC_PLUGIN;
+import static gov.ca.cwds.rest.DoraConstants.HealthCheck.HC_USERS_ALIAS_INDEX;
+import static gov.ca.cwds.rest.DoraConstants.HealthCheck.HC_USERS_INDEX;
 import static gov.ca.cwds.rest.DoraConstants.HealthCheck.HC_X_PACK_PLUGIN;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -34,6 +40,33 @@ public class DoraSystemHealthStatusStrategyTest {
   }
 
   @Test
+  public void testVerifySystemHealthStatusFalseWhenLisIndexWithTimestampNotFound() {
+    Map<String, Result> healthChecks = prepareHealthChecks();
+    healthChecks.put(HC_FACILITIES_LIS_ALIAS_INDEX, Result.unhealthy(""));
+    assertFalse(healthStatusStrategy.getSystemHealthStatus(healthChecks));
+  }
+
+  @Test
+  public void testVerifySystemHealthStatusFalseWhenCwsIndexWithTimestampNotFound() {
+    Map<String, Result> healthChecks = prepareHealthChecks();
+    healthChecks.put(HC_FACILITIES_CWS_ALIAS_INDEX, Result.unhealthy(""));
+    assertFalse(healthStatusStrategy.getSystemHealthStatus(healthChecks));
+  }
+
+  @Test
+  public void testVerifySystemHealthStatusFalseWhenUsersIndexWithTimestampNotFound() {
+    Map<String, Result> healthChecks = prepareHealthChecks();
+    healthChecks.put(HC_AUDIT_EVENTS_ALIAS_INDEX, Result.unhealthy(""));
+    assertFalse(healthStatusStrategy.getSystemHealthStatus(healthChecks));
+  }
+  @Test
+  public void testVerifySystemHealthStatusFalseWhenAuditEventIndexWithTimestampNotFound() {
+    Map<String, Result> healthChecks = prepareHealthChecks();
+    healthChecks.put(HC_USERS_ALIAS_INDEX, Result.unhealthy(""));
+    assertFalse(healthStatusStrategy.getSystemHealthStatus(healthChecks));
+  }
+
+  @Test
   public void testSystemHealthStatusFalseWhenElasticsearchDown() {
     Map<String, Result> healthChecks = prepareHealthChecks();
     healthChecks.put(HC_ES_STATUS, Result.unhealthy(""));
@@ -56,6 +89,12 @@ public class DoraSystemHealthStatusStrategyTest {
     healthChecks.put(HC_PHONETIC_PLUGIN, Result.healthy());
     healthChecks.put(HC_PEOPLE_SUMMARY_INDEX, Result.healthy());
     healthChecks.put(HC_FACILITIES_INDEX, Result.healthy());
+    healthChecks.put(HC_AUDIT_EVENTS_INDEX, Result.healthy());
+    healthChecks.put(HC_USERS_INDEX, Result.healthy());
+    healthChecks.put(HC_FACILITIES_CWS_ALIAS_INDEX, Result.healthy());
+    healthChecks.put(HC_FACILITIES_LIS_ALIAS_INDEX, Result.healthy());
+    healthChecks.put(HC_AUDIT_EVENTS_ALIAS_INDEX, Result.healthy());
+    healthChecks.put(HC_USERS_ALIAS_INDEX, Result.healthy());
     return healthChecks;
   }
 }

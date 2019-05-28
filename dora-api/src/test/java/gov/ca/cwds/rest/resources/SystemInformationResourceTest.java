@@ -1,10 +1,12 @@
 package gov.ca.cwds.rest.resources;
 
+import static gov.ca.cwds.rest.DoraConstants.HealthCheck.HC_AUDIT_EVENTS_INDEX;
 import static gov.ca.cwds.rest.DoraConstants.HealthCheck.HC_DEADLOCKS;
 import static gov.ca.cwds.rest.DoraConstants.HealthCheck.HC_ES_CONFIG;
 import static gov.ca.cwds.rest.DoraConstants.HealthCheck.HC_ES_STATUS;
 import static gov.ca.cwds.rest.DoraConstants.HealthCheck.HC_PEOPLE_SUMMARY_INDEX;
 import static gov.ca.cwds.rest.DoraConstants.HealthCheck.HC_PHONETIC_PLUGIN;
+import static gov.ca.cwds.rest.DoraConstants.HealthCheck.HC_USERS_INDEX;
 import static gov.ca.cwds.rest.DoraConstants.HealthCheck.HC_X_PACK_PLUGIN;
 import static gov.ca.cwds.rest.DoraConstants.SYSTEM_INFORMATION;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -77,7 +79,7 @@ public class SystemInformationResourceTest extends BaseDoraApplicationTest {
 
     assertThat(healthCheckResults, is(notNullValue()));
     System.out.println(healthCheckResults.values().size());
-    assertThat(healthCheckResults.values().size(), is(equalTo(14)));
+    assertThat(healthCheckResults.values().size(), is(equalTo(20)));
 
     assertHealthCheckResult(healthCheckResults.get(HC_DEADLOCKS), true);
     assertHealthCheckResult(healthCheckResults.get(HC_ES_CONFIG), true);
@@ -87,6 +89,8 @@ public class SystemInformationResourceTest extends BaseDoraApplicationTest {
     assertHealthCheckResult(healthCheckResults.get(HC_X_PACK_PLUGIN), true);
     assertHealthCheckResult(healthCheckResults.get(HC_PHONETIC_PLUGIN), true);
     assertHealthCheckResult(healthCheckResults.get(HC_PEOPLE_SUMMARY_INDEX), true);
+    assertHealthCheckResult(healthCheckResults.get(HC_AUDIT_EVENTS_INDEX), true);
+    assertHealthCheckResult(healthCheckResults.get(HC_USERS_INDEX), true);
   }
 
   private void assertHealthCheckResult(HealthCheckResultDto healthCheckResultDto,
