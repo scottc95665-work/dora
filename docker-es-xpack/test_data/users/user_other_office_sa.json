@@ -1,0 +1,23 @@
+{
+  "id": "1cf64b7a-29f2-45a4-9a92-b385f22b9b2c",
+  "email": "anna.basic@gmail.com",
+  "first_name": "Anna",
+  "last_name": "Basic",
+  "county_name": "Madera",
+  "racfid": "BASICA",
+  "start_date": "2004-03-12",
+  "office_id": "TW57yjq01z",
+  "phone_number": "4444444444",
+  "phone_extension_number": "4444444",
+  "user_create_date": "2018-09-26",
+  "user_last_modified_date": "2018-09-26",
+  "last_login_date_time": "2018-11-05 11:52:15",
+  "enabled": true,
+  "status": "CONFIRMED",
+  "permissions": [],
+  "roles": [
+    "State-admin"
+  ]
+}
+
+

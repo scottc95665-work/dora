@@ -1,0 +1,96 @@
+{
+  "index_update_time": "2019-01-15T14:15:23.086-0800",
+  "first_name": "Child 01",
+  "middle_name": "Test",
+  "last_name": "Case",
+  "name_suffix": "Suff",
+  "date_of_birth": "2013-01-03",
+  "gender": "male",
+  "ssn": null,
+  "open_case_id": "PoLwaQRagn",
+  "open_case_responsible_agency_code": "C",
+  "type": "gov.ca.cwds.data.persistence.cms.rep.ReplicatedClient",
+  "sensitivity_indicator": "N",
+  "client_county": {
+    "id": "1101",
+    "description": "Sacramento"
+  },
+  "client_counties": [
+    {
+      "id": "1101",
+      "description": "Sacramento"
+    }
+  ],
+  "race_ethnicity": {
+    "race_codes": [],
+    "hispanic_codes": [],
+    "unable_to_determine_code": "",
+    "hispanic_origin_code": "X",
+    "hispanic_unable_to_determine_code": ""
+  },
+  "source": "",
+  "legacy_descriptor": {
+    "legacy_id": "PCqccrvagn",
+    "legacy_ui_id": "1431-7770-5893-5141037",
+    "legacy_last_updated": "2019-01-02T09:02:11.854-0800",
+    "legacy_table_name": "CLIENT_T",
+    "legacy_table_description": "Client"
+  },
+  "legacy_id": "PCqccrvagn",
+  "addresses": [],
+  "phone_numbers": [],
+  "languages": [],
+  "id": "PCqccrvagn",
+  "autocomplete_search_bar": [
+    "132013",
+    "13",
+    "Suff",
+    "Child 01",
+    "01313",
+    "Case",
+    "0103",
+    "012013",
+    "1313",
+    "0113",
+    "Test",
+    "2013",
+    "010313",
+    "12013",
+    "01032013",
+    "10313"
+  ],
+  "date_of_birth_as_text": [
+    "132013",
+    "0103",
+    "13",
+    "012013",
+    "1313",
+    "0113",
+    "2013",
+    "010313",
+    "12013",
+    "01032013",
+    "01313",
+    "10313"
+  ],
+  "searchable_date_of_birth": [
+    "132013",
+    "0103",
+    "13",
+    "012013",
+    "1313",
+    "0113",
+    "2013",
+    "010313",
+    "12013",
+    "01032013",
+    "01313",
+    "10313"
+  ],
+  "searchable_name": [
+    "Test",
+    "Suff",
+    "Child 01",
+    "Case"
+  ]
+}

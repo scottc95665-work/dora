@@ -2,6 +2,8 @@ package gov.ca.cwds.rest.api.domain.es;
 
 import io.swagger.annotations.ApiModel;
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 import javax.ws.rs.HttpMethod;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -31,6 +33,7 @@ public final class IndexQueryRequest implements Serializable {
   private String requestBody;
   private String documentType;
   private String esEndpoint;
+  private Map<String, String> parameters;
 
   public String getRequestBody() {
     return requestBody;
@@ -46,6 +49,10 @@ public final class IndexQueryRequest implements Serializable {
 
   public String getEsEndpoint() {
     return esEndpoint;
+  }
+
+  public Map<String, String> getParameters() {
+    return new HashMap<>(parameters);
   }
 
   @Override
@@ -64,6 +71,7 @@ public final class IndexQueryRequest implements Serializable {
     private String httpMethod;
     private String documentType;
     private String esEndpoint;
+    private Map<String, String> parameters = new HashMap<>();
 
 
     public IndexQueryRequestBuilder addEsEndpoint(String endpoint) {
@@ -86,11 +94,17 @@ public final class IndexQueryRequest implements Serializable {
       return this;
     }
 
+    public IndexQueryRequestBuilder addParameter(String name, String value) {
+      this.parameters.put(name, value);
+      return this;
+    }
+
     public IndexQueryRequest build() {
       IndexQueryRequest request = new IndexQueryRequest();
       request.esEndpoint = esEndpoint;
       request.documentType = documentType;
       request.requestBody = requestBody;
+      request.parameters = parameters;
       if (StringUtils.isNotBlank(httpMethod)) {
         request.httpMethod = httpMethod;
       } else {

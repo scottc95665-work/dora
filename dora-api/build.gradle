@@ -33,7 +33,7 @@ sourceCompatibility = 1.8
 project.ext {
     mainclass = "gov.ca.cwds.rest.DoraApplication"
 
-    coreApiVersion = "1.9.4_867-RC" 
+    coreApiVersion = "1.19.1_928-RC" 
     dropwizardVersion = "1.1.0"
     metricsVersion = "3.1.0"
     dropwizardSwaggerVersion = "1.0.0-1"
@@ -54,13 +54,16 @@ shadowJar {
 mainClassName = mainclass
 
 repositories {
+    mavenLocal()
+    maven {
+        url "http://pr.dev.cwds.io/artifactory/repo"
+    }
     mavenCentral()
-    maven { url "http://sonar.dev.cwds.io:8081/artifactory/repo" }
 }
 
 processResources {
     filter(ReplaceTokens, tokens: [
-        'build.version': projectVersion
+        'build.version': projectVersion as String
     ])
 }
 
@@ -123,6 +126,8 @@ dependencies {
     testCompile group: 'org.powermock', name: 'powermock-api-mockito2', version: powerMockVersion
 
     testCompile group: 'com.google.errorprone', name: 'error_prone_annotations', version: '2.0.19'
+
+    testCompile group: 'gov.ca.cwds.api', name: 'api-core-test-support', version: coreApiVersion
 }
 
 
@@ -131,7 +136,7 @@ run {
 }
 
 test {
-    exclude '**/*IT*', '**/*SmokeTest*', '**/SystemInformationResourceTest*'
+    exclude '**/*IT*', '**/*SmokeTest*'
 }
 
 task integrationTest(type: Test, dependsOn: testClasses) {
@@ -141,13 +146,17 @@ task integrationTest(type: Test, dependsOn: testClasses) {
 
 task smokeTest(type: Test) {
     // URL where smoke tests will be pointed to (change it in gradle.properties)
-    systemProperty 'dora.url', project.property('dora.url')
+    def doraUrl = project.property('test.dora.url')
+    println 'Running Smoke Tests against ' + doraUrl
+    systemProperty 'dora.url', doraUrl
+    systemProperty 'auth.mode', project.property('test.auth.mode')
+    systemProperty 'perry.url', project.property('test.perry.url')
     include '**/*SmokeTestSuite*'
 }
 
 processResources {
     filter(ReplaceTokens, tokens:[
-            'build.version' : projectVersion,
+            'build.version' : projectVersion as String,
             'build.number' : (System.getenv("BUILD_NUMBER") ?: "IDE")
     ])
 }

@@ -1,0 +1,14 @@
+{
+  "user_login": "user_cws_worker",
+  "event": {
+    "admin_role": "State Administrator",
+    "admin_name": "John Admin",
+    "user_id": "user_id_4",
+    "user_name": "User 4",
+    "county_name": "Madera",
+    "user_roles": "CWS-worker"
+  },
+  "comment": "some comment4",
+  "event_type": "NewValueSetEvent",
+  "event_source": "test"
+}

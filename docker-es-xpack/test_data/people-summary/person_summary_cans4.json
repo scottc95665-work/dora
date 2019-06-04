@@ -1,0 +1,148 @@
+{
+  "index_update_time": "2019-01-15T14:15:24.743-0800",
+  "first_name": "Victim 02",
+  "middle_name": "Test",
+  "last_name": "Referral",
+  "name_suffix": "Suff",
+  "date_of_birth": "2015-01-02",
+  "gender": "female",
+  "ssn": null,
+  "type": "gov.ca.cwds.data.persistence.cms.rep.ReplicatedClient",
+  "sensitivity_indicator": "N",
+  "client_county": {
+    "id": "1101",
+    "description": "Sacramento"
+  },
+  "client_counties": [
+    {
+      "id": "1101",
+      "description": "Sacramento"
+    }
+  ],
+  "race_ethnicity": {
+    "race_codes": [],
+    "hispanic_codes": [],
+    "unable_to_determine_code": "",
+    "hispanic_origin_code": "X",
+    "hispanic_unable_to_determine_code": ""
+  },
+  "source": "",
+  "legacy_descriptor": {
+    "legacy_id": "68FSl8xagn",
+    "legacy_ui_id": "0348-3589-7560-7141037",
+    "legacy_last_updated": "2019-01-02T09:02:41.075-0800",
+    "legacy_table_name": "CLIENT_T",
+    "legacy_table_description": "Client"
+  },
+  "legacy_id": "68FSl8xagn",
+  "addresses": [
+    {
+      "id": "0qagg5fagn",
+      "city": "Regression City",
+      "state": {
+        "id": "1828",
+        "description": "California"
+      },
+      "state_code": "CA",
+      "state_name": "California",
+      "county": {
+        "id": "1101",
+        "description": "Sacramento"
+      },
+      "zip": "10101",
+      "type": {
+        "id": "32",
+        "description": "Residence"
+      },
+      "street_number": "101",
+      "street_name": "Regression Drive",
+      "effective_start_date": "2019-01-02",
+      "active": "true",
+      "last_known": "true",
+      "phone_numbers": [
+        {
+          "number": "1010101010",
+          "type": "Home"
+        }
+      ],
+      "legacy_descriptor": {
+        "legacy_id": "0qagg5fagn",
+        "legacy_ui_id": "0048-1810-2693-5141037",
+        "legacy_last_updated": "2019-01-02T08:43:17.422-0800",
+        "legacy_table_name": "ADDRS_T",
+        "legacy_table_description": "Address"
+      },
+      "searchable_address": [
+        "101",
+        "Regression",
+        "Drive"
+      ],
+      "autocomplete_searchable_address": [
+        "101",
+        "Regression",
+        "Drive"
+      ],
+      "autocomplete_city": "Regression City"
+    }
+  ],
+  "phone_numbers": [
+    {
+      "number": "1010101010",
+      "type": "Home"
+    }
+  ],
+  "languages": [],
+  "id": "68FSl8xagn",
+  "autocomplete_search_bar": [
+    "12",
+    "Suff",
+    "01215",
+    "01022015",
+    "012015",
+    "1215",
+    "0115",
+    "2015",
+    "0102",
+    "Referral",
+    "Test",
+    "010215",
+    "122015",
+    "Victim 02",
+    "12015",
+    "10215"
+  ],
+  "date_of_birth_as_text": [
+    "012015",
+    "12",
+    "1215",
+    "0115",
+    "2015",
+    "0102",
+    "010215",
+    "122015",
+    "12015",
+    "01215",
+    "10215",
+    "01022015"
+  ],
+  "searchable_date_of_birth": [
+    "012015",
+    "12",
+    "1215",
+    "0115",
+    "2015",
+    "0102",
+    "010215",
+    "122015",
+    "12015",
+    "01215",
+    "10215",
+    "01022015"
+  ],
+  "searchable_name": [
+    "Referral",
+    "Test",
+    "Suff",
+    "Victim 02"
+  ]
+}

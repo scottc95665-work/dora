@@ -17,4 +17,5 @@ public class FiltersModule extends AbstractModule {
   protected void configure() {
     bind(RequestResponseLoggingFilter.class);
   }
+
 }

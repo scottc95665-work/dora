@@ -10,7 +10,7 @@ public class Constants {
   public static final String COUNTY_NAME = "county_name";
   public static final String PRIVILEGES = "privileges";
   public static final String ROLES = "roles";
-  public static final String ADMIN_OFFICE_IDS = "adminOfficeIds";
+  public static final String ADMIN_OFFICE_IDS = "admin_office_ids";
   //privileges
   public static final String CWS_CASE_MANAGEMENT_SYSTEM = "CWS Case Management System";
   public static final String SENSITIVE_PERSONS = "Sensitive Persons";
@@ -18,12 +18,10 @@ public class Constants {
   public static final String RESOURCE_MANAGEMENT = "Resource Management";
   public static final String ADOPTIONS = "Adoptions";
   //roles
+  public static final String SUPER_ADMIN="Super-admin";
+  public static final String STATE_ADMIN="State-admin";
   public static final String COUNTY_ADMIN="County-admin";
   public static final String OFFICE_ADMIN="Office-admin";
-  public static final String STATE_ADMIN="State-admin";
-  public static final String CALS_ADMIN="CALS-admin";
-
-
 
   public static final String STATE_OF_CALIFORNIA = "State of California";
 

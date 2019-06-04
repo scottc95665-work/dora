@@ -270,13 +270,60 @@
             "users"
           ],
           "privileges": [
-            "read", "write"
+            "read"
           ],
           "query": {
             "template": {
               "inline": {
-                "match": {
-                  "county_name.keyword": "{{_user.metadata.county_name}}"
+                "bool": {
+                  "must": [
+                    {
+                      "match": {
+                        "county_name.keyword": "{{_user.metadata.county_name}}"
+                      }
+                    },
+                    {
+                      "bool": {
+                        "must_not": {
+                          "match_phrase": {
+                            "roles": "Super-admin"
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        {
+          "names": [
+            "auditevents"
+          ],
+          "privileges": [
+            "read"
+          ],
+          "query": {
+            "template": {
+              "inline": {
+                "bool": {
+                  "must": [
+                    {
+                      "match": {
+                        "event.county_name.keyword": "{{_user.metadata.county_name}}"
+                      }
+                    },
+                    {
+                      "bool": {
+                        "must_not": {
+                          "match_phrase": {
+                            "event.user_roles": "Super-admin"
+                          }
+                        }
+                      }
+                    }
+                  ]
                 }
               }
             }
@@ -295,13 +342,78 @@
             "users"
           ],
           "privileges": [
-            "read", "write"
+            "read"
           ],
           "query": {
             "template": {
               "inline": {
-                "match": {
-                  "county_name.keyword": "{{_user.metadata.county_name}}"
+                "bool": {
+                  "must": [
+                    {
+                      "match": {
+                        "county_name.keyword": "{{_user.metadata.county_name}}"
+                      }
+                    },
+                    {
+                      "bool": {
+                        "must_not": {
+                          "match_phrase": {
+                            "roles": "CALS-external-worker"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "bool": {
+                        "must_not": {
+                          "match_phrase": {
+                            "roles": "Super-admin"
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        {
+          "names": [
+            "auditevents"
+          ],
+          "privileges": [
+            "read"
+          ],
+          "query": {
+            "template": {
+              "inline": {
+                "bool": {
+                  "must": [
+                    {
+                      "match": {
+                        "event.county_name.keyword": "{{_user.metadata.county_name}}"
+                      }
+                    },
+                    {
+                      "bool": {
+                        "must_not": {
+                          "match_phrase": {
+                            "event.user_roles": "CALS-external-worker"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "bool": {
+                        "must_not": {
+                          "match_phrase": {
+                            "event.user_roles": "Super-admin"
+                          }
+                        }
+                      }
+                    }
+                  ]
                 }
               }
             }
@@ -320,25 +432,50 @@
             "users"
           ],
           "privileges": [
-            "read", "write"
-          ]
+            "read"
+          ],
+          "query": {
+            "bool": {
+              "must_not": {
+                "match_phrase": {
+                  "roles": "Super-admin"
+                }
+              }
+            }
+          }
+        },
+        {
+          "names": [
+            "auditevents"
+          ],
+          "privileges": [
+            "read"
+          ],
+          "query": {
+            "bool": {
+              "must_not": {
+                "match_phrase": {
+                  "event.user_roles": "Super-admin"
+                }
+              }
+            }
+          }
         }
       ]
     }
   },
   {
-    "action": "POST /_xpack/security/role/CALS-admin",
+    "action": "POST /_xpack/security/role/Super-admin",
     "content": {
       "cluster": [],
       "indices": [
         {
           "names": [
-            "users"
+            "users", "auditevents"
           ],
           "privileges": [
             "read"
-          ],
-          "query": "{ \"match_phrase\": { \"roles\": \"CALS-external-worker\" } }"
+          ]
         }
       ]
     }

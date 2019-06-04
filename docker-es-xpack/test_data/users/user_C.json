@@ -10,5 +10,7 @@
   "status": "FORCE_CHANGE_PASSWORD",
   "permissions": [
     "Hotline-rollout"
-  ]
+  ],
+  "roles": ["CWS-worker"]
 }
+

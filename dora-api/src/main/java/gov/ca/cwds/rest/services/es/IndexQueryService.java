@@ -3,6 +3,7 @@ package gov.ca.cwds.rest.services.es;
 import static gov.ca.cwds.dora.DoraUtils.getElasticsearchSearchResultCount;
 import static gov.ca.cwds.dora.DoraUtils.getElasticsearchSearchTime;
 import static gov.ca.cwds.dora.DoraUtils.stringToJsonMap;
+import static gov.ca.cwds.dora.security.BasicAuthRealm.EXTERNAL_APP_PRINCIPAL;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.inject.Inject;
@@ -24,6 +25,8 @@ import javax.script.ScriptException;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.InputStreamEntity;
+import org.apache.http.message.BasicHeader;
+import org.apache.shiro.SecurityUtils;
 import org.apache.http.nio.entity.NStringEntity;
 import org.elasticsearch.client.Request;
 import org.elasticsearch.client.RequestOptions;
@@ -108,7 +111,8 @@ public class IndexQueryService {
     RestClient esRestClient = EsRestClientManager.getEsRestClient();
     Request esRequest = new Request(request.getHttpMethod(), request.getEsEndpoint());
     esRequest.setEntity(entity);
-    if (esConfig.getXpack() != null && esConfig.getXpack().isEnabled()) {
+    boolean isExternalApplication = isExternalApplication();
+    if (!isExternalApplication && esConfig.getXpack() != null && esConfig.getXpack().isEnabled()) {
       esRequest.setOptions(buildRequestOptions());
       return esRestClient.performRequest(esRequest);
     } else {
@@ -121,6 +125,11 @@ public class IndexQueryService {
     builder.addHeader("Authorization", PerrySubject.getToken());
     builder.addHeader("Content-Type", ContentType.APPLICATION_JSON.getMimeType());
     return builder.build();
+  }
+
+  private boolean isExternalApplication() {
+    Object principal = SecurityUtils.getSubject().getPrincipal();
+    return EXTERNAL_APP_PRINCIPAL.equals(principal);
   }
 
 }

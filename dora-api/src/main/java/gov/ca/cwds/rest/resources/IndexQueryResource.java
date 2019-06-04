@@ -18,12 +18,14 @@ import io.swagger.annotations.ApiResponses;
 import io.swagger.annotations.Example;
 import io.swagger.annotations.ExampleProperty;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.HttpMethod;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.hibernate.validator.constraints.NotBlank;
@@ -44,6 +46,9 @@ import org.slf4j.LoggerFactory;
 public class IndexQueryResource {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(IndexQueryResource.class);
+  public static final String DFS_QUERY_THEN_FETCH_QUERY_PARAM = "dfsQueryThenFetch";
+  public static final String SEARCH_TYPE_PARAM = "search_type";
+  public static final String DFS_QUERY_THEN_FETCH = "dfs_query_then_fetch";
 
   private IndexQueryService indexQueryService;
 
@@ -74,13 +79,61 @@ public class IndexQueryResource {
           String documentType,
       @ApiParam(required = true, examples = @Example(@ExampleProperty(mediaType = MediaType.APPLICATION_JSON, value = "{\"query\":{\"match_all\":{}}}")))
       @ValidJson
+          String requestBody,
+      @QueryParam(DFS_QUERY_THEN_FETCH_QUERY_PARAM)
+      @DefaultValue("true")
+      @ApiParam(required = false, name = "dfsQueryThenFetch", value = "Distributed Frequency Search", example = "true")
+          boolean isDfsQueryThenFetch
+  ) {
+    if (LOGGER.isInfoEnabled()) {
+      LOGGER.info(
+          "index: {} type: {} body: {} isDfsQueryThenFetch {}",
+          escapeCRLF(index),
+          escapeCRLF(documentType),
+          escapeCRLF(requestBody),
+          isDfsQueryThenFetch
+      );
+    }
+    final String endpoint = String.format("/%s/%s/_search", index.trim(), documentType.trim());
+    IndexQueryRequestBuilder builder = new IndexQueryRequestBuilder().addEsEndpoint(endpoint)
+        .addDocumentType(documentType).addRequestBody(requestBody).addHttpMethod(HttpMethod.POST);
+    if (isDfsQueryThenFetch) {
+      builder.addParameter(SEARCH_TYPE_PARAM, DFS_QUERY_THEN_FETCH);
+    }
+    return handleRequest(builder.build());
+  }
+
+  /**
+   * Endpoint for Query Count.
+   */
+  @POST
+  @Timed
+  @Path("/{index}/{type}/_count")
+  @ApiResponses(value = {@ApiResponse(code = 400, message = "Unable to process JSON"),
+      @ApiResponse(code = 401, message = "Not Authorized"),
+      @ApiResponse(code = 406, message = "Accept Header not supported")})
+  @ApiOperation(value = "Number of matches given Elasticsearch index and type on given search terms", response = JSONObject.class)
+  public Response getDocumentCount(
+      @PathParam("index")
+      @ApiParam(required = true, name = "index", value = "The index of the search", example = "facilities")
+      @NotBlank
+          String index,
+      @PathParam("type")
+      @ApiParam(required = true, name = "type", value = "The document type", example = "facility")
+      @NotBlank
+          String documentType,
+      @ApiParam(required = true, examples = @Example(@ExampleProperty(mediaType = MediaType.APPLICATION_JSON, value = "{\"query\":{\"match_all\":{}}}")))
+      @ValidJson
           String requestBody
   ) {
     if (LOGGER.isInfoEnabled()) {
-      LOGGER.info("index: {} type: {} query: {}", escapeCRLF(index), escapeCRLF(documentType),
+      LOGGER.info(
+          "index: {} type: {} body: {}",
+          escapeCRLF(index),
+          escapeCRLF(documentType),
           escapeCRLF(requestBody));
     }
-    final String endpoint = String.format("/%s/%s/_search", index.trim(), documentType.trim());
+    final String endpoint = String.format("/%s/%s/_count", index.trim(), documentType.trim());
     IndexQueryRequest request = new IndexQueryRequestBuilder().addEsEndpoint(endpoint)
         .addDocumentType(documentType).addRequestBody(requestBody).addHttpMethod(HttpMethod.POST)
         .build();
@@ -116,8 +169,12 @@ public class IndexQueryResource {
           String requestBody
   ) {
     if (LOGGER.isInfoEnabled()) {
-      LOGGER.info("index: {} type: {} id: {} body: {}", escapeCRLF(index), escapeCRLF(documentType),
-          escapeCRLF(id), escapeCRLF(requestBody));
+      LOGGER.info(
+          "index: {} type: {} id: {} body: {}",
+          escapeCRLF(index),
+          escapeCRLF(documentType),
+          escapeCRLF(id),
+          escapeCRLF(requestBody));
     }
     final String endpoint = String
         .format("/%s/%s/%s/_create", index.trim(), documentType.trim(), id);
@@ -156,7 +213,10 @@ public class IndexQueryResource {
           String requestBody
   ) {
     if (LOGGER.isInfoEnabled()) {
-      LOGGER.info("index: {} type: {} body: {}", escapeCRLF(index), escapeCRLF(documentType),
+      LOGGER.info(
+          "index: {} type: {} body: {}",
+          escapeCRLF(index),
+          escapeCRLF(documentType),
           escapeCRLF(requestBody));
     }
     final String endpoint = String.format("/%s/%s/%s", index.trim(), documentType.trim(), id);

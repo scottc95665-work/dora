@@ -2,27 +2,27 @@ package gov.ca.cwds.rest.resources;
 
 import static gov.ca.cwds.rest.DoraConstants.SYSTEM_INFORMATION;
 
-import gov.ca.cwds.dto.app.SystemInformationDto;
-import gov.ca.cwds.rest.api.ApiException;
-import gov.ca.cwds.rest.resources.system.AbstractSystemInformationResource;
-import io.dropwizard.setup.Environment;
-import io.swagger.annotations.ApiOperation;
-
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
+import gov.ca.cwds.dto.app.SystemInformationDto;
+import gov.ca.cwds.rest.api.ApiException;
+import gov.ca.cwds.rest.resources.system.AbstractSystemInformationResource;
+import io.dropwizard.setup.Environment;
 import io.swagger.annotations.Api;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 
 /**
@@ -72,13 +72,9 @@ public class SystemInformationResource extends AbstractSystemInformationResource
    * @return the application data
    */
   @GET
-  @ApiResponses(
-      value = {
-          @ApiResponse(code = 401, message = "Not Authorized"),
-          @ApiResponse(code = 404, message = "Not found"),
-          @ApiResponse(code = 465, message = "CARES Service is not healthy")
-      }
-  )
+  @ApiResponses(value = {@ApiResponse(code = 401, message = "Not Authorized"),
+      @ApiResponse(code = 404, message = "Not found"),
+      @ApiResponse(code = 465, message = "CARES Service is not healthy")})
   @ApiOperation(value = "Returns System Information", response = SystemInformationDto.class)
   public Response get() {
     return super.buildResponse();

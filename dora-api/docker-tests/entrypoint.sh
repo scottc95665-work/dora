@@ -8,8 +8,20 @@ if ([ -z "$DORA_URL" ]); then
 fi
 
 if ([ -z "$TEST_TYPE" ]); then
-  echo "TEST_TYPE variable is required"
+  echo "TEST_TYPE variable is required Possible values: smoke"
   exit 1
+fi
+
+if ([ -z "$AUTH_MODE" ]); then
+  echo "AUTH_MODE variable is required. Possible values: dev, integration"
+  exit 1
+fi
+
+if [ "$AUTH_MODE" = "dev" ]; then
+  if ([ -z "$PERRY_URL" ]); then
+    echo "PERRY_URL variable is required in dev auth. mode."
+    exit 1
+  fi
 fi
 
 if [ "$TEST_TYPE" = "smoke" ]; then
@@ -20,4 +32,6 @@ else
   exit 1
 fi
 
-java ${JAVA_OPT} -Ddora.url="${DORA_URL}" -cp /opt/dora-tests/resources:dora-tests.jar org.junit.runner.JUnitCore ${TEST_CLASS}
+echo "Running Dora Tests of type '$TEST_TYPE' against ${DORA_URL}"
+
+java ${JAVA_OPT} -Ddora.url="${DORA_URL}" -Dauth.mode=${AUTH_MODE} -Dperry.url=$PERRY_URL -cp /opt/dora-tests/resources:dora-tests.jar org.junit.runner.JUnitCore ${TEST_CLASS}
