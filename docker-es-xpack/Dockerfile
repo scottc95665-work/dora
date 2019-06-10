@@ -1,4 +1,4 @@
-FROM docker.elastic.co/elasticsearch/elasticsearch:6.4.1
+FROM docker.elastic.co/elasticsearch/elasticsearch:6.8.0
 ADD elasticsearch.yml /usr/share/elasticsearch/config/
 ADD elastic.pass /usr/share/elasticsearch/config/
 ADD jvm.options /usr/share/elasticsearch/config/
