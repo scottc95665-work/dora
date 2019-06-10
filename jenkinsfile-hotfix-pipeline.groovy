@@ -86,9 +86,6 @@ node('dora-slave') {
             lint(rtGradle)
        }
        if (env.BUILD_JOB_TYPE=="master" ) {
-          stage('License Report') {
-             buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: 'downloadLicenses'
-          }
           stage('Build Docker') {
             withEnv(['ELASTIC_HOST=127.0.0.1']) {
                 buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: "printConfig -DnewVersion=${newTag}".toString()
@@ -97,15 +94,6 @@ node('dora-slave') {
                     buildInfo = rtGradle.run buildFile: './docker-dora/build.gradle', tasks: "dockerDoraPublish -DRelease=\$RELEASE_PROJECT -DBuildNumber=\$BUILD_NUMBER -DCustomVersion=\$OVERRIDE_VERSION -DnewVersion=${newTag}".toString()
                 }
             }
-          }
-          stage ('Build Tests Docker'){
-            buildInfo = rtGradle.run buildFile: './dora-api/docker-tests/build.gradle', switches: '--stacktrace',  tasks: "dockerTestsCreateImage -DRelease=\$RELEASE_PROJECT -DBuildNumber=\$BUILD_NUMBER -DCustomVersion=\$OVERRIDE_VERSION -DnewVersion=${newTag}".toString()
-            withDockerRegistry([credentialsId: docker_credentials_id]) {
-                buildInfo = rtGradle.run buildFile: './dora-api/docker-tests/build.gradle', switches: '--stacktrace',  tasks: "dockerTestsPublish -DRelease=\$RELEASE_PROJECT -DBuildNumber=\$BUILD_NUMBER -DCustomVersion=\$OVERRIDE_VERSION -DnewVersion=${newTag}".toString()
-            }
-          }
-          stage('Archive Artifacts') {
-            archiveArtifacts artifacts: '**/dora*.jar,readme.txt', fingerprint: true
           }
           stage('Deploy to Dev') {
             withDockerRegistry([credentialsId: docker_credentials_id]) {
