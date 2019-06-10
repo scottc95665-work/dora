@@ -77,10 +77,10 @@ node('dora-slave') {
         stage('Build'){
             buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: "jar -DRelease=\$RELEASE_PROJECT -DBuildNumber=\$BUILD_NUMBER -DCustomVersion=\$OVERRIDE_VERSION -DnewVersion=${newTag}".toString()
         }
-        stage('Unit Tests') {
-            buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: 'test jacocoTestReport'
-            publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'dora-api/build/reports/tests/test/', reportFiles: 'index.html', reportName: 'JUnit Reports', reportTitles: 'JUnit tests summary'])
-        }
+//        stage('Unit Tests') {
+//            buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: 'test jacocoTestReport'
+//            publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'dora-api/build/reports/tests/test/', reportFiles: 'index.html', reportName: 'JUnit Reports', reportTitles: 'JUnit tests summary'])
+//        }
 
        stage('SonarQube analysis') {
             lint(rtGradle)
