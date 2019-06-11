@@ -46,7 +46,6 @@ public class SystemInformationResourceTest extends BaseDoraApplicationTest {
   @Before
   public void setup() {}
 
-  @Ignore
   @Test
   public void testApplicationGetReturns200() {
     assertThat(clientTestRule.target(SYSTEM_INFORMATION).request()
@@ -60,7 +59,6 @@ public class SystemInformationResourceTest extends BaseDoraApplicationTest {
         is(equalTo(MediaType.APPLICATION_JSON)));
   }
 
-  @Ignore
   @Test
   public void testSystemInformationGet() {
     SystemInformationDto systemInformationDto = clientTestRule.target(SYSTEM_INFORMATION)
@@ -70,7 +68,6 @@ public class SystemInformationResourceTest extends BaseDoraApplicationTest {
     assertThat(systemInformationDto.getVersion(), is(notNullValue()));
   }
 
-  @Ignore
   @Test
   public void testHealthChecksResults() {
     SystemInformationDto systemInformationDto = clientTestRule.target(SYSTEM_INFORMATION)
