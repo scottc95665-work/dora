@@ -86,6 +86,11 @@ node('dora-slave') {
             lint(rtGradle)
        }
        if (env.BUILD_JOB_TYPE=="master" ) {
+          stage('Push to Artifactory') {
+               rtGradle.deployer.deployArtifacts = true
+               buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: "publish -DRelease=\$RELEASE_PROJECT -DBuildNumber=\$BUILD_NUMBER -DCustomVersion=\$OVERRIDE_VERSION -DnewVersion=${newTag}".toString()
+               rtGradle.deployer.deployArtifacts = false
+          }
           stage('Build Docker') {
             withEnv(['ELASTIC_HOST=127.0.0.1']) {
                 buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: "printConfig -DnewVersion=${newTag}".toString()
