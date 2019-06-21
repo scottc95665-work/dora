@@ -110,6 +110,9 @@ public class IndexQueryService {
         new ByteArrayInputStream(request.getRequestBody().getBytes(UTF_8)));
     RestClient esRestClient = EsRestClientManager.getEsRestClient();
     Request esRequest = new Request(request.getHttpMethod(), request.getEsEndpoint());
+    if (request.getParameters() != null) {
+      request.getParameters().forEach((key, value) -> esRequest.addParameter(key, value));
+    }
     esRequest.setEntity(entity);
     boolean isExternalApplication = isExternalApplication();
     if (!isExternalApplication && esConfig.getXpack() != null && esConfig.getXpack().isEnabled()) {
