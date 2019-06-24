@@ -117,6 +117,7 @@ public class IndexQueryService {
       esRequest.setOptions(buildRequestOptions());
       return esRestClient.performRequest(esRequest);
     } else {
+      esRequest.setOptions(addContentType());
       return esRestClient.performRequest(esRequest);
     }
   }
@@ -124,6 +125,12 @@ public class IndexQueryService {
   private RequestOptions buildRequestOptions() {
     RequestOptions.Builder builder = RequestOptions.DEFAULT.toBuilder();
     builder.addHeader("Authorization", PerrySubject.getToken());
+    builder.addHeader("Content-Type", ContentType.APPLICATION_JSON.getMimeType());
+    return builder.build();
+  }
+
+  private RequestOptions addContentType() {
+    RequestOptions.Builder builder = RequestOptions.DEFAULT.toBuilder();
     builder.addHeader("Content-Type", ContentType.APPLICATION_JSON.getMimeType());
     return builder.build();
   }
