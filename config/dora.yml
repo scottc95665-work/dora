@@ -27,7 +27,7 @@ swagger:
 mode: ${DORA_MODE:-PROD}
 
 elasticsearch:
-  nodes: ${ES_NODES:-dora.dev.cwds.io:9200,localhost:9200}
+  nodes: ${ES_NODES:-localhost:9200}
   user: ${XPACK_USER:-elastic}
   password: ${XPACK_PASSWORD:-changeme}
   responseFieldFilters:
