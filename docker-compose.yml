@@ -31,8 +31,9 @@ services:
       - COGNITO_REGION
       - COGNITO_USERPOOL
       - IDP_MAPPING_SCRIPT
-    # logging:
-    #   driver: none
+    env_file: .env
+    networks:
+      - dora
   dora:
     image: cwds/dora:1.16.0
     command: bash -c "./entrypoint.sh 2>&1 | tee 'log.file'"
@@ -48,6 +49,8 @@ services:
       timeout: 10s
       retries: 80
     env_file: .env
+    networks:
+      - dora
   elasticsearch:
     image: cwds/elasticsearch_xpack_data:1.7.13-SNAPSHOT
     depends_on:
@@ -57,6 +60,12 @@ services:
     expose:
       - 9200
       - 9300
+    env_file: .env
+    networks:
+      - dora
     environment:
       TOKEN_VALIDATION_URL: ${TOKEN_VALIDATION_URL}
       PERRY_VALIDATION_URL: ${PERRY_VALIDATION_URL}
+
+networks:
+  dora:
