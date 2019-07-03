@@ -23,7 +23,6 @@ import javax.ws.rs.core.MediaType;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import com.squarespace.jersey2.guice.JerseyGuiceUtils;
@@ -34,7 +33,6 @@ import gov.ca.cwds.rest.BaseDoraApplicationTest;
  * @author CWDS TPT-2
  */
 @SuppressWarnings("javadoc")
-@Ignore
 public class SystemInformationResourceTest extends BaseDoraApplicationTest {
 
   private static final String BUILD_NUMBER = "1";
