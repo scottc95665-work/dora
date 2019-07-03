@@ -1,9 +1,56 @@
 # CWDS Dora
 
-The CWDS Dora provides RESTful services with search capabilities.
+The CWDS Dora provides REST API for access to Elasticsearch with custom layer of authentication and authorization.
+
+## Architectural Decisions
+* Dora was created as a wrapper around original Elasticsearch REST API to encapsulate security concerns and provide re-usability of search functionality. All applications in CARES uses Dora to access Elasticsearch indexes.
+* Elasticsearch XPack is used to implement custom security policies around CARES search indexes (Client Sealed/Sensitive logic).
+* Custom realm plugin was developed for integration of Elasticsearch with Perry. 
+* Perry Realm plugin receives Perry token and validates it in Perry. It uses user information from Perry token to assign roles to elasticsearch user. Assigned roles then can be used in our custom XPack policies file.
+* Dora API provides proxy API for Elasticsearch search API. Native Elasticsearch queries can be used as input.
+* Dora API provides ability to create object in some index as well as update it
+* Dora API is used in CANS, CALS, CAP and Intake applications as the only API which has access to Elasticsearch         
+* Dora containers diagram 
+![Dora_containers_diagram](https://user-images.githubusercontent.com/3201038/60618407-fbf9a380-9d8a-11e9-9bb0-8b708fc0c1e0.png)
+* Example of Dora usage in CANS application
+![CANS_context_diagram](https://user-images.githubusercontent.com/3201038/60618521-40853f00-9d8b-11e9-8d9e-44d302376a7e.png)
+
+## Project Structure
+* **docker-es-xpack** - has code responsible for publishing https://cloud.docker.com/u/cwds/repository/docker/cwds/elasticsearch_xpack_data docker Image. elasticsearch_xpack_data is a modified Elasticsearch image which includes custom XPack plugin, XPack policies and test data for indexes used in CARES.
+* **docker-dora** - docker file for Dora Docker image
+* **x-pack-perry-realm** - XPack plugin used for integration with Perry
+* **dora-api** - REST API for access to Elasticsearch
+
+## Development Environment
+
+### Prerequisites
+
+1. Source code, available at [GitHub](https://github.com/ca-cwds/dora)
+1. Java SE 8 development kit
+
+### Environment variables of interest
+
+- ES_HOST - IP address of the Elasticsearch server
+- ES_PORT - port of the Elasticsearch server (default: `9200`)
+- APP_STD_PORT - default: `8080`
+- APP_ADMIN_PORT - default: `8081`
+- PERRY_URL - default: `http://localhost:8090/authn/login`
+- SP_ID - service provider ID for Identity Mapping (defines security attributes for specific application)
+- SHOW_SWAGGER - set to `true` to have a link like `http://localhost:8080/swagger` (default: `false`)
+- XPACK_ENABLED - true/false, has effect only when used while running a docker container based on the cwds/dora
+
+### Run Dora on local environment
+In order to start Dora on local environment developer should configure connection to Perry and Elasticsearch. 
+1. Using docker-compose.yaml in the root folder of the project you can start Dora, Perry, Elasticsearch on local machine. Versions of docker images can be channged in docker-compose.yml file so that you have the recent versions of dependencies. Use following command to start all containers: `docker-compose up`. Dora will be available on http://localhost:8083/swagger
+
+2. During active Dora development it is desirable to have faster feedback after code change. So first approach can be not convenient because will take time to build docker images. 
+Recommended way to setup local environment is to use docker-compose.yml file in the root folder of the project to start only Perry in DEV mode and Elasticsearch-xpack-data Docker images. You can comment portion related to Dora container and start dora from your IDE.   
+Use the gradlew command to execute the run task: `% ./gradlew :dora-api:run`. This will run the server on your local machine http://localhost:8083/swagger.
+
+
+**Note:** For Windows OS there can be an issue with starting application the way described in item 2 above where Gradle will return 406 error "Long classpath". You can start application using DoraApplication class by configuring it manually to run with configuration in ./config/dora.yml. Intellij IDEA provide workaround for 406 error. You can see how DoraApplication should be configured to run in Intellij IDEA ![DoraApplication Configuration](https://user-images.githubusercontent.com/3201038/60617223-20a04c00-9d88-11e9-9582-99ec490b63f2.png): 
 
 ## Documentation
-
 The development team uses [Swagger](http://swagger.io/) for documenting the API.  
 NOTE: At this time there is not a publicly available link to the documentation, a link will be provided as soon as one is available.
 
@@ -11,7 +58,6 @@ Dora does not use any default index or document type. Its URL has the following 
 For example `/dora/facilities/facility/_search` or `/dora/people/person/_search`.
 
 ## Configuration
-
 Configuration options are available in the file config/dora.yml.
 
 Dora can be configured to run in `PROD` or `DEV` mode.
@@ -35,32 +81,6 @@ Any other mode will cause Dora to fire that health checks.
 - Dora:
     - use configuration file with pre-configured security: `<DORA_PROJECT_ROOT>/config/dora.yml`
 
-## Development Environment
-
-### Prerequisites
-
-1. Source code, available at [GitHub](https://github.com/ca-cwds/dora)
-1. Java SE 8 development kit
-
-### Environment variables of interest
-
-- ES_HOST - IP address of the Elasticsearch server
-- ES_PORT - port of the Elasticsearch server (default: `9200`)
-- APP_STD_PORT - default: `8080`
-- APP_ADMIN_PORT - default: `8081`
-- PERRY_URL - default: `http://localhost:8090/authn/login`
-- SP_ID - service provider ID for Identity Mapping (defines security attributes for specific application)
-- SHOW_SWAGGER - set to `true` to have a link like `http://localhost:8080/swagger` (default: `false`)
-- XPACK_ENABLED - true/false, has effect only when used while running a docker container based on the cwds/dora
-
-### Run Dora
-
-Use the gradlew command to execute the run task:
-
-    % ./gradlew :dora-api:run
-
-This will run the server on your local machine in non-secured mode, port 8080.
-
 ### Unit Testing
 
 Use the gradlew command to execute the test task:
@@ -75,7 +95,7 @@ Use the gradlew command to execute the test task:
     
 ### Commiting Changes
 
-Before commiting changes to the reporsitory please run the following to ensure the build is successful.
+Before commiting changes to the repository please run the following to ensure the build is successful.
 
     % ./gradlew clean test integrationTest javadoc
 
