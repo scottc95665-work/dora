@@ -20,14 +20,14 @@ swagger:
   logoutUrl: ${LOGOUT_URL:-http://localhost:8080/perry/authn/logout}
   spId: ${SP_ID:-} # service provider ID for Identity Mapping (defines security attributes for specific application)
   showSwagger: ${SHOW_SWAGGER:-true}
-  jsonUrl: ${SWAGGER_JSON_URL:-http://localhost:8090/swagger.json}
-  callbackUrl: ${SWAGGER_CALLBACK_URL:-http://localhost:8090/swagger}
+  jsonUrl: ${SWAGGER_JSON_URL:-http://localhost:8083/swagger.json}
+  callbackUrl: ${SWAGGER_CALLBACK_URL:-http://localhost:8083/swagger}
   tokenUrl: ${SWAGGER_TOKEN_URL:-http://localhost:8080/perry/authn/token}
 
 mode: ${DORA_MODE:-PROD}
 
 elasticsearch:
-  nodes: ${ES_NODES:-dora.dev.cwds.io:9200,localhost:9200}
+  nodes: ${ES_NODES:-localhost:9200}
   user: ${XPACK_USER:-elastic}
   password: ${XPACK_PASSWORD:-changeme}
   responseFieldFilters:
@@ -38,10 +38,10 @@ elasticsearch:
 server:
   applicationConnectors:
   - type: http 
-    port: ${APP_STD_PORT:-8080}
+    port: ${APP_STD_PORT:-8083}
   adminConnectors:
   - type: http
-    port: ${APP_ADMIN_PORT:-8081}
+    port: ${APP_ADMIN_PORT:-8084}
     
   requestLog:
     appenders:

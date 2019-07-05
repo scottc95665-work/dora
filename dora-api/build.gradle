@@ -132,7 +132,7 @@ dependencies {
 
 
 run {
-    args "server", configPath + "dora_nosec.yml"
+    args "server", configPath + "dora.yml"
 }
 
 test {
