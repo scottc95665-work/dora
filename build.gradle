@@ -17,7 +17,7 @@ project.logging.setLevelInternal(INFO)
 
 project.ext {
     projectGroup = 'gov.ca.cwds.services'
-    projectMajorVersion = '1.7.13'
+    projectMajorVersion = '2.0.0'
 
     isRelease = System.getProperty("Release") == "true"
     buildNumber = System.getProperty('BuildNumber')
@@ -27,7 +27,7 @@ project.ext {
     projectReleaseVersion = (customVersion == null || customVersion == "" || customVersion.startsWith('$') ? projectMajorVersion + '_' + buildNumber + '-RC' : customVersion )
     projectVersion = (isRelease ? projectReleaseVersion : projectSnapshotVersion )
 
-    elasticsearchVersion = '5.5.2'
+    elasticsearchVersion = '6.8.0'
 
     mainclass = "gov.ca.cwds.rest.DoraApplication"
     configPath = "$rootProject.projectDir/config/"

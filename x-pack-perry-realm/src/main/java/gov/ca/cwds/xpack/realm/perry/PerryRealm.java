@@ -11,6 +11,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import gov.ca.cwds.xpack.realm.CwdsPrivileges;
 import gov.ca.cwds.xpack.realm.utils.JsonTokenInfoHolder;
 import java.io.IOException;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -19,13 +21,16 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.apache.logging.log4j.Logger;
+import org.elasticsearch.SpecialPermission;
 import org.elasticsearch.action.ActionListener;
 import org.elasticsearch.common.util.concurrent.ThreadContext;
 import org.elasticsearch.rest.RestRequest;
-import org.elasticsearch.xpack.security.authc.AuthenticationToken;
-import org.elasticsearch.xpack.security.authc.Realm;
-import org.elasticsearch.xpack.security.authc.RealmConfig;
-import org.elasticsearch.xpack.security.user.User;
+import org.elasticsearch.xpack.core.security.authc.AuthenticationResult;
+import org.elasticsearch.xpack.core.security.authc.AuthenticationToken;
+import org.elasticsearch.xpack.core.security.authc.Realm;
+import org.elasticsearch.xpack.core.security.authc.RealmConfig;
+import org.elasticsearch.xpack.core.security.user.User;
 
 /**
  * A custom {@link Realm} implementation that expects a valid Perry Token in the "Authorization"
@@ -92,21 +97,43 @@ public class PerryRealm extends Realm {
     return token == null ? null : new PerryToken(token);
   }
 
+  @Override
+  public void lookupUser(String s, ActionListener<User> actionListener) {
+    throw new UnsupportedOperationException();
+  }
+
   private String validatePerryToken(String token)
       throws IOException, PerryTokenValidationException {
     long timeBeforeTokenValidation = System.currentTimeMillis();
     try (CloseableHttpClient httpClient = HttpClients.createMinimal()) {
       HttpGet httpGet = new HttpGet(tokenValidationUrl + token);
-      try (CloseableHttpResponse response = httpClient.execute(httpGet)) {
+      try (CloseableHttpResponse response = executeHttpGetWithPrivileges(httpClient, httpGet, logger)){
         logger.debug("PerryRealm: Token Validation took {} milliseconds",
             System.currentTimeMillis() - timeBeforeTokenValidation);
-        if (HTTP_OK == response.getStatusLine().getStatusCode()) {
+        if (response != null && HTTP_OK == response.getStatusLine().getStatusCode()) {
           return EntityUtils.toString(response.getEntity(), "UTF-8");
         } else {
           throw new PerryTokenValidationException("invalid Perry token");
         }
       }
     }
+  }
+
+  private static CloseableHttpResponse executeHttpGetWithPrivileges(CloseableHttpClient httpClient, HttpGet httpGet, Logger logger) {
+    SecurityManager sm = System.getSecurityManager();
+    if (sm != null) {
+      sm.checkPermission(new SpecialPermission());
+    }
+    return AccessController.doPrivileged(
+        (PrivilegedAction<CloseableHttpResponse>) () -> {
+          try {
+            return httpClient.execute(httpGet);
+          } catch (IOException e) {
+            logger.warn("Exception during Perry token validate GET call", e);
+          }
+          return null;
+        }
+    );
   }
 
   /**
@@ -116,10 +143,10 @@ public class PerryRealm extends Realm {
    * ActionListener#onResponse(Object)} method. Else {@code null} is returned.
    *
    * @param authenticationToken the token to authenticate
-   * @param listener return authentication result by calling {@link ActionListener#onResponse(Object)}
+   * @param actionListener return authentication result by calling {@link ActionListener#onResponse(Object)}
    */
   @Override
-  public void authenticate(AuthenticationToken authenticationToken, ActionListener<User> listener) {
+  public void authenticate(AuthenticationToken authenticationToken, ActionListener<AuthenticationResult> actionListener) {
     long timeBeforeAuthenticate = System.currentTimeMillis();
 
     try {
@@ -174,19 +201,20 @@ public class PerryRealm extends Realm {
       metadata.put("county_name", cwdsPrivileges.getCountyName());
 
       User user = new User("perry", roles, "full name", "email@a.net", metadata, true);
-      listener.onResponse(user);
+      actionListener.onResponse(AuthenticationResult.success(user));
 
       logger.debug("PerryRealm: authenticate took {} milliseconds",
           System.currentTimeMillis() - timeBeforeAuthenticate);
 
     } catch (PerryTokenValidationException e) {
       logger.warn("invalid Perry Token: " + e.getMessage(), e);
-      listener.onResponse(null);
+      actionListener.onResponse(null);
     } catch (JsonProcessingException | IllegalArgumentException e) {
       logger.warn("failed to parse Json Token: " + e.getMessage(), e);
-      listener.onResponse(null);
+      actionListener.onResponse(null);
     } catch (IOException e) {
-      listener.onFailure(e);
+      logger.warn("IO exception during Token validation: " + e.getMessage(), e);
+      actionListener.onFailure(e);
     }
   }
 
@@ -198,32 +226,5 @@ public class PerryRealm extends Realm {
   private void setSocialWorkerOnlyRoles(ArrayList<String> rolesList) {
     addRole(rolesList, PEOPLE_WORKER);
     addRole(rolesList, PEOPLE_SUMMARY_WORKER);
-  }
-
-  /**
-   * @deprecated
-   */
-  @Deprecated
-  @Override
-  public User authenticate(AuthenticationToken authenticationToken) {
-    throw new UnsupportedOperationException("Deprecated");
-  }
-
-  /**
-   * @deprecated
-   */
-  @Deprecated
-  @Override
-  public User lookupUser(String s) {
-    throw new UnsupportedOperationException();
-  }
-
-  /**
-   * @deprecated
-   */
-  @Deprecated
-  @Override
-  public boolean userLookupSupported() {
-    return false;
   }
 }

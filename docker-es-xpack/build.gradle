@@ -41,7 +41,7 @@ def esExecute(String method, String path, String content) {
     while ((line = reader.readLine()) != null) {
         jsonString.append(line)
     }
-    print jsonString
+    print "\nES response [" + jsonString + "]"
     int responseCode = connection.getResponseCode()
     connection.disconnect()
     return responseCode
@@ -94,6 +94,7 @@ task dockerCopyScripts(type: Copy) {
     into dockerContextDir
     include 'entrypoint.sh'
     include 'elasticsearch.yml'
+    include 'elastic.pass'
     include 'jvm.options'
     include 'names_synonyms.txt'
     filter(FixCrLfFilter.class, eol:FixCrLfFilter.CrLf.newInstance("lf"))

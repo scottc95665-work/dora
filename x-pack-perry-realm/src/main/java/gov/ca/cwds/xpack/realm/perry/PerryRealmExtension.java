@@ -3,8 +3,8 @@ package gov.ca.cwds.xpack.realm.perry;
 import java.util.Map;
 import org.elasticsearch.common.collect.MapBuilder;
 import org.elasticsearch.watcher.ResourceWatcherService;
-import org.elasticsearch.xpack.extensions.XPackExtension;
-import org.elasticsearch.xpack.security.authc.Realm.Factory;
+import org.elasticsearch.xpack.core.security.SecurityExtension;
+import org.elasticsearch.xpack.core.security.authc.Realm.Factory;
 
 /**
  * The extension class that serves as the integration point between Elasticsearch, X-Pack,
@@ -12,17 +12,7 @@ import org.elasticsearch.xpack.security.authc.Realm.Factory;
  *
  * @author CWDS TPT-2
  */
-public class PerryRealmExtension extends XPackExtension {
-
-  @Override
-  public String name() {
-    return "Perry Realm";
-  }
-
-  @Override
-  public String description() {
-    return "Perry Realm Extension for X-Pack";
-  }
+public class PerryRealmExtension implements SecurityExtension {
 
   /**
    * Returns a map of the realms provided by this extension. The first parameter is the string representation of the realm type;

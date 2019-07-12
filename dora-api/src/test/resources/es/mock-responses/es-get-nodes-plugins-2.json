@@ -44,7 +44,7 @@
           "has_native_controller" : false
         },
         {
-          "name" : "x-pack",
+          "name" : "perry_realm",
           "version" : "5.5.1",
           "description" : "Elasticsearch Expanded Pack Plugin",
           "classname" : "org.elasticsearch.xpack.XPackPlugin",

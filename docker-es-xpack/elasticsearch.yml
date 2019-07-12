@@ -92,6 +92,8 @@ xpack.security.authc.realms.native.order: 0
 xpack.security.authc.realms.native.type: native
 xpack.security.authc.realms.custom.order: 1
 xpack.security.authc.realms.custom.type: custom
+xpack.license.self_generated.type: trial
+xpack.security.enabled: true
 #example of TOKEN_VALIDATION_URL: http://<docker-nat-ip>:8080/<perry-context-path>/authn/validate?token=
 #if You have local Perry on Windows then use 10.0.75.1 address instead of 'localhost'
 xpack.security.authc.realms.custom.token_validation_url: ${TOKEN_VALIDATION_URL:-http://localhost:8080/perry/authn/validate?token=}

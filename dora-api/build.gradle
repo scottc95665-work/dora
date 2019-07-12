@@ -79,7 +79,7 @@ dependencies {
     compile group: 'gov.ca.cwds.api', name: 'api-security', version: '3.0.3_768-RC'
 
     compile group: 'org.elasticsearch', name: 'elasticsearch', version: project.elasticsearchVersion
-    compile group: 'org.elasticsearch.client', name: 'rest', version: project.elasticsearchVersion
+    compile group: 'org.elasticsearch.client', name: 'elasticsearch-rest-client', version: project.elasticsearchVersion
 //    compile group: 'org.elasticsearch.client', name: 'sniffer', version: project.elasticsearchVersion
 
     compile group: 'org.apache.commons', name: 'commons-compress', version: '1.14'
