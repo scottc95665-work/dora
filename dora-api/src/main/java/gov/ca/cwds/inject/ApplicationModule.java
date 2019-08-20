@@ -21,7 +21,9 @@ public class ApplicationModule extends AbstractModule {
 
   /**
    * Configure and initialize API components, including services, resources, data access objects
-   * (DAO), web service filters, and auditing. <p> {@inheritDoc}
+   * (DAO), web service filters, and auditing.
+   * <p>
+   * {@inheritDoc}
    */
   @Override
   protected void configure() {
@@ -30,4 +32,5 @@ public class ApplicationModule extends AbstractModule {
     install(new AuditingModule());
     install(new FiltersModule());
   }
+
 }
