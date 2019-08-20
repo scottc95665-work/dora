@@ -1,12 +1,12 @@
 package gov.ca.cwds.inject;
 
+import javax.validation.Validation;
+import javax.validation.Validator;
+
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 
 import gov.ca.cwds.rest.services.es.IndexQueryService;
-
-import javax.validation.Validation;
-import javax.validation.Validator;
 
 /**
  * Identifies all CWDS API business layer (aka, service) classes available for dependency injection
@@ -29,7 +29,7 @@ public class ServicesModule extends AbstractModule {
   }
 
   @Provides
-  Validator provideValidator(){
+  Validator provideValidator() {
     return Validation.buildDefaultValidatorFactory().getValidator();
   }
 }

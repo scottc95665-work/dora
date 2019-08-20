@@ -3,20 +3,6 @@ package gov.ca.cwds.rest.resources;
 import static gov.ca.cwds.dora.DoraUtils.escapeCRLF;
 import static gov.ca.cwds.rest.DoraConstants.RESOURCE_ELASTICSEARCH_INDEX_QUERY;
 
-import com.codahale.metrics.annotation.Timed;
-import com.google.inject.Inject;
-import gov.ca.cwds.rest.api.domain.es.IndexQueryRequest;
-import gov.ca.cwds.rest.api.domain.es.IndexQueryRequest.IndexQueryRequestBuilder;
-import gov.ca.cwds.rest.api.domain.es.IndexQueryResponse;
-import gov.ca.cwds.rest.services.es.IndexQueryService;
-import gov.ca.cwds.rest.validation.ValidJson;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
-import io.swagger.annotations.Example;
-import io.swagger.annotations.ExampleProperty;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.HttpMethod;
@@ -28,10 +14,29 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
 import org.hibernate.validator.constraints.NotBlank;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.codahale.metrics.annotation.Timed;
+import com.google.inject.Inject;
+
+import gov.ca.cwds.rest.api.domain.es.IndexQueryRequest;
+import gov.ca.cwds.rest.api.domain.es.IndexQueryRequest.IndexQueryRequestBuilder;
+import gov.ca.cwds.rest.api.domain.es.IndexQueryResponse;
+import gov.ca.cwds.rest.filters.RequestExecutionContext;
+import gov.ca.cwds.rest.services.es.IndexQueryService;
+import gov.ca.cwds.rest.validation.ValidJson;
+import gov.ca.cwds.tracelog.core.TraceLogService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.Example;
+import io.swagger.annotations.ExampleProperty;
 
 
 /**
@@ -51,6 +56,7 @@ public class IndexQueryResource {
   public static final String DFS_QUERY_THEN_FETCH = "dfs_query_then_fetch";
 
   private IndexQueryService indexQueryService;
+  private TraceLogService traceLogService;
 
   @Inject
   public IndexQueryResource(IndexQueryService indexQueryService) {
@@ -66,40 +72,33 @@ public class IndexQueryResource {
   @ApiResponses(value = {@ApiResponse(code = 400, message = "Unable to process JSON"),
       @ApiResponse(code = 401, message = "Not Authorized"),
       @ApiResponse(code = 406, message = "Accept Header not supported")})
-  @ApiOperation(value = "Query given Elasticsearch index and type on given search terms", response = JSONObject.class)
+  @ApiOperation(value = "Query given Elasticsearch index and type on given search terms",
+      response = JSONObject.class)
   @Consumes(value = MediaType.APPLICATION_JSON)
   public Response searchIndex(
-      @PathParam("index")
-      @ApiParam(required = true, name = "index", value = "The index of the search", example = "facilities")
-      @NotBlank
-          String index,
-      @PathParam("type")
-      @ApiParam(required = true, name = "type", value = "The document type", example = "facility")
-      @NotBlank
-          String documentType,
-      @ApiParam(required = true, examples = @Example(@ExampleProperty(mediaType = MediaType.APPLICATION_JSON, value = "{\"query\":{\"match_all\":{}}}")))
-      @ValidJson
-          String requestBody,
-      @QueryParam(DFS_QUERY_THEN_FETCH_QUERY_PARAM)
-      @DefaultValue("true")
-      @ApiParam(required = false, name = "dfsQueryThenFetch", value = "Distributed Frequency Search", example = "true")
-          boolean isDfsQueryThenFetch
-  ) {
+      @PathParam("index") @ApiParam(required = true, name = "index",
+          value = "The index of the search", example = "facilities") @NotBlank String index,
+      @PathParam("type") @ApiParam(required = true, name = "type", value = "The document type",
+          example = "facility") @NotBlank String documentType,
+      @ApiParam(required = true,
+          examples = @Example(@ExampleProperty(mediaType = MediaType.APPLICATION_JSON,
+              value = "{\"query\":{\"match_all\":{}}}"))) @ValidJson String requestBody,
+      @QueryParam(DFS_QUERY_THEN_FETCH_QUERY_PARAM) @DefaultValue("true") @ApiParam(
+          required = false, name = "dfsQueryThenFetch", value = "Distributed Frequency Search",
+          example = "true") boolean isDfsQueryThenFetch) {
     if (LOGGER.isInfoEnabled()) {
-      LOGGER.info(
-          "index: {} type: {} body: {} isDfsQueryThenFetch {}",
-          escapeCRLF(index),
-          escapeCRLF(documentType),
-          escapeCRLF(requestBody),
-          isDfsQueryThenFetch
-      );
+      LOGGER.info("index: {} type: {} body: {} isDfsQueryThenFetch {}", escapeCRLF(index),
+          escapeCRLF(documentType), escapeCRLF(requestBody), isDfsQueryThenFetch);
     }
     final String endpoint = String.format("/%s/%s/_search", index.trim(), documentType.trim());
-    IndexQueryRequestBuilder builder = new IndexQueryRequestBuilder().addEsEndpoint(endpoint)
+    final IndexQueryRequestBuilder builder = new IndexQueryRequestBuilder().addEsEndpoint(endpoint)
         .addDocumentType(documentType).addRequestBody(requestBody).addHttpMethod(HttpMethod.POST);
     if (isDfsQueryThenFetch) {
       builder.addParameter(SEARCH_TYPE_PARAM, DFS_QUERY_THEN_FETCH);
     }
+
+    traceLogService.logSearchQuery(RequestExecutionContext.instance().getUserId(),
+        escapeCRLF(requestBody));
     return handleRequest(builder.build());
   }
 
@@ -112,31 +111,25 @@ public class IndexQueryResource {
   @ApiResponses(value = {@ApiResponse(code = 400, message = "Unable to process JSON"),
       @ApiResponse(code = 401, message = "Not Authorized"),
       @ApiResponse(code = 406, message = "Accept Header not supported")})
-  @ApiOperation(value = "Number of matches given Elasticsearch index and type on given search terms", response = JSONObject.class)
+  @ApiOperation(
+      value = "Number of matches given Elasticsearch index and type on given search terms",
+      response = JSONObject.class)
   public Response getDocumentCount(
-      @PathParam("index")
-      @ApiParam(required = true, name = "index", value = "The index of the search", example = "facilities")
-      @NotBlank
-          String index,
-      @PathParam("type")
-      @ApiParam(required = true, name = "type", value = "The document type", example = "facility")
-      @NotBlank
-          String documentType,
-      @ApiParam(required = true, examples = @Example(@ExampleProperty(mediaType = MediaType.APPLICATION_JSON, value = "{\"query\":{\"match_all\":{}}}")))
-      @ValidJson
-          String requestBody
-  ) {
+      @PathParam("index") @ApiParam(required = true, name = "index",
+          value = "The index of the search", example = "facilities") @NotBlank String index,
+      @PathParam("type") @ApiParam(required = true, name = "type", value = "The document type",
+          example = "facility") @NotBlank String documentType,
+      @ApiParam(required = true,
+          examples = @Example(@ExampleProperty(mediaType = MediaType.APPLICATION_JSON,
+              value = "{\"query\":{\"match_all\":{}}}"))) @ValidJson String requestBody) {
     if (LOGGER.isInfoEnabled()) {
-      LOGGER.info(
-          "index: {} type: {} body: {}",
-          escapeCRLF(index),
-          escapeCRLF(documentType),
+      LOGGER.info("index: {} type: {} body: {}", escapeCRLF(index), escapeCRLF(documentType),
           escapeCRLF(requestBody));
     }
     final String endpoint = String.format("/%s/%s/_count", index.trim(), documentType.trim());
-    IndexQueryRequest request = new IndexQueryRequestBuilder().addEsEndpoint(endpoint)
-        .addDocumentType(documentType).addRequestBody(requestBody).addHttpMethod(HttpMethod.POST)
-        .build();
+    IndexQueryRequest request =
+        new IndexQueryRequestBuilder().addEsEndpoint(endpoint).addDocumentType(documentType)
+            .addRequestBody(requestBody).addHttpMethod(HttpMethod.POST).build();
     return handleRequest(request);
   }
 
@@ -149,38 +142,27 @@ public class IndexQueryResource {
   @ApiResponses(value = {@ApiResponse(code = 400, message = "Unable to process JSON"),
       @ApiResponse(code = 401, message = "Not Authorized"),
       @ApiResponse(code = 406, message = "Accept Header not supported")})
-  @ApiOperation(value = "Inserts new document {type} with id = {id} to {index}", response = JSONObject.class)
+  @ApiOperation(value = "Inserts new document {type} with id = {id} to {index}",
+      response = JSONObject.class)
   @Consumes(value = MediaType.APPLICATION_JSON)
   public Response addNewDocument(
-      @PathParam("index")
-      @ApiParam(required = true, name = "index", value = "The index of the search", example = "facilities")
-      @NotBlank
-          String index,
-      @PathParam("type")
-      @ApiParam(required = true, name = "type", value = "The document type", example = "facility")
-      @NotBlank
-          String documentType,
-      @PathParam("id")
-      @ApiParam(required = true, name = "id", value = "The document id", example = "123")
-      @NotBlank
-          String id,
-      @ApiParam(required = true, name = "requestBody", value = "New Document content - valid json", example = "{\"a\": 1}")
-      @ValidJson
-          String requestBody
-  ) {
+      @PathParam("index") @ApiParam(required = true, name = "index",
+          value = "The index of the search", example = "facilities") @NotBlank String index,
+      @PathParam("type") @ApiParam(required = true, name = "type", value = "The document type",
+          example = "facility") @NotBlank String documentType,
+      @PathParam("id") @ApiParam(required = true, name = "id", value = "The document id",
+          example = "123") @NotBlank String id,
+      @ApiParam(required = true, name = "requestBody", value = "New Document content - valid json",
+          example = "{\"a\": 1}") @ValidJson String requestBody) {
     if (LOGGER.isInfoEnabled()) {
-      LOGGER.info(
-          "index: {} type: {} id: {} body: {}",
-          escapeCRLF(index),
-          escapeCRLF(documentType),
-          escapeCRLF(id),
-          escapeCRLF(requestBody));
+      LOGGER.info("index: {} type: {} id: {} body: {}", escapeCRLF(index), escapeCRLF(documentType),
+          escapeCRLF(id), escapeCRLF(requestBody));
     }
-    final String endpoint = String
-        .format("/%s/%s/%s/_create", index.trim(), documentType.trim(), id);
-    IndexQueryRequest request = new IndexQueryRequestBuilder().addEsEndpoint(endpoint)
-        .addDocumentType(documentType).addRequestBody(requestBody).addHttpMethod(HttpMethod.PUT)
-        .build();
+    final String endpoint =
+        String.format("/%s/%s/%s/_create", index.trim(), documentType.trim(), id);
+    IndexQueryRequest request =
+        new IndexQueryRequestBuilder().addEsEndpoint(endpoint).addDocumentType(documentType)
+            .addRequestBody(requestBody).addHttpMethod(HttpMethod.PUT).build();
     return handleRequest(request);
   }
 
@@ -193,36 +175,27 @@ public class IndexQueryResource {
   @ApiResponses(value = {@ApiResponse(code = 400, message = "Unable to process JSON"),
       @ApiResponse(code = 401, message = "Not Authorized"),
       @ApiResponse(code = 406, message = "Accept Header not supported")})
-  @ApiOperation(value = "Updates existing document {type} with id = {id} in {index}", response = JSONObject.class)
+  @ApiOperation(value = "Updates existing document {type} with id = {id} in {index}",
+      response = JSONObject.class)
   @Consumes(value = MediaType.APPLICATION_JSON)
   public Response updateDocument(
-      @PathParam("index")
-      @ApiParam(required = true, name = "index", value = "The index of the search", example = "facilities")
-      @NotBlank
-          String index,
-      @PathParam("type")
-      @ApiParam(required = true, name = "type", value = "The document type", example = "facility")
-      @NotBlank
-          String documentType,
-      @PathParam("id")
-      @ApiParam(required = true, name = "id", value = "The document id", example = "1")
-      @NotBlank
-          String id,
-      @ApiParam(required = true, name = "requestBody", value = "Updated content for document - valid json", example = "{\"a\": 1}")
-      @ValidJson
-          String requestBody
-  ) {
+      @PathParam("index") @ApiParam(required = true, name = "index",
+          value = "The index of the search", example = "facilities") @NotBlank String index,
+      @PathParam("type") @ApiParam(required = true, name = "type", value = "The document type",
+          example = "facility") @NotBlank String documentType,
+      @PathParam("id") @ApiParam(required = true, name = "id", value = "The document id",
+          example = "1") @NotBlank String id,
+      @ApiParam(required = true, name = "requestBody",
+          value = "Updated content for document - valid json",
+          example = "{\"a\": 1}") @ValidJson String requestBody) {
     if (LOGGER.isInfoEnabled()) {
-      LOGGER.info(
-          "index: {} type: {} body: {}",
-          escapeCRLF(index),
-          escapeCRLF(documentType),
+      LOGGER.info("index: {} type: {} body: {}", escapeCRLF(index), escapeCRLF(documentType),
           escapeCRLF(requestBody));
     }
     final String endpoint = String.format("/%s/%s/%s", index.trim(), documentType.trim(), id);
-    IndexQueryRequest request = new IndexQueryRequestBuilder().addEsEndpoint(endpoint)
-        .addDocumentType(documentType).addRequestBody(requestBody).addHttpMethod(HttpMethod.PUT)
-        .build();
+    IndexQueryRequest request =
+        new IndexQueryRequestBuilder().addEsEndpoint(endpoint).addDocumentType(documentType)
+            .addRequestBody(requestBody).addHttpMethod(HttpMethod.PUT).build();
     return handleRequest(request);
   }
 
