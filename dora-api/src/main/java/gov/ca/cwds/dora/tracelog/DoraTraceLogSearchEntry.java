@@ -35,4 +35,10 @@ public class DoraTraceLogSearchEntry extends ApiObjectIdentity {
     return json;
   }
 
+  @Override
+  public String toString() {
+    return "DoraTraceLogSearchEntry [index=" + index + ", userId=" + userId + ", json=" + json
+        + ", moment=" + moment + "]";
+  }
+
 }

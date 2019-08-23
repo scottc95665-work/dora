@@ -3,26 +3,30 @@ package gov.ca.cwds.dora.tracelog;
 import java.util.Queue;
 import java.util.TimerTask;
 
+import javax.ws.rs.client.Client;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.google.inject.Inject;
 
 public class DoraTraceLogTimerTask extends TimerTask {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(DoraTraceLogTimerTask.class);
 
+  private final Client client;
   private final Queue<DoraTraceLogSearchEntry> searchQueue;
 
-  public DoraTraceLogTimerTask(Queue<DoraTraceLogSearchEntry> searchQueue) {
+  @Inject
+  public DoraTraceLogTimerTask(Client client, Queue<DoraTraceLogSearchEntry> searchQueue) {
+    this.client = client;
     this.searchQueue = searchQueue;
   }
 
   @Override
   public void run() {
-    LOGGER.trace("Trace Log: flush queues");
-    // searchDao.logBulkAccess(searchQueue);
-  }
+    LOGGER.info("Trace Log: flush search queue");
 
-  public void logBulkAccess(Queue<DoraTraceLogSearchEntry> searchQueue) {
     if (searchQueue.isEmpty()) {
       return;
     }

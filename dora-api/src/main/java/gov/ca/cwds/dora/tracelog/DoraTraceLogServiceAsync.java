@@ -4,6 +4,8 @@ import java.util.Queue;
 import java.util.Timer;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+import javax.ws.rs.client.Client;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,14 +31,14 @@ public class DoraTraceLogServiceAsync implements DoraTraceLogService {
   protected final Timer timer;
 
   @Inject
-  public DoraTraceLogServiceAsync(long startDelay, long recurringDelay) {
+  public DoraTraceLogServiceAsync(Client client) {
     this.timer = new Timer("tracelog");
-    timer.schedule(new DoraTraceLogTimerTask(searchQueue), startDelay, recurringDelay);
+    timer.schedule(new DoraTraceLogTimerTask(client, searchQueue), 45L, 5L);
   }
 
   @Override
   public void logSearchQuery(String userId, String index, String json) {
-    LOGGER.debug("Trace Log: queue ES query");
+    LOGGER.info("Trace Log: queue ES query");
     searchQueue.add(new DoraTraceLogSearchEntry(userId, index, json));
   }
 
