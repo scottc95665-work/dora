@@ -26,10 +26,8 @@ import com.google.inject.Inject;
 import gov.ca.cwds.rest.api.domain.es.IndexQueryRequest;
 import gov.ca.cwds.rest.api.domain.es.IndexQueryRequest.IndexQueryRequestBuilder;
 import gov.ca.cwds.rest.api.domain.es.IndexQueryResponse;
-import gov.ca.cwds.rest.filters.RequestExecutionContext;
 import gov.ca.cwds.rest.services.es.IndexQueryService;
 import gov.ca.cwds.rest.validation.ValidJson;
-import gov.ca.cwds.tracelog.core.TraceLogService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -56,7 +54,6 @@ public class IndexQueryResource {
   public static final String DFS_QUERY_THEN_FETCH = "dfs_query_then_fetch";
 
   private IndexQueryService indexQueryService;
-  private TraceLogService traceLogService;
 
   @Inject
   public IndexQueryResource(IndexQueryService indexQueryService) {
@@ -97,8 +94,8 @@ public class IndexQueryResource {
       builder.addParameter(SEARCH_TYPE_PARAM, DFS_QUERY_THEN_FETCH);
     }
 
-    traceLogService.logSearchQuery(RequestExecutionContext.instance().getUserId(),
-        escapeCRLF(requestBody));
+    // traceLogService.logSearchQuery(RequestExecutionContext.instance().getUserId(),
+    // escapeCRLF(requestBody));
     return handleRequest(builder.build());
   }
 

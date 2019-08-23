@@ -7,8 +7,6 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 
 import gov.ca.cwds.rest.services.es.IndexQueryService;
-import gov.ca.cwds.tracelog.core.TraceLogService;
-import gov.ca.cwds.tracelog.simple.SimpleTraceLogService;
 
 /**
  * Identifies all CWDS API business layer (aka, service) classes available for dependency injection
@@ -28,7 +26,7 @@ public class ServicesModule extends AbstractModule {
   @Override
   protected void configure() {
     bind(IndexQueryService.class);
-    bind(TraceLogService.class).to(SimpleTraceLogService.class);
+    // bind(TraceLogService.class).to(SimpleTraceLogService.class);
   }
 
   @Provides

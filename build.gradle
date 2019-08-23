@@ -28,7 +28,8 @@ project.ext {
     projectVersion = (isRelease ? projectReleaseVersion : projectSnapshotVersion )
 
     elasticsearchVersion = '6.8.0'
-
+    log4jVersion = '2.8.2'
+    
     mainclass = "gov.ca.cwds.rest.DoraApplication"
     configPath = "$rootProject.projectDir/config/"
 
