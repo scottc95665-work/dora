@@ -4,6 +4,9 @@ import java.util.Queue;
 import java.util.Timer;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.inject.Inject;
 
 /**
@@ -19,6 +22,8 @@ import com.google.inject.Inject;
  */
 public class DoraTraceLogServiceAsync implements DoraTraceLogService {
 
+  private static final Logger LOGGER = LoggerFactory.getLogger(DoraTraceLogServiceAsync.class);
+
   protected final Queue<DoraTraceLogSearchEntry> searchQueue = new ConcurrentLinkedQueue<>();
 
   protected final Timer timer;
@@ -31,6 +36,7 @@ public class DoraTraceLogServiceAsync implements DoraTraceLogService {
 
   @Override
   public void logSearchQuery(String userId, String index, String json) {
+    LOGGER.debug("Trace Log: queue ES query");
     searchQueue.add(new DoraTraceLogSearchEntry(userId, index, json));
   }
 

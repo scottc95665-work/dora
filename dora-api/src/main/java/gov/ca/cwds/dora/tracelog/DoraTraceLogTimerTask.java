@@ -22,4 +22,21 @@ public class DoraTraceLogTimerTask extends TimerTask {
     // searchDao.logBulkAccess(searchQueue);
   }
 
+  public void logBulkAccess(Queue<DoraTraceLogSearchEntry> searchQueue) {
+    if (searchQueue.isEmpty()) {
+      return;
+    }
+
+    DoraTraceLogSearchEntry entry = null;
+    try {
+      while (!searchQueue.isEmpty() && (entry = searchQueue.poll()) != null) {
+        LOGGER.debug("Trace Log: save search query: {}", entry);
+        // TODO: send search query to Ferb.
+      }
+    } catch (Exception e) {
+      LOGGER.error("ERROR SAVING BULK SEARCH QUERY!", e);
+      throw e;
+    }
+  }
+
 }
