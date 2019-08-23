@@ -34,7 +34,7 @@ public class DoraTraceLogTimerTask extends TimerTask {
     DoraTraceLogSearchEntry entry = null;
     try {
       while (!searchQueue.isEmpty() && (entry = searchQueue.poll()) != null) {
-        LOGGER.debug("Trace Log: save search query: {}", entry);
+        LOGGER.trace("Trace Log: save search query: {}", entry);
         // TODO: send search query to Ferb.
       }
     } catch (Exception e) {
