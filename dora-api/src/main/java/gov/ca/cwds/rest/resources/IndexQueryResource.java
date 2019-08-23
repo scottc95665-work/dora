@@ -23,9 +23,11 @@ import org.slf4j.LoggerFactory;
 import com.codahale.metrics.annotation.Timed;
 import com.google.inject.Inject;
 
+import gov.ca.cwds.dora.tracelog.DoraTraceLogService;
 import gov.ca.cwds.rest.api.domain.es.IndexQueryRequest;
 import gov.ca.cwds.rest.api.domain.es.IndexQueryRequest.IndexQueryRequestBuilder;
 import gov.ca.cwds.rest.api.domain.es.IndexQueryResponse;
+import gov.ca.cwds.rest.filters.RequestExecutionContext;
 import gov.ca.cwds.rest.services.es.IndexQueryService;
 import gov.ca.cwds.rest.validation.ValidJson;
 import io.swagger.annotations.Api;
@@ -54,10 +56,13 @@ public class IndexQueryResource {
   public static final String DFS_QUERY_THEN_FETCH = "dfs_query_then_fetch";
 
   private IndexQueryService indexQueryService;
+  private DoraTraceLogService doraTraceLogService;
 
   @Inject
-  public IndexQueryResource(IndexQueryService indexQueryService) {
+  public IndexQueryResource(IndexQueryService indexQueryService,
+      DoraTraceLogService doraTraceLogService) {
     this.indexQueryService = indexQueryService;
+    this.doraTraceLogService = doraTraceLogService;
   }
 
   /**
@@ -94,8 +99,8 @@ public class IndexQueryResource {
       builder.addParameter(SEARCH_TYPE_PARAM, DFS_QUERY_THEN_FETCH);
     }
 
-    // traceLogService.logSearchQuery(RequestExecutionContext.instance().getUserId(),
-    // escapeCRLF(requestBody));
+    doraTraceLogService.logSearchQuery(RequestExecutionContext.instance().getUserId(), index,
+        escapeCRLF(requestBody));
     return handleRequest(builder.build());
   }
 
