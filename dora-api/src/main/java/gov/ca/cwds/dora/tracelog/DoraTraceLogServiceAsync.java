@@ -11,6 +11,8 @@ import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
 
+import gov.ca.cwds.rest.DoraConfiguration;
+
 /**
  * Houses the asynchronous Dora Trace Log service.
  * 
@@ -31,9 +33,9 @@ public class DoraTraceLogServiceAsync implements DoraTraceLogService {
   protected final Timer timer;
 
   @Inject
-  public DoraTraceLogServiceAsync(Client client) {
+  public DoraTraceLogServiceAsync(DoraConfiguration config, Client client) {
     this.timer = new Timer("tracelog");
-    timer.schedule(new DoraTraceLogTimerTask(client, searchQueue), 5000L, 5000L);
+    timer.schedule(new DoraTraceLogTimerTask(config, client, searchQueue), 5000L, 5000L);
   }
 
   @Override

@@ -14,6 +14,9 @@ public class DoraConfiguration extends MinimalApiConfiguration {
   @JsonProperty
   private String mode;
 
+  @JsonProperty
+  private String traceLogUrl;
+
   @NotNull
   private ElasticsearchConfiguration elasticsearchConfiguration;
 
@@ -33,6 +36,14 @@ public class DoraConfiguration extends MinimalApiConfiguration {
   @JsonProperty
   public void setElasticsearchConfiguration(ElasticsearchConfiguration elasticsearchConfiguration) {
     this.elasticsearchConfiguration = elasticsearchConfiguration;
+  }
+
+  public String getTraceLogUrl() {
+    return traceLogUrl;
+  }
+
+  public void setTraceLogUrl(String traceLogUrl) {
+    this.traceLogUrl = traceLogUrl;
   }
 
 }
