@@ -44,7 +44,7 @@ public class DoraTraceLogTimerTask extends TimerTask {
       final String json = response.readEntity(String.class);
       LOGGER.trace("Trace Log response: {}", json);
     } else {
-      LOGGER.warn("FAILED TO CALL FERB! status {}", response.getStatus());
+      LOGGER.warn("FAILED TO CALL TRACE LOG! status {}", response.getStatus());
     }
   }
 
