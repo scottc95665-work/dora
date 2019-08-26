@@ -16,7 +16,6 @@ import gov.ca.cwds.rest.DoraConfiguration;
 import gov.ca.cwds.rest.ElasticsearchConfiguration;
 import gov.ca.cwds.rest.SwaggerConfiguration;
 import gov.ca.cwds.rest.api.DoraException;
-import gov.ca.cwds.rest.resources.IndexQueryResource;
 import gov.ca.cwds.rest.resources.SwaggerResource;
 import gov.ca.cwds.rest.resources.SystemInformationResource;
 import gov.ca.cwds.rest.resources.TokenResource;
@@ -42,7 +41,6 @@ public class ResourcesModule extends AbstractModule {
     bind(SystemInformationResource.class);
     bind(SwaggerResource.class);
     bind(TokenResource.class);
-    bind(IndexQueryResource.class);
   }
 
   @Provides
