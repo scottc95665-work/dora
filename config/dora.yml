@@ -23,6 +23,7 @@ swagger:
   jsonUrl: ${SWAGGER_JSON_URL:-http://localhost:8083/swagger.json}
   callbackUrl: ${SWAGGER_CALLBACK_URL:-http://localhost:8083/swagger}
   tokenUrl: ${SWAGGER_TOKEN_URL:-http://localhost:8080/perry/authn/token}
+  traceLogUrl: ${TRACE_LOG_URL:-http://localhost:8084/search_query}
 
 mode: ${DORA_MODE:-PROD}
 
