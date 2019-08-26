@@ -50,10 +50,11 @@ public class ServicesModule extends AbstractModule {
     mapper.registerModule(new JavaTimeModule());
     mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 
-    final Client client = new JerseyClientBuilder().property(ClientProperties.CONNECT_TIMEOUT, 90)
-        .property(ClientProperties.READ_TIMEOUT, 90)
-        // Ignore host verification. Client will call trusted resources only.
-        .hostnameVerifier((hostName, sslSession) -> true).build();
+    final Client client =
+        new JerseyClientBuilder().property(ClientProperties.CONNECT_TIMEOUT, 45000L)
+            .property(ClientProperties.READ_TIMEOUT, 45000L)
+            // Ignore host verification. Client will call trusted resources only.
+            .hostnameVerifier((hostName, sslSession) -> true).build();
     client.register(new JacksonJsonProvider(mapper));
     return client;
   }
