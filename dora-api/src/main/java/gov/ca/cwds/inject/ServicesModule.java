@@ -51,8 +51,8 @@ public class ServicesModule extends AbstractModule {
     mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 
     final Client client =
-        new JerseyClientBuilder().property(ClientProperties.CONNECT_TIMEOUT, 45000L)
-            .property(ClientProperties.READ_TIMEOUT, 45000L)
+        new JerseyClientBuilder().property(ClientProperties.CONNECT_TIMEOUT, 30000L)
+            .property(ClientProperties.READ_TIMEOUT, 30000L)
             // Ignore host verification. Client will call trusted resources only.
             .hostnameVerifier((hostName, sslSession) -> true).build();
     client.register(new JacksonJsonProvider(mapper));
