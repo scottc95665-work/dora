@@ -35,10 +35,10 @@ public class DoraTraceLogTimerTask extends TimerTask {
         // .header(HttpHeaders.AUTHORIZATION, basicAuthHeader)
         .post(Entity.entity(entry.getJson(), MediaType.APPLICATION_JSON));
 
-    final String json = response.readEntity(String.class);
-    LOGGER.info("Trace Log response: {}", json);
-
-    if (response.getStatus() != Status.OK.getStatusCode()) {
+    if (response.getStatus() == Status.OK.getStatusCode()) {
+      final String json = response.readEntity(String.class);
+      LOGGER.info("Trace Log response: {}", json);
+    } else {
       LOGGER.warn("FAILED TO CALL FERB! status {}", response.getStatus());
     }
   }
