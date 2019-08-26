@@ -20,9 +20,6 @@ public class DoraTraceLogTimerTask extends TimerTask {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(DoraTraceLogTimerTask.class);
 
-  // private static final String TRACE_LOG_URL =
-  // "https://ferbapi.integration.cwds.io/search_query?token=f8ba8925-cf61-4824-8dac-2b3b1cf9932e";
-
   private final Client client;
   private final Queue<DoraTraceLogSearchEntry> searchQueue;
   private final String traceLogUrl;
