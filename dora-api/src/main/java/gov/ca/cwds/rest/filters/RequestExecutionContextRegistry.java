@@ -9,8 +9,7 @@ public class RequestExecutionContextRegistry {
 
   private static final ThreadLocal<RequestExecutionContext> pegged = new ThreadLocal<>();
 
-  private RequestExecutionContextRegistry() {
-  }
+  private RequestExecutionContextRegistry() {}
 
   /**
    * Register RequestExecutionContext with ThreadLocal
@@ -34,4 +33,5 @@ public class RequestExecutionContextRegistry {
   static RequestExecutionContext get() {
     return pegged.get();
   }
+
 }
