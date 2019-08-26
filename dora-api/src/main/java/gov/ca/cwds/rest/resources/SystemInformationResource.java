@@ -79,4 +79,5 @@ public class SystemInformationResource extends AbstractSystemInformationResource
   public Response get() {
     return super.buildResponse();
   }
+
 }

@@ -36,6 +36,7 @@ public class DoraTraceLogTimerTask extends TimerTask {
         .post(Entity.entity(entry.getJson(), MediaType.APPLICATION_JSON));
 
     final String json = response.readEntity(String.class);
+    LOGGER.info("Trace Log response: {}", json);
 
     if (response.getStatus() != Status.OK.getStatusCode()) {
       LOGGER.warn("FAILED TO CALL FERB! status {}", response.getStatus());
@@ -54,10 +55,10 @@ public class DoraTraceLogTimerTask extends TimerTask {
     try {
       while (!searchQueue.isEmpty() && (entry = searchQueue.poll()) != null) {
         LOGGER.info("Trace Log: save search query: {}", entry);
-        // TODO: send search query to Ferb.
+        sendSearchQuery(entry);
       }
     } catch (Exception e) {
-      LOGGER.error("ERROR SAVING BULK SEARCH QUERY!", e);
+      LOGGER.error("ERROR SAVING SEARCH QUERY!", e);
       throw e;
     }
   }
