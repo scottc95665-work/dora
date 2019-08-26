@@ -99,8 +99,11 @@ public class IndexQueryResource {
       builder.addParameter(SEARCH_TYPE_PARAM, DFS_QUERY_THEN_FETCH);
     }
 
-    doraTraceLogService.logSearchQuery(RequestExecutionContext.instance().getUserId(), index,
-        escapeCRLF(requestBody));
+    // Get the current user. JUnit tests lack a request context and default to "anonymous".
+    final RequestExecutionContext ctx = RequestExecutionContext.instance();
+    final String userId = ctx != null ? ctx.getUserId() : "anonymous";
+
+    doraTraceLogService.logSearchQuery(userId, index, escapeCRLF(requestBody));
     return handleRequest(builder.build());
   }
 

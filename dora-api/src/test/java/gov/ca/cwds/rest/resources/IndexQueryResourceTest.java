@@ -144,8 +144,13 @@ public class IndexQueryResourceTest {
 
   @Test
   public void testSearchIndexDefaultDfs() throws Exception {
-    IndexQueryRequest request = testSearchIndex(SEARCH_RESOURCE);
-    assertThat(request.getParameters().isEmpty(), is(false));
+    try {
+      IndexQueryRequest request = testSearchIndex(SEARCH_RESOURCE);
+      assertThat(request.getParameters().isEmpty(), is(false));
+    } catch (Exception e) {
+      e.printStackTrace();
+      throw e;
+    }
   }
 
   @Test
