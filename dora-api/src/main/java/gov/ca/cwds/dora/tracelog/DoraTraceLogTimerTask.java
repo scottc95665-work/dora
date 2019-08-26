@@ -45,7 +45,7 @@ public class DoraTraceLogTimerTask extends TimerTask {
 
   @Override
   public void run() {
-    LOGGER.info("Trace Log: flush search queue");
+    LOGGER.trace("Trace Log: flush search queue");
 
     if (searchQueue.isEmpty()) {
       return;
@@ -54,7 +54,7 @@ public class DoraTraceLogTimerTask extends TimerTask {
     DoraTraceLogSearchEntry entry = null;
     try {
       while (!searchQueue.isEmpty() && (entry = searchQueue.poll()) != null) {
-        LOGGER.info("Trace Log: save search query: {}", entry);
+        LOGGER.debug("Trace Log: save search query: {}", entry);
         sendSearchQuery(entry);
       }
     } catch (Exception e) {
