@@ -22,7 +22,6 @@ import gov.ca.cwds.rest.DoraConfiguration;
  * </p>
  * 
  * @author CWDS API Team
- * @see TraceLogService
  */
 public class DoraTraceLogServiceAsync implements DoraTraceLogService {
 
