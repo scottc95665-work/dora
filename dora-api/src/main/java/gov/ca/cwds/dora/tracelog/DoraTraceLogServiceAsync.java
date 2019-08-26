@@ -35,7 +35,7 @@ public class DoraTraceLogServiceAsync implements DoraTraceLogService {
   @Inject
   public DoraTraceLogServiceAsync(DoraConfiguration config, Client client) {
     this.timer = new Timer("tracelog");
-    timer.schedule(new DoraTraceLogTimerTask(config, client, searchQueue), 5000L, 5000L);
+    timer.schedule(new DoraTraceLogTimerTask(config, client, searchQueue), 4000L, 4000L);
   }
 
   @Override
