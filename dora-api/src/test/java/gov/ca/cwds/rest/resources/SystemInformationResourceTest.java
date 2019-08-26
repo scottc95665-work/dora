@@ -99,4 +99,5 @@ public class SystemInformationResourceTest extends BaseDoraApplicationTest {
     assertThat(clientTestRule.target(SYSTEM_INFORMATION).request().get().readEntity(String.class),
         containsString(BUILD_NUMBER));
   }
+
 }
