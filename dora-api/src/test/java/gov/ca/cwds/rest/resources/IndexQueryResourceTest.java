@@ -48,7 +48,7 @@ import io.dropwizard.testing.junit.ResourceTestRule;
 public class IndexQueryResourceTest {
 
   private static final String RESOURCE_BASE_PATH =
-      "/" + DoraConstants.RESOURCE_ELASTICSEARCH_INDEX_QUERY + "/people-summary/person-summary/";
+      "/" + DoraConstants.RESOURCE_ELASTICSEARCH_INDEX_QUERY + "/people/person/";
   private static final String RESOURCE_ADD_DOCUMENT_PATH = RESOURCE_BASE_PATH + "1/_create";
   private static final String RESOURCE_UPDATE_DOCUMENT_PATH = RESOURCE_BASE_PATH + "1";
 
@@ -73,14 +73,13 @@ public class IndexQueryResourceTest {
     esConfig.setNodes("localhost:9200");
     Whitebox.setInternalState(indexQueryService, "esConfig", esConfig);
 
-    // final IndexQueryRequest mockCountQueryRequest = new
-    // IndexQueryRequest.IndexQueryRequestBuilder()
-    // .addEsEndpoint("/people-summary/person-summary/_count").addDocumentType("person-summary")
-    // .addRequestBody(VALID_JSON).addHttpMethod(HttpMethod.POST).build();
-    //
-    // doReturn(new IndexQueryResponse("1")).when(indexQueryService)
-    // .handleRequest(mockCountQueryRequest);
+    IndexQueryRequest mockCountQueryRequest = new IndexQueryRequest.IndexQueryRequestBuilder()
+        .addEsEndpoint("/people/person/_count").addDocumentType("person").addRequestBody(VALID_JSON)
+        .addHttpMethod(HttpMethod.POST).build();
+
     doReturn(new IndexQueryResponse("fred")).when(indexQueryService).handleRequest(Mockito.any());
+    doReturn(new IndexQueryResponse("1")).when(indexQueryService)
+        .handleRequest(mockCountQueryRequest);
   }
 
   @After
@@ -166,12 +165,6 @@ public class IndexQueryResourceTest {
 
   @Test
   public void testCountIndex() throws Exception {
-    final IndexQueryRequest mockCountQueryRequest = new IndexQueryRequest.IndexQueryRequestBuilder()
-        .addEsEndpoint("/people-summary/person-summary/_count").addDocumentType("person-summary")
-        .addRequestBody(VALID_JSON).addHttpMethod(HttpMethod.POST).build();
-    doReturn(new IndexQueryResponse("1")).when(indexQueryService)
-        .handleRequest(mockCountQueryRequest);
-
     testResource(COUNT_RESOURCE, builder -> builder.post(Entity.json(VALID_JSON)), "1");
   }
 
