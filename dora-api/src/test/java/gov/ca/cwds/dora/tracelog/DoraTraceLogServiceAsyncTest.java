@@ -2,6 +2,7 @@ package gov.ca.cwds.dora.tracelog;
 
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -32,6 +33,8 @@ public class DoraTraceLogServiceAsyncTest extends DoraTraceLogTimerTaskTest {
     String userId = "SAURON";
     String index = "people-summary";
     target.logSearchQuery(userId, index, json);
+    Thread.sleep(5000L);
+    assertTrue("Queue is NOT empty!", target.searchQueue.isEmpty());
   }
 
 }
