@@ -95,6 +95,7 @@ public class RequestResponseLoggingFilter implements Filter {
         .get(RequestExecutionContext.Parameter.USER_IDENTITY);
 
     if (user != null) {
+      loggingContext.setLogParameter(LogParameter.USER_ID, user.getUser());
       loggingContext.setLogParameter(LogParameter.STAFF_ID, user.getStaffId());
       loggingContext.setLogParameter(LogParameter.STAFF_COUNTY, user.getCountyCwsCode());
     }

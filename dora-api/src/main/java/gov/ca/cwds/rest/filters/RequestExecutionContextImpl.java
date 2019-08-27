@@ -1,10 +1,10 @@
 package gov.ca.cwds.rest.filters;
 
 
-import gov.ca.cwds.auth.PerryUserIdentity;
 import java.util.Date;
 import java.util.EnumMap;
 import java.util.List;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -12,6 +12,8 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
+
+import gov.ca.cwds.auth.PerryUserIdentity;
 
 /**
  * Common information carrier for all requests. Includes the request start time stamp and user
@@ -92,14 +94,14 @@ class RequestExecutionContextImpl implements RequestExecutionContext {
   static void startRequest() {
     PerryUserIdentity currentUserInformation = getCurrentUserInformation();
 
-    //try to get current user identity and created ExecutionContext with it
+    // try to get current user identity and created ExecutionContext with it
     if (null != currentUserInformation) {
       RequestExecutionContextRegistry
           .register(new RequestExecutionContextImpl(currentUserInformation));
       return;
     }
 
-    // if no there is no current user identity, create ExecutionContext with default user identity
+    // If no current user identity, create ExecutionContext with default user identity.
     PerryUserIdentity userIdentity = createUserIdentityWithDefaultUser();
     RequestExecutionContextRegistry.register(new RequestExecutionContextImpl(userIdentity));
   }
