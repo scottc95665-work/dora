@@ -27,6 +27,9 @@ public class DoraTraceLogServiceAsync implements DoraTraceLogService {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(DoraTraceLogServiceAsync.class);
 
+  private static final long START_DELAY = 4000L;
+  private static final long PERIODIC_DELAY = 4000L;
+
   protected final Queue<DoraTraceLogSearchEntry> searchQueue = new ConcurrentLinkedQueue<>();
 
   protected final Timer timer;
@@ -34,7 +37,8 @@ public class DoraTraceLogServiceAsync implements DoraTraceLogService {
   @Inject
   public DoraTraceLogServiceAsync(DoraConfiguration config, Client client) {
     this.timer = new Timer("tracelog");
-    timer.schedule(new DoraTraceLogTimerTask(config, client, searchQueue), 4000L, 4000L);
+    timer.schedule(new DoraTraceLogTimerTask(config, client, searchQueue), START_DELAY,
+        PERIODIC_DELAY);
   }
 
   @Override

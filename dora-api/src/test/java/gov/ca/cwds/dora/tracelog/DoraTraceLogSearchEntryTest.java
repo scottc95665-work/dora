@@ -3,7 +3,7 @@ package gov.ca.cwds.dora.tracelog;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.hamcrest.Matchers.greaterThanOrEqualTo;
+import static org.hamcrest.Matchers.lessThanOrEqualTo;
 import static org.junit.Assert.assertThat;
 
 import java.time.LocalDateTime;
@@ -53,7 +53,7 @@ public class DoraTraceLogSearchEntryTest {
   public void getMoment_A$() throws Exception {
     LocalDateTime actual = target.getMoment();
     LocalDateTime expected = LocalDateTime.now();
-    assertThat(actual, is(greaterThanOrEqualTo(expected)));
+    assertThat(actual, is(lessThanOrEqualTo(expected)));
   }
 
   @Test
