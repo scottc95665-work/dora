@@ -2,6 +2,8 @@ package gov.ca.cwds.dora.tracelog;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Queue;
@@ -53,12 +55,14 @@ public class DoraTraceLogTimerTaskTest {
   @Test
   public void sendSearchQueryStatusGood() throws Exception {
     target.sendSearchQuery(entry);
+    verify(response, times(1)).getStatus();
   }
 
   @Test
   public void sendSearchQueryStatusBad() throws Exception {
     when(response.getStatus()).thenReturn(Status.UNAUTHORIZED.getStatusCode());
     target.sendSearchQuery(entry);
+    verify(response, times(1)).getStatus();
   }
 
   @Test

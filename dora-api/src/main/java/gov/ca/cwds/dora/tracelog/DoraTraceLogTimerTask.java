@@ -36,11 +36,12 @@ public class DoraTraceLogTimerTask extends TimerTask {
     final Response response = client.target(traceLogUrl).request(MediaType.APPLICATION_JSON)
         .post(Entity.entity(entry.getJson(), MediaType.APPLICATION_JSON));
 
-    if (response.getStatus() == Status.CREATED.getStatusCode()) {
+    final int status = response.getStatus();
+    if (status == Status.CREATED.getStatusCode()) {
       final String json = response.readEntity(String.class);
       LOGGER.trace("Trace Log response: {}", json);
     } else {
-      LOGGER.warn("FAILED TO CALL TRACE LOG! status {}", response.getStatus());
+      LOGGER.warn("FAILED TO CALL TRACE LOG! status {}", status);
     }
   }
 
