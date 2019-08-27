@@ -1,15 +1,14 @@
 package gov.ca.cwds.dora.security.intake;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import gov.ca.cwds.security.realm.PerryAccount;
 import java.util.Set;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class IntakeAccount extends PerryAccount {
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-  @JsonProperty
-  private String staffId;
+import gov.ca.cwds.auth.PerryUserIdentity;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class IntakeAccount extends PerryUserIdentity {
 
   @JsonProperty("county_code")
   private String countyCode;
@@ -23,26 +22,22 @@ public class IntakeAccount extends PerryAccount {
   @JsonProperty
   private Set<String> privileges;
 
-  public String getStaffId() {
-    return staffId;
-  }
-
-  public void setStaffId(String staffId) {
-    this.staffId = staffId;
-  }
-
+  @Override
   public String getCountyCode() {
     return countyCode;
   }
 
+  @Override
   public void setCountyCode(String countyCode) {
     this.countyCode = countyCode;
   }
 
+  @Override
   public String getCountyName() {
     return countyName;
   }
 
+  @Override
   public void setCountyName(String countyName) {
     this.countyName = countyName;
   }
@@ -55,11 +50,14 @@ public class IntakeAccount extends PerryAccount {
     this.governmentEntityType = governmentEntityType;
   }
 
+  @Override
   public Set<String> getPrivileges() {
     return privileges;
   }
 
+  @Override
   public void setPrivileges(Set<String> privileges) {
     this.privileges = privileges;
   }
+
 }

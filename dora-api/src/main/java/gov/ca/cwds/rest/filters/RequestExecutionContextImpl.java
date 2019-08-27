@@ -12,6 +12,8 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import gov.ca.cwds.auth.PerryUserIdentity;
 
@@ -22,6 +24,8 @@ import gov.ca.cwds.auth.PerryUserIdentity;
  * @author CWDS API Team
  */
 class RequestExecutionContextImpl implements RequestExecutionContext {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(RequestExecutionContextImpl.class);
 
   private static final String DEFAULT_USER_ID = "0X5";
 
@@ -102,6 +106,7 @@ class RequestExecutionContextImpl implements RequestExecutionContext {
     }
 
     // If no current user identity, create ExecutionContext with default user identity.
+    LOGGER.warn("create user with default identity");
     PerryUserIdentity userIdentity = createUserIdentityWithDefaultUser();
     RequestExecutionContextRegistry.register(new RequestExecutionContextImpl(userIdentity));
   }
