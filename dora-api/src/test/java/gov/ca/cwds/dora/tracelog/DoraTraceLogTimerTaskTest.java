@@ -67,7 +67,9 @@ public class DoraTraceLogTimerTaskTest {
 
   @Test
   public void run_A$() throws Exception {
+    target.sendSearchQuery(entry);
     target.run();
+    verify(response, times(1)).getStatus();
   }
 
 }
