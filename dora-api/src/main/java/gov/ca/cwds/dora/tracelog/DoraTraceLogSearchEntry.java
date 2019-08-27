@@ -4,6 +4,11 @@ import java.time.LocalDateTime;
 
 import gov.ca.cwds.data.std.ApiObjectIdentity;
 
+/**
+ * Represents a user's search query. Used by asynchronous Trace Log service.
+ * 
+ * @author CWDS API Team
+ */
 public class DoraTraceLogSearchEntry extends ApiObjectIdentity {
 
   private static final long serialVersionUID = 1L;
