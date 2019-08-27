@@ -74,7 +74,6 @@ public class RequestResponseLoggingFilter implements Filter {
       RequestResponseLoggingHttpServletRequest wrappedRequest =
           new RequestResponseLoggingHttpServletRequest(httpServletRequest);
 
-
       RequestResponseLoggingHttpServletResponseWrapper wrappedResponse =
           new RequestResponseLoggingHttpServletResponseWrapper(httpServletResponse);
 

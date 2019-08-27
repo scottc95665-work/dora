@@ -17,6 +17,7 @@ swagger:
   callbackUrl: ${SWAGGER_CALLBACK_URL:-http://localhost:8084/swagger}
 
 mode: ${DORA_MODE:-PROD}
+traceLogUrl: ${TRACE_LOG_URL:-http://localhost:8084/trace_log_search}
 
 elasticsearch:
   nodes: ${ES_NODES:-localhost:9210}

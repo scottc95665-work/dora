@@ -1,9 +1,15 @@
 package gov.ca.cwds.inject;
 
+import java.io.IOException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Provides;
 import com.google.inject.name.Named;
+
 import gov.ca.cwds.dora.DoraUtils;
 import gov.ca.cwds.dora.security.FieldFilters;
 import gov.ca.cwds.rest.DoraConfiguration;
@@ -13,16 +19,12 @@ import gov.ca.cwds.rest.api.DoraException;
 import gov.ca.cwds.rest.resources.SwaggerResource;
 import gov.ca.cwds.rest.resources.SystemInformationResource;
 import gov.ca.cwds.rest.resources.TokenResource;
-import java.io.IOException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Identifies all CWDS API domain resource classes available for dependency injection by Guice.
  *
  * @author CWDS API Team
  */
-@SuppressWarnings("javadoc")
 public class ResourcesModule extends AbstractModule {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(ResourcesModule.class);
@@ -79,4 +81,5 @@ public class ResourcesModule extends AbstractModule {
     });
     return fieldFilters;
   }
+
 }

@@ -25,6 +25,7 @@ swagger:
   tokenUrl: ${SWAGGER_TOKEN_URL:-http://localhost:8080/perry/authn/token}
 
 mode: ${DORA_MODE:-PROD}
+traceLogUrl: ${TRACE_LOG_URL:-http://localhost:8084/trace_log_search}
 
 elasticsearch:
   nodes: ${ES_NODES:-localhost:9200}
