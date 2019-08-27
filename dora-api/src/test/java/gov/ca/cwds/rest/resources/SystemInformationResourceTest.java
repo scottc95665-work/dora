@@ -86,6 +86,7 @@ public class SystemInformationResourceTest extends BaseDoraApplicationTest {
     assertHealthCheckResult(healthCheckResults.get(HC_PHONETIC_PLUGIN), true);
 
     // ES X-pack license error on dora.dev.cwds.io.
+    // Uncomment when DevOps certifies that licensing is resolved.
     // assertHealthCheckResult(healthCheckResults.get(HC_PEOPLE_SUMMARY_INDEX), true);
   }
 
