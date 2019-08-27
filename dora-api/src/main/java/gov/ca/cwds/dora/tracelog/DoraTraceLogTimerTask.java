@@ -16,6 +16,11 @@ import com.google.inject.Inject;
 
 import gov.ca.cwds.rest.DoraConfiguration;
 
+/**
+ * Asynchronous task sends search queries to the Trace Log system.
+ * 
+ * @author CWDS API Team
+ */
 public class DoraTraceLogTimerTask extends TimerTask {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(DoraTraceLogTimerTask.class);
