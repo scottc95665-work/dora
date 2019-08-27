@@ -33,7 +33,8 @@ public class DoraTraceLogTimerTask extends TimerTask {
   }
 
   protected void sendSearchQuery(DoraTraceLogSearchEntry entry) {
-    final Response response = client.target(traceLogUrl).request(MediaType.APPLICATION_JSON)
+    final String url = traceLogUrl + "/" + entry.getUserId() + "/" + entry.getIndex();
+    final Response response = client.target(url).request(MediaType.APPLICATION_JSON)
         .post(Entity.entity(entry.getJson(), MediaType.APPLICATION_JSON));
 
     final int status = response.getStatus();
