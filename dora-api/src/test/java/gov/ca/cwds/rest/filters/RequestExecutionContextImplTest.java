@@ -4,10 +4,9 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
-import gov.ca.cwds.auth.PerryUserIdentity;
-import gov.ca.cwds.rest.filters.RequestExecutionContext.Parameter;
 import java.util.Date;
 import java.util.EnumMap;
+
 import org.apache.shiro.UnavailableSecurityManagerException;
 import org.hamcrest.junit.ExpectedException;
 import org.junit.Assert;
@@ -19,6 +18,9 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 import org.powermock.reflect.Whitebox;
+
+import gov.ca.cwds.auth.PerryUserIdentity;
+import gov.ca.cwds.rest.filters.RequestExecutionContext.Parameter;
 
 /**
  * @author CWDS TPT-2
@@ -55,9 +57,7 @@ public class RequestExecutionContextImplTest {
   public void testContextParameters() throws Exception {
     final EnumMap<Parameter, Object> mockContextParameters = new EnumMap<>(Parameter.class);
 
-    Whitebox.setInternalState(requestExecutionContext, CONTEXT_PARAMETERS,
-        mockContextParameters);
-
+    Whitebox.setInternalState(requestExecutionContext, CONTEXT_PARAMETERS, mockContextParameters);
     assertNotNull(requestExecutionContext);
 
     requestExecutionContext.put(Parameter.USER_IDENTITY, TEST_STRING);
@@ -72,7 +72,6 @@ public class RequestExecutionContextImplTest {
     requestExecutionContext.put(Parameter.USER_IDENTITY, userIdentity);
     Assert.assertEquals(USER, requestExecutionContext.getUserId());
   }
-
 
   @Test
   public void testStartRequest() throws Exception {
@@ -93,7 +92,6 @@ public class RequestExecutionContextImplTest {
     RequestExecutionContextImpl.stopRequest();
     Assert.assertNull(RequestExecutionContextRegistry.get());
   }
-
 
   @Test
   public void tesRegisterRequestContext() throws Exception {

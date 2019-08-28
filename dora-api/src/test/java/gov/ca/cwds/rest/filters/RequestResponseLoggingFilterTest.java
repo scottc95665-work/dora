@@ -3,6 +3,7 @@ package gov.ca.cwds.rest.filters;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.withSettings;
 
 import javax.servlet.FilterChain;
@@ -18,7 +19,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 
@@ -54,18 +54,32 @@ public class RequestResponseLoggingFilterTest {
     assertThat(loggingFilter, notNullValue());
   }
 
-  @Test
-  public void testDoFilter() throws Exception {
+  @Test(expected = UnavailableSecurityManagerException.class)
+  public void testDoFilterHappyPath() throws Exception {
     String uniqueId = "testUniqueId";
 
-    ServletRequest request = Mockito.mock(ServletRequest.class,
-        withSettings().extraInterfaces(HttpServletRequest.class));
-    ServletResponse response = Mockito.mock(HttpServletResponse.class);
-    FilterChain chain = Mockito.mock(FilterChain.class);
+    final ServletRequest request =
+        mock(ServletRequest.class, withSettings().extraInterfaces(HttpServletRequest.class));
+    final ServletResponse response = mock(HttpServletResponse.class);
+    final FilterChain chain = mock(FilterChain.class);
+
+    doReturn(uniqueId).when(loggingContext).initialize();
+    loggingFilter.doFilter(request, response, chain);
+  }
+
+  @Test
+  public void testDoFilterSnapshotQuery() throws Exception {
+    String uniqueId = "testUniqueId";
+
+    final ServletRequest request =
+        mock(ServletRequest.class, withSettings().extraInterfaces(HttpServletRequest.class));
+    final ServletResponse response = mock(HttpServletResponse.class);
+    final FilterChain chain = mock(FilterChain.class);
 
     doReturn(uniqueId).when(loggingContext).initialize();
 
     thrown.expect(UnavailableSecurityManagerException.class);
     loggingFilter.doFilter(request, response, chain);
   }
+
 }
