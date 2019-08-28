@@ -59,16 +59,13 @@ public class RequestResponseLoggingFilter implements Filter {
   @Override
   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
       throws IOException, ServletException {
-
     String uniqueId = loggingContext.initialize();
 
     if (request instanceof HttpServletRequest) {
-
       final HttpServletRequest httpServletRequest = (HttpServletRequest) request;
       final HttpServletResponse httpServletResponse = (HttpServletResponse) response;
 
       RequestExecutionContextImpl.startRequest();
-
       setLoggingContextParameters(uniqueId, httpServletRequest, httpServletResponse);
 
       RequestResponseLoggingHttpServletRequest wrappedRequest =
@@ -95,6 +92,7 @@ public class RequestResponseLoggingFilter implements Filter {
         .get(RequestExecutionContext.Parameter.USER_IDENTITY);
 
     if (user != null) {
+      loggingContext.setLogParameter(LogParameter.USER_ID, user.getUser());
       loggingContext.setLogParameter(LogParameter.STAFF_ID, user.getStaffId());
       loggingContext.setLogParameter(LogParameter.STAFF_COUNTY, user.getCountyCwsCode());
     }
@@ -122,7 +120,8 @@ public class RequestResponseLoggingFilter implements Filter {
     // Shall override parent abstract method but nothing to do
   }
 
-  private static class RequestResponseLoggingHttpServletRequest extends HttpServletRequestWrapper {
+  protected static class RequestResponseLoggingHttpServletRequest
+      extends HttpServletRequestWrapper {
 
     private final byte[] body;
     private final HttpServletRequest wrappedRequest;
@@ -194,7 +193,6 @@ public class RequestResponseLoggingFilter implements Filter {
 
     @Override
     public PrintWriter getWriter() throws IOException {
-
       if (this.teeWriter == null) {
         this.teeWriter = new PrintWriter(new OutputStreamWriter(getOutputStream()));
       }
@@ -203,7 +201,6 @@ public class RequestResponseLoggingFilter implements Filter {
 
     @Override
     public ServletOutputStream getOutputStream() throws IOException {
-
       if (teeStream == null) {
         bos = new ByteArrayOutputStream();
         teeStream = new TeeServletOutputStream(getResponse().getOutputStream(), bos);
@@ -267,4 +264,5 @@ public class RequestResponseLoggingFilter implements Filter {
       }
     }
   }
+
 }

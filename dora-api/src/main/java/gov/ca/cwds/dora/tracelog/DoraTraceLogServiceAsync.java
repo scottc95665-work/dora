@@ -43,7 +43,7 @@ public class DoraTraceLogServiceAsync implements DoraTraceLogService {
 
   @Override
   public void logSearchQuery(String userId, String index, String json) {
-    LOGGER.debug("Trace Log: queue search query");
+    LOGGER.info("Trace Log: queue search query. user: {}, index: {}", userId, index);
     searchQueue.add(new DoraTraceLogSearchEntry(userId, index, json));
   }
 
