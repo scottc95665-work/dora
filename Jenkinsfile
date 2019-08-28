@@ -121,20 +121,20 @@ node('dora-slave') {
           stage('Archive Artifacts') {
             archiveArtifacts artifacts: '**/dora*.jar,readme.txt', fingerprint: true
           }
-          stage('Deploy to Dev') {
-            withDockerRegistry([credentialsId: docker_credentials_id]) {
-               sh "cd localenv; docker-compose pull ; docker-compose up -d"
-               sh "if [ ! -d /var/log/elasticsearch ]; then sudo mkdir /var/log/elasticsearch/; fi"
-            }
-            git changelog: false, credentialsId: github_credentials_id, poll: false, url: 'git@github.com:ca-cwds/de-ansible.git'
-            sh 'ansible-playbook -e NEW_RELIC_AGENT=$USE_NEWRELIC -e DORA_API_VERSION=$APP_VERSION -i $inventory deploy-dora.yml --vault-password-file ~/.ssh/vault.txt -vv'
-            cleanWs()
-          }
-          stage('Smoke Tests on Dev') {
-            git branch: '$branch', url: 'https://github.com/ca-cwds/dora.git'
-            sh "curl http://dora.dev.cwds.io:8083/system-information"
-            buildInfo = rtGradle.run buildFile: './dora-api/build.gradle', tasks: 'smokeTest --stacktrace'
-          }
+//          stage('Deploy to Dev') {
+//            withDockerRegistry([credentialsId: docker_credentials_id]) {
+//               sh "cd localenv; docker-compose pull ; docker-compose up -d"
+//               sh "if [ ! -d /var/log/elasticsearch ]; then sudo mkdir /var/log/elasticsearch/; fi"
+//            }
+  //          git changelog: false, credentialsId: github_credentials_id, poll: false, url: 'git@github.com:ca-cwds/de-ansible.git'
+  //          sh 'ansible-playbook -e NEW_RELIC_AGENT=$USE_NEWRELIC -e DORA_API_VERSION=$APP_VERSION -i $inventory deploy-dora.yml --vault-password-file ~/.ssh/vault.txt -vv'
+   //         cleanWs()
+  //        }
+//          stage('Smoke Tests on Dev') {
+//            git branch: '$branch', url: 'https://github.com/ca-cwds/dora.git'
+//            sh "curl http://dora.dev.cwds.io:8083/system-information"
+//            buildInfo = rtGradle.run buildFile: './dora-api/build.gradle', tasks: 'smokeTest --stacktrace'
+//          }
           stage('Clean WorkSpace') {
            buildInfo = rtGradle.run buildFile: './docker-dora/build.gradle', tasks: 'dockerCleanUpTagged'
            cleanWs()
