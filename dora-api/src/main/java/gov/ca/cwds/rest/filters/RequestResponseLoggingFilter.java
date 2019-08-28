@@ -120,7 +120,8 @@ public class RequestResponseLoggingFilter implements Filter {
     // Shall override parent abstract method but nothing to do
   }
 
-  private static class RequestResponseLoggingHttpServletRequest extends HttpServletRequestWrapper {
+  protected static class RequestResponseLoggingHttpServletRequest
+      extends HttpServletRequestWrapper {
 
     private final byte[] body;
     private final HttpServletRequest wrappedRequest;
