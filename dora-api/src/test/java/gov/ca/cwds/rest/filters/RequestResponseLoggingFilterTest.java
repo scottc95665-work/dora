@@ -25,6 +25,9 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import gov.ca.cwds.dora.security.intake.IntakeAccount;
 import gov.ca.cwds.logging.LoggingContext;
 import gov.ca.cwds.logging.LoggingContext.LogParameter;
 import gov.ca.cwds.logging.MDCLoggingContext;
@@ -66,8 +69,13 @@ public class RequestResponseLoggingFilterTest extends AbstractShiroTest {
     Subject mockSubject = mock(Subject.class);
     PrincipalCollection principalCollection = mock(PrincipalCollection.class);
 
-    List<String> list = new ArrayList<>();
+    final String json =
+        "{\"user\":\"STINKY\", \"staffId\":\"abc\", \"roles\":[\"CWS-admin\",\"Supervisor\"], \"county_code\":\"99\", \"county_cws_code\":\"1126\", \"county_name\":\"State of California\", \"privileges\": [ \"Statewide Read\", \"Create Service Provider\", \"CWS Case Management System\", \"Officewide Read/Write\", \"Resource Management\", \"Resource Mgmt Placement Facility Maint\", \"Sealed\", \"Sensitive Persons\", \"Snapshot-rollout\", \"Closed Case/Referral Update\", \"Hotline-rollout\", \"Facility-search-rollout\", \"RFA-rollout\", \"CANS-rollout\", \"development-not-in-use\"] }";
+    final IntakeAccount intakeAccount = new ObjectMapper().readValue(json, IntakeAccount.class);
+
+    List<Object> list = new ArrayList<>();
     list.add("msg");
+    list.add(intakeAccount);
 
     when(principalCollection.asList()).thenReturn(list);
     when(mockSubject.getPrincipals()).thenReturn(principalCollection);
@@ -79,21 +87,17 @@ public class RequestResponseLoggingFilterTest extends AbstractShiroTest {
     loggingContext = new MDCLoggingContext();
     loggingContext.initialize();
     target = new RequestResponseLoggingFilter(loggingContext);
-
-    // new TestingRequestExecutionContext("MORGOTH");
-    // RequestExecutionContextImpl.startRequest();
   }
 
   @Test
   public void testDoFilterHappyPath() throws Exception {
-    final String uniqueId = "MORGOTH";
-
-    // doReturn(uniqueId).when(loggingContext).initialize();
     target.doFilter(request, response, chain);
-    final String userId = loggingContext.getLogParameter(LogParameter.USER_ID);
-    System.out.println("user id: " + userId);
     final RequestExecutionContext ctx = RequestExecutionContext.instance();
     System.out.println(ctx);
+
+    final String userId = loggingContext.getLogParameter(LogParameter.USER_ID);
+    System.out.println("user id: " + userId);
+
   }
 
 }
