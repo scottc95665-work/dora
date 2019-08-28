@@ -2,6 +2,7 @@ package gov.ca.cwds.rest.filters;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doAnswer;
@@ -72,14 +73,14 @@ public class RequestResponseLoggingFilterTest extends AbstractShiroTest {
     chain = mock(FilterChain.class);
     filterConfig = mock(FilterConfig.class);
 
-    Subject mockSubject = mock(Subject.class);
-    PrincipalCollection principalCollection = mock(PrincipalCollection.class);
+    final Subject mockSubject = mock(Subject.class);
+    final PrincipalCollection principalCollection = mock(PrincipalCollection.class);
 
     final String json =
         "{\"user\":\"STINKY\", \"staffId\":\"abc\", \"roles\":[\"CWS-admin\",\"Supervisor\"], \"county_code\":\"99\", \"county_cws_code\":\"1126\", \"county_name\":\"State of California\", \"privileges\": [ \"Statewide Read\", \"Create Service Provider\", \"CWS Case Management System\", \"Officewide Read/Write\", \"Resource Management\", \"Resource Mgmt Placement Facility Maint\", \"Sealed\", \"Sensitive Persons\", \"Snapshot-rollout\", \"Closed Case/Referral Update\", \"Hotline-rollout\", \"Facility-search-rollout\", \"RFA-rollout\", \"CANS-rollout\", \"development-not-in-use\"] }";
     final IntakeAccount intakeAccount = new ObjectMapper().readValue(json, IntakeAccount.class);
 
-    List<Object> list = new ArrayList<>();
+    final List<Object> list = new ArrayList<>();
     list.add("msg");
     list.add(intakeAccount);
 
@@ -105,10 +106,39 @@ public class RequestResponseLoggingFilterTest extends AbstractShiroTest {
         return null;
       }
     }).when(chain).doFilter(any(HttpServletRequest.class), any(HttpServletResponse.class));
+
+    RequestExecutionContextImpl.stopRequest();
   }
 
   @Test
   public void testDoFilterHappyPath() throws Exception {
+    target.doFilter(request, response, chain);
+  }
+
+  @Test
+  public void testDoFilterNotLoggedIn() throws Exception {
+    doAnswer(new Answer<Void>() {
+      @Override
+      public Void answer(InvocationOnMock invocation) {
+        final RequestExecutionContext ctx = RequestExecutionContext.instance();
+        System.out.println(ctx);
+        final String userId = ctx.getUserId();
+
+        assertThat(userId, is(not(equalTo("STINKY"))));
+        return null;
+      }
+    }).when(chain).doFilter(any(HttpServletRequest.class), any(HttpServletResponse.class));
+
+    final List<Object> list = new ArrayList<>();
+    list.add("msg");
+
+    final PrincipalCollection principalCollection = mock(PrincipalCollection.class);
+    when(principalCollection.asList()).thenReturn(list);
+
+    final Subject mockSubject = mock(Subject.class);
+    when(mockSubject.getPrincipals()).thenReturn(principalCollection);
+    setSubject(mockSubject);
+
     target.doFilter(request, response, chain);
   }
 
