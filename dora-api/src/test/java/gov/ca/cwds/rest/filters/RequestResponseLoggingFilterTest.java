@@ -19,7 +19,6 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.shiro.UnavailableSecurityManagerException;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.Subject;
 import org.hamcrest.junit.ExpectedException;
@@ -84,7 +83,7 @@ public class RequestResponseLoggingFilterTest extends AbstractShiroTest {
 
     final ServletInputStream sis = mock(ServletInputStream.class);
     when(sis.read()).thenReturn(byteArrayInputStream.read());
-    when(sis.isFinished()).thenReturn(true);
+    when(sis.isFinished()).thenReturn(false);
     when(sis.isReady()).thenReturn(true);
     when(request.getInputStream()).thenReturn(sis);
 
@@ -102,21 +101,11 @@ public class RequestResponseLoggingFilterTest extends AbstractShiroTest {
     assertThat(loggingFilter, notNullValue());
   }
 
-  @Test(expected = UnavailableSecurityManagerException.class)
+  @Test
   public void testDoFilterHappyPath() throws Exception {
     String uniqueId = "MORGOTH";
 
     doReturn(uniqueId).when(loggingContext).initialize();
-    loggingFilter.doFilter(request, response, chain);
-  }
-
-  @Test
-  public void testDoFilterSnapshotQuery() throws Exception {
-    String uniqueId = "MORGOTH";
-
-    doReturn(uniqueId).when(loggingContext).initialize();
-
-    thrown.expect(UnavailableSecurityManagerException.class);
     loggingFilter.doFilter(request, response, chain);
   }
 
