@@ -1,7 +1,5 @@
 package gov.ca.cwds.rest.filters;
 
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -79,20 +77,11 @@ public class RequestResponseLoggingFilterTest extends AbstractShiroTest {
     when(request.getInputStream()).thenReturn(sis);
 
     loggingContext = new MDCLoggingContext();
-    new TestingRequestExecutionContext("MORGOTH");
-
+    loggingContext.initialize();
     target = new RequestResponseLoggingFilter(loggingContext);
-    RequestExecutionContextImpl.startRequest();
-  }
 
-  @Test
-  public void type() throws Exception {
-    assertThat(RequestResponseLoggingFilter.class, notNullValue());
-  }
-
-  @Test
-  public void instantiation() throws Exception {
-    assertThat(target, notNullValue());
+    // new TestingRequestExecutionContext("MORGOTH");
+    // RequestExecutionContextImpl.startRequest();
   }
 
   @Test
@@ -102,7 +91,9 @@ public class RequestResponseLoggingFilterTest extends AbstractShiroTest {
     // doReturn(uniqueId).when(loggingContext).initialize();
     target.doFilter(request, response, chain);
     final String userId = loggingContext.getLogParameter(LogParameter.USER_ID);
-    System.out.println(userId);
+    System.out.println("user id: " + userId);
+    final RequestExecutionContext ctx = RequestExecutionContext.instance();
+    System.out.println(ctx);
   }
 
 }
