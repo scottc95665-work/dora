@@ -1,5 +1,10 @@
 package gov.ca.cwds.rest.filters;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -24,12 +29,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import gov.ca.cwds.dora.security.intake.IntakeAccount;
 import gov.ca.cwds.logging.LoggingContext;
-import gov.ca.cwds.logging.LoggingContext.LogParameter;
 import gov.ca.cwds.logging.MDCLoggingContext;
 
 /**
@@ -87,17 +93,23 @@ public class RequestResponseLoggingFilterTest extends AbstractShiroTest {
     loggingContext = new MDCLoggingContext();
     loggingContext.initialize();
     target = new RequestResponseLoggingFilter(loggingContext);
+
+    doAnswer(new Answer<Void>() {
+      @Override
+      public Void answer(InvocationOnMock invocation) {
+        final RequestExecutionContext ctx = RequestExecutionContext.instance();
+        System.out.println(ctx);
+        final String userId = ctx.getUserId();
+
+        assertThat(userId, is(equalTo("STINKY")));
+        return null;
+      }
+    }).when(chain).doFilter(any(HttpServletRequest.class), any(HttpServletResponse.class));
   }
 
   @Test
   public void testDoFilterHappyPath() throws Exception {
     target.doFilter(request, response, chain);
-    final RequestExecutionContext ctx = RequestExecutionContext.instance();
-    System.out.println(ctx);
-
-    final String userId = loggingContext.getLogParameter(LogParameter.USER_ID);
-    System.out.println("user id: " + userId);
-
   }
 
 }
