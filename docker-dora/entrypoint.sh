@@ -1,6 +1,8 @@
 #!/bin/bash
 
-JAVA_OPT="-Xms128m -Xmx512m"
+if ([ -z "$JAVA_OPT" ]); then
+  JAVA_OPT="-Xms512m -Xmx512m"
+fi
 
 if ([ -z "$XPACK_ENABLED" ] || $XPACK_ENABLED); then
   echo "X-PACK enabled"
