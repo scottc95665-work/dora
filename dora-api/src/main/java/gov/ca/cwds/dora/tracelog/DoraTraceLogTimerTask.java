@@ -68,7 +68,7 @@ public class DoraTraceLogTimerTask extends TimerTask {
     DoraTraceLogSearchEntry entry = null;
     try {
       while (!searchQueue.isEmpty() && (entry = searchQueue.poll()) != null) {
-        LOGGER.info("Trace Log: save search query: {}", entry);
+        LOGGER.debug("Trace Log: save search query: {}", entry);
         sendSearchQuery(entry);
       }
     } catch (Exception e) {
