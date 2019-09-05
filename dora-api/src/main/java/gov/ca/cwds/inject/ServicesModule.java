@@ -35,12 +35,6 @@ public class ServicesModule extends AbstractModule {
   @Override
   protected void configure() {
     bind(IndexQueryService.class);
-
-    // Trace Log:
-    // Guice doesn't support lazy-loading singletons. :-(
-    // bind(DoraTraceLogService.class).to(DoraTraceLogServiceAsync.class);
-    // bind(DoraTraceLogService.class).to(DoraTraceLogServiceAsync.class).asEagerSingleton();
-    // bind(DoraTraceLogServiceAsync.class).in(Singleton.class);
   }
 
   @Provides
