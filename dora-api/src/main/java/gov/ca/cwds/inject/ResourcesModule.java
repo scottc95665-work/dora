@@ -38,6 +38,7 @@ public class ResourcesModule extends AbstractModule {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(ResourcesModule.class);
 
+  private Object syncMe = new Object();
   private DoraTraceLogServiceAsync doraTraceLogServiceAsync;
 
   /**
@@ -94,9 +95,11 @@ public class ResourcesModule extends AbstractModule {
     return fieldFilters;
   }
 
-  protected synchronized void makeTraceLogService(DoraConfiguration config, Client client) {
-    if (doraTraceLogServiceAsync == null) {
-      doraTraceLogServiceAsync = new DoraTraceLogServiceAsync(config, client);
+  protected void makeTraceLogService(DoraConfiguration config, Client client) {
+    synchronized (syncMe) {
+      if (doraTraceLogServiceAsync == null) {
+        doraTraceLogServiceAsync = new DoraTraceLogServiceAsync(config, client);
+      }
     }
   }
 
