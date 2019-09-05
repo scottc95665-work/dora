@@ -95,12 +95,14 @@ public class ResourcesModule extends AbstractModule {
   }
 
   protected synchronized void makeTraceLogService(DoraConfiguration config, Client client) {
-    doraTraceLogServiceAsync = new DoraTraceLogServiceAsync(config, client);
+    if (doraTraceLogServiceAsync == null) {
+      doraTraceLogServiceAsync = new DoraTraceLogServiceAsync(config, client);
+    }
   }
 
   @Provides
   @Inject
-  // @Singleton
+  // @Singleton // Guice can't deal
   public DoraTraceLogService provideTraceLog(DoraConfiguration config, Client client) {
     if (doraTraceLogServiceAsync == null) {
       makeTraceLogService(config, client);
