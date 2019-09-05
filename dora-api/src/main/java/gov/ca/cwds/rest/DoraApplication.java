@@ -1,5 +1,6 @@
 package gov.ca.cwds.rest;
 
+import static gov.ca.cwds.rest.DoraConstants.PROD_MODE;
 import static gov.ca.cwds.rest.DoraConstants.HealthCheck.HC_ES_CONFIG;
 import static gov.ca.cwds.rest.DoraConstants.HealthCheck.HC_ES_STATUS;
 import static gov.ca.cwds.rest.DoraConstants.HealthCheck.HC_FACILITIES_INDEX;
@@ -15,7 +16,6 @@ import static gov.ca.cwds.rest.DoraConstants.HealthCheck.HC_WORKER_ROLE;
 import static gov.ca.cwds.rest.DoraConstants.HealthCheck.HC_X_PACK_PLUGIN;
 import static gov.ca.cwds.rest.DoraConstants.Index.FACILITIES_INDEX;
 import static gov.ca.cwds.rest.DoraConstants.Index.PEOPLE_SUMMARY_INDEX;
-import static gov.ca.cwds.rest.DoraConstants.PROD_MODE;
 import static gov.ca.cwds.rest.DoraConstants.Plugin.PHONETIC_PLUGIN;
 import static gov.ca.cwds.rest.DoraConstants.Plugin.X_PACK_PLUGIN;
 import static gov.ca.cwds.rest.DoraConstants.Role.PEOPLE_SEALED_NO_COUNTY_ROLE;
@@ -105,7 +105,7 @@ public final class DoraApplication extends BaseApiApplication<DoraConfiguration>
     registerHealthChecks(configuration, environment);
     runHealthChecks(environment);
 
-    Injector injector = guiceBundle.getInjector();
+    final Injector injector = guiceBundle.getInjector();
 
     environment.jersey().register(new ShiroExceptionMapper());
     environment.servlets().setSessionHandler(new SessionHandler());

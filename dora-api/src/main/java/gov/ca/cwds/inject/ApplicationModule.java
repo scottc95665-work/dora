@@ -12,11 +12,14 @@ import gov.ca.cwds.rest.DoraApplication;
  */
 public class ApplicationModule extends AbstractModule {
 
+  // private final DoraConfiguration config;
+
   /**
    * Constructor. {@link AbstractModule#AbstractModule()}
    */
   public ApplicationModule() {
     super();
+    // this.config = config;
   }
 
   /**
@@ -27,6 +30,8 @@ public class ApplicationModule extends AbstractModule {
    */
   @Override
   protected void configure() {
+    // bind(DoraConfiguration.class).toInstance(config);
+
     install(new ServicesModule());
     install(new ResourcesModule());
     install(new AuditingModule());

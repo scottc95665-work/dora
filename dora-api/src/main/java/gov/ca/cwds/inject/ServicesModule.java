@@ -35,7 +35,11 @@ public class ServicesModule extends AbstractModule {
   @Override
   protected void configure() {
     bind(IndexQueryService.class);
+
+    // Trace Log:
     // bind(DoraTraceLogService.class).to(DoraTraceLogServiceAsync.class);
+    // bind(DoraTraceLogService.class).to(DoraTraceLogServiceAsync.class).asEagerSingleton();
+    // bind(DoraTraceLogServiceAsync.class).in(Singleton.class);
   }
 
   @Provides

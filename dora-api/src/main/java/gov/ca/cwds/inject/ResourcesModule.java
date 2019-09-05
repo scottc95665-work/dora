@@ -27,12 +27,18 @@ import gov.ca.cwds.rest.resources.TokenResource;
 
 /**
  * Identifies all CWDS API domain resource classes available for dependency injection by Guice.
+ * 
+ * <p>
+ * Note that Guice doesn't offer lazy loading of singleton objects, like Trace Log. Roll your own.
+ * </p>
  *
  * @author CWDS API Team
  */
 public class ResourcesModule extends AbstractModule {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(ResourcesModule.class);
+
+  private DoraTraceLogServiceAsync doraTraceLogServiceAsync;
 
   /**
    * Default, no-op constructor.
@@ -72,13 +78,6 @@ public class ResourcesModule extends AbstractModule {
   }
 
   @Provides
-  // @Singleton
-  @Inject
-  DoraTraceLogService provideTraceLog(DoraConfiguration config, Client client) {
-    return new DoraTraceLogServiceAsync(config, client);
-  }
-
-  @Provides
   @Inject
   public FieldFilters provideFieldFilters(ElasticsearchConfiguration esConfig) {
     FieldFilters fieldFilters = new FieldFilters();
@@ -93,6 +92,20 @@ public class ResourcesModule extends AbstractModule {
       }
     });
     return fieldFilters;
+  }
+
+  protected synchronized void makeTraceLogService(DoraConfiguration config, Client client) {
+    doraTraceLogServiceAsync = new DoraTraceLogServiceAsync(config, client);
+  }
+
+  @Provides
+  @Inject
+  // @Singleton
+  public DoraTraceLogService provideTraceLog(DoraConfiguration config, Client client) {
+    if (doraTraceLogServiceAsync == null) {
+      makeTraceLogService(config, client);
+    }
+    return doraTraceLogServiceAsync;
   }
 
 }
