@@ -2,6 +2,8 @@ package gov.ca.cwds.inject;
 
 import java.io.IOException;
 
+import javax.ws.rs.client.Client;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,22 +14,32 @@ import com.google.inject.name.Named;
 
 import gov.ca.cwds.dora.DoraUtils;
 import gov.ca.cwds.dora.security.FieldFilters;
+import gov.ca.cwds.dora.tracelog.DoraTraceLogService;
+import gov.ca.cwds.dora.tracelog.DoraTraceLogServiceAsync;
 import gov.ca.cwds.rest.DoraConfiguration;
 import gov.ca.cwds.rest.ElasticsearchConfiguration;
 import gov.ca.cwds.rest.SwaggerConfiguration;
 import gov.ca.cwds.rest.api.DoraException;
+import gov.ca.cwds.rest.resources.IndexQueryResource;
 import gov.ca.cwds.rest.resources.SwaggerResource;
 import gov.ca.cwds.rest.resources.SystemInformationResource;
 import gov.ca.cwds.rest.resources.TokenResource;
 
 /**
  * Identifies all CWDS API domain resource classes available for dependency injection by Guice.
+ * 
+ * <p>
+ * Note that Guice doesn't offer lazy loading of singleton objects, like Trace Log. Roll your own.
+ * </p>
  *
  * @author CWDS API Team
  */
 public class ResourcesModule extends AbstractModule {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(ResourcesModule.class);
+
+  private Object syncMe = new Object();
+  private DoraTraceLogServiceAsync doraTraceLogServiceAsync;
 
   /**
    * Default, no-op constructor.
@@ -41,6 +53,7 @@ public class ResourcesModule extends AbstractModule {
     bind(SystemInformationResource.class);
     bind(SwaggerResource.class);
     bind(TokenResource.class);
+    bind(IndexQueryResource.class);
   }
 
   @Provides
@@ -80,6 +93,24 @@ public class ResourcesModule extends AbstractModule {
       }
     });
     return fieldFilters;
+  }
+
+  protected void makeTraceLogService(DoraConfiguration config, Client client) {
+    synchronized (syncMe) {
+      if (doraTraceLogServiceAsync == null) {
+        doraTraceLogServiceAsync = new DoraTraceLogServiceAsync(config, client);
+      }
+    }
+  }
+
+  @Provides
+  @Inject
+  // @Singleton // Guice can't deal
+  public DoraTraceLogService provideTraceLog(DoraConfiguration config, Client client) {
+    if (doraTraceLogServiceAsync == null) {
+      makeTraceLogService(config, client);
+    }
+    return doraTraceLogServiceAsync;
   }
 
 }

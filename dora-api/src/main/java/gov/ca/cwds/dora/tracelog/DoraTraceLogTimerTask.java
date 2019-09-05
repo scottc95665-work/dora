@@ -32,6 +32,7 @@ public class DoraTraceLogTimerTask extends TimerTask {
   @Inject
   public DoraTraceLogTimerTask(DoraConfiguration config, Client client,
       Queue<DoraTraceLogSearchEntry> searchQueue) {
+    LOGGER.warn("\n\n******* CREATE DoraTraceLogTimerTask: id: {} ********\n", this);
     this.client = client;
     this.searchQueue = searchQueue;
     this.traceLogUrl = config.getTraceLogUrl();
@@ -42,10 +43,15 @@ public class DoraTraceLogTimerTask extends TimerTask {
     final Response response = client.target(url).request(MediaType.APPLICATION_JSON)
         .post(Entity.entity(entry.getJson(), MediaType.APPLICATION_JSON));
 
+    // Future option. Pun intended.
+    // final Future<Response> futureResponse =
+    // client.target(url).request(MediaType.APPLICATION_JSON)
+    // .async().post(Entity.entity(entry.getJson(), MediaType.APPLICATION_JSON));
+
     final int status = response.getStatus();
     if (status == Status.CREATED.getStatusCode()) {
       final String json = response.readEntity(String.class);
-      LOGGER.trace("Trace Log response: {}", json);
+      LOGGER.debug("Trace Log response: {}", json);
     } else {
       LOGGER.warn("FAILED TO CALL TRACE LOG! status {}", status);
     }
@@ -62,7 +68,7 @@ public class DoraTraceLogTimerTask extends TimerTask {
     DoraTraceLogSearchEntry entry = null;
     try {
       while (!searchQueue.isEmpty() && (entry = searchQueue.poll()) != null) {
-        LOGGER.info("Trace Log: save search query: {}", entry);
+        LOGGER.debug("Trace Log: save search query: {}", entry);
         sendSearchQuery(entry);
       }
     } catch (Exception e) {

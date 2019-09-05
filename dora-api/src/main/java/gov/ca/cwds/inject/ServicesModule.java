@@ -13,9 +13,8 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
+import com.google.inject.Singleton;
 
-import gov.ca.cwds.dora.tracelog.DoraTraceLogService;
-import gov.ca.cwds.dora.tracelog.DoraTraceLogServiceAsync;
 import gov.ca.cwds.rest.services.es.IndexQueryService;
 
 /**
@@ -36,7 +35,6 @@ public class ServicesModule extends AbstractModule {
   @Override
   protected void configure() {
     bind(IndexQueryService.class);
-    bind(DoraTraceLogService.class).to(DoraTraceLogServiceAsync.class);
   }
 
   @Provides
@@ -45,6 +43,7 @@ public class ServicesModule extends AbstractModule {
   }
 
   @Provides
+  @Singleton
   public Client provideClient() {
     final ObjectMapper mapper = new ObjectMapper();
     mapper.registerModule(new JavaTimeModule());
