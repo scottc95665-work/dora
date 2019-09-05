@@ -15,6 +15,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.validator.constraints.NotBlank;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -103,8 +104,10 @@ public class IndexQueryResource {
     final RequestExecutionContext ctx = RequestExecutionContext.instance();
     final String userId = ctx != null ? ctx.getUserId() : "anonymous";
 
-    doraTraceLogService.logSearchQuery(escapeCRLF(userId), escapeCRLF(index),
-        escapeCRLF(requestBody));
+    if (StringUtils.isNotBlank(index) && "people-summary".equals(index)) {
+      doraTraceLogService.logSearchQuery(escapeCRLF(userId), escapeCRLF(index),
+          escapeCRLF(requestBody));
+    }
     return handleRequest(builder.build());
   }
 

@@ -2,6 +2,8 @@ package gov.ca.cwds.inject;
 
 import java.io.IOException;
 
+import javax.ws.rs.client.Client;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,10 +14,13 @@ import com.google.inject.name.Named;
 
 import gov.ca.cwds.dora.DoraUtils;
 import gov.ca.cwds.dora.security.FieldFilters;
+import gov.ca.cwds.dora.tracelog.DoraTraceLogService;
+import gov.ca.cwds.dora.tracelog.DoraTraceLogServiceAsync;
 import gov.ca.cwds.rest.DoraConfiguration;
 import gov.ca.cwds.rest.ElasticsearchConfiguration;
 import gov.ca.cwds.rest.SwaggerConfiguration;
 import gov.ca.cwds.rest.api.DoraException;
+import gov.ca.cwds.rest.resources.IndexQueryResource;
 import gov.ca.cwds.rest.resources.SwaggerResource;
 import gov.ca.cwds.rest.resources.SystemInformationResource;
 import gov.ca.cwds.rest.resources.TokenResource;
@@ -41,6 +46,7 @@ public class ResourcesModule extends AbstractModule {
     bind(SystemInformationResource.class);
     bind(SwaggerResource.class);
     bind(TokenResource.class);
+    bind(IndexQueryResource.class);
   }
 
   @Provides
@@ -63,6 +69,13 @@ public class ResourcesModule extends AbstractModule {
   @Named("app.version")
   public String provideAppVersion() {
     return DoraUtils.getAppVersion();
+  }
+
+  @Provides
+  // @Singleton
+  @Inject
+  DoraTraceLogService provideTraceLog(DoraConfiguration config, Client client) {
+    return new DoraTraceLogServiceAsync(config, client);
   }
 
   @Provides
