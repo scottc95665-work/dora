@@ -103,7 +103,8 @@ public class IndexQueryResource {
     final RequestExecutionContext ctx = RequestExecutionContext.instance();
     final String userId = ctx != null ? ctx.getUserId() : "anonymous";
 
-    doraTraceLogService.logSearchQuery(userId, index, escapeCRLF(requestBody));
+    doraTraceLogService.logSearchQuery(escapeCRLF(userId), escapeCRLF(index),
+        escapeCRLF(requestBody));
     return handleRequest(builder.build());
   }
 
@@ -212,4 +213,3 @@ public class IndexQueryResource {
   }
 
 }
-

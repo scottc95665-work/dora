@@ -45,7 +45,7 @@ public class DoraTraceLogTimerTask extends TimerTask {
     final int status = response.getStatus();
     if (status == Status.CREATED.getStatusCode()) {
       final String json = response.readEntity(String.class);
-      LOGGER.trace("Trace Log response: {}", json);
+      LOGGER.debug("Trace Log response: {}", json);
     } else {
       LOGGER.warn("FAILED TO CALL TRACE LOG! status {}", status);
     }
