@@ -60,6 +60,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ibm.db2.jcc.DB2DatabaseMetaData;
 
 import gov.ca.cwds.ObjectMapperUtils;
+import gov.ca.cwds.auth.PerryUserIdentity;
 import gov.ca.cwds.rest.filters.AbstractShiroTest;
 import gov.ca.cwds.rest.filters.RequestExecutionContext;
 import gov.ca.cwds.rest.filters.RequestExecutionContextImplTest;
@@ -124,8 +125,17 @@ public class Boots<T> extends AbstractShiroTest {
     mockSubject = mock(Subject.class);
     principalCollection = mock(PrincipalCollection.class);
 
-    final List<String> list = new ArrayList<>();
+    final PerryUserIdentity perryUserIdentity = new PerryUserIdentity();
+    perryUserIdentity.setStaffId("0X5");
+    perryUserIdentity.setCountyCode("01");
+    perryUserIdentity.setCountyName("Lochness");
+    perryUserIdentity.setFirstName("George");
+    perryUserIdentity.setLastName("Jungle");
+    perryUserIdentity.setUser("GJUNGLE");
+
+    final List<Object> list = new ArrayList<>();
     list.add("msg");
+    list.add(perryUserIdentity);
     when(principalCollection.asList()).thenReturn(list);
     when(mockSubject.getPrincipals()).thenReturn(principalCollection);
 
