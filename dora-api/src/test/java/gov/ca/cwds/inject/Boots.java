@@ -128,20 +128,20 @@ public class Boots<T> extends AbstractShiroTest {
     list.add("msg");
     when(principalCollection.asList()).thenReturn(list);
     when(mockSubject.getPrincipals()).thenReturn(principalCollection);
-    setSubject(mockSubject);
 
     // Request context:
     final Subject mockSubject = mock(Subject.class);
+    // when(mockSubject.getClass()).thenReturn(PerryUserIdentity.class);
     final PrincipalCollection principalCollection = mock(PrincipalCollection.class);
 
     when(principalCollection.asList()).thenReturn(list);
     when(mockSubject.getPrincipals()).thenReturn(principalCollection);
 
-    RequestExecutionContextImplTest.startRequest();
-    ctx = RequestExecutionContext.instance();
     setSubject(mockSubject);
     ThreadContext.unbindSubject();
     ThreadContext.bind(mockSubject);
+    RequestExecutionContextImplTest.startRequest();
+    ctx = RequestExecutionContext.instance();
 
     // Hibernate, JDBC:
     sessionFactoryImplementor = mock(SessionFactoryImplementor.class);

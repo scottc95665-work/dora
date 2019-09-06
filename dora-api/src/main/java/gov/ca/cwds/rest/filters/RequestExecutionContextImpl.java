@@ -107,26 +107,28 @@ class RequestExecutionContextImpl implements RequestExecutionContext {
 
     // If no current user identity, create ExecutionContext with default user identity.
     LOGGER.warn("create user with default identity");
-    PerryUserIdentity userIdentity = createUserIdentityWithDefaultUser();
-    RequestExecutionContextRegistry.register(new RequestExecutionContextImpl(userIdentity));
+    RequestExecutionContextRegistry
+        .register(new RequestExecutionContextImpl(createUserIdentityWithDefaultUser()));
   }
 
   private static PerryUserIdentity getCurrentUserInformation() {
-    Subject currentUser = SecurityUtils.getSubject();
+    final Subject currentUser = SecurityUtils.getSubject();
 
     if (null == currentUser.getPrincipals()) {
       return null;
     }
 
     @SuppressWarnings("rawtypes")
-    List principals = currentUser.getPrincipals().asList();
+    final List principals = currentUser.getPrincipals().asList();
 
+    // Don't understand the reasoning here.
+    // If it's not *my expected identity type*, then bomb out??
     if (!(principals.size() > 1 && principals.get(1) instanceof PerryUserIdentity)) {
       return null;
     }
 
-    PerryUserIdentity currentUserInfo = (PerryUserIdentity) principals.get(1);
-    String staffPersonId = currentUserInfo.getStaffId();
+    final PerryUserIdentity currentUserInfo = (PerryUserIdentity) principals.get(1);
+    final String staffPersonId = currentUserInfo.getStaffId();
     if (!StringUtils.isBlank(staffPersonId)) {
       return currentUserInfo;
     }
