@@ -27,6 +27,7 @@ import javax.validation.Validator;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.Subject;
+import org.apache.shiro.util.ThreadContext;
 import org.hibernate.CacheMode;
 import org.hibernate.FlushMode;
 import org.hibernate.LockMode;
@@ -130,16 +131,17 @@ public class Boots<T> extends AbstractShiroTest {
     setSubject(mockSubject);
 
     // Request context:
-    Subject mockSubject = mock(Subject.class);
-    PrincipalCollection principalCollection = mock(PrincipalCollection.class);
+    final Subject mockSubject = mock(Subject.class);
+    final PrincipalCollection principalCollection = mock(PrincipalCollection.class);
 
     when(principalCollection.asList()).thenReturn(list);
     when(mockSubject.getPrincipals()).thenReturn(principalCollection);
-    setSubject(mockSubject);
 
     RequestExecutionContextImplTest.startRequest();
-
     ctx = RequestExecutionContext.instance();
+    setSubject(mockSubject);
+    ThreadContext.unbindSubject();
+    ThreadContext.bind(mockSubject);
 
     // Hibernate, JDBC:
     sessionFactoryImplementor = mock(SessionFactoryImplementor.class);
