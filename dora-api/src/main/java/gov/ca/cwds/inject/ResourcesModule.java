@@ -1,7 +1,5 @@
 package gov.ca.cwds.inject;
 
-import java.io.IOException;
-
 import javax.ws.rs.client.Client;
 
 import org.slf4j.Logger;
@@ -85,10 +83,10 @@ public class ResourcesModule extends AbstractModule {
     esConfig.getResponseFieldFilters().forEach((documentType, filePath) -> {
       try {
         fieldFilters.putFilter(documentType, filePath);
-      } catch (IOException e) {
+      } catch (Exception e) {
         String errorMessage =
             "Dora is not properly configured for filtering '" + documentType + "' documents";
-        LOGGER.error(errorMessage);
+        LOGGER.error(errorMessage, e);
         throw new DoraException(errorMessage, e);
       }
     });

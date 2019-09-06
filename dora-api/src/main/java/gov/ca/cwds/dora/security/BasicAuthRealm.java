@@ -6,6 +6,12 @@ import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.realm.AuthenticatingRealm;
 
+/**
+ * This realm authorization class looks important, so let's add a token (pun intended) Javadoc
+ * comment.
+ * 
+ * @author CARES Development Team
+ */
 public class BasicAuthRealm extends AuthenticatingRealm {
 
   public static final String EXTERNAL_APP_PRINCIPAL = "EXTERNAL_APP";
@@ -41,4 +47,5 @@ public class BasicAuthRealm extends AuthenticatingRealm {
   public void setBasicAuthPassword(String basicAuthPassword) {
     this.basicAuthPassword = basicAuthPassword;
   }
+
 }

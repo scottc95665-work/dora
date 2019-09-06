@@ -53,6 +53,10 @@ public class RequestExecutionContextImplTest {
     assertThat(requestExecutionContext, notNullValue());
   }
 
+  public static void startRequest() {
+    RequestExecutionContextImpl.startRequest();
+  }
+
   @Test
   public void testContextParameters() throws Exception {
     final EnumMap<Parameter, Object> mockContextParameters = new EnumMap<>(Parameter.class);
@@ -66,7 +70,7 @@ public class RequestExecutionContextImplTest {
 
   @Test
   public void testGetUserId() throws Exception {
-    PerryUserIdentity userIdentity = new PerryUserIdentity();
+    final PerryUserIdentity userIdentity = new PerryUserIdentity();
     userIdentity.setUser(USER);
 
     requestExecutionContext.put(Parameter.USER_IDENTITY, userIdentity);
@@ -81,7 +85,7 @@ public class RequestExecutionContextImplTest {
 
   @Test
   public void testRequestStartTime() throws Exception {
-    Date startTime = new Date();
+    final Date startTime = new Date();
     requestExecutionContext.put(Parameter.REQUEST_START_TIME, startTime);
     Assert.assertNotNull(requestExecutionContext.get(Parameter.REQUEST_START_TIME));
     Assert.assertEquals(startTime, requestExecutionContext.getRequestStartTime());
@@ -95,10 +99,12 @@ public class RequestExecutionContextImplTest {
 
   @Test
   public void tesRegisterRequestContext() throws Exception {
-    RequestExecutionContext requestExecutionContext = Mockito.mock(RequestExecutionContext.class);
-    RequestExecutionContextRegistry.register(requestExecutionContext);
+    final RequestExecutionContext ctx = Mockito.mock(RequestExecutionContext.class);
+    RequestExecutionContextRegistry.register(ctx);
     Assert.assertNotNull(RequestExecutionContextRegistry.get());
+
     RequestExecutionContextRegistry.remove();
     Assert.assertNull(RequestExecutionContextRegistry.get());
   }
+
 }
