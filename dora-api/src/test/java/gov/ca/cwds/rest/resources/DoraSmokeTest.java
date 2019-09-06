@@ -59,7 +59,8 @@ public class DoraSmokeTest extends BaseDoraApplicationTest {
   }
 
   @Test
-  public void testAuthorizedToRequestIndexCount() {
+  public void testAuthorizedToRequestIndexCount() throws Exception {
+    setup();
     final WebTarget target = clientTestRule.target(FACILITIES_COUNT_PATH);
     LOGGER.info("Smoke Test target: " + target.getUri().toString());
     final Response actualResponse =

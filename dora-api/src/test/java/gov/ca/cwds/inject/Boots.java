@@ -25,6 +25,7 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.ThreadContext;
@@ -125,6 +126,12 @@ public class Boots<T> extends AbstractShiroTest {
     mockSubject = mock(Subject.class);
     principalCollection = mock(PrincipalCollection.class);
 
+    final org.apache.shiro.mgt.SecurityManager securityManager =
+        mock(org.apache.shiro.mgt.SecurityManager.class);
+    SecurityUtils.setSecurityManager(securityManager);
+    setSecurityManager(securityManager);
+    ThreadContext.bind(securityManager);
+
     final PerryUserIdentity perryUserIdentity = new PerryUserIdentity();
     perryUserIdentity.setStaffId("0X5");
     perryUserIdentity.setCountyCode("01");
@@ -141,7 +148,6 @@ public class Boots<T> extends AbstractShiroTest {
 
     // Request context:
     final Subject mockSubject = mock(Subject.class);
-    // when(mockSubject.getClass()).thenReturn(PerryUserIdentity.class);
     final PrincipalCollection principalCollection = mock(PrincipalCollection.class);
 
     when(principalCollection.asList()).thenReturn(list);
