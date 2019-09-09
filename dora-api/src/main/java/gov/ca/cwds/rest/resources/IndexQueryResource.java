@@ -86,12 +86,15 @@ public class IndexQueryResource {
       @ApiParam(required = true,
           examples = @Example(@ExampleProperty(mediaType = MediaType.APPLICATION_JSON,
               value = "{\"query\":{\"match_all\":{}}}"))) @ValidJson String requestBody,
+      @QueryParam("calling_application") @ApiParam(required = false, name = "calling_application",
+          value = "calling application", example = "Snapshot") String callingApplication,
       @QueryParam(DFS_QUERY_THEN_FETCH_QUERY_PARAM) @DefaultValue("true") @ApiParam(
           required = false, name = "dfsQueryThenFetch", value = "Distributed Frequency Search",
           example = "true") boolean isDfsQueryThenFetch) {
     if (LOGGER.isInfoEnabled()) {
-      LOGGER.info("index: {} type: {} body: {} isDfsQueryThenFetch {}", escapeCRLF(index),
-          escapeCRLF(documentType), escapeCRLF(requestBody), isDfsQueryThenFetch);
+      LOGGER.info("index: {} type: {} body: {} isDfsQueryThenFetch: {}, callingApplication: {}",
+          escapeCRLF(index), escapeCRLF(documentType), escapeCRLF(requestBody), isDfsQueryThenFetch,
+          callingApplication);
     }
 
     final String endpoint = String.format("/%s/%s/_search", index.trim(), documentType.trim());
@@ -105,7 +108,8 @@ public class IndexQueryResource {
     final RequestExecutionContext ctx = RequestExecutionContext.instance();
     final String userId = ctx != null ? ctx.getUserId() : "anonymous";
 
-    if (StringUtils.isNotBlank(index) && "people-summary".equals(index)) {
+    if (StringUtils.isNotBlank(index) && "people-summary".equals(index)
+        && !"anonymous".equals(userId)) {
       doraTraceLogService.logSearchQuery(escapeCRLF(userId), escapeCRLF(index),
           escapeCRLF(requestBody));
     }
