@@ -87,14 +87,14 @@ public class IndexQueryResource {
           examples = @Example(@ExampleProperty(mediaType = MediaType.APPLICATION_JSON,
               value = "{\"query\":{\"match_all\":{}}}"))) @ValidJson String requestBody,
       @QueryParam("calling_application") @ApiParam(required = false, name = "calling_application",
-          value = "calling application", example = "Snapshot") String callingApplication,
+          value = "Calling application", example = "Snapshot") String callingApplication,
       @QueryParam(DFS_QUERY_THEN_FETCH_QUERY_PARAM) @DefaultValue("true") @ApiParam(
           required = false, name = "dfsQueryThenFetch", value = "Distributed Frequency Search",
           example = "true") boolean isDfsQueryThenFetch) {
     if (LOGGER.isInfoEnabled()) {
-      LOGGER.info("index: {} type: {} body: {} isDfsQueryThenFetch: {}, callingApplication: {}",
-          escapeCRLF(index), escapeCRLF(documentType), escapeCRLF(requestBody), isDfsQueryThenFetch,
-          callingApplication);
+      LOGGER.info("index: {}, type: {}, isDfsQueryThenFetch: {}, callingApplication: {}, JSON: {}",
+          escapeCRLF(index), escapeCRLF(documentType), isDfsQueryThenFetch, callingApplication,
+          escapeCRLF(requestBody));
     }
 
     final String endpoint = String.format("/%s/%s/_search", index.trim(), documentType.trim());

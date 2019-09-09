@@ -167,6 +167,10 @@ public final class DoraUtils {
   }
 
   public static String escapeCRLF(String str) {
-    return null != str ? str.replaceAll("[\r\n]", "") : null;
+    return null != str
+        ? str.replaceAll("[\r\n]", "").replaceAll("[ ]{2,}", " ").replaceAll("\\{ ", "{")
+            .replaceAll("\\} ", "}")
+        : null;
   }
+
 }
