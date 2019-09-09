@@ -62,8 +62,8 @@ public class IndexQueryService {
 
   public IndexQueryResponse handleRequest(IndexQueryRequest request) {
     try {
-      long timeBeforeCallES = System.currentTimeMillis();
-      Response response = performRequest(request);
+      final long timeBeforeCallES = System.currentTimeMillis();
+      final Response response = performRequest(request);
       LOGGER.debug("Dora took {} milliseconds to call Elasticsearch",
           System.currentTimeMillis() - timeBeforeCallES);
 
@@ -95,8 +95,8 @@ public class IndexQueryService {
   }
 
   String applyFieldFiltering(Map<String, Object> esResponseJsonMap, String documentType) {
-    FieldFilterScript fieldFilterScript = fieldFilters.getFilter(documentType);
-    IntakeAccount account = PerrySubject.getPerryAccount();
+    final FieldFilterScript fieldFilterScript = fieldFilters.getFilter(documentType);
+    final IntakeAccount account = PerrySubject.getPerryAccount();
     try {
       return fieldFilterScript.filter(esResponseJsonMap, account);
     } catch (ScriptException e) {
