@@ -108,11 +108,16 @@ public class IndexQueryResource {
     final RequestExecutionContext ctx = RequestExecutionContext.instance();
     final String userId = ctx != null ? ctx.getUserId() : "anonymous";
 
-    if (StringUtils.isNotBlank(index) && "people-summary".equals(index)
-        && !"anonymous".equals(userId)) {
+    // CANS-180: Trace Log: save Snapshot queries only.
+    if (StringUtils.isNotBlank(callingApplication)
+        && "snapshot".equalsIgnoreCase(callingApplication) && StringUtils.isNotBlank(index)
+        && "people-summary".equals(index) && !"anonymous".equals(userId)) {
       doraTraceLogService.logSearchQuery(escapeCRLF(userId), escapeCRLF(index),
           escapeCRLF(requestBody));
+    } else {
+      LOGGER.debug("Not a Snapshot query. Don't save to Trace Log.");
     }
+
     return handleRequest(builder.build());
   }
 
