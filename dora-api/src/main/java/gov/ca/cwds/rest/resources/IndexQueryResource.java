@@ -135,8 +135,9 @@ public class IndexQueryResource {
       LOGGER.info("index: {} type: {} body: {}", escapeCRLF(index), escapeCRLF(documentType),
           escapeCRLF(requestBody));
     }
+
     final String endpoint = String.format("/%s/%s/_count", index.trim(), documentType.trim());
-    IndexQueryRequest request =
+    final IndexQueryRequest request =
         new IndexQueryRequestBuilder().addEsEndpoint(endpoint).addDocumentType(documentType)
             .addRequestBody(requestBody).addHttpMethod(HttpMethod.POST).build();
     return handleRequest(request);
@@ -167,9 +168,10 @@ public class IndexQueryResource {
       LOGGER.info("index: {} type: {} id: {} body: {}", escapeCRLF(index), escapeCRLF(documentType),
           escapeCRLF(id), escapeCRLF(requestBody));
     }
+
     final String endpoint =
         String.format("/%s/%s/%s/_create", index.trim(), documentType.trim(), id);
-    IndexQueryRequest request =
+    final IndexQueryRequest request =
         new IndexQueryRequestBuilder().addEsEndpoint(endpoint).addDocumentType(documentType)
             .addRequestBody(requestBody).addHttpMethod(HttpMethod.PUT).build();
     return handleRequest(request);
@@ -201,16 +203,17 @@ public class IndexQueryResource {
       LOGGER.info("index: {} type: {} body: {}", escapeCRLF(index), escapeCRLF(documentType),
           escapeCRLF(requestBody));
     }
+
     final String endpoint = String.format("/%s/%s/%s", index.trim(), documentType.trim(), id);
-    IndexQueryRequest request =
+    final IndexQueryRequest request =
         new IndexQueryRequestBuilder().addEsEndpoint(endpoint).addDocumentType(documentType)
             .addRequestBody(requestBody).addHttpMethod(HttpMethod.PUT).build();
     return handleRequest(request);
   }
 
   private Response handleRequest(IndexQueryRequest request) {
-    long startTime = System.currentTimeMillis();
-    IndexQueryResponse indexQueryResponse = indexQueryService.handleRequest(request);
+    final long startTime = System.currentTimeMillis();
+    final IndexQueryResponse indexQueryResponse = indexQueryService.handleRequest(request);
     LOGGER.info("Elastic Search operation total time: {}", System.currentTimeMillis() - startTime);
     return Response.status(Response.Status.OK).entity(indexQueryResponse.getResponse()).build();
   }

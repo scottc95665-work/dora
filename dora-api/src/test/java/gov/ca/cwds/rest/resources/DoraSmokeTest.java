@@ -1,17 +1,18 @@
 package gov.ca.cwds.rest.resources;
 
 import static gov.ca.cwds.rest.DoraConstants.SYSTEM_INFORMATION;
-import static gov.ca.cwds.rest.SmokeTestUtils.BLANK_JSON_ENTITY;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.anyOf;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,12 +60,14 @@ public class DoraSmokeTest extends BaseDoraApplicationTest {
   }
 
   @Test
+  @Ignore
   public void testAuthorizedToRequestIndexCount() throws Exception {
-    setup();
     final WebTarget target = clientTestRule.target(FACILITIES_COUNT_PATH);
     LOGGER.info("Smoke Test target: " + target.getUri().toString());
-    final Response actualResponse =
-        target.request(MediaType.APPLICATION_JSON).post(BLANK_JSON_ENTITY);
+    final Response actualResponse = target.request(MediaType.APPLICATION_JSON)
+        // .post(BLANK_JSON_ENTITY)
+        .post(Entity.json(
+            "{\"query\":{\"bool\":{\"should\":[{\"bool\":{\"must\":[{\"query_string\":{\"default_field\":\"name\",\"query\":\"*Bay* *Area* *Crisis* *Nursery*\"}},{\"query_string\":{\"query\":\"*1506* *Menocino* *Drive* *Concord* *CA*\",\"fields\":[\"full_residential_address\",\"full_mailing_address\"]}}]}}]}}}"));
 
     assertThat(actualResponse.getStatus(), anyOf(is(200), is(404)));
   }
