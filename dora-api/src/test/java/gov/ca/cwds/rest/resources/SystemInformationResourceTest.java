@@ -40,6 +40,7 @@ public class SystemInformationResourceTest extends BaseDoraApplicationTest {
     JerseyGuiceUtils.reset();
   }
 
+  @Override
   @Before
   public void setup() {}
 
@@ -58,7 +59,7 @@ public class SystemInformationResourceTest extends BaseDoraApplicationTest {
 
   @Test
   public void testSystemInformationGet() {
-    SystemInformationDto systemInformationDto = clientTestRule.target(SYSTEM_INFORMATION)
+    final SystemInformationDto systemInformationDto = clientTestRule.target(SYSTEM_INFORMATION)
         .request(MediaType.APPLICATION_JSON).get(SystemInformationDto.class);
 
     assertThat(systemInformationDto.getApplicationName(), is(equalTo("CWDS Dora")));
@@ -67,10 +68,10 @@ public class SystemInformationResourceTest extends BaseDoraApplicationTest {
 
   @Test
   public void testHealthChecksResults() {
-    SystemInformationDto systemInformationDto = clientTestRule.target(SYSTEM_INFORMATION)
+    final SystemInformationDto systemInformationDto = clientTestRule.target(SYSTEM_INFORMATION)
         .request(MediaType.APPLICATION_JSON).get(SystemInformationDto.class);
 
-    SortedMap<String, HealthCheckResultDto> healthCheckResults =
+    final SortedMap<String, HealthCheckResultDto> healthCheckResults =
         systemInformationDto.getHealthCheckResults();
 
     assertThat(healthCheckResults, is(notNullValue()));

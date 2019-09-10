@@ -48,4 +48,5 @@ public class PerryUserIdentityTest {
     assertNotNull(perryUserIdentity.getStaffId());
     assertEquals(STAFF_ID, perryUserIdentity.getStaffId());
   }
+
 }

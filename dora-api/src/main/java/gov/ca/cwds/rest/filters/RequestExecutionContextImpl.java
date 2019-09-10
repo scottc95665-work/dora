@@ -67,14 +67,14 @@ class RequestExecutionContextImpl implements RequestExecutionContext {
   }
 
   /**
-   * Get user id if stored.
+   * Get user id, if stored.
    *
    * @return The user id
    */
   @Override
   public String getUserId() {
     String userId = null;
-    PerryUserIdentity userIdentity = (PerryUserIdentity) get(Parameter.USER_IDENTITY);
+    final PerryUserIdentity userIdentity = (PerryUserIdentity) get(Parameter.USER_IDENTITY);
     if (userIdentity != null) {
       userId = userIdentity.getUser();
     }
@@ -82,7 +82,7 @@ class RequestExecutionContextImpl implements RequestExecutionContext {
   }
 
   /**
-   * Get request start time if stored
+   * Get request start time, if stored
    *
    * @return The request start time
    */
@@ -96,7 +96,7 @@ class RequestExecutionContextImpl implements RequestExecutionContext {
    * package.
    */
   static void startRequest() {
-    PerryUserIdentity currentUserInformation = getCurrentUserInformation();
+    final PerryUserIdentity currentUserInformation = getCurrentUserInformation();
 
     // try to get current user identity and created ExecutionContext with it
     if (null != currentUserInformation) {
@@ -107,26 +107,28 @@ class RequestExecutionContextImpl implements RequestExecutionContext {
 
     // If no current user identity, create ExecutionContext with default user identity.
     LOGGER.warn("create user with default identity");
-    PerryUserIdentity userIdentity = createUserIdentityWithDefaultUser();
-    RequestExecutionContextRegistry.register(new RequestExecutionContextImpl(userIdentity));
+    RequestExecutionContextRegistry
+        .register(new RequestExecutionContextImpl(createUserIdentityWithDefaultUser()));
   }
 
   private static PerryUserIdentity getCurrentUserInformation() {
-    Subject currentUser = SecurityUtils.getSubject();
+    final Subject currentUser = SecurityUtils.getSubject();
 
     if (null == currentUser.getPrincipals()) {
       return null;
     }
 
     @SuppressWarnings("rawtypes")
-    List principals = currentUser.getPrincipals().asList();
+    final List principals = currentUser.getPrincipals().asList();
 
+    // Don't understand the reasoning here.
+    // If it's not *my expected identity type*, then bomb out??
     if (!(principals.size() > 1 && principals.get(1) instanceof PerryUserIdentity)) {
       return null;
     }
 
-    PerryUserIdentity currentUserInfo = (PerryUserIdentity) principals.get(1);
-    String staffPersonId = currentUserInfo.getStaffId();
+    final PerryUserIdentity currentUserInfo = (PerryUserIdentity) principals.get(1);
+    final String staffPersonId = currentUserInfo.getStaffId();
     if (!StringUtils.isBlank(staffPersonId)) {
       return currentUserInfo;
     }
@@ -135,7 +137,7 @@ class RequestExecutionContextImpl implements RequestExecutionContext {
   }
 
   private static PerryUserIdentity createUserIdentityWithDefaultUser() {
-    PerryUserIdentity userIdentity = new PerryUserIdentity();
+    final PerryUserIdentity userIdentity = new PerryUserIdentity();
     userIdentity.setUser(DEFAULT_USER_ID);
     return userIdentity;
   }

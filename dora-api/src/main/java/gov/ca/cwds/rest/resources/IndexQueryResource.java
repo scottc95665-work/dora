@@ -86,12 +86,15 @@ public class IndexQueryResource {
       @ApiParam(required = true,
           examples = @Example(@ExampleProperty(mediaType = MediaType.APPLICATION_JSON,
               value = "{\"query\":{\"match_all\":{}}}"))) @ValidJson String requestBody,
+      @QueryParam("calling_application") @ApiParam(required = false, name = "calling_application",
+          value = "Calling application", example = "Snapshot") String callingApplication,
       @QueryParam(DFS_QUERY_THEN_FETCH_QUERY_PARAM) @DefaultValue("true") @ApiParam(
           required = false, name = "dfsQueryThenFetch", value = "Distributed Frequency Search",
           example = "true") boolean isDfsQueryThenFetch) {
     if (LOGGER.isInfoEnabled()) {
-      LOGGER.info("index: {} type: {} body: {} isDfsQueryThenFetch {}", escapeCRLF(index),
-          escapeCRLF(documentType), escapeCRLF(requestBody), isDfsQueryThenFetch);
+      LOGGER.info("index: {}, type: {}, isDfsQueryThenFetch: {}, callingApplication: {}, JSON: {}",
+          escapeCRLF(index), escapeCRLF(documentType), isDfsQueryThenFetch, callingApplication,
+          escapeCRLF(requestBody));
     }
 
     final String endpoint = String.format("/%s/%s/_search", index.trim(), documentType.trim());
@@ -105,10 +108,16 @@ public class IndexQueryResource {
     final RequestExecutionContext ctx = RequestExecutionContext.instance();
     final String userId = ctx != null ? ctx.getUserId() : "anonymous";
 
-    if (StringUtils.isNotBlank(index) && "people-summary".equals(index)) {
+    // CANS-180: Trace Log: save Snapshot queries only.
+    if (StringUtils.isNotBlank(callingApplication)
+        && "snapshot".equalsIgnoreCase(callingApplication) && StringUtils.isNotBlank(index)
+        && "people-summary".equals(index) && !"anonymous".equals(userId)) {
       doraTraceLogService.logSearchQuery(escapeCRLF(userId), escapeCRLF(index),
           escapeCRLF(requestBody));
+    } else {
+      LOGGER.debug("Not a Snapshot query. Don't save to Trace Log.");
     }
+
     return handleRequest(builder.build());
   }
 
@@ -136,8 +145,9 @@ public class IndexQueryResource {
       LOGGER.info("index: {} type: {} body: {}", escapeCRLF(index), escapeCRLF(documentType),
           escapeCRLF(requestBody));
     }
+
     final String endpoint = String.format("/%s/%s/_count", index.trim(), documentType.trim());
-    IndexQueryRequest request =
+    final IndexQueryRequest request =
         new IndexQueryRequestBuilder().addEsEndpoint(endpoint).addDocumentType(documentType)
             .addRequestBody(requestBody).addHttpMethod(HttpMethod.POST).build();
     return handleRequest(request);
@@ -168,9 +178,10 @@ public class IndexQueryResource {
       LOGGER.info("index: {} type: {} id: {} body: {}", escapeCRLF(index), escapeCRLF(documentType),
           escapeCRLF(id), escapeCRLF(requestBody));
     }
+
     final String endpoint =
         String.format("/%s/%s/%s/_create", index.trim(), documentType.trim(), id);
-    IndexQueryRequest request =
+    final IndexQueryRequest request =
         new IndexQueryRequestBuilder().addEsEndpoint(endpoint).addDocumentType(documentType)
             .addRequestBody(requestBody).addHttpMethod(HttpMethod.PUT).build();
     return handleRequest(request);
@@ -202,16 +213,17 @@ public class IndexQueryResource {
       LOGGER.info("index: {} type: {} body: {}", escapeCRLF(index), escapeCRLF(documentType),
           escapeCRLF(requestBody));
     }
+
     final String endpoint = String.format("/%s/%s/%s", index.trim(), documentType.trim(), id);
-    IndexQueryRequest request =
+    final IndexQueryRequest request =
         new IndexQueryRequestBuilder().addEsEndpoint(endpoint).addDocumentType(documentType)
             .addRequestBody(requestBody).addHttpMethod(HttpMethod.PUT).build();
     return handleRequest(request);
   }
 
   private Response handleRequest(IndexQueryRequest request) {
-    long startTime = System.currentTimeMillis();
-    IndexQueryResponse indexQueryResponse = indexQueryService.handleRequest(request);
+    final long startTime = System.currentTimeMillis();
+    final IndexQueryResponse indexQueryResponse = indexQueryService.handleRequest(request);
     LOGGER.info("Elastic Search operation total time: {}", System.currentTimeMillis() - startTime);
     return Response.status(Response.Status.OK).entity(indexQueryResponse.getResponse()).build();
   }

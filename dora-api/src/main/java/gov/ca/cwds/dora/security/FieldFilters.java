@@ -8,6 +8,7 @@ import java.util.Map;
  * @author CWDS TPT-2
  */
 public class FieldFilters {
+
   private Map<String, FieldFilterScript> filters;
 
   public FieldFilters() {
@@ -25,4 +26,5 @@ public class FieldFilters {
   public boolean hasFilter(String documentType) {
     return filters.containsKey(documentType);
   }
+
 }
