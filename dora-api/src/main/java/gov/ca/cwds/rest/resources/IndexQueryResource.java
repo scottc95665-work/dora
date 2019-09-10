@@ -93,6 +93,7 @@ public class IndexQueryResource {
       LOGGER.info("index: {} type: {} body: {} isDfsQueryThenFetch {}", escapeCRLF(index),
           escapeCRLF(documentType), escapeCRLF(requestBody), isDfsQueryThenFetch);
     }
+
     final String endpoint = String.format("/%s/%s/_search", index.trim(), documentType.trim());
     final IndexQueryRequestBuilder builder = new IndexQueryRequestBuilder().addEsEndpoint(endpoint)
         .addDocumentType(documentType).addRequestBody(requestBody).addHttpMethod(HttpMethod.POST);
