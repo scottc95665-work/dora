@@ -140,9 +140,9 @@ node('dora-slave') {
            cleanWs()
           }
           stage('Deploy to Pre-int and Integration') {
-            withCredentials([usernameColonPassword(credentialsId: 'fa186416-faac-44c0-a2fa-089aed50ca17', variable: 'jenkinsauth')]) {
-              sh "curl -u $jenkinsauth 'https://jenkins.mgmt.cwds.io/job/PreInt-Integration/job/deploy-dora/buildWithParameters?token=deployDoraToPreint&version=${newTag}'"
-            }
+              def mgmtJobParams = "APP_VERSION=$newTag\nversion=$newTag"
+              def handle = triggerRemoteJob abortTriggeredJob: true, enhancedLogging: true, job: 'PreInt-Integration/deploy-dora', maxConn: 5, pollInterval: 20, parameters: "${mgmtJobParams}", remoteJenkinsName: "deploy-jenkins", useCrumbCache: true, useJobInfoCache: true
+              echo 'Remote Status: ' + handle.getBuildStatus().toString()
           }
       }
     } catch (Exception e) {
