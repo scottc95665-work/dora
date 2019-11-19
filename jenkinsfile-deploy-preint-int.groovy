@@ -46,7 +46,7 @@ def deployStage(envName, version) {
       //environmentDashboard(addColumns: false, buildJob: '', buildNumber: version, componentName: 'Dora', data: [], nameOfEnv: 'PREINT', packageName: 'Dora') {
         git branch: 'master', credentialsId: githubCredentialsId, url: deAnsibleGithubUrl
         sh "ansible-playbook -e NEW_RELIC_AGENT=$env.USE_NEWRELIC -e DORA_API_VERSION=$version -i inventories/$envName/hosts.yml deploy-dora.yml --vault-password-file ~/.ssh/vault.txt"
-      }
+    //  }
     }
   }
 }
