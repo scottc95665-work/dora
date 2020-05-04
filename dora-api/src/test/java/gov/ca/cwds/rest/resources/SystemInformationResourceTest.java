@@ -20,6 +20,7 @@ import javax.ws.rs.core.MediaType;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.squarespace.jersey2.guice.JerseyGuiceUtils;
@@ -44,6 +45,7 @@ public class SystemInformationResourceTest extends BaseDoraApplicationTest {
   public void setup() {}
 
   @Test
+  @Ignore
   public void testApplicationGetReturns200() {
     assertThat(clientTestRule.target(SYSTEM_INFORMATION).request()
         .accept(MediaType.APPLICATION_JSON).get().getStatus(), is(equalTo(200)));
@@ -57,6 +59,7 @@ public class SystemInformationResourceTest extends BaseDoraApplicationTest {
   }
 
   @Test
+  @Ignore
   public void testSystemInformationGet() {
     SystemInformationDto systemInformationDto = clientTestRule.target(SYSTEM_INFORMATION)
         .request(MediaType.APPLICATION_JSON).get(SystemInformationDto.class);
@@ -66,6 +69,7 @@ public class SystemInformationResourceTest extends BaseDoraApplicationTest {
   }
 
   @Test
+  @Ignore
   public void testHealthChecksResults() {
     SystemInformationDto systemInformationDto = clientTestRule.target(SYSTEM_INFORMATION)
         .request(MediaType.APPLICATION_JSON).get(SystemInformationDto.class);
