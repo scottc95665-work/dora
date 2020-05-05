@@ -44,6 +44,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.google.inject.Injector;
 import com.google.inject.Module;
+import com.hubspot.dropwizard.guice.GuiceBundle;
 
 import gov.ca.cwds.dora.DoraUtils;
 import gov.ca.cwds.dora.health.BasicDoraHealthCheck;
@@ -96,7 +97,7 @@ public final class DoraApplication extends BaseApiApplication<DoraConfiguration>
   @SuppressWarnings("findsecbugs:CRLF_INJECTION_LOGS")
   // DoraConfiguration and system-information.properties are trusted sources
   public final void runInternal(final DoraConfiguration configuration, final Environment env) {
-    EsRestClientManager esRestClientManager =
+    final EsRestClientManager esRestClientManager =
         new EsRestClientManager(configuration.getElasticsearchConfiguration());
     env.lifecycle().manage(esRestClientManager);
 
@@ -201,6 +202,10 @@ public final class DoraApplication extends BaseApiApplication<DoraConfiguration>
         LOGGER.error("Fail - {}: {}", entry.getKey(), entry.getValue().getMessage());
       }
     }
+  }
+
+  public void setGuiceBundle(GuiceBundle<DoraConfiguration> bundle) {
+    this.guiceBundle = bundle;
   }
 
 }
