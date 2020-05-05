@@ -3,14 +3,22 @@ package gov.ca.cwds.inject;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
-import gov.ca.cwds.rest.DoraConfiguration;
-import gov.ca.cwds.rest.ElasticsearchConfiguration;
-import gov.ca.cwds.rest.SwaggerConfiguration;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.ws.rs.client.Client;
+
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+
+import gov.ca.cwds.rest.DoraConfiguration;
+import gov.ca.cwds.rest.ElasticsearchConfiguration;
+import gov.ca.cwds.rest.SwaggerConfiguration;
 
 /**
  * @author TPT-2
@@ -67,10 +75,38 @@ public class ResourcesModuleTest {
     ElasticsearchConfiguration testElasticsearchConfiguration = new ElasticsearchConfiguration();
     DoraConfiguration testDoraConfiguration = new DoraConfiguration();
     testDoraConfiguration.setElasticsearchConfiguration(testElasticsearchConfiguration);
-    ElasticsearchConfiguration elasticsearchConfiguration = module
-        .elasticsearchConfig(testDoraConfiguration);
+    ElasticsearchConfiguration elasticsearchConfiguration =
+        module.elasticsearchConfig(testDoraConfiguration);
     assertNotNull(elasticsearchConfiguration);
     assertEquals(testElasticsearchConfiguration, elasticsearchConfiguration);
+  }
+
+  @Test(expected = Exception.class)
+  public void testProvideFieldFilters() {
+    ElasticsearchConfiguration testElasticsearchConfiguration =
+        mock(ElasticsearchConfiguration.class);
+    DoraConfiguration testDoraConfiguration = new DoraConfiguration();
+    testDoraConfiguration.setElasticsearchConfiguration(testElasticsearchConfiguration);
+    ElasticsearchConfiguration elasticsearchConfiguration =
+        module.elasticsearchConfig(testDoraConfiguration);
+    final Map<String, String> map = new HashMap<>();
+    map.put("whatever", "/who/cares/path/");
+    when(testElasticsearchConfiguration.getResponseFieldFilters()).thenReturn(map);
+    module.provideFieldFilters(elasticsearchConfiguration);
+
+    assertNotNull(elasticsearchConfiguration);
+    assertEquals(testElasticsearchConfiguration, elasticsearchConfiguration);
+  }
+
+  @Test
+  public void testProvideTraceLog() {
+    ElasticsearchConfiguration testElasticsearchConfiguration = new ElasticsearchConfiguration();
+    DoraConfiguration testDoraConfiguration = new DoraConfiguration();
+    testDoraConfiguration.setElasticsearchConfiguration(testElasticsearchConfiguration);
+    ElasticsearchConfiguration elasticsearchConfiguration =
+        module.elasticsearchConfig(testDoraConfiguration);
+    final Client client = mock(Client.class);
+    module.provideTraceLog(testDoraConfiguration, client);
   }
 
   @Test
@@ -90,4 +126,5 @@ public class ResourcesModuleTest {
     String version = module.provideAppVersion();
     assertNotNull(version);
   }
+
 }
