@@ -30,7 +30,8 @@ public final class CwdsPrivileges {
   }
 
   /**
-   * Use this method to parse Json Token like the following:
+   * Use this method to parse JSON Token like the following:
+   * 
    * <pre>
    * {
    * "user": "RACFID",
@@ -44,9 +45,10 @@ public final class CwdsPrivileges {
    * ]
    * }
    * </pre>
+   * 
    * and return an instance of CwdsPrivileges with properties that corresponds to the Json Token.
    *
-   * @param json the Json Token
+   * @param json the JSON Token
    * @return instance of CwdsPrivileges
    * @throws IllegalArgumentException if can't parse the token
    */
@@ -58,7 +60,8 @@ public final class CwdsPrivileges {
 
   public static CwdsPrivileges buildPrivileges(JsonTokenInfoHolder holder) {
     CwdsPrivileges cwdsPrivileges = new CwdsPrivileges();
-    // JWT token will contain County Code, but Person documents in ES index and X-Pack roles use County ID
+    // JWT token will contain County Code, but Person documents in ES index and X-Pack roles use
+    // County ID
     cwdsPrivileges.countyId = countyCodeToCountyId(holder.getCountyCode());
     cwdsPrivileges.countyName = holder.getCountyName();
     cwdsPrivileges.socialWorkerOnly = holder.getPrivileges().contains(CWS_CASE_MANAGEMENT_SYSTEM);
@@ -67,8 +70,8 @@ public final class CwdsPrivileges {
     cwdsPrivileges.stateSensitive = isStateSensitive(holder);
     cwdsPrivileges.stateSealed = isStateSealed(holder);
     cwdsPrivileges.facilitiesRead = isFacilitiesRead(holder);
-    cwdsPrivileges.facilitiesReadAdoptions = isFacilitiesReadAdoptions(holder,
-        cwdsPrivileges.facilitiesRead);
+    cwdsPrivileges.facilitiesReadAdoptions =
+        isFacilitiesReadAdoptions(holder, cwdsPrivileges.facilitiesRead);
     return cwdsPrivileges;
   }
 
@@ -83,23 +86,21 @@ public final class CwdsPrivileges {
   }
 
   private static boolean isStateSealed(JsonTokenInfoHolder holder) {
-    return holder.getPrivileges().contains(SEALED) && holder
-        .isCountyIsStateOfCalifornia();
+    return holder.getPrivileges().contains(SEALED) && holder.isCountyIsStateOfCalifornia();
   }
 
   private static boolean isStateSensitive(JsonTokenInfoHolder holder) {
-    return holder.getPrivileges().contains(SENSITIVE_PERSONS) && holder
-        .isCountyIsStateOfCalifornia();
+    return holder.getPrivileges().contains(SENSITIVE_PERSONS)
+        && holder.isCountyIsStateOfCalifornia();
   }
 
   private static boolean isCountySealed(JsonTokenInfoHolder holder) {
-    return holder.getPrivileges().contains(SEALED) && (!holder
-        .isCountyIsStateOfCalifornia());
+    return holder.getPrivileges().contains(SEALED) && (!holder.isCountyIsStateOfCalifornia());
   }
 
   private static boolean isCountySensitive(JsonTokenInfoHolder holder) {
-    return holder.getPrivileges().contains(SENSITIVE_PERSONS) && (!holder
-        .isCountyIsStateOfCalifornia());
+    return holder.getPrivileges().contains(SENSITIVE_PERSONS)
+        && (!holder.isCountyIsStateOfCalifornia());
   }
 
   public boolean isCountySensitive() {
@@ -140,16 +141,11 @@ public final class CwdsPrivileges {
 
   @Override
   public String toString() {
-    return "CwdsPrivileges{" +
-        "countySensitive=" + countySensitive +
-        ", socialWorkerOnly=" + socialWorkerOnly +
-        ", countySealed=" + countySealed +
-        ", stateSensitive=" + stateSensitive +
-        ", stateSealed=" + stateSealed +
-        ", facilitiesRead=" + facilitiesRead +
-        ", facilitiesReadAdoptions=" + facilitiesReadAdoptions +
-        ", countyId='" + countyId + '\'' +
-        ", countyName='" + countyName + '\'' +
-        '}';
+    return "CwdsPrivileges{" + "countySensitive=" + countySensitive + ", socialWorkerOnly="
+        + socialWorkerOnly + ", countySealed=" + countySealed + ", stateSensitive=" + stateSensitive
+        + ", stateSealed=" + stateSealed + ", facilitiesRead=" + facilitiesRead
+        + ", facilitiesReadAdoptions=" + facilitiesReadAdoptions + ", countyId='" + countyId + '\''
+        + ", countyName='" + countyName + '\'' + '}';
   }
+
 }

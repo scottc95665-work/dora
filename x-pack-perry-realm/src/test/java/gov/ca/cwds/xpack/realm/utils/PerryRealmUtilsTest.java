@@ -45,4 +45,5 @@ public class PerryRealmUtilsTest {
     exception.expectMessage("JSON token is null");
     parsePerryTokenFromJSON(null);
   }
+
 }

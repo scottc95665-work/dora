@@ -51,8 +51,7 @@ public final class JsonTokenInfoHolder {
     return countyIsStateOfCalifornia;
   }
 
-  public void setCountyIsStateOfCalifornia(
-      boolean countyIsStateOfCalifornia) {
+  public void setCountyIsStateOfCalifornia(boolean countyIsStateOfCalifornia) {
     this.countyIsStateOfCalifornia = countyIsStateOfCalifornia;
   }
 
@@ -80,7 +79,8 @@ public final class JsonTokenInfoHolder {
         && (roles != null ? roles.equals(holder.roles) : holder.roles == null)
         && (countyCode != null ? countyCode.equals(holder.countyCode) : holder.countyCode == null)
         && (countyName != null ? countyName.equals(holder.countyName) : holder.countyName == null)
-        && (adminOfficeIds != null ? adminOfficeIds.equals(holder.adminOfficeIds) : holder.adminOfficeIds == null);
+        && (adminOfficeIds != null ? adminOfficeIds.equals(holder.adminOfficeIds)
+            : holder.adminOfficeIds == null);
   }
 
   @Override
@@ -93,4 +93,5 @@ public final class JsonTokenInfoHolder {
     result = 31 * result + (adminOfficeIds != null ? adminOfficeIds.hashCode() : 0);
     return result;
   }
+
 }

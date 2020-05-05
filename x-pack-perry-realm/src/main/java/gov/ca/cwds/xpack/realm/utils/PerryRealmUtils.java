@@ -16,9 +16,6 @@ import static gov.ca.cwds.xpack.realm.utils.Constants.STATE_ADMIN;
 import static gov.ca.cwds.xpack.realm.utils.Constants.STATE_OF_CALIFORNIA;
 import static gov.ca.cwds.xpack.realm.utils.Constants.SUPER_ADMIN;
 
-import com.fasterxml.jackson.core.JsonFactory;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonToken;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -26,19 +23,23 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonToken;
+
 /**
  * @author CWDS TPT-2
  */
 public final class PerryRealmUtils {
 
-  private PerryRealmUtils(){}
+  private PerryRealmUtils() {}
 
   private static JsonFactory jsonFactory;
 
   private static HashMap<String, String> countyCodeToCountyIdMap = new HashMap<>();
 
-  private static Set<String> adminRoles = new HashSet<>(
-      Arrays.asList(SUPER_ADMIN, STATE_ADMIN, COUNTY_ADMIN, OFFICE_ADMIN));
+  private static Set<String> adminRoles =
+      new HashSet<>(Arrays.asList(SUPER_ADMIN, STATE_ADMIN, COUNTY_ADMIN, OFFICE_ADMIN));
 
   static {
     jsonFactory = new JsonFactory();
@@ -126,6 +127,7 @@ public final class PerryRealmUtils {
           holder.setCountyCode(parser.getValueAsString());
         } else if (PRIVILEGES.equals(fieldName)) {
           parser.nextToken(); // current token is "[", move next
+
           // messages is array, loop until token equal to "]"
           while (parser.nextToken() != JsonToken.END_ARRAY) {
             String privilege = parser.getValueAsString().trim();
@@ -154,8 +156,7 @@ public final class PerryRealmUtils {
           parser.nextToken();
           String countyName = parser.getValueAsString();
           holder.setCountyName(countyName);
-          holder.setCountyIsStateOfCalifornia(
-              checkThatCountyIsStateOfCalifornia(countyName));
+          holder.setCountyIsStateOfCalifornia(checkThatCountyIsStateOfCalifornia(countyName));
         } else if (ADMIN_OFFICE_IDS.equals(fieldName)) {
           parser.nextToken(); // current token is "[", move next
           // adminOfficeIds is array, loop until token equal to "]"
@@ -179,14 +180,13 @@ public final class PerryRealmUtils {
     return adminRoles.contains(role);
   }
 
-  private static boolean checkThatCountyIsStateOfCalifornia(
-      String countyName) {
-    return null != countyName && countyName
-        .equalsIgnoreCase(STATE_OF_CALIFORNIA);
+  private static boolean checkThatCountyIsStateOfCalifornia(String countyName) {
+    return null != countyName && countyName.equalsIgnoreCase(STATE_OF_CALIFORNIA);
   }
 
   /*
-   * JWT token will contain County Code, but Person documents in ES index and X-Pack roles use County ID
+   * JWT token will contain County Code, but Person documents in ES index and X-Pack roles use
+   * County ID
    */
   public static String countyCodeToCountyId(String countyCode) {
     if (countyCode == null) {
@@ -197,4 +197,5 @@ public final class PerryRealmUtils {
     cc = countyCodeToCountyIdMap.get(cc);
     return cc == null ? "xxxx" : cc;
   }
+
 }
