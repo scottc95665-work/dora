@@ -96,13 +96,13 @@ public final class DoraApplication extends BaseApiApplication<DoraConfiguration>
   @Override
   @SuppressWarnings("findsecbugs:CRLF_INJECTION_LOGS")
   // DoraConfiguration and system-information.properties are trusted sources
-  public final void runInternal(final DoraConfiguration configuration, final Environment env) {
+  public final void runInternal(final DoraConfiguration config, final Environment env) {
     final EsRestClientManager esRestClientManager =
-        new EsRestClientManager(configuration.getElasticsearchConfiguration());
+        new EsRestClientManager(config.getElasticsearchConfiguration());
     env.lifecycle().manage(esRestClientManager);
 
     // register and run application health checks
-    registerHealthChecks(configuration, env);
+    registerHealthChecks(config, env);
     runHealthChecks(env);
     final Injector injector = guiceBundle.getInjector();
 
@@ -114,14 +114,14 @@ public final class DoraApplication extends BaseApiApplication<DoraConfiguration>
             injector.getInstance(RequestResponseLoggingFilter.class))
         .addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), true, "/*");
 
-    LOGGER.info("Application name: {}, Version: {}", configuration.getApplicationName(),
+    LOGGER.info("Application name: {}, Version: {}", config.getApplicationName(),
         DoraUtils.getAppVersion());
 
     LOGGER.info("Configuring CORS: Cross-Origin Resource Sharing");
     configureCors(env);
 
     LOGGER.info("Configuring SWAGGER");
-    configureSwagger(configuration, env);
+    configureSwagger(config, env);
   }
 
   private static void configureCors(final Environment env) {
@@ -136,15 +136,15 @@ public final class DoraApplication extends BaseApiApplication<DoraConfiguration>
     filter.setInitParameter("allowCredentials", "true");
   }
 
-  private void configureSwagger(final DoraConfiguration apiConfiguration, final Environment env) {
+  private void configureSwagger(final DoraConfiguration apiConfig, final Environment env) {
     final BeanConfig config = new BeanConfig();
-    config.setTitle(apiConfiguration.getSwaggerConfiguration().getTitle());
-    config.setDescription(apiConfiguration.getSwaggerConfiguration().getDescription());
-    config.setResourcePackage(apiConfiguration.getSwaggerConfiguration().getResourcePackage());
+    config.setTitle(apiConfig.getSwaggerConfiguration().getTitle());
+    config.setDescription(apiConfig.getSwaggerConfiguration().getDescription());
+    config.setResourcePackage(apiConfig.getSwaggerConfiguration().getResourcePackage());
     config.setScan(true);
 
-    new AssetsBundle(apiConfiguration.getSwaggerConfiguration().getAssetsPath(),
-        apiConfiguration.getSwaggerConfiguration().getAssetsPath(), null, "swagger").run(env);
+    new AssetsBundle(apiConfig.getSwaggerConfiguration().getAssetsPath(),
+        apiConfig.getSwaggerConfiguration().getAssetsPath(), null, "swagger").run(env);
     env.getObjectMapper().setSerializationInclusion(JsonInclude.Include.NON_NULL);
     env.getObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
 
@@ -153,7 +153,7 @@ public final class DoraApplication extends BaseApiApplication<DoraConfiguration>
 
     LOGGER.info("Registering SwaggerResource");
     final SwaggerResource swaggerResource =
-        new SwaggerResource(apiConfiguration.getSwaggerConfiguration());
+        new SwaggerResource(apiConfig.getSwaggerConfiguration());
     env.jersey().register(swaggerResource);
   }
 

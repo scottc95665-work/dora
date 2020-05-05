@@ -9,6 +9,8 @@ import static org.mockito.Mockito.when;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterRegistration;
+import javax.servlet.Servlet;
+import javax.servlet.ServletRegistration;
 
 import org.eclipse.jetty.servlets.CrossOriginFilter;
 import org.junit.Assert;
@@ -16,6 +18,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.codahale.metrics.health.HealthCheckRegistry;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.Injector;
 import com.hubspot.dropwizard.guice.GuiceBundle;
 
@@ -74,6 +77,14 @@ public class DoraApplicationTest {
 
     final RequestResponseLoggingFilter filter = mock(RequestResponseLoggingFilter.class);
     when(injector.getInstance(RequestResponseLoggingFilter.class)).thenReturn(filter);
+
+    final SwaggerConfiguration swaggerConfiguration = mock(SwaggerConfiguration.class);
+    when(config.getSwaggerConfiguration()).thenReturn(swaggerConfiguration);
+    when(config.getSwaggerConfiguration().getAssetsPath()).thenReturn("/what/do/i/care/");
+
+    final ServletRegistration.Dynamic dynamic2 = mock(ServletRegistration.Dynamic.class);
+    when(servlets.addServlet(any(String.class), any(Servlet.class))).thenReturn(dynamic2);
+    when(env.getObjectMapper()).thenReturn(new ObjectMapper());
 
     tgt.setGuiceBundle(bundle);
     tgt.runInternal(config, env);
