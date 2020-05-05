@@ -2,14 +2,16 @@ package gov.ca.cwds.managed;
 
 import static gov.ca.cwds.dora.DoraUtils.createElasticsearchClient;
 
-import gov.ca.cwds.rest.ElasticsearchConfiguration;
-import gov.ca.cwds.rest.api.DoraException;
-import io.dropwizard.lifecycle.Managed;
 import java.io.IOException;
 import java.util.Optional;
+
 import org.elasticsearch.client.RestClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import gov.ca.cwds.rest.ElasticsearchConfiguration;
+import gov.ca.cwds.rest.api.DoraException;
+import io.dropwizard.lifecycle.Managed;
 
 @SuppressWarnings("findbugs:ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD") // is instantiated only once
 public class EsRestClientManager implements Managed {
@@ -33,9 +35,9 @@ public class EsRestClientManager implements Managed {
   }
 
   /**
-   * This code is executed only once at the application start if properly managed.
-   * E.g. environment.lifecycle().manage(...)
-   * The EsRestClientManager should <b>not</b> be managed by guice.
+   * This code is executed only once at the application start if properly managed. E.g.
+   * environment.lifecycle().manage(...) The EsRestClientManager should <b>not</b> be managed by
+   * guice.
    */
   @Override
   public void stop() {
@@ -54,4 +56,5 @@ public class EsRestClientManager implements Managed {
   public static RestClient getEsRestClient() {
     return esRestClient;
   }
+
 }

@@ -39,6 +39,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.codahale.metrics.health.HealthCheck;
+import com.codahale.metrics.health.HealthCheckRegistry;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.google.inject.Injector;
@@ -70,7 +71,6 @@ import io.swagger.jaxrs.listing.ApiListingResource;
  */
 public final class DoraApplication extends BaseApiApplication<DoraConfiguration> {
 
-  @SuppressWarnings("unused")
   private static final Logger LOGGER = LoggerFactory.getLogger(DoraApplication.class);
 
   /**
@@ -95,22 +95,20 @@ public final class DoraApplication extends BaseApiApplication<DoraConfiguration>
   @Override
   @SuppressWarnings("findsecbugs:CRLF_INJECTION_LOGS")
   // DoraConfiguration and system-information.properties are trusted sources
-  public final void runInternal(final DoraConfiguration configuration,
-      final Environment environment) {
+  public final void runInternal(final DoraConfiguration configuration, final Environment env) {
     EsRestClientManager esRestClientManager =
         new EsRestClientManager(configuration.getElasticsearchConfiguration());
-    environment.lifecycle().manage(esRestClientManager);
+    env.lifecycle().manage(esRestClientManager);
 
     // register and run application health checks
-    registerHealthChecks(configuration, environment);
-    runHealthChecks(environment);
-
+    registerHealthChecks(configuration, env);
+    runHealthChecks(env);
     final Injector injector = guiceBundle.getInjector();
 
-    environment.jersey().register(new ShiroExceptionMapper());
-    environment.servlets().setSessionHandler(new SessionHandler());
+    env.jersey().register(new ShiroExceptionMapper());
+    env.servlets().setSessionHandler(new SessionHandler());
 
-    environment.servlets()
+    env.servlets()
         .addFilter("AuditAndLoggingFilter",
             injector.getInstance(RequestResponseLoggingFilter.class))
         .addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), true, "/*");
@@ -119,15 +117,15 @@ public final class DoraApplication extends BaseApiApplication<DoraConfiguration>
         DoraUtils.getAppVersion());
 
     LOGGER.info("Configuring CORS: Cross-Origin Resource Sharing");
-    configureCors(environment);
+    configureCors(env);
 
     LOGGER.info("Configuring SWAGGER");
-    configureSwagger(configuration, environment);
+    configureSwagger(configuration, env);
   }
 
-  private static void configureCors(final Environment environment) {
-    FilterRegistration.Dynamic filter =
-        environment.servlets().addFilter("CORS", CrossOriginFilter.class);
+  private static void configureCors(final Environment env) {
+    final FilterRegistration.Dynamic filter =
+        env.servlets().addFilter("CORS", CrossOriginFilter.class);
     filter.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
     filter.setInitParameter(CrossOriginFilter.ALLOWED_METHODS_PARAM, "GET,PUT,POST,DELETE,OPTIONS");
     filter.setInitParameter(CrossOriginFilter.ALLOWED_ORIGINS_PARAM, "*");
@@ -137,73 +135,72 @@ public final class DoraApplication extends BaseApiApplication<DoraConfiguration>
     filter.setInitParameter("allowCredentials", "true");
   }
 
-  private void configureSwagger(final DoraConfiguration apiConfiguration,
-      final Environment environment) {
-    BeanConfig config = new BeanConfig();
+  private void configureSwagger(final DoraConfiguration apiConfiguration, final Environment env) {
+    final BeanConfig config = new BeanConfig();
     config.setTitle(apiConfiguration.getSwaggerConfiguration().getTitle());
     config.setDescription(apiConfiguration.getSwaggerConfiguration().getDescription());
     config.setResourcePackage(apiConfiguration.getSwaggerConfiguration().getResourcePackage());
     config.setScan(true);
 
     new AssetsBundle(apiConfiguration.getSwaggerConfiguration().getAssetsPath(),
-        apiConfiguration.getSwaggerConfiguration().getAssetsPath(), null, "swagger")
-            .run(environment);
-    environment.getObjectMapper().setSerializationInclusion(JsonInclude.Include.NON_NULL);
-    environment.getObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
+        apiConfiguration.getSwaggerConfiguration().getAssetsPath(), null, "swagger").run(env);
+    env.getObjectMapper().setSerializationInclusion(JsonInclude.Include.NON_NULL);
+    env.getObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
 
     LOGGER.info("Registering ApiListingResource");
-    environment.jersey().register(new ApiListingResource());
+    env.jersey().register(new ApiListingResource());
 
     LOGGER.info("Registering SwaggerResource");
     final SwaggerResource swaggerResource =
         new SwaggerResource(apiConfiguration.getSwaggerConfiguration());
-    environment.jersey().register(swaggerResource);
+    env.jersey().register(swaggerResource);
   }
 
-  private void registerHealthChecks(final DoraConfiguration configuration,
-      final Environment environment) {
-    environment.healthChecks().register(HC_ES_CONFIG, new BasicDoraHealthCheck(configuration));
-    environment.healthChecks().register(HC_ES_STATUS, new ElasticsearchHealthCheck(configuration));
-    environment.healthChecks().register(HC_PHONETIC_PLUGIN,
-        new ElasticsearchPluginHealthCheck(configuration, PHONETIC_PLUGIN));
-    environment.healthChecks().register(HC_X_PACK_PLUGIN,
-        new ElasticsearchPluginHealthCheck(configuration, X_PACK_PLUGIN));
-    registerIndexHealthChecks(configuration, environment);
-    if (!PROD_MODE.equals(configuration.getMode())) {
-      registerRolesHealthChecks(configuration, environment);
+  private void registerHealthChecks(final DoraConfiguration config, final Environment env) {
+    final HealthCheckRegistry health = env.healthChecks();
+    health.register(HC_ES_CONFIG, new BasicDoraHealthCheck(config));
+    health.register(HC_ES_STATUS, new ElasticsearchHealthCheck(config));
+    health.register(HC_PHONETIC_PLUGIN,
+        new ElasticsearchPluginHealthCheck(config, PHONETIC_PLUGIN));
+    health.register(HC_X_PACK_PLUGIN, new ElasticsearchPluginHealthCheck(config, X_PACK_PLUGIN));
+    registerIndexHealthChecks(config, env);
+
+    if (!PROD_MODE.equals(config.getMode())) {
+      registerRolesHealthChecks(config, env);
     }
   }
 
-  private void registerRolesHealthChecks(DoraConfiguration configuration, Environment environment) {
-    environment.healthChecks().register(HC_WORKER_ROLE,
-        new ElasticsearchRolesHealthCheck(configuration, WORKER_ROLE));
-    environment.healthChecks().register(HC_PEOPLE_WORKER_ROLE,
-        new ElasticsearchRolesHealthCheck(configuration, PEOPLE_WORKER_ROLE));
-    environment.healthChecks().register(HC_PEOPLE_SENSITIVE_ROLE,
-        new ElasticsearchRolesHealthCheck(configuration, PEOPLE_SENSITIVE_ROLE));
-    environment.healthChecks().register(HC_PEOPLE_SENSITIVE_NO_COUNTY_ROLE,
-        new ElasticsearchRolesHealthCheck(configuration, PEOPLE_SENSITIVE_NO_COUNTY_ROLE));
-    environment.healthChecks().register(HC_PEOPLE_SEALED_ROLE,
-        new ElasticsearchRolesHealthCheck(configuration, PEOPLE_SEALED_ROLE));
-    environment.healthChecks().register(HC_PEOPLE_SEALED_NO_COUNTY_ROLE,
-        new ElasticsearchRolesHealthCheck(configuration, PEOPLE_SEALED_NO_COUNTY_ROLE));
-    environment.healthChecks().register(HC_PEOPLE_SUMMARY_WORKER_ROLE,
-        new ElasticsearchRolesHealthCheck(configuration, PEOPLE_SUMMARY_WORKER_ROLE));
+  private void registerRolesHealthChecks(DoraConfiguration config, Environment env) {
+    final HealthCheckRegistry health = env.healthChecks();
+    health.register(HC_WORKER_ROLE, new ElasticsearchRolesHealthCheck(config, WORKER_ROLE));
+    health.register(HC_PEOPLE_WORKER_ROLE,
+        new ElasticsearchRolesHealthCheck(config, PEOPLE_WORKER_ROLE));
+    health.register(HC_PEOPLE_SENSITIVE_ROLE,
+        new ElasticsearchRolesHealthCheck(config, PEOPLE_SENSITIVE_ROLE));
+    health.register(HC_PEOPLE_SENSITIVE_NO_COUNTY_ROLE,
+        new ElasticsearchRolesHealthCheck(config, PEOPLE_SENSITIVE_NO_COUNTY_ROLE));
+    health.register(HC_PEOPLE_SEALED_ROLE,
+        new ElasticsearchRolesHealthCheck(config, PEOPLE_SEALED_ROLE));
+    health.register(HC_PEOPLE_SEALED_NO_COUNTY_ROLE,
+        new ElasticsearchRolesHealthCheck(config, PEOPLE_SEALED_NO_COUNTY_ROLE));
+    health.register(HC_PEOPLE_SUMMARY_WORKER_ROLE,
+        new ElasticsearchRolesHealthCheck(config, PEOPLE_SUMMARY_WORKER_ROLE));
   }
 
-  private void registerIndexHealthChecks(DoraConfiguration configuration, Environment environment) {
-    environment.healthChecks().register(HC_PEOPLE_SUMMARY_INDEX,
-        new ElasticsearchIndexHealthCheck(configuration, PEOPLE_SUMMARY_INDEX));
-    environment.healthChecks().register(HC_FACILITIES_INDEX,
-        new ElasticsearchIndexHealthCheck(configuration, FACILITIES_INDEX));
+  private void registerIndexHealthChecks(DoraConfiguration config, Environment env) {
+    env.healthChecks().register(HC_PEOPLE_SUMMARY_INDEX,
+        new ElasticsearchIndexHealthCheck(config, PEOPLE_SUMMARY_INDEX));
+    env.healthChecks().register(HC_FACILITIES_INDEX,
+        new ElasticsearchIndexHealthCheck(config, FACILITIES_INDEX));
   }
 
-  private void runHealthChecks(Environment environment) {
-    for (Map.Entry<String, HealthCheck.Result> entry : environment.healthChecks().runHealthChecks()
+  private void runHealthChecks(Environment env) {
+    for (Map.Entry<String, HealthCheck.Result> entry : env.healthChecks().runHealthChecks()
         .entrySet()) {
       if (!entry.getValue().isHealthy()) {
         LOGGER.error("Fail - {}: {}", entry.getKey(), entry.getValue().getMessage());
       }
     }
   }
+
 }

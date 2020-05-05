@@ -2,14 +2,16 @@ package gov.ca.cwds.rest;
 
 import static gov.ca.cwds.rest.DoraConstants.PROD_MODE;
 
-import gov.ca.cwds.rest.ElasticsearchConfiguration.XpackConfiguration;
-import io.dropwizard.testing.ResourceHelpers;
-import io.dropwizard.testing.junit.DropwizardAppRule;
 import javax.ws.rs.client.Client;
+
 import org.glassfish.jersey.client.JerseyClient;
 import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.junit.Rule;
+
+import gov.ca.cwds.rest.ElasticsearchConfiguration.XpackConfiguration;
+import io.dropwizard.testing.ResourceHelpers;
+import io.dropwizard.testing.junit.DropwizardAppRule;
 
 /**
  * @author TPT-2
@@ -19,8 +21,7 @@ public abstract class BaseDoraApplicationTest {
   private static final String configFile = "config/test-dora.yml";
 
   @BeforeClass
-  public static void setUp() {
-  }
+  public static void setUp() {}
 
   @ClassRule
   public static final DropwizardAppRule<DoraConfiguration> appRule =
@@ -65,4 +66,5 @@ public abstract class BaseDoraApplicationTest {
       String password) {
     return config(PROD_MODE, esConfig(nodes, xPackEnabled, user, password));
   }
+
 }

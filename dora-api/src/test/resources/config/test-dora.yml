@@ -35,7 +35,7 @@ server:
       - type: console
 
 logging:
-  level: ${LOGLEVEL:-WARN}
+  level: ${LOGLEVEL:-INFO}
   loggers:
     "AUDIT":
       level: ALL

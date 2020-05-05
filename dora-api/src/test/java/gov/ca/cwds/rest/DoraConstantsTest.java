@@ -27,4 +27,5 @@ public class DoraConstantsTest {
     Assert.assertEquals("PROD", PROD_MODE);
     Assert.assertEquals("DEV", DEV_MODE);
   }
+
 }
