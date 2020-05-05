@@ -47,6 +47,8 @@ public class DoraApplicationTest {
 
   @Test
   public void testRunInternal() {
+    // Code coverage test.
+
     final DoraConfiguration config = mock(DoraConfiguration.class);
     final ElasticsearchConfiguration esConfig = mock(ElasticsearchConfiguration.class);
     when(config.getElasticsearchConfiguration()).thenReturn(esConfig);
@@ -89,6 +91,7 @@ public class DoraApplicationTest {
     tgt.setGuiceBundle(bundle);
     tgt.runInternal(config, env);
 
+    // If you got this far, then a LOT of worked. :-)
     Assert.assertEquals("DEV", DEV_MODE);
   }
 
