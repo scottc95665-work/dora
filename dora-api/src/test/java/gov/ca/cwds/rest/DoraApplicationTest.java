@@ -10,6 +10,7 @@ import static org.mockito.Mockito.when;
 import javax.servlet.Filter;
 import javax.servlet.FilterRegistration;
 
+import org.eclipse.jetty.servlets.CrossOriginFilter;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -62,6 +63,7 @@ public class DoraApplicationTest {
 
     final FilterRegistration.Dynamic dynamic = mock(FilterRegistration.Dynamic.class);
     when(servlets.addFilter(any(String.class), any(Filter.class))).thenReturn(dynamic);
+    when(servlets.addFilter("CORS", CrossOriginFilter.class)).thenReturn(dynamic);
 
     final HealthCheckRegistry health = mock(HealthCheckRegistry.class);
     when(env.healthChecks()).thenReturn(health);
