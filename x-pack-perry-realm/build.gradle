@@ -76,6 +76,7 @@ processResources {
 }
 
 task buildZip(type:Zip, dependsOn: jar) {
+    archiveClassifier = 'src'
     from "build/libs/x-pack-perry-realm-${version}.jar"
     from 'build/resources/main/plugin-descriptor.properties'
     from 'build/resources/main/plugin-security.policy'
@@ -84,7 +85,7 @@ task buildZip(type:Zip, dependsOn: jar) {
 publishing {
     publications {
         library(MavenPublication) {
-            artifact source: buildZip, extension: 'zip', classifier:'src'
+            artifact source: buildZip, extension: 'zip'
         }
     }
     repositories {
