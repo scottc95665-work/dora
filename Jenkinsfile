@@ -70,6 +70,7 @@ node('dora-slave') {
             rtGradle.tool = "Gradle_35"
             rtGradle.resolver repo: 'repo', server: serverArti
             rtGradle.useWrapper = true
+            rtGradle.deployer.deployArtifacts = false
         }
         if (env.BUILD_JOB_TYPE=="master" ) {
              stage('Increment Tag') {
