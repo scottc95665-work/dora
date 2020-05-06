@@ -43,6 +43,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.google.inject.Injector;
 import com.google.inject.Module;
+import com.hubspot.dropwizard.guice.GuiceBundle;
 
 import gov.ca.cwds.dora.DoraUtils;
 import gov.ca.cwds.dora.health.BasicDoraHealthCheck;
@@ -206,4 +207,8 @@ public final class DoraApplication extends BaseApiApplication<DoraConfiguration>
       }
     }
   }
+  
+  public void setGuiceBundle(GuiceBundle<DoraConfiguration> bundle) {
+	    this.guiceBundle = bundle;
+	  }
 }
