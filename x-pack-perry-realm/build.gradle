@@ -90,7 +90,7 @@ publishing {
         library(MavenPublication) {
             artifact source: buildZip, extension: 'zip', classifier:''
         }
-        maven(MavenPublication){
+        MavenJava(MavenPublication){
             artifact source: sourceJar, classifier:'src'
         }
 
