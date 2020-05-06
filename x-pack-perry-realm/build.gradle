@@ -84,8 +84,12 @@ task buildZip(type:Zip, dependsOn: jar) {
 publishing {
     publications {
         library(MavenPublication) {
-            artifact source: buildZip, extension: 'zip'
+            artifact source: buildZip, extension: 'zip', classifier:''
         }
+        maven(MavenPublication){
+            artifact source: sourceJar, classifier:'src'
+        }
+
     }
     repositories {
         maven {
