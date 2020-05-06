@@ -77,7 +77,6 @@ processResources {
 
 task sourceJar(type: Jar) {
     from sourceSets.main.allJava
-    archiveClassifier = "sources"
 }
 
 task buildZip(type:Zip, dependsOn: jar) {
