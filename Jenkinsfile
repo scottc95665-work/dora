@@ -100,9 +100,9 @@ node('dora-slave') {
             tagGithubRepo(newTag, github_credentials_id)
           }
           stage('Push to Artifactory') {
-             rtGradle.deployer.deployArtifacts = true
+             //rtGradle.deployer.deployArtifacts = true
              buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: "publish -DRelease=\$RELEASE_PROJECT -DBuildNumber=\$BUILD_NUMBER -DCustomVersion=\$OVERRIDE_VERSION -DnewVersion=${newTag}".toString()
-             rtGradle.deployer.deployArtifacts = false
+             //rtGradle.deployer.deployArtifacts = false
           }
           stage('Build Docker') {
             withEnv(['ELASTIC_HOST=127.0.0.1']) {
