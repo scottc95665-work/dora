@@ -75,10 +75,6 @@ processResources {
     ])
 }
 
-task sourceJar(type: Jar) {
-    from sourceSets.main.allJava
-}
-
 task buildZip(type:Zip, dependsOn: jar) {
     from "build/libs/x-pack-perry-realm-${version}.jar"
     from 'build/resources/main/plugin-descriptor.properties'
@@ -88,12 +84,8 @@ task buildZip(type:Zip, dependsOn: jar) {
 publishing {
     publications {
         library(MavenPublication) {
-            artifact source: buildZip, extension: 'zip', classifier:''
+            artifact source: buildZip, extension: 'zip', classifier:'src'
         }
-        maven(MavenPublication){
-            artifact source: sourceJar, extension: 'jar', classifier:'src'
-        }
-
     }
     repositories {
         maven {
