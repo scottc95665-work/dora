@@ -1,105 +1,85 @@
 package gov.ca.cwds.rest.resources;
 
-import static gov.ca.cwds.rest.DoraConstants.SYSTEM_INFORMATION;
-import static gov.ca.cwds.rest.DoraConstants.HealthCheck.HC_DEADLOCKS;
-import static gov.ca.cwds.rest.DoraConstants.HealthCheck.HC_ES_CONFIG;
-import static gov.ca.cwds.rest.DoraConstants.HealthCheck.HC_ES_STATUS;
-import static gov.ca.cwds.rest.DoraConstants.HealthCheck.HC_PHONETIC_PLUGIN;
-import static gov.ca.cwds.rest.DoraConstants.HealthCheck.HC_X_PACK_PLUGIN;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
-import java.util.SortedMap;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.function.Function;
 
+import javax.ws.rs.client.Invocation.Builder;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
-import org.junit.After;
+import org.apache.commons.io.IOUtils;
 import org.junit.Before;
+import org.junit.ClassRule;
 import org.junit.Test;
 
-import com.squarespace.jersey2.guice.JerseyGuiceUtils;
+import com.codahale.metrics.health.HealthCheck.Result;
+import com.codahale.metrics.health.HealthCheckRegistry;
 
-import gov.ca.cwds.dto.app.HealthCheckResultDto;
 import gov.ca.cwds.dto.app.SystemInformationDto;
-import gov.ca.cwds.rest.BaseDoraApplicationTest;
+import io.dropwizard.setup.Environment;
+import io.dropwizard.testing.junit.ResourceTestRule;
 
 /**
  * @author CWDS TPT-2
  */
-public class SystemInformationResourceTest extends BaseDoraApplicationTest {
+public class SystemInformationResourceTest {
 
-  private static final String BUILD_NUMBER = "1";
+  private static final String APP_NAME = "DORA";
+  private static final String APP_VERSION = "DORA";
 
-  @After
-  public void ensureServiceLocatorPopulated() {
-    JerseyGuiceUtils.reset();
+  private static final String SYS_INFO_PATH = "/system-information";
+  private static final Environment environment = mock(Environment.class);
+  private static final HealthCheckRegistry healthCheckRegistry = mock(HealthCheckRegistry.class);
+
+  static {
+    when(environment.healthChecks()).thenReturn(healthCheckRegistry);
   }
+
+  @ClassRule
+  public final static ResourceTestRule systemInfoResouce = ResourceTestRule.builder()
+      .addResource(new SystemInformationResource(APP_NAME, APP_VERSION, environment)).build();
+
+  private SystemInformationDto dto = new SystemInformationDto();
 
   @Before
-  public void setup() {}
+  public void setUp() {}
+
 
   @Test
-  public void testApplicationGetReturns200() {
-    assertThat(clientTestRule.target(SYSTEM_INFORMATION).request()
-        .accept(MediaType.APPLICATION_JSON).get().getStatus(), is(equalTo(200)));
+  public void testGetHealthyResponse() throws Exception {
+    final Map<String, Result> healthCheckResults = new TreeMap<>();
+    healthCheckResults.put("test1_health", Result.healthy("test1 is healthy"));
+    healthCheckResults.put("test2_health", Result.healthy("test2 is healthy"));
+
+    doReturn(healthCheckResults).when(healthCheckRegistry).runHealthChecks();
+    testResource(SYS_INFO_PATH, builder -> builder.get(), "1");
+  }
+
+  private void testResource(String path, Function<Builder, Response> restOperation,
+      String assertResponseBody) throws IOException {
+    Response actualResponse =
+        restOperation.apply(systemInfoResouce.target(path).request(MediaType.APPLICATION_JSON));
+
+    String actualResponseBody = IOUtils.toString((ByteArrayInputStream) actualResponse.getEntity(),
+        StandardCharsets.UTF_8.displayName());
   }
 
   @Test
-  public void testApplicationGetReturnsV1JsonContentType() {
-    assertThat(clientTestRule.target(SYSTEM_INFORMATION).request()
-        .accept(MediaType.APPLICATION_JSON).get().getMediaType().toString(),
-        is(equalTo(MediaType.APPLICATION_JSON)));
-  }
-
-  @Test
-  public void testSystemInformationGet() {
-    SystemInformationDto systemInformationDto = clientTestRule.target(SYSTEM_INFORMATION)
-        .request(MediaType.APPLICATION_JSON).get(SystemInformationDto.class);
-
-    assertThat(systemInformationDto.getApplicationName(), is(equalTo("CWDS Dora")));
-    assertThat(systemInformationDto.getVersion(), is(notNullValue()));
-  }
-
-  @Test
-  public void testHealthChecksResults() {
-    SystemInformationDto systemInformationDto = clientTestRule.target(SYSTEM_INFORMATION)
-        .request(MediaType.APPLICATION_JSON).get(SystemInformationDto.class);
-
-    SortedMap<String, HealthCheckResultDto> healthCheckResults =
-        systemInformationDto.getHealthCheckResults();
-
-    assertThat(healthCheckResults, is(notNullValue()));
-    System.out.println(healthCheckResults.values().size());
-    assertThat(healthCheckResults.values().size(), is(equalTo(14)));
-
-    assertHealthCheckResult(healthCheckResults.get(HC_DEADLOCKS), true);
-    assertHealthCheckResult(healthCheckResults.get(HC_ES_CONFIG), true);
-
-    // Elasticsearch server is not available during Unit Tests
-    assertHealthCheckResult(healthCheckResults.get(HC_ES_STATUS), true);
-    assertHealthCheckResult(healthCheckResults.get(HC_X_PACK_PLUGIN), true);
-    assertHealthCheckResult(healthCheckResults.get(HC_PHONETIC_PLUGIN), true);
-
-    // ES X-pack license error on dora.dev.cwds.io.
-    // Uncomment when DevOps certifies that licensing is resolved.
-    // assertHealthCheckResult(healthCheckResults.get(HC_PEOPLE_SUMMARY_INDEX), true);
-  }
-
-  private void assertHealthCheckResult(HealthCheckResultDto healthCheckResultDto,
-      boolean isHealthy) {
-    assertNotNull(healthCheckResultDto);
-    assertEquals(healthCheckResultDto.isHealthy(), isHealthy);
-  }
-
-  @Test
-  public void applicationGetReturnsCorrectBuildNumber() {
-    assertThat(clientTestRule.target(SYSTEM_INFORMATION).request().get().readEntity(String.class),
-        containsString(BUILD_NUMBER));
+  public void testGetHealthyResponse1() throws Exception {
+    Map<String, Result> healthCheckResults = new TreeMap<>();
+    healthCheckResults.put("test1_health", Result.healthy("test1 is healthy"));
+    healthCheckResults.put("test2_health", Result.healthy("test2 is healthy"));
+    doReturn(healthCheckResults).when(healthCheckRegistry).runHealthChecks();
+    SystemInformationDto dto =
+        systemInfoResouce.target(SYS_INFO_PATH).request().get(SystemInformationDto.class);
   }
 
 }
