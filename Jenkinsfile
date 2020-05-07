@@ -101,7 +101,7 @@ node('dora-slave') {
           }
           stage('Push to Artifactory') {
              //rtGradle.deployer.deployArtifacts = true
-             buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: "publish -DRelease=\$RELEASE_PROJECT -DBuildNumber=\$BUILD_NUMBER -DCustomVersion=\$OVERRIDE_VERSION -DnewVersion=${newTag}".toString()
+             buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: "publishLibraryPublicationToMavenRepository -DRelease=\$RELEASE_PROJECT -DBuildNumber=\$BUILD_NUMBER -DCustomVersion=\$OVERRIDE_VERSION -DnewVersion=${newTag}".toString()
              //rtGradle.deployer.deployArtifacts = false
           }
           stage('Build Docker') {

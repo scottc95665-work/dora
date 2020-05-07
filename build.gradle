@@ -41,9 +41,9 @@ project.ext {
     devDockerPort = 2376
 
     // Publishing configuration
-    snapshotMavenRepo = "http://sonar.dev.cwds.io:8081/artifactory/repo"
+    snapshotMavenRepo = "http://sonar.dev.cwds.io:8081/artifactory/libs-snapshot"
     releaseMavenRepo = "http://sonar.dev.cwds.io:8081/artifactory/libs-release"
-    artifactoryRepo = releaseMavenRepo
+    artifactoryRepo = (isRelease ? releaseMavenRepo : snapshotMavenRepo)
 }
 
 if (System.getProperty('newVersion') && System.getProperty('newVersion')!='null') {
