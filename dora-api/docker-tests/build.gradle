@@ -29,8 +29,8 @@ task testsJar(type: ShadowJar, dependsOn: [project.parent.compileJava, project.p
     version ''
     classifier 'tests'
     
-    from '../build/classes/main'
-    from '../build/classes/test'
+    from sourceSets.main.output
+	from sourceSets.test.output
     // the following will expand all dependencies from jar files
     from project.parent.configurations.compile
     from project.parent.configurations.testCompile
